@@ -10,7 +10,6 @@ import sh.idktheflag.idkhack.impl.features.modules.movement.ElytraFly;
 import sh.idktheflag.idkhack.impl.features.modules.movement.Flight;
 import sh.idktheflag.idkhack.impl.features.modules.movement.LongJump;
 import sh.idktheflag.idkhack.impl.features.modules.player.Tweaks;
-import sh.idktheflag.idkhack.impl.features.modules.render.Shaders;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityPose;
@@ -74,9 +73,9 @@ public abstract class MixinEntity implements IMinecraft
 //    public void isGlowingHook(CallbackInfoReturnable<Boolean> cir)
 //    {
 //
-//        if (Shaders.INSTANCE.isEnabled())
+//        if (false)
 //        {
-//            cir.setReturnValue(Shaders.INSTANCE.shouldRender((Entity) (Object) this));
+// TODO: removed Shaders - &
 //        }
 //    }
 

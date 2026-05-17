@@ -94,7 +94,7 @@ public abstract class MixinGameRenderer implements IMinecraft
 //        if (NullUtils.nullCheck()) return;
 //
 //
-//        if (Shaders.INSTANCE.isEnabled())
+//        if (false)
 //        {
 //            ShaderManager.INSTANCE.renderShaders();
 //        }
@@ -109,7 +109,7 @@ public abstract class MixinGameRenderer implements IMinecraft
 //        if (NullUtils.nullCheck()) return;
 //
 //
-//        if (Shaders.INSTANCE.isEnabled() && Shaders.INSTANCE.hands.getValue())
+// TODO: removed Shaders - &
 //        {
 //            Camera camera = mc.gameRenderer.getCamera();
 //            MatrixStack matrixStack = new MatrixStack();
@@ -117,7 +117,7 @@ public abstract class MixinGameRenderer implements IMinecraft
 //            matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
 //            matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(camera.getYaw() + 180.0f));
 //            RenderSystem.applyModelViewMatrix();
-//            ShaderManager.INSTANCE.renderShader(() -> ((IGameRenderer) mc.gameRenderer).doRenderHand(mc.gameRenderer.getCamera(), mc.getRenderTickCounter().getTickProgress(false), matrixStack.peek().getPositionMatrix()), Shaders.INSTANCE.getShader());
+// TODO: removed Shaders - &
 //            RenderSystem.getModelViewStack().popMatrix();
 //            RenderSystem.applyModelViewMatrix();
 //        }

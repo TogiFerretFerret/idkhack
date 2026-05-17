@@ -154,7 +154,7 @@ public class Phase extends Module
 
 
             if (auto.getValue())
-                if (!mc.player.isCrawling() && PhaseWalk.INSTANCE.isPhasing())
+                if (!mc.player.isCrawling() && false)
                     return;
 
 

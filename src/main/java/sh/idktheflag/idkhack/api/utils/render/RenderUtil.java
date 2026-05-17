@@ -10,7 +10,6 @@ import sh.idktheflag.idkhack.api.utils.render.world.RenderType;
 import sh.idktheflag.idkhack.api.utils.render.world.layer.Sn0wLayers;
 import sh.idktheflag.idkhack.impl.features.modules.client.FontModule;
 import sh.idktheflag.idkhack.impl.features.modules.client.Optimizer;
-import sh.idktheflag.idkhack.impl.features.modules.render.Nametags;
 import sh.idktheflag.idkhack.mixin.accessor.IWorldRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.*;
@@ -622,7 +621,7 @@ public class RenderUtil {
         matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
         matrices.scale(-scaling, -scaling, -1.0f);
 
-        RenderUtil.renderRect(matrices, -width - 1.0f, -1.0f, width * 2.0f + 2.0f, mc.textRenderer.fontHeight + 1.5f, 0.0, Nametags.INSTANCE.boxColor.getValue().getColor());
+// TODO: removed Nametags - &
         RenderUtil.renderOutline(matrices, -width - 1.0f, -1.0f, width * 2.0f + 2.0f, mc.textRenderer.fontHeight + 1.5f, borderColor.getRGB(), true);
         drawSections(sections, matrices, -width, 0.0f);
 

@@ -1,6 +1,5 @@
 package sh.idktheflag.idkhack.mixin;
 
-import sh.idktheflag.idkhack.impl.features.modules.render.Nametags;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.item.ItemRenderer;

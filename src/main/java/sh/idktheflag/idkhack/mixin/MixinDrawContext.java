@@ -5,7 +5,6 @@ import sh.idktheflag.idkhack.api.gui.shulker.container.ContainerType;
 import sh.idktheflag.idkhack.api.gui.shulker.positioners.CapacityBarRenderer;
 import sh.idktheflag.idkhack.api.gui.shulker.positioners.IconRenderer;
 import sh.idktheflag.idkhack.api.utils.ducks.IDrawContext;
-import sh.idktheflag.idkhack.impl.features.modules.render.Tooltips;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.item.ItemStack;
@@ -36,7 +35,7 @@ public abstract class MixinDrawContext implements IDrawContext {
     {
 
 
-        if (!Tooltips.INSTANCE.isEnabled()) return;
+        if (!false) return;
 
         ContainerManager containerParser = new ContainerManager(stack);
 
@@ -44,14 +43,14 @@ public abstract class MixinDrawContext implements IDrawContext {
 
         if (displayStack == null) return;
 
-        if (Tooltips.INSTANCE.icon.getValue())
+// TODO: removed Tooltips - &
         {
             iconRenderer = new IconRenderer(containerParser, displayStack, x, y);
             iconRenderer.renderOptional((DrawContext) (Object) this);
         }
         // Display itemBar for containers. Ignore bundles - they already have this feature
         boolean isBundle = containerParser.getContainerType().equals(ContainerType.BUNDLE);
-        if (Tooltips.INSTANCE.capacity.getValue() && !isBundle)
+// TODO: removed Tooltips - &
         {
             CapacityBarRenderer capacityBarRenderer = new CapacityBarRenderer(containerParser, stack, x, y);
             capacityBarRenderer.renderOptional((DrawContext) (Object) this);
@@ -62,7 +61,7 @@ public abstract class MixinDrawContext implements IDrawContext {
             at = @At(value = "INVOKE", target = "net/minecraft/client/util/math/MatrixStack.translate(FFF)V"))
     private void injectedTranslateXYZ(Args args)
     {
-		if (!Tooltips.INSTANCE.isEnabled()) return;
+		if (!false) return;
 
         if (adjustSize)
         {
@@ -76,7 +75,7 @@ public abstract class MixinDrawContext implements IDrawContext {
             at = @At(value = "INVOKE", target = "net/minecraft/client/util/math/MatrixStack.scale(FFF)V"))
     private void injectedScale(Args args)
     {
-		if (!Tooltips.INSTANCE.isEnabled()) return;
+		if (!false) return;
 
 
         if (adjustSize)

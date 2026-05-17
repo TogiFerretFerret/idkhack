@@ -15,7 +15,6 @@ import sh.idktheflag.idkhack.api.wrapper.IMinecraft;
 import sh.idktheflag.idkhack.impl.features.modules.client.AntiCheat;
 import sh.idktheflag.idkhack.impl.features.modules.combat.AntiHolecamp;
 import sh.idktheflag.idkhack.impl.features.modules.combat.FastProjectile;
-import sh.idktheflag.idkhack.impl.features.modules.player.PhaseWalk;
 import sh.idktheflag.idkhack.mixin.accessor.IClientWorld;
 import sh.idktheflag.idkhack.mixin.accessor.IFireworkRocketEntity;
 import sh.idktheflag.idkhack.mixin.accessor.ILivingEntity;
@@ -764,7 +763,7 @@ public class PlayerUtils implements IMinecraft
         if (PlayerUtils.isMoving())
         {
             float boost = 0f;
-            if (!mc.player.horizontalCollision && PhaseWalk.INSTANCE.isPhasing() && mc.player.isOnGround())
+            if (!mc.player.horizontalCollision && false && mc.player.isOnGround())
             {
                 boost = factor * 0.2F + 0.1F;
             }

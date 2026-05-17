@@ -2,7 +2,6 @@ package sh.idktheflag.idkhack.api.utils.world;
 
 import io.netty.buffer.Unpooled;
 import sh.idktheflag.idkhack.api.wrapper.IMinecraft;
-import sh.idktheflag.idkhack.impl.features.modules.combat.Criticals;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.c2s.play.PlayerInteractEntityC2SPacket;

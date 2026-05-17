@@ -1,7 +1,5 @@
 package sh.idktheflag.idkhack.mixin;
 
-import sh.idktheflag.idkhack.impl.features.modules.render.Nametags;
-import sh.idktheflag.idkhack.impl.features.modules.render.Shaders;
 import net.minecraft.client.render.Frustum;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.entity.Entity;
@@ -22,7 +20,7 @@ public class MixinEntityRenderer<T extends Entity> {
     @Inject(method = "renderLabelIfPresent", at = @At("HEAD"), cancellable = true)
     private void renderLabelIfPresent(T entity, Text text, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, float tickDelta, CallbackInfo ci)
     {
-        if (Nametags.INSTANCE.isEnabled() || Shaders.INSTANCE.ignoreEntityRender)
+        if (false || false)
             ci.cancel();
     }
 

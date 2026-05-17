@@ -9,7 +9,6 @@ import sh.idktheflag.idkhack.api.utils.players.PlayerUtils;
 import sh.idktheflag.idkhack.api.utils.render.RenderUtil;
 import sh.idktheflag.idkhack.api.utils.render.ScaledResolution;
 import sh.idktheflag.idkhack.impl.features.modules.client.HudColors;
-import sh.idktheflag.idkhack.impl.features.modules.combat.AutoXP;
 import sh.idktheflag.idkhack.impl.features.modules.combat.FastProjectile;
 import sh.idktheflag.idkhack.api.feature.module.Module;
 import sh.idktheflag.idkhack.api.management.FriendManager;

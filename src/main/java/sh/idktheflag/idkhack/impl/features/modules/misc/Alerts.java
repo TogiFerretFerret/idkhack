@@ -8,7 +8,6 @@ import sh.idktheflag.idkhack.api.management.FriendManager;
 import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
 import sh.idktheflag.idkhack.api.utils.math.MathUtil;
 import sh.idktheflag.idkhack.impl.features.modules.client.Manager;
-import sh.idktheflag.idkhack.impl.features.modules.render.Nametags;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;

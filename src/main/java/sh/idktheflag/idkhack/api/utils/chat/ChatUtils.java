@@ -5,7 +5,6 @@ import sh.idktheflag.idkhack.api.utils.ducks.IChatHud;
 import sh.idktheflag.idkhack.api.wrapper.IMinecraft;
 import sh.idktheflag.idkhack.impl.IdkHackMod;
 import sh.idktheflag.idkhack.impl.features.modules.client.Manager;
-import sh.idktheflag.idkhack.impl.features.modules.render.Nametags;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 

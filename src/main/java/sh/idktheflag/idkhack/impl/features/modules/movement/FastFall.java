@@ -9,7 +9,6 @@ import sh.idktheflag.idkhack.api.utils.players.PlayerUtils;
 import sh.idktheflag.idkhack.api.utils.world.BlockUtils;
 import sh.idktheflag.idkhack.api.value.Value;
 import sh.idktheflag.idkhack.api.value.builder.ValueBuilder;
-import sh.idktheflag.idkhack.impl.features.modules.player.PhaseWalk;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -96,7 +95,7 @@ public class FastFall extends Module
 
     public boolean movementModuleCheck()
     {
-        return Speed.INSTANCE.isEnabled() || Holesnap.INSTANCE.isEnabled() || PhaseWalk.INSTANCE.isEnabled() || Flight.INSTANCE.isEnabled() || LongJump.INSTANCE.isEnabled();
+        return Speed.INSTANCE.isEnabled() || Holesnap.INSTANCE.isEnabled() || false || Flight.INSTANCE.isEnabled() || LongJump.INSTANCE.isEnabled();
     }
 
     public static double getGroundLevel()

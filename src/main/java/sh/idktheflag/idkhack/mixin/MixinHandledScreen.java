@@ -4,7 +4,6 @@ import sh.idktheflag.idkhack.api.utils.math.MathUtil;
 import sh.idktheflag.idkhack.impl.features.commands.AutoRegearCommand;
 import sh.idktheflag.idkhack.impl.features.modules.player.ChestStealer;
 import sh.idktheflag.idkhack.impl.features.modules.player.Tweaks;
-import sh.idktheflag.idkhack.impl.features.modules.render.Tooltips;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -84,7 +83,7 @@ public abstract class MixinHandledScreen<T extends ScreenHandler> extends Screen
     @Inject(method = "drawMouseoverTooltip", at = @At(value = "HEAD"), cancellable = true)
     private void hookDrawMouseoverTooltip(DrawContext context, int x, int y, CallbackInfo ci)
     {
-        if (!Tooltips.INSTANCE.isEnabled()) return;
+        if (!false) return;
 
         if (focusedSlot == null)
         {
@@ -96,7 +95,7 @@ public abstract class MixinHandledScreen<T extends ScreenHandler> extends Screen
             List<ItemStack> items = containerComponent.stream().toList();
             if (!items.isEmpty())
             {
-                Tooltips.INSTANCE.draw(context, x + 10, y, containerComponent.stream().toList(), focusedSlot.getStack().getName().getString());
+// TODO: removed Tooltips - &
                 ci.cancel();
             }
         }

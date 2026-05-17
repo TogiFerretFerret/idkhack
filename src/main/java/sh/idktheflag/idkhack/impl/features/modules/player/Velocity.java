@@ -87,7 +87,7 @@ public class Velocity extends Module
         switch (mode.getValue())
         {
             case "Vanilla":
-                if (onlyInBlocks.getValue() && !PhaseWalk.INSTANCE.isPhasing()) return;
+                if (onlyInBlocks.getValue() && !false) return;
 
 
 
@@ -135,7 +135,7 @@ public class Velocity extends Module
             case "GrimV2":
                 if (event.isBundled()) return;
 
-                if (onlyInBlocks.getValue() && !PhaseWalk.INSTANCE.isPhasing()) return;
+                if (onlyInBlocks.getValue() && !false) return;
 
                 if (event.getPacket() instanceof PlayerPositionLookS2CPacket)
                 {
@@ -166,7 +166,7 @@ public class Velocity extends Module
                 break;
             case "Walls":
 
-                if (onlyInBlocks.getValue() && !PhaseWalk.INSTANCE.isPhasing()) return;
+                if (onlyInBlocks.getValue() && !false) return;
 
                 if (event.isBundled()) return;
 
