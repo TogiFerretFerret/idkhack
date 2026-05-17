@@ -17,9 +17,7 @@
     "MixinCamera",
     "MixinChunkSkylightProvider",
     "MixinClientConnection",
-    "MixinClientPlayerEntity",
     "MixinClientPlayerInteractionManager",
-    "MixinClientWorld",
     "MixinConnectScreen",
     "MixinDrawContext",
     "MixinEnchantingTableBlockEntityRenderer",
@@ -39,8 +37,6 @@
     "MixinKeyboard",
     "MixinKeyboardInput",
     "MixinLightningEntityRenderer",
-    "MixinLivingEntity",
-    "MixinLivingEntityRenderer",
     "MixinMinecraftClient",
     "MixinMouse",
     "MixinParticleManager",
@@ -50,7 +46,6 @@
     "MixinRenderedChunk",
     "MixinRenderItemFrame",
     "MixinRenderTickCounter",
-    "MixinRenderTimer",
     "MixinToastManager",
     "MixinVec3d",
     "MixinWorldRenderer",
@@ -92,7 +87,6 @@
     "defaultRequire": 1
   },
   "mixins": [
-    "MixinCobwebBlock",
     "MixinTextVisitFactory",
     "accessor.IFireworkRocketEntity",
     "accessor.IHandledScreen"

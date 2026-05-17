@@ -53,7 +53,8 @@ public class MixinChatScreen extends Screen {
      * @reason inject into keypress to remove bs
      */
     @Inject(method = "keyPressed", at = @At(value = "HEAD"), cancellable = true)
-    public void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
+    public void keyPressed(net.minecraft.client.input.KeyInput keyInput, CallbackInfoReturnable<Boolean> cir) {
+        int keyCode = keyInput.key();
         if (chatField != null && chatField.getText().startsWith(CommandManager.INSTANCE.PREFIX) && keyCode == 258) {
             String text = chatField.getText();
             String commandText = getCommandText(text, false);

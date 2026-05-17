@@ -7,16 +7,14 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(LivingEntity.class)
 public interface ILivingEntity {
-    @Accessor("lastAttackedTicks")
-    int getLastAttackedTicks();
+    // TODO: 1.21.11 - lastAttackedTicks removed
+    // int getLastAttackedTicks();
+    // void setLastAttackedTicks(int ticks);
 
-    @Accessor("lastAttackedTicks")
-    void setLastAttackedTicks(int ticks);
-
-    @Accessor("jumpingCooldown")
-    int getLastJumpCooldown();
-
-    @Accessor("jumpingCooldown")
-    void setLastJumpCooldown(int val);
+    // TODO: 1.21.11 - check if jumpingCooldown still exists
+    // @Accessor("jumpingCooldown")
+    // int getLastJumpCooldown();
+    // @Accessor("jumpingCooldown")
+    // void setLastJumpCooldown(int val);
 
 }

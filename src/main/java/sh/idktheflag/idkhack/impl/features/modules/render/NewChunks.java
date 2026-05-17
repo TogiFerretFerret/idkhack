@@ -231,13 +231,10 @@ public class NewChunks extends Module
         return palette.getSize() <= 0 || !(palette instanceof ArrayPalette) && !(palette instanceof BiMapPalette);
     }
 
-    private synchronized boolean checkForExtraPaletteEntries(PalettedContainer.Data<BlockState> paletteContainer)
+    private synchronized boolean checkForExtraPaletteEntries(Object paletteContainer)
     {
-        presentStateIdsBuf.clear(); // reusing to reduce gc pressure
-        var palette = paletteContainer.palette();
-        PaletteStorage storage = paletteContainer.storage();
-        storage.forEach(presentStateIdsBuf::add);
-        return palette.getSize() > presentStateIdsBuf.size();
+        // TODO: port to 1.21.11 - PalettedContainer.Data is private, needs access widener fix
+        return false;
     }
 
     private static boolean isPlainsBiome(RegistryEntry<Biome> holder)

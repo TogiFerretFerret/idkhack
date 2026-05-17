@@ -43,47 +43,22 @@ public abstract class MixinPlayerEntity extends LivingEntity implements IMinecra
         super(entityType, world);
     }
 
+    // TODO: port to 1.21.11 - tickNewAi removed, head rotation handling changed
+    /*
     @Inject(method = "tickNewAi", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/PlayerEntity;headYaw:F"))
-    public void updateHeadRotation(CallbackInfo ci)
-    {
-        Rotation rotation = RotationManager.INSTANCE.getRotation();
-        float yaw = getYaw();
-        float pitch = getPitch();
-        if (rotation != null)
-        {
-            //noinspection ConstantValue
-            if ((Object) this == MinecraftClient.getInstance().player && rotation != null)
-            {
-                yaw = rotation.getYaw();
-                pitch = rotation.getPitch();
-            }
-        }
-        ((ILivingEntity) this).kami_setHeadYaw(yaw);
-        ((ILivingEntity) this).kami_setHeadPitch(pitch);
-    }
+    public void updateHeadRotation(CallbackInfo ci) { ... }
+    */
 
     @Inject(method = "getBlockInteractionRange", at = @At(value = "HEAD"), cancellable = true)
     private void doReachDistance(CallbackInfoReturnable<Double> cir)
     {
-// TODO 1.21.11: // TODO 1.21.11:         final ReachEvent reachEvent = new ReachEvent((float) this.getAttributeValue(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE));
-// TODO 1.21.11:         reachEvent.post();
-// TODO 1.21.11:         if (reachEvent.isCancelled())
-        {
-            cir.cancel();
-// TODO 1.21.11:             cir.setReturnValue((double) reachEvent.getReach());
-        }
+        // TODO: port to 1.21.11 - ReachEvent disabled
     }
 
     @Inject(method = "getEntityInteractionRange", at = @At(value = "HEAD"), cancellable = true)
     private void doEntityReachDistance(CallbackInfoReturnable<Double> cir)
     {
-// TODO 1.21.11: // TODO 1.21.11:         final ReachEvent reachEvent = new ReachEvent((float) this.getAttributeValue(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE));
-// TODO 1.21.11:         reachEvent.post();
-// TODO 1.21.11:         if (reachEvent.isCancelled())
-        {
-            cir.cancel();
-// TODO 1.21.11:             cir.setReturnValue((double) reachEvent.getReach());
-        }
+        // TODO: port to 1.21.11 - ReachEvent disabled
     }
 
     @Inject(method = "travel", at = @At(value = "HEAD"), cancellable = true)

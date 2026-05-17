@@ -107,12 +107,11 @@ public abstract class MixinMinecraftClient {
     }
 
 
+    // TODO: 1.21.11 - getFramerateLimit removed
+    /*
     @Inject(method = "getFramerateLimit", at = @At("HEAD"), cancellable = true)
-    private void onGetFramerateLimit(CallbackInfoReturnable<Integer> info)
-    {
-        if (Optimizer.INSTANCE.isEnabled() && Optimizer.INSTANCE.unfocusedFPS.getValue() && !isWindowFocused())
-            info.setReturnValue((int) Math.min(Optimizer.INSTANCE.fps.getValue().intValue(), this.options.getMaxFps().getValue()));
-    }
+    private void onGetFramerateLimit(CallbackInfoReturnable<Integer> info) { ... }
+    */
 
 
     @Inject(method = "hasOutline", at = @At(value = "HEAD"), cancellable = true)
