@@ -299,13 +299,10 @@ public class KillAura extends Module
     }
 
     @SubscribeEvent
-    // TODO: 1.21.11 - public void onRenderWorld(RenderWorldEvent event)
-    // TODO: 1.21.11 - {
-        // TODO: 1.21.11 - if (NullUtils.nullCheck()) return;
-
-
-        // TODO: 1.21.11 - if (PriorityManager.INSTANCE.isUsageLocked()) return;
-
+    public void onRenderWorld(RenderWorldEvent event)
+    {
+        if (NullUtils.nullCheck()) return;
+        if (PriorityManager.INSTANCE.isUsageLocked()) return;
         if (!esp.getValue()) return;
 
         if (target != null)
@@ -327,7 +324,7 @@ public class KillAura extends Module
         }
     }
 
-    // TODO: 1.21.11 - public static void equipBestWeapon()
+    public static void equipBestWeapon()
     {
         int slot = InventoryUtils.getSwordSlot();
 
@@ -337,7 +334,7 @@ public class KillAura extends Module
     }
 
 
-    // TODO: 1.21.11 - public boolean isInAttackRange(Vec3d pos, Entity entity)
+    public boolean isInAttackRange(Vec3d pos, Entity entity)
     {
         final Vec3d entityPos = getAttackRotateVec(entity);
         double dist = pos.distanceTo(entityPos);

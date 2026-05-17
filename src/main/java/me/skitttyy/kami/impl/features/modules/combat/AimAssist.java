@@ -132,30 +132,30 @@ public class AimAssist extends Module {
         }
 
     }
-    // TODO: 1.21.11 - public float[] roundRotation(float[] rotation)
-    // TODO: 1.21.11 - {
-        // TODO: 1.21.11 - float f = mc.options.getMouseSensitivity().getValue().floatValue() * 0.6f + 0.2f;
-        // TODO: 1.21.11 - float f1 = f * f * f * 1.2f;
-        // TODO: 1.21.11 - float yaw = rotation[0] - (rotation[0] % (f1 / 4));
-        // TODO: 1.21.11 - float pitch = rotation[1] - (rotation[1] % (f1 / 4));
-        // TODO: 1.21.11 - return new float[]{yaw, pitch};
-    // TODO: 1.21.11 - }
-    // TODO: 1.21.11 - public boolean breakBlock()
-    // TODO: 1.21.11 - {
-        // TODO: 1.21.11 - final HitResult result = mc.crosshairTarget;
-        // TODO: 1.21.11 - if (result != null)
-        // TODO: 1.21.11 - {
-            // TODO: 1.21.11 - if (result.getType() == HitResult.Type.BLOCK)
+    public float[] roundRotation(float[] rotation)
+    {
+        float f = mc.options.getMouseSensitivity().getValue().floatValue() * 0.6f + 0.2f;
+        float f1 = f * f * f * 1.2f;
+        float yaw = rotation[0] - (rotation[0] % (f1 / 4));
+        float pitch = rotation[1] - (rotation[1] % (f1 / 4));
+        return new float[]{yaw, pitch};
+    }
+    public boolean breakBlock()
+    {
+        final HitResult result = mc.crosshairTarget;
+        if (result != null)
+        {
+            if (result.getType() == HitResult.Type.BLOCK)
             {
                 return true;
-            // TODO: 1.21.11 - }
-        // TODO: 1.21.11 - }
-        // TODO: 1.21.11 - return false;
-    // TODO: 1.21.11 - }
+            }
+        }
+        return false;
+    }
 
     @Override
-    // TODO: 1.21.11 - public String getDescription()
-    // TODO: 1.21.11 - {
-        // TODO: 1.21.11 - return "AimAssist: aims smoothly at nearby enemies";
-    // TODO: 1.21.11 - }
-// TODO: 1.21.11 - }
+    public String getDescription()
+    {
+        return "AimAssist: aims smoothly at nearby enemies";
+    }
+}
