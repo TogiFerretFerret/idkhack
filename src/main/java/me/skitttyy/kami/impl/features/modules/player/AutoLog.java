@@ -108,17 +108,17 @@ public class AutoLog extends Module
                     Instant.now(),
                     NetworkEncryptionUtils.SecureRandomUtil.nextLong(),
                     null,
-                    // TODO: port to 1.21.11 - new LastSeenMessageList.Acknowledgment(1, new BitSet(2))));
-            // TODO: 1.21.11 - this.toggle();
+                    null)); // TODO: port to 1.21.11 - LastSeenMessageList.Acknowledgment changed
+            this.toggle();
             // TODO: 1.21.11 - return;
-        // TODO: 1.21.11 - }
-        // TODO: 1.21.11 - if (mc.getNetworkHandler() == null)
-        // TODO: 1.21.11 - {
+        }
+        if (mc.getNetworkHandler() == null)
+        {
             // TODO: port to 1.21.11 - mc.world.disconnect();
-            // TODO: 1.21.11 - this.toggle();
+            this.toggle();
 
             // TODO: 1.21.11 - return;
-        // TODO: 1.21.11 - }
+        }
         disconnectReason = String.format(disconnectReason, args);
         mc.getNetworkHandler().getConnection().disconnect(Text.of(disconnectReason));
         this.toggle();
@@ -130,8 +130,8 @@ public class AutoLog extends Module
     }
 
     @Override
-    // TODO: 1.21.11 - public String getDescription()
+    public String getDescription()
     {
         return "AutoLog: Attempts disconnect when needed";
     }
-// TODO: 1.21.11 - }
+}

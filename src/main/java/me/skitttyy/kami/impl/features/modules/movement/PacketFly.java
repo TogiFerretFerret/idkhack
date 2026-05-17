@@ -413,11 +413,11 @@ public class PacketFly extends Module
         if (event.getPacket() instanceof PlayerPositionLookS2CPacket packet)
         {
 
-            // TODO: port to 1.21.11 - Vec3d prediction = predictions.get(packet.getTeleportId());
+            Vec3d prediction = predictions.get(packet.teleportId());
             if (prediction != null)
             {
-
-                // TODO: port to 1.21.11 - if (prediction.x == packet.getX() && prediction.y == packet.getY() && prediction.z == packet.getZ())
+                Vec3d packetPos = packet.change().position();
+                if (prediction.x == packetPos.x && prediction.y == packetPos.y && prediction.z == packetPos.z)
                 {
 
                     if (!mode.getValue().equals("Lagback"))
@@ -428,18 +428,19 @@ public class PacketFly extends Module
 
                     if (dupe.getValue() || mc.player.age % 2 == 0)
                     {
-                        // TODO: port to 1.21.11 - PacketManager.INSTANCE.sendQuietPacket(new TeleportConfirmC2SPacket(packet.getTeleportId()));
+                        PacketManager.INSTANCE.sendQuietPacket(new TeleportConfirmC2SPacket(packet.teleportId()));
                     }
-                    // TODO: port to 1.21.11 - predictions.remove(packet.getTeleportId());
+                    predictions.remove(packet.teleportId());
 
                     return;
                 }
             }
 
-            // TODO: port to 1.21.11 - ((IPlayerPositionLookS2CPacket) packet).setYaw(mc.player.getYaw());
-            // TODO: port to 1.21.11 - ((IPlayerPositionLookS2CPacket) packet).setPitch(mc.player.getPitch());
+            // TODO: port to 1.21.11 - packet is now a record, can't set yaw/pitch directly
+            // ((IPlayerPositionLookS2CPacket) packet).setYaw(mc.player.getYaw());
+            // ((IPlayerPositionLookS2CPacket) packet).setPitch(mc.player.getPitch());
 
-            // TODO: port to 1.21.11 - PacketManager.INSTANCE.sendQuietPacket(new TeleportConfirmC2SPacket(packet.getTeleportId()));
+            PacketManager.INSTANCE.sendQuietPacket(new TeleportConfirmC2SPacket(packet.teleportId()));
 
             lagTime = 10;
             // TODO: port to 1.21.11 - tpId = packet.getTeleportId();

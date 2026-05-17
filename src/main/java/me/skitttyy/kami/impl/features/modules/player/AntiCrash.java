@@ -79,19 +79,12 @@ public class AntiCrash extends Module {
                 if (flag > 20)
                 {
 
-                    // TODO: port to 1.21.11 - Style style = Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, text) {
-                        @Override
-                        // TODO: 1.21.11 - public Action getAction()
-                        // TODO: 1.21.11 - {
-                            // TODO: 1.21.11 - return Action.SUGGEST_COMMAND;
-                        // TODO: 1.21.11 - }
-                    // TODO: 1.21.11 - });
-                    // TODO: 1.21.11 - mc.inGameHud.getChatHud().addMessage(Text.literal(Manager.INSTANCE.getAccent() + "[" + Manager.INSTANCE.getMainColor() + KamiMod.NAME_UNICODE + Manager.INSTANCE.getAccent() + "]" + Formatting.RESET + " Blocked a chat message with " + flag + " flags." + Manager.INSTANCE.getAccent()+ " [" + Manager.INSTANCE.getMainColor() + "Click Me To View!" + Manager.INSTANCE.getAccent() + "]").setStyle(style));
+                    // TODO: port to 1.21.11 - ClickEvent API changed
                     event.setCancelled(true);
                 }
             }
         }
-        // TODO: 1.21.11 - if (particles.getValue())
+        if (particles.getValue())
         {
             if (event.getPacket() instanceof ParticleS2CPacket packet)
             {
@@ -102,7 +95,7 @@ public class AntiCrash extends Module {
                 }
             }
         }
-        // TODO: 1.21.11 - if (sound.getValue())
+        if (sound.getValue())
         {
             if (event.getPacket() instanceof PlaySoundFromEntityS2CPacket packet
                     && LAG_SOUNDS.contains(packet.getSound().value())
@@ -116,9 +109,8 @@ public class AntiCrash extends Module {
     }
 
     @Override
-    // TODO: 1.21.11 - public String getDescription()
-    // TODO: 1.21.11 - {
-        // TODO: 1.21.11 - return "AntiCrash: prevents various crashes";
-    // TODO: 1.21.11 - }
-
-// TODO: 1.21.11 - }
+    public String getDescription()
+    {
+        return "AntiCrash: prevents various crashes";
+    }
+}

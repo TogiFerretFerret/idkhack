@@ -84,26 +84,18 @@ public class Skeleton extends Module
 
                 Vec3d skeletonPos = Interpolator.getInterpolatedPosition(entity, g);
 
-                PlayerEntityRenderer livingEntityRenderer =
-                        // TODO: port to 1.21.11 - (PlayerEntityRenderer) (LivingEntityRenderer<?, ?>) mc.getEntityRenderDispatcher().getRenderer(playerEntity);
-                // TODO: port to 1.21.11 - PlayerEntityModel<AbstractClientPlayerEntity> playerModel = livingEntityRenderer.getModel();
+                // TODO: port to 1.21.11 - EntityRenderDispatcher.getRenderer changed
+                PlayerEntityRenderer livingEntityRenderer = null;
+                PlayerEntityModel playerModel = null;
 
-                // TODO: 1.21.11 - float h = MathHelper.lerpAngleDegrees(g,
-                        // TODO: port to 1.21.11 - playerEntity.prevBodyYaw, playerEntity.bodyYaw);
-                // TODO: 1.21.11 - float j = MathHelper.lerpAngleDegrees(g,
-                        // TODO: 1.21.11 - playerEntity.lastHeadYaw, playerEntity.headYaw);
+                // TODO: port to 1.21.11 - prevBodyYaw/bodyYaw/lastHeadYaw/headYaw removed
+                float h = 0; // was MathHelper.lerpAngleDegrees(g, playerEntity.prevBodyYaw, playerEntity.bodyYaw)
+                float j = 0; // was MathHelper.lerpAngleDegrees(g, playerEntity.lastHeadYaw, playerEntity.headYaw)
 
 
-                // TODO: 1.21.11 - if (AntiCheat.INSTANCE.visualize.getValue() && entity == mc.player && !RotationManager.INSTANCE.FROM_INV)
-                {
-                    // TODO: 1.21.11 - ILivingEntity accessor = (ILivingEntity) entity;
-                    // TODO: 1.21.11 - j = MathHelper.lerpAngleDegrees(g, accessor.kami_getPrevHeadYaw(), accessor.kami_getHeadYaw());
-                }
-                // TODO: port to 1.21.11 - BipedEntityModel.ArmPose armPose = PlayerEntityRenderer.getArmPose((AbstractClientPlayerEntity) playerEntity, Hand.MAIN_HAND);
-                // TODO: port to 1.21.11 - BipedEntityModel.ArmPose armPose2 = PlayerEntityRenderer.getArmPose((AbstractClientPlayerEntity) playerEntity, Hand.OFF_HAND);
-
-                if (armPose.isTwoHanded())
-                    armPose2 = playerEntity.getOffHandStack().isEmpty() ? BipedEntityModel.ArmPose.EMPTY : BipedEntityModel.ArmPose.ITEM;
+                // TODO: port to 1.21.11 - Skeleton rendering needs full rewrite for new model/render state system
+                BipedEntityModel.ArmPose armPose = BipedEntityModel.ArmPose.EMPTY;
+                BipedEntityModel.ArmPose armPose2 = BipedEntityModel.ArmPose.EMPTY;
 
                 if (playerEntity.getMainArm() == Arm.RIGHT)
                 {
@@ -256,24 +248,24 @@ public class Skeleton extends Module
     }
 
     // TODO: 1.21.11 - private void rotateSkeleton(MatrixStack matrix, ModelPart modelPart)
-    // TODO: 1.21.11 - {
+    {
         if (modelPart.roll != 0.0f)
         {
             matrix.multiply(RotationAxis.POSITIVE_Z.rotation(modelPart.roll));
-        // TODO: 1.21.11 - }
-        // TODO: 1.21.11 - if (modelPart.yaw != 0.0f)
+        }
+        if (modelPart.yaw != 0.0f)
         {
             matrix.multiply(RotationAxis.NEGATIVE_Y.rotation(modelPart.yaw));
-        // TODO: 1.21.11 - }
-        // TODO: 1.21.11 - if (modelPart.pitch != 0.0f)
+        }
+        if (modelPart.pitch != 0.0f)
         {
             matrix.multiply(RotationAxis.NEGATIVE_X.rotation(modelPart.pitch));
-        // TODO: 1.21.11 - }
-    // TODO: 1.21.11 - }
+        }
+    }
 
     @Override
-    // TODO: 1.21.11 - public String getDescription()
-    // TODO: 1.21.11 - {
+    public String getDescription()
+    {
         return "Skeleton: renders players skeletons";
-    // TODO: 1.21.11 - }
-// TODO: 1.21.11 - }
+    }
+}

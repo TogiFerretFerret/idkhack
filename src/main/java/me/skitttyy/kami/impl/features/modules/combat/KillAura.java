@@ -198,15 +198,9 @@ public class KillAura extends Module
         }
 
         if (false) { // TODO: 1.21.11 - onlySword check
-                // TODO: port to 1.21.11 - && !(mc.player.getMainHandStack().getItem() instanceof SwordItem
-                // TODO: 1.21.11 - || mc.player.getMainHandStack().getItem() instanceof AxeItem
-                // TODO: 1.21.11 - || mc.player.getMainHandStack().getItem() instanceof MaceItem
-            // TODO: port item checks
-        {
             target = null;
             return;
-        // TODO: 1.21.11 - } else
-        {
+        } else {
             if (autoSwitch.getValue() && (!noGapSwitch.getValue() || !PlayerUtils.isEatingGap()))
                 equipBestWeapon();
         }
