@@ -29,5 +29,5 @@ import net.minecraft.util.math.Vec3d;
 
 
 // TODO: port to 1.21.11 - module disabled, see TODO.md
-public class Criticals extends Module
+public class Criticals extends Module {
 }

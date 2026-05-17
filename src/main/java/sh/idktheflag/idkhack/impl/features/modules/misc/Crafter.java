@@ -17,5 +17,5 @@ import java.util.List;
 
 
 // TODO: port to 1.21.11 - module disabled, see TODO.md
-public class Crafter extends Module
+public class Crafter extends Module {
 }
