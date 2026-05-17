@@ -36,6 +36,7 @@ public class Criticals extends Module
     public Criticals()
     {
         super("Criticals", Category.Combat);
+        INSTANCE = this;
     }
 
     public Value<String> mode = new ValueBuilder<String>()

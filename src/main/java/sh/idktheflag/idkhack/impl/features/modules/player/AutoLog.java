@@ -58,6 +58,7 @@ public class AutoLog extends Module
     public AutoLog()
     {
         super("AutoLog", Category.Player);
+        INSTANCE = this;
     }
 
 
