@@ -166,13 +166,15 @@ public abstract class MixinChatHud implements IChatHud
         if (FontModule.INSTANCE.shortShadow.getValue())
         {
 
-            // TODO 1.21.11: ((ITextRenderer) textRenderer).hookDrawLayer(text, (float) ((animation != null && Chat.INSTANCE.isEnabled() && Chat.INSTANCE.animations.getValue() && Chat.INSTANCE.animationMode.getValue().equals("Slide") ? animation.getCurrent() : 0)) - 0.3f, (float) y - 0.3f, chatColor.getRGB(), true, instance.getMatrices().peek().getPositionMatrix(), instance.getVertexConsumers(), TextRenderer.TextLayerType.NORMAL, 0, 15728880);
-            // TODO 1.21.11: instance.draw();
-            // TODO 1.21.11: return instance.drawText(textRenderer, text, (int) ((animation != null && Chat.INSTANCE.isEnabled() && Chat.INSTANCE.animations.getValue() && Chat.INSTANCE.animationMode.getValue().equals("Slide") ? animation.getCurrent() : 0)), y, chatColor.getRGB(), false);
+            // TODO 1.21.11: shortShadow chat rendering disabled
+            instance.drawTextWithShadow(textRenderer, text, 0, y, color);
+            return 0;
 
         } else
         {
-            // TODO 1.21.11: return instance.drawTextWithShadow(textRenderer, text, (int) ((animation != null && Chat.INSTANCE.isEnabled() && Chat.INSTANCE.animations.getValue() && Chat.INSTANCE.animationMode.getValue().equals("Slide") ? animation.getCurrent() : 0)), y, chatColor.getRGB());
+            // TODO 1.21.11: chat animation disabled, drawTextWithShadow returns void now
+            instance.drawTextWithShadow(textRenderer, text, 0, y, color);
+            return 0;
 
         }
 
