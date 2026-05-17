@@ -92,7 +92,7 @@ public class Register
         FeatureManager.INSTANCE.getFeatures().add(new Manager());
         FeatureManager.INSTANCE.getFeatures().add(new HudColors());
         FeatureManager.INSTANCE.getFeatures().add(new IRC());
-        FeatureManager.INSTANCE.getFeatures().add(new Sense());
+        // TODO: 1.21.11 disabled -         FeatureManager.INSTANCE.getFeatures().add(new Sense());
         FeatureManager.INSTANCE.getFeatures().add(new RPC());
 
         FeatureManager.INSTANCE.getFeatures().add(new FontModule());
@@ -111,7 +111,7 @@ public class Register
 
         // Combat modules
         FeatureManager.INSTANCE.getFeatures().add(new KillAura());
-        FeatureManager.INSTANCE.getFeatures().add(new AutoXP());
+        // TODO: 1.21.11 disabled -         FeatureManager.INSTANCE.getFeatures().add(new AutoXP());
         FeatureManager.INSTANCE.getFeatures().add(new CatAura());
         FeatureManager.INSTANCE.getFeatures().add(new AutoTotem());
         FeatureManager.INSTANCE.getFeatures().add(new AutoFeetPlace());
@@ -121,7 +121,7 @@ public class Register
         FeatureManager.INSTANCE.getFeatures().add(new AutoTrap());
         FeatureManager.INSTANCE.getFeatures().add(new Platformer());
         FeatureManager.INSTANCE.getFeatures().add(new SelfFill());
-        FeatureManager.INSTANCE.getFeatures().add(new Criticals());
+        // TODO: 1.21.11 disabled -         FeatureManager.INSTANCE.getFeatures().add(new Criticals());
         FeatureManager.INSTANCE.getFeatures().add(new thirty2ktp());
         FeatureManager.INSTANCE.getFeatures().add(new thirty2kaura());
         FeatureManager.INSTANCE.getFeatures().add(new Auto32k());
@@ -129,8 +129,8 @@ public class Register
         FeatureManager.INSTANCE.getFeatures().add(new Holefill());
         FeatureManager.INSTANCE.getFeatures().add(new AntiChainPop());
         FeatureManager.INSTANCE.getFeatures().add(new AutoAnvil());
-        FeatureManager.INSTANCE.getFeatures().add(new AutoLog());
-        FeatureManager.INSTANCE.getFeatures().add(new AutoWeb());
+        // TODO: 1.21.11 disabled -         FeatureManager.INSTANCE.getFeatures().add(new AutoLog());
+        // TODO: 1.21.11 disabled -         FeatureManager.INSTANCE.getFeatures().add(new AutoWeb());
         FeatureManager.INSTANCE.getFeatures().add(new AntiRevert());
         FeatureManager.INSTANCE.getFeatures().add(new AntiHolecamp());
         FeatureManager.INSTANCE.getFeatures().add(new AimAssist());
@@ -160,7 +160,7 @@ public class Register
         FeatureManager.INSTANCE.getFeatures().add(new EntityControl());
         FeatureManager.INSTANCE.getFeatures().add(new AntiCrash());
         FeatureManager.INSTANCE.getFeatures().add(new Godmode());
-        FeatureManager.INSTANCE.getFeatures().add(new PhaseWalk());
+        // TODO: 1.21.11 disabled -         FeatureManager.INSTANCE.getFeatures().add(new PhaseWalk());
         FeatureManager.INSTANCE.getFeatures().add(new AntiDesync());
         FeatureManager.INSTANCE.getFeatures().add(new NoAnim());
         FeatureManager.INSTANCE.getFeatures().add(new AutoRegear());
@@ -188,7 +188,7 @@ public class Register
         FeatureManager.INSTANCE.getFeatures().add(new Dolphin());
         FeatureManager.INSTANCE.getFeatures().add(new IceSpeed());
         FeatureManager.INSTANCE.getFeatures().add(new BoatFly());
-        FeatureManager.INSTANCE.getFeatures().add(new EntitySpeed());
+        // TODO: 1.21.11 disabled -         FeatureManager.INSTANCE.getFeatures().add(new EntitySpeed());
         FeatureManager.INSTANCE.getFeatures().add(new FastFirework());
         FeatureManager.INSTANCE.getFeatures().add(new Holesnap());
         FeatureManager.INSTANCE.getFeatures().add(new FastFall());
@@ -196,12 +196,12 @@ public class Register
         FeatureManager.INSTANCE.getFeatures().add(new PacketFly());
 
         // Render modules
-        FeatureManager.INSTANCE.getFeatures().add(new Nametags());
+        // TODO: 1.21.11 disabled -         FeatureManager.INSTANCE.getFeatures().add(new Nametags());
         FeatureManager.INSTANCE.getFeatures().add(new NoRender());
         FeatureManager.INSTANCE.getFeatures().add(new HoleEsp());
         FeatureManager.INSTANCE.getFeatures().add(new FullBright());
         FeatureManager.INSTANCE.getFeatures().add(new Search());
-        FeatureManager.INSTANCE.getFeatures().add(new Tooltips());
+        // TODO: 1.21.11 disabled -         FeatureManager.INSTANCE.getFeatures().add(new Tooltips());
         FeatureManager.INSTANCE.getFeatures().add(new ESP());
         FeatureManager.INSTANCE.getFeatures().add(new ExtraTab());
         FeatureManager.INSTANCE.getFeatures().add(new Trails());
@@ -213,17 +213,17 @@ public class Register
         FeatureManager.INSTANCE.getFeatures().add(new ViewModel());
         FeatureManager.INSTANCE.getFeatures().add(new Capes());
         FeatureManager.INSTANCE.getFeatures().add(new Particles());
-        FeatureManager.INSTANCE.getFeatures().add(new Shaders());
-        FeatureManager.INSTANCE.getFeatures().add(new PopChams());
-        FeatureManager.INSTANCE.getFeatures().add(new LogoutSpots());
+        // TODO: 1.21.11 disabled -         FeatureManager.INSTANCE.getFeatures().add(new Shaders());
+        // TODO: 1.21.11 disabled -         FeatureManager.INSTANCE.getFeatures().add(new PopChams());
+        // TODO: 1.21.11 disabled -         FeatureManager.INSTANCE.getFeatures().add(new LogoutSpots());
         FeatureManager.INSTANCE.getFeatures().add(new DeathEffects());
         FeatureManager.INSTANCE.getFeatures().add(new CustomSky());
         FeatureManager.INSTANCE.getFeatures().add(new BlockHighlight());
         FeatureManager.INSTANCE.getFeatures().add(new AspectRatio());
-        FeatureManager.INSTANCE.getFeatures().add(new TimeChanger());
-        FeatureManager.INSTANCE.getFeatures().add(new Waypoints());
-        FeatureManager.INSTANCE.getFeatures().add(new Chams());
-        FeatureManager.INSTANCE.getFeatures().add(new Skeleton());
+        // TODO: 1.21.11 disabled -         FeatureManager.INSTANCE.getFeatures().add(new TimeChanger());
+        // TODO: 1.21.11 disabled -         FeatureManager.INSTANCE.getFeatures().add(new Waypoints());
+        // TODO: 1.21.11 disabled -         FeatureManager.INSTANCE.getFeatures().add(new Chams());
+        // TODO: 1.21.11 disabled -         FeatureManager.INSTANCE.getFeatures().add(new Skeleton());
         FeatureManager.INSTANCE.getFeatures().add(new NewChunks());
         FeatureManager.INSTANCE.getFeatures().add(new Ambience());
         FeatureManager.INSTANCE.getFeatures().add(new PhaseESP());
@@ -240,7 +240,7 @@ public class Register
         FeatureManager.INSTANCE.getFeatures().add(new MultiTask());
         FeatureManager.INSTANCE.getFeatures().add(new ExtraPlace());
         FeatureManager.INSTANCE.getFeatures().add(new Heaven());
-        FeatureManager.INSTANCE.getFeatures().add(new AutoRespawn());
+        // TODO: 1.21.11 disabled -         FeatureManager.INSTANCE.getFeatures().add(new AutoRespawn());
         FeatureManager.INSTANCE.getFeatures().add(new AutoFish());
         FeatureManager.INSTANCE.getFeatures().add(new AutoReconnect());
         FeatureManager.INSTANCE.getFeatures().add(new Announcer());
@@ -255,7 +255,7 @@ public class Register
         FeatureManager.INSTANCE.getFeatures().add(new KillSounds());
         FeatureManager.INSTANCE.getFeatures().add(new IllegalLog());
         FeatureManager.INSTANCE.getFeatures().add(new Disabler());
-        FeatureManager.INSTANCE.getFeatures().add(new Crafter());
+        // TODO: 1.21.11 disabled -         FeatureManager.INSTANCE.getFeatures().add(new Crafter());
 
 
         // Ghost modules
