@@ -43,11 +43,11 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
     @Final
     public ClientPlayNetworkHandler networkHandler;
     @Shadow
-    public double lastX;
+    private double lastXClient;
     @Shadow
-    public double lastBaseY;
+    private double lastYClient;
     @Shadow
-    public double lastZ;
+    private double lastZClient;
     @Shadow
     public Input input;
     //
@@ -56,11 +56,9 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
     protected MinecraftClient client;
     // Last tick values
     @Shadow
-    private boolean lastSneaking;
+    private float lastYawClient;
     @Shadow
-    private float lastYaw;
-    @Shadow
-    private float lastPitch;
+    private float lastPitchClient;
     @Shadow
     private boolean lastOnGround;
     //
@@ -71,6 +69,8 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
     //
     @Unique
     private boolean ticking;
+    @Unique
+    private boolean lastSneaking_removed = false;
 
     /**
      *
@@ -146,19 +146,19 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
             ci.cancel();
             sendSprintingPacket();
             boolean bl = isSneaking();
-            if (bl != lastSneaking)
+            if (bl != lastSneaking_removed)
             {
 // TODO 1.21.11: // TODO 1.21.11: // TODO 1.21.11: // TODO 1.21.11:                 ClientCommandC2SPacket.Mode mode = bl ? ClientCommandC2SPacket.Mode.PRESS_SHIFT_KEY : ClientCommandC2SPacket.Mode.RELEASE_SHIFT_KEY;
 // TODO 1.21.11:                 networkHandler.sendPacket(new ClientCommandC2SPacket(this, mode));
-                lastSneaking = bl;
+                lastSneaking_removed = bl;
             }
             if (isCamera())
             {
-                double d = x - lastX;
-                double e = y - lastBaseY;
-                double f = z - lastZ;
-                double g = yaw - lastYaw;
-                double h = pitch - lastPitch;
+                double d = x - lastXClient;
+                double e = y - lastYClient;
+                double f = z - lastZClient;
+                double g = yaw - lastYawClient;
+                double h = pitch - lastPitchClient;
                 ++ticksSinceLastPositionPacketSent;
                 boolean bl2 = MathHelper.squaredMagnitude(d, e, f) > MathHelper.square(2.0E-4) || ticksSinceLastPositionPacketSent >= 20;
                 boolean bl3 = g != 0.0 || h != 0.0;
@@ -184,15 +184,15 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
                 }
                 if (bl2)
                 {
-                    lastX = x;
-                    lastBaseY = y;
-                    lastZ = z;
+                    lastXClient = x;
+                    lastYClient = y;
+                    lastZClient = z;
                     ticksSinceLastPositionPacketSent = 0;
                 }
                 if (bl3)
                 {
-                    lastYaw = yaw;
-                    lastPitch = pitch;
+                    lastYawClient = yaw;
+                    lastPitchClient = pitch;
                 }
                 lastOnGround = ground;
                 autoJumpEnabled = client.options.getAutoJump().getValue();
@@ -313,14 +313,7 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
         }
     }
 
-    @Redirect(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isUsingItem()Z"))
-    private boolean redirectUsingItem(ClientPlayerEntity player)
-    {
-        if (NoSlow.INSTANCE.canNoSlow()) return false;
-
-
-        return player.isUsingItem();
-    }
+    // TODO: 1.21.11 - isUsingItem no longer called in tickMovement, redirect removed
 
     @Inject(method = "tickNausea", at = @At("HEAD"), cancellable = true)
     private void updateNauseaHook(CallbackInfo ci)

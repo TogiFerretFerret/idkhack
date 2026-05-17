@@ -573,7 +573,13 @@ public class Sn0wGui extends Module implements IColorScheme, IMetrics, IRenderer
     @Override
     public void renderText(DrawContext context, String text, float x, float y, Color color, boolean shadow)
     {
-        Fonts.doOneText(context, text, x, y, ColorUtil.interpolate(fadeAnimation.getScaledTime(), color, ColorUtil.newAlpha(color, 0)), shadow);
+        if (context == null) return;
+        Color c = ColorUtil.interpolate(fadeAnimation.getScaledTime(), color, ColorUtil.newAlpha(color, 0));
+        if (shadow) {
+            context.drawTextWithShadow(mc.textRenderer, text, (int) x, (int) y, c.getRGB());
+        } else {
+            context.drawText(mc.textRenderer, text, (int) x, (int) y, c.getRGB(), false);
+        }
     }
 
     @Override
@@ -581,22 +587,23 @@ public class Sn0wGui extends Module implements IColorScheme, IMetrics, IRenderer
     {
         Color color = ColorUtil.interpolate(fadeAnimation.getScaledTime(), inputTop, ColorUtil.newAlpha(inputTop, 0));
         Color bottom = ColorUtil.interpolate(fadeAnimation.getScaledTime(), inputBottom, ColorUtil.newAlpha(inputBottom, 0));
-        if (mode == RectMode.Fill)
-        {
-            RenderUtil.renderGradient(new net.minecraft.client.util.math.MatrixStack(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), color.getRGB(), bottom.getRGB(), false);
-        }
-        if (mode == RectMode.FillHorizontal)
-        {
-            RenderUtil.renderGradient(new net.minecraft.client.util.math.MatrixStack(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), color.getRGB(), bottom.getRGB(), true);
-        }
-        if (mode == RectMode.Outline)
-        {
-            RenderUtil.renderOutline(new net.minecraft.client.util.math.MatrixStack(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), color.getRGB(), true);
-        }
+        net.minecraft.client.gui.DrawContext dc = context.getDrawContext();
+        if (dc == null) return;
+        int x1 = rect.getX();
+        int y1 = rect.getY();
+        int x2 = x1 + rect.getWidth();
+        int y2 = y1 + rect.getHeight();
 
-        if (mode == RectMode.OutlineNoRasturize)
+        if (mode == RectMode.Fill || mode == RectMode.FillHorizontal)
         {
-            RenderUtil.renderOutline(new net.minecraft.client.util.math.MatrixStack(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), color.getRGB(), false);
+            dc.fillGradient(x1, y1, x2, y2, color.getRGB(), bottom.getRGB());
+        }
+        if (mode == RectMode.Outline || mode == RectMode.OutlineNoRasturize)
+        {
+            dc.fill(x1, y1, x2, y1 + 1, color.getRGB());
+            dc.fill(x1, y2 - 1, x2, y2, color.getRGB());
+            dc.fill(x1, y1, x1 + 1, y2, color.getRGB());
+            dc.fill(x2 - 1, y1, x2, y2, color.getRGB());
         }
     }
 

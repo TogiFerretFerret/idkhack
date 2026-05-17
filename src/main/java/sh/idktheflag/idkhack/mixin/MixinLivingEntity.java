@@ -19,14 +19,12 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -42,27 +40,6 @@ public abstract class MixinLivingEntity extends Entity implements ILivingEntity
         super(type, world);
     }
 
-    // TODO: 1.21.11 - bodyTrackingIncrements removed
-    // @Shadow public int bodyTrackingIncrements;
-
-//     @Shadow
-//     public double serverX;
-// 
-//     @Shadow
-//     public double serverY;
-// 
-//     @Shadow
-//     public double serverZ;
-// 
-//     @Shadow
-//     public double serverYaw;
-// 
-//     @Shadow
-//     protected double serverPitch;
-//     @Shadow
-//     protected double serverHeadYaw;
-//     @Shadow
-//     protected int headTrackingIncrements;
     @Unique
     private Vec3d kami_oldServerPos;
     @Unique
@@ -77,7 +54,6 @@ public abstract class MixinLivingEntity extends Entity implements ILivingEntity
     private boolean kami_inInventory = false;
     @Shadow
     protected ItemStack activeItemStack;
-
 
     @Unique
     private float originalYaw;
@@ -115,19 +91,6 @@ public abstract class MixinLivingEntity extends Entity implements ILivingEntity
         }
     }
 
-    //    @Inject(method = "tickMovement", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/LivingEntity;bodyTrackingIncrements:I"), slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;updateTrackedPosition(DDD)V"), to = @At(value = "FIELD", target = "Lnet/minecraft/entity/LivingEntity;serverX:D")))
-//    public void leakRotations(CallbackInfo ci)
-//    {
-//        Rotation rotation = RotationManager.INSTANCE.getRotation();
-//        //noinspection ConstantValue
-//        if (this.bodyTrackingIncrements > 0 && (Object) this == MinecraftClient.getInstance().player && rotation != null) {
-//            RotationManager.INSTANCE.fakeRotation = new Rotation(
-//                    (rotation.getYaw() + (float) MathHelper.wrapDegrees(this.serverYaw - (double) rotation.getYaw()) / (float) this.bodyTrackingIncrements) % 360F,
-//                    (rotation.getPitch() + (float) (this.serverPitch - (double) rotation.getPitch()) / (float) this.bodyTrackingIncrements) % 360F
-//            );
-//        }
-//    }
-
     @Inject(method = "consumeItem", at = @At(value = "INVOKE", target = "Lnet/" +
             "minecraft/item/ItemStack;finishUsing(Lnet/minecraft/world/World;" +
             "Lnet/minecraft/entity/LivingEntity;)" +
@@ -142,63 +105,7 @@ public abstract class MixinLivingEntity extends Entity implements ILivingEntity
         event.post();
     }
 
-    // TODO: 1.21.11 - isFallFlying removed
-    // @Redirect(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;isFallFlying()Z"))
-    public boolean redirectFallFlying_DISABLED(LivingEntity instance)
-    {
-        if (instance.equals(MinecraftClient.getInstance().player))
-        {
-            FallFlyingEvent event = new FallFlyingEvent();
-            event.post();
-            if (event.isCancelled())
-                return true;
-        }
-        return instance.isGliding();
-    }
-
-    @Redirect(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getYaw()F"), slice = @Slice(from = @At(value = "FIELD", target = "Lnet/minecraft/entity/LivingEntity;prevStepBobbingAmount:F"), to = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;turnHead(FF)F")))
-    public float replaceYaw_tick(LivingEntity instance)
-    {
-        if (AntiCheat.INSTANCE.visualize.getValue())
-        {
-            Rotation rotation = RotationManager.INSTANCE.getRotation();
-            //noinspection ConstantValue
-            if ((Object) this == MinecraftClient.getInstance().player && rotation != null)
-            {
-                return rotation.getYaw();
-            }
-        }
-        return instance.getYaw();
-    }
-
-
-    @Redirect(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getPitch()F"))
-    public float replacePitch(LivingEntity instance)
-    {
-        //elytra fix
-        if ((Object) this == MinecraftClient.getInstance().player)
-        {
-            if (AntiCheat.INSTANCE.strafeFix.getValue() && MinecraftClient.getInstance().player != null && RotationManager.INSTANCE.getRotation() != null)
-            {
-                return RotationManager.INSTANCE.getRotation().getPitch();
-            }
-        }
-        return instance.getPitch();
-    }
-
-    @Redirect(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getRotationVector()Lnet/minecraft/util/math/Vec3d;"))
-    public Vec3d replaceVelocity(LivingEntity instance)
-    {
-        //elytra fix
-        if ((Object) this == MinecraftClient.getInstance().player)
-        {
-            if (AntiCheat.INSTANCE.strafeFix.getValue() && MinecraftClient.getInstance().player != null && RotationManager.INSTANCE.getRotation() != null)
-            {
-                return RotationManager.INSTANCE.getRotationVector();
-            }
-        }
-        return instance.getRotationVector();
-    }
+    // TODO: 1.21.11 - travel() refactored into sub-methods, getPitch/getRotationVector redirects removed
 
 
     @Redirect(method = "turnHead", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getYaw()F"))
@@ -216,40 +123,12 @@ public abstract class MixinLivingEntity extends Entity implements ILivingEntity
         return instance.getYaw();
     }
 
-    // TODO: 1.21.11 - headTrackingIncrements/serverHeadYaw removed
-    /*
-    @Inject(method = "tickMovement", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/LivingEntity;headTrackingIncrements:I", ordinal = 2))
-    public void respectServerHeadYaw(CallbackInfo ci) { ... }
-    */
-
     @Inject(method = "<init>", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/LivingEntity;headYaw:F"))
     public void setHeadRotation(EntityType<?> entityType, World world, CallbackInfo ci)
     {
         kami_headYaw = getYaw();
         kami_headPitch = getPitch();
     }
-
-    @Unique
-    private boolean prevFlying = false;
-
-    // TODO: 1.21.11 - isFallFlying removed from LivingEntity
-    // @Inject(method = "isFallFlying", at = @At("TAIL"), cancellable = true)
-    public void tryReFlyOnLand_DISABLED(CallbackInfoReturnable<Boolean> cir)
-    {
-        if (NullUtils.nullCheck()) return;
-
-
-        boolean flying = cir.getReturnValue();
-        boolean stoppedFlying = prevFlying && !flying;
-        if (ElytraFly.INSTANCE.isEnabled() && ElytraFly.INSTANCE.mode.getValue().equals("Bounce") && stoppedFlying && !IdkHackMod.isBaritonePaused())
-        {
-            mc.player.startGliding();
-            PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.START_FALL_FLYING));
-            cir.setReturnValue(true);
-        }
-        prevFlying = flying;
-    }
-
 
     @Inject(method = "onSpawnPacket", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/LivingEntity;headYaw:F", ordinal = 1))
     public void setHeadRotation(EntitySpawnS2CPacket packet, CallbackInfo ci)
@@ -261,18 +140,9 @@ public abstract class MixinLivingEntity extends Entity implements ILivingEntity
         kami_prevHeadPitch = kami_headPitch;
     }
 
-    @Inject(method = "baseTick", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/LivingEntity;prevHeadYaw:F"))
-    public void updateHeadRotation(CallbackInfo ci)
-    {
-        kami_prevHeadYaw = kami_headYaw;
-        kami_prevHeadPitch = kami_headPitch;
-    }
-
-    @Inject(method = "updateTrackedPositionAndAngles", at = @At("HEAD"))
-    public void saveOldServerPos(double x, double y, double z, float yaw, float pitch, int interpolationSteps, CallbackInfo ci)
-    {
-        kami_oldServerPos = new Vec3d(x, y, z); // TODO: 1.21.11 - serverX/Y/Z removed, using method params
-    }
+    // TODO: 1.21.11 - prevStepBobbingAmount removed, tick redirect for yaw disabled
+    // TODO: 1.21.11 - prevHeadYaw removed, baseTick inject disabled
+    // TODO: 1.21.11 - updateTrackedPositionAndAngles removed
 
     @Override
     public Vec3d kami_prevServerPos()

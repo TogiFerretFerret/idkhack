@@ -14,9 +14,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(KeyboardInput.class)
 public class MixinKeyboardInput extends Input {
 
-
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
-    private void hookTick$Pre(boolean slowDown, float slowDownFactor, CallbackInfo info)
+    private void hookTick$Pre(CallbackInfo info)
     {
         InputEvent event = new InputEvent(this);
         event.post();
@@ -26,34 +25,10 @@ public class MixinKeyboardInput extends Input {
         }
     }
 
-    @Redirect(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/KeyBinding;isPressed()Z", ordinal = 5))
-    private boolean sneakHook(KeyBinding instance)
-    {
-        SneakEvent event = new SneakEvent();
-        event.post();
-        if (event.isCancelled())
-        {
-            return false;
-        }
-        return instance.isPressed();
-    }
-
-    /**
-     * @param slowDown
-     * @param f
-     * @param ci
-     */
-    @Inject(method = "tick", at = @At(value = "FIELD", target = "Lnet/minecraft/" +
-            "client/input/KeyboardInput;sneaking:Z", shift = At.Shift.BEFORE), cancellable = true)
-    private void hookTick$Post(boolean slowDown, float f, CallbackInfo ci)
+    @Inject(method = "tick", at = @At("TAIL"))
+    private void hookTick$Post(CallbackInfo ci)
     {
         InputEvent event = new InputEvent(this);
         event.post();
-
-        if (event.isCancelled())
-        {
-            ci.cancel();
-        }
     }
-
 }
