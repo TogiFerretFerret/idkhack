@@ -6,7 +6,7 @@ import sh.idktheflag.idkhack.api.event.eventbus.SubscribeEvent;
 import sh.idktheflag.idkhack.api.event.events.player.PopEvent;
 import sh.idktheflag.idkhack.api.event.events.render.RenderWorldEvent;
 import sh.idktheflag.idkhack.api.feature.module.Module;
-import sh.idktheflag.idkhack.api.feature.module.Category;
+import sh.idktheflag.idkhack.api.feature.Feature.Category;
 import sh.idktheflag.idkhack.api.utils.NullUtils;
 import sh.idktheflag.idkhack.api.utils.color.ColorUtil;
 import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;

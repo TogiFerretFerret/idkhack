@@ -21,7 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import sh.idktheflag.idkhack.api.feature.module.Module;
-import sh.idktheflag.idkhack.api.feature.module.Category;
+import sh.idktheflag.idkhack.api.feature.Feature.Category;
 import sh.idktheflag.idkhack.api.utils.NullUtils;
 import sh.idktheflag.idkhack.api.utils.Timer;
 import sh.idktheflag.idkhack.api.value.Value;

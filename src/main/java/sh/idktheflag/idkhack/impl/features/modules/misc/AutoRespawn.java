@@ -3,7 +3,7 @@ package sh.idktheflag.idkhack.impl.features.modules.misc;
 import sh.idktheflag.idkhack.api.event.eventbus.SubscribeEvent;
 import sh.idktheflag.idkhack.api.event.events.render.ScreenEvent;
 import sh.idktheflag.idkhack.api.feature.module.Module;
-import sh.idktheflag.idkhack.api.feature.module.Category;
+import sh.idktheflag.idkhack.api.feature.Feature.Category;
 import sh.idktheflag.idkhack.api.utils.math.MathUtil;
 import sh.idktheflag.idkhack.api.value.Value;
 import sh.idktheflag.idkhack.api.value.builder.ValueBuilder;
