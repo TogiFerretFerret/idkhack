@@ -54,7 +54,7 @@ String hash = getHash()
 String watermarkVersion = project.versionWatermark
 
 loom {
-    accessWidenerPath = file("src/main/resources/kami.accesswidener")
+    accessWidenerPath = file("src/main/resources/idkhack.accesswidener")
 }
 
 compileJava {

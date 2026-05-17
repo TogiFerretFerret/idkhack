@@ -21,9 +21,9 @@
     ]
   },
   "mixins": [
-    "kami.mixins.json"
+    "idkhack.mixins.json"
   ],
-  "accessWidener": "kami.accesswidener",
+  "accessWidener": "idkhack.accesswidener",
   "depends": {
     "fabricloader": ">=0.14.11",
     "fabric-api": "*",
