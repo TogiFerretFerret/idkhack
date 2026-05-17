@@ -17,7 +17,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "me.idktheflag.kami.impl.KamiMod"
+      "sh.idktheflag.idkhack.impl.IdkHackMod"
     ]
   },
   "mixins": [
