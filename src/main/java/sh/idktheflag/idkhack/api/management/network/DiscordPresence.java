@@ -17,9 +17,15 @@ public class DiscordPresence implements IMinecraft {
     public static DiscordRichPresence presence;
     private static final DiscordRPC rpc = DiscordRPC.INSTANCE;
     private static Thread thread;
+    private static final boolean AVAILABLE = rpc != null;
 
     public static void start()
     {
+        if (!AVAILABLE) {
+            System.out.println("[idkhack] Discord RPC not available on this platform, skipping");
+            return;
+        }
+
         if (thread != null)
         {
             thread.interrupt();
@@ -70,10 +76,6 @@ public class DiscordPresence implements IMinecraft {
     public static String getState()
     {
         String sn0wUserSuffix = "";
-//        if (BotManager.INSTANCE.sn0wUserArrayList != null)
-//        {
-//            sn0wUserSuffix = " with " + BotManager.INSTANCE.sn0wUserArrayList.size() + " other sn0w users";
-//        }
         String playing = mc.player == null
                 ? "In the menus"
                 : mc.isIntegratedServerRunning()
@@ -85,6 +87,8 @@ public class DiscordPresence implements IMinecraft {
 
     public static synchronized void stop()
     {
+        if (!AVAILABLE) return;
+
         System.out.println("Shutting down Discord RPC");
         if (thread != null && !thread.isInterrupted())
         {
