@@ -1,29 +1,20 @@
 package sh.idktheflag.idkhack.mixin;
 
-import com.llamalad7.mixinextras.sugar.Local;
-import com.mojang.blaze3d.systems.RenderSystem;
-import sh.idktheflag.idkhack.api.event.events.render.RenderHandEvent;
-import sh.idktheflag.idkhack.api.management.shaders.ShaderManager;
-import sh.idktheflag.idkhack.api.utils.NullUtils;
 import sh.idktheflag.idkhack.api.utils.ducks.IVec3d;
 import sh.idktheflag.idkhack.api.wrapper.IMinecraft;
 import sh.idktheflag.idkhack.impl.features.modules.misc.NoEntityTrace;
 import sh.idktheflag.idkhack.impl.features.modules.render.*;
-import sh.idktheflag.idkhack.mixin.accessor.IGameRenderer;
-import net.minecraft.block.enums.CameraSubmersionType;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.*;
 import org.joml.Matrix4f;
-import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -36,36 +27,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class MixinGameRenderer implements IMinecraft
 {
     @Shadow
-    private float zoom;
-
-    @Shadow
-    private float zoomX;
-
-    @Shadow
-    private float zoomY;
-
-    @Shadow
-    private float viewDistance;
-
-
-    @Shadow
-    private float fovMultiplier;
-    @Shadow
-    private float lastFovMultiplier;
-    @Shadow
-    private boolean renderingPanorama;
-
-    @Shadow
     public abstract void updateCrosshairTarget(float tickDelta);
-
-    @Inject(method = "renderNausea", at = @At(value = "HEAD"), cancellable = true)
-    private void hookRenderNausea(DrawContext context, float distortionStrength, CallbackInfo ci)
-    {
-        if (NoRender.INSTANCE.portal.getValue() && NoRender.INSTANCE.isEnabled())
-        {
-            ci.cancel();
-        }
-    }
 
     @Inject(method = "tiltViewWhenHurt", at = @At(value = "HEAD"), cancellable = true)
     private void hookTiltViewWhenHurt(MatrixStack matrices, float tickDelta, CallbackInfo ci)
@@ -76,96 +38,12 @@ public abstract class MixinGameRenderer implements IMinecraft
         }
     }
 
-    @Inject(method = "renderWorld", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/GameRenderer;renderHand(Lnet/minecraft/client/render/Camera;FLorg/joml/Matrix4f;)V", shift = At.Shift.AFTER))    public void hookRenderWorld$2(RenderTickCounter tickCounter, CallbackInfo ci, @Local(ordinal = 1) Matrix4f matrix4f2, @Local(ordinal = 1) float tickDelta, @Local MatrixStack matrixStack)
-    {
-
-        RenderHandEvent event = new RenderHandEvent(matrixStack, mc.getRenderTickCounter().getTickProgress(false));
-        event.post();
-
-
-    }
-
-
-
-//
-//    @Inject(method = "renderWorld", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/GameRenderer;renderHand(Lnet/minecraft/client/render/Camera;FLorg/joml/Matrix4f;)V", shift = At.Shift.AFTER))
-//    public void postRender3dHook(RenderTickCounter tickCounter, CallbackInfo ci)
-//    {
-//        if (NullUtils.nullCheck()) return;
-//
-//
-//        if (false)
-//        {
-//            ShaderManager.INSTANCE.renderShaders();
-//        }
-//    }
-
-
-
-//
-//    @Inject(at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/GameRenderer;renderHand:Z", opcode = Opcodes.GETFIELD, ordinal = 0), method = "renderWorld")
-//    void render3dHook(RenderTickCounter tickCounter, CallbackInfo ci)
-//    {
-//        if (NullUtils.nullCheck()) return;
-//
-//
-// TODO: removed Shaders - &
-//        {
-//            Camera camera = mc.gameRenderer.getCamera();
-//            MatrixStack matrixStack = new MatrixStack();
-//            RenderSystem.getModelViewStack().pushMatrix().mul(matrixStack.peek().getPositionMatrix());
-//            matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
-//            matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(camera.getYaw() + 180.0f));
-//            RenderSystem.applyModelViewMatrix();
-// TODO: removed Shaders - &
-//            RenderSystem.getModelViewStack().popMatrix();
-//            RenderSystem.applyModelViewMatrix();
-//        }
-//
-//
-//
-//
-//
-//    }
-//
-//
-//
-
-
-    @Inject(method = "findCrosshairTarget", at = @At("HEAD"), cancellable = true)
-    private void findCrosshairTargetHook(Entity camera, double blockInteractionRange, double entityInteractionRange, float tickDelta, CallbackInfoReturnable<HitResult> cir)
-    {
-        if (NoEntityTrace.spoofTrace())
-        {
-            double d = Math.max(blockInteractionRange, entityInteractionRange);
-            Vec3d vec3d = camera.getCameraPosVec(tickDelta);
-            HitResult hitResult = camera.raycast(d, tickDelta, false);
-            cir.setReturnValue(ensureTargetInRangeCustom(hitResult, vec3d, blockInteractionRange));
-        }
-    }
-
-    @Unique
-    private HitResult ensureTargetInRangeCustom(HitResult hitResult, Vec3d cameraPos, double interactionRange)
-    {
-        Vec3d vec3d = hitResult.getPos();
-        if (!vec3d.isInRange(cameraPos, interactionRange))
-        {
-            Vec3d vec3d2 = hitResult.getPos();
-            Direction direction = Direction.getFacing(vec3d2.x - cameraPos.x, vec3d2.y - cameraPos.y, vec3d2.z - cameraPos.z);
-            return BlockHitResult.createMissed(vec3d2, direction, BlockPos.ofFloored(vec3d2));
-        } else
-        {
-            return hitResult;
-        }
-    }
-
     private boolean freecamSet = false;
 
     @Inject(method = "updateCrosshairTarget", at = @At("HEAD"), cancellable = true)
     private void updateTargetedEntityInvoke(float tickDelta, CallbackInfo info)
     {
         Freecam freecam = Freecam.INSTANCE;
-
 
         if ((freecam.isEnabled()) && mc.getCameraEntity() != null && !freecamSet)
         {
@@ -188,8 +66,6 @@ public abstract class MixinGameRenderer implements IMinecraft
             cameraE.lastZ = freecam.prevPos.z;
             cameraE.setYaw(freecam.yaw);
             cameraE.setPitch(freecam.pitch);
-// TODO 1.21.11: // TODO 1.21.11:             cameraE.lastYaw = freecam.lastYaw;
-// TODO 1.21.11: // TODO 1.21.11:             cameraE.lastPitch = freecam.lastPitch;
 
             freecamSet = true;
             updateCrosshairTarget(tickDelta);
@@ -206,63 +82,8 @@ public abstract class MixinGameRenderer implements IMinecraft
         }
     }
 
-    @Inject(method = "getBasicProjectionMatrix", at = @At("TAIL"), cancellable = true)
-    public void getBasicProjectionMatrixHook(double fov, CallbackInfoReturnable<Matrix4f> cir)
-    {
-        if (AspectRatio.INSTANCE.isEnabled())
-        {
-            MatrixStack matrixStack = new MatrixStack();
-            matrixStack.peek().getPositionMatrix().identity();
-            if (zoom != 1.0f)
-            {
-                matrixStack.translate(zoomX, -zoomY, 0.0f);
-                matrixStack.scale(zoom, zoom, 1.0f);
-            }
-            matrixStack.peek().getPositionMatrix().mul(new Matrix4f().setPerspective((float) (fov * 0.01745329238474369), AspectRatio.INSTANCE.aspectAmount.getValue().floatValue(), 0.05f, viewDistance * 4.0f));
-            cir.setReturnValue(matrixStack.peek().getPositionMatrix());
-        }
-    }
-
-    @Inject(method = "getFov(Lnet/minecraft/client/render/Camera;FZ)D", at = @At("HEAD"), cancellable = true)
-    public void getFov(Camera camera, float tickDelta, boolean changingFov, CallbackInfoReturnable<Double> ci)
-    {
-        if (!this.renderingPanorama && ViewModel.INSTANCE.isEnabled())
-        {
-            double d = 70.0;
-            if (changingFov)
-            {
-                if (ViewModel.INSTANCE.isEnabled() && !ViewModel.INSTANCE.fovMode.getValue().equals("None"))
-                {
-                    ci.setReturnValue(ViewModel.INSTANCE.fov.getValue().doubleValue());
-                    return;
-                }
-                d = mc.options.getFov().getValue();
-                d *= MathHelper.lerp(tickDelta, this.lastFovMultiplier, this.fovMultiplier);
-            } else
-            {
-                if (ViewModel.INSTANCE.isEnabled() && !ViewModel.INSTANCE.fovMode.getValue().equals("None") && ViewModel.INSTANCE.items.getValue())
-                {
-                    ci.setReturnValue(ViewModel.INSTANCE.itemFov.getValue().doubleValue());
-                    return;
-                }
-            }
-
-            if (camera.getFocusedEntity() instanceof LivingEntity && ((LivingEntity) camera.getFocusedEntity()).isDead())
-            {
-                float f = Math.min((float) ((LivingEntity) camera.getFocusedEntity()).deathTime + tickDelta, 20.0F);
-                d /= (1.0F - 500.0F / (f + 500.0F)) * 2.0F + 1.0F;
-            }
-
-            CameraSubmersionType cameraSubmersionType = camera.getSubmersionType();
-            if (cameraSubmersionType == CameraSubmersionType.LAVA || cameraSubmersionType == CameraSubmersionType.WATER)
-            {
-                d *= MathHelper.lerp(this.mc.options.getFovEffectScale().getValue(), 1.0, 0.85714287F);
-            }
-
-            ci.setReturnValue(d);
-        }
-    }
-
+    // TODO: 1.21.11 - getBasicProjectionMatrix hook removed (zoom/zoomX/zoomY fields removed)
+    // TODO: 1.21.11 - getFov hook removed (lastFovMultiplier/renderingPanorama fields removed)
 
     @Inject(method = "showFloatingItem", at = @At("HEAD"), cancellable = true)
     private void showFloatingItemHook(ItemStack floatingItem, CallbackInfo info)
@@ -270,15 +91,6 @@ public abstract class MixinGameRenderer implements IMinecraft
         if (NoRender.INSTANCE.isEnabled() && NoRender.INSTANCE.totem.getValue())
         {
             info.cancel();
-        }
-    }
-
-    @Inject(method = "renderFloatingItem", at = @At("HEAD"), cancellable = true)
-    private void renderFloatingItemHook(DrawContext context, float tickDelta, CallbackInfo ci)
-    {
-        if (NoRender.INSTANCE.isEnabled() && NoRender.INSTANCE.totem.getValue())
-        {
-            ci.cancel();
         }
     }
 
@@ -292,6 +104,4 @@ public abstract class MixinGameRenderer implements IMinecraft
             cir.cancel();
         }
     }
-
-
 }

@@ -9,6 +9,8 @@ import net.minecraft.client.Keyboard;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.input.CharInput;
+import net.minecraft.client.input.KeyInput;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,8 +23,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinKeyboard {
 
     @Inject(method = "onKey", at = @At("HEAD"), cancellable = true)
-    private void onKey(long window, int key, int scancode, int action, int modifiers, CallbackInfo ci)
+    private void onKey(long window, int action, KeyInput keyInput, CallbackInfo ci)
     {
+        int key = keyInput.key();
         if (key != GLFW.GLFW_KEY_UNKNOWN)
         {
             KeyboardEvent event = new KeyboardEvent(false, key, action);
@@ -40,8 +43,9 @@ public class MixinKeyboard {
     private MinecraftClient client;
 
     @Inject(method = "onChar", at = @At("HEAD"), cancellable = true)
-    private void onChar(long window, int codePoint, int modifiers, CallbackInfo ci)
+    private void onChar(long window, CharInput charInput, CallbackInfo ci)
     {
+        int codePoint = charInput.codepoint();
         if (window == this.client.getWindow().getHandle())
         {
             Screen screen = this.client.currentScreen;

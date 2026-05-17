@@ -301,7 +301,8 @@ public class RenderUtil {
      */
     public static boolean isFrustumVisible(Box box)
     {
-        return ((IWorldRenderer) mc.worldRenderer).getFrustum().isVisible(box);
+        // TODO: 1.21.11 - frustum no longer stored on WorldRenderer, always visible for now
+        return true;
     }
 
 
