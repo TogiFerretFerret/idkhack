@@ -1,21 +1,15 @@
 package me.skitttyy.kami.mixin.accessor;
 
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.item.BuiltinModelItemRenderer;
 import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Accessor;
-import org.spongepowered.asm.mixin.gen.Invoker;
 
+// TODO: port to 1.21.11
+// ItemRenderer was completely rewritten:
+// - builtinModelItemRenderer field is removed
+// - renderBakedItemModel method is removed
+// - ItemRenderer is now a simpler class with static methods (renderItem, getItemGlintConsumer, etc.)
 @Mixin(ItemRenderer.class)
 public interface IItemRenderer
 {
-    @Accessor("builtinModelItemRenderer")
-    BuiltinModelItemRenderer getBuiltInModelItemRenderer();
 
-    @Invoker("renderBakedItemModel")
-    void renderBakedItemModelAccess(BakedModel model, ItemStack stack, int light, int overlay, MatrixStack matrices, VertexConsumer vertices);
 }

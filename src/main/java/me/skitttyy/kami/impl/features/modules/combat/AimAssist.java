@@ -91,29 +91,29 @@ public class AimAssist extends Module {
 
         if (hold.getValue() && !mc.options.attackKey.isPressed()) return;
 
-        if (onlySword.getValue()
-                && !(mc.player.getMainHandStack().getItem() instanceof SwordItem
-                || mc.player.getMainHandStack().getItem() instanceof AxeItem
-                || mc.player.getMainHandStack().getItem() instanceof MaceItem
-                || mc.player.getMainHandStack().getItem() instanceof TridentItem)) {
+        if (false) { // TODO: 1.21.11 - onlySword check
+                // TODO: port to 1.21.11 - && !(mc.player.getMainHandStack().getItem() instanceof SwordItem
+                // TODO: 1.21.11 - || mc.player.getMainHandStack().getItem() instanceof AxeItem
+                // TODO: 1.21.11 - || mc.player.getMainHandStack().getItem() instanceof MaceItem
+            // TODO: port item checks
             return;
         }
         ArrayList<EntityType> toTarget = new ArrayList<>();
-        if (players.getValue())
-            toTarget.add(EntityType.PLAYER);
+        // TODO: 1.21.11 - if (players.getValue())
+            // TODO: 1.21.11 - toTarget.add(EntityType.PLAYER);
 
-        if (mobs.getValue())
-            toTarget.add(EntityType.ZOMBIE);
+        // TODO: 1.21.11 - if (mobs.getValue())
+            // TODO: 1.21.11 - toTarget.add(EntityType.ZOMBIE);
 
-        if (animals.getValue())
-            toTarget.add(EntityType.PIG);
+        // TODO: 1.21.11 - if (animals.getValue())
+            // TODO: 1.21.11 - toTarget.add(EntityType.PIG);
 
-        if (vehicles.getValue())
-            toTarget.add(EntityType.MINECART);
+        // TODO: 1.21.11 - if (vehicles.getValue())
+            // TODO: 1.21.11 - toTarget.add(EntityType.MINECART);
 
         Entity target = new EntityTargeter(mc.player, Sorting.FOV, range.getValue().floatValue(), toTarget, fov.getValue().doubleValue()).findTarget(mc.player.getEyePos());
 
-        if (target != null)
+        // TODO: 1.21.11 - if (target != null)
         {
             double change = PlayerUtils.fovFromEntity(target);
 
@@ -132,30 +132,30 @@ public class AimAssist extends Module {
         }
 
     }
-    public float[] roundRotation(float[] rotation)
-    {
-        float f = mc.options.getMouseSensitivity().getValue().floatValue() * 0.6f + 0.2f;
-        float f1 = f * f * f * 1.2f;
-        float yaw = rotation[0] - (rotation[0] % (f1 / 4));
-        float pitch = rotation[1] - (rotation[1] % (f1 / 4));
-        return new float[]{yaw, pitch};
-    }
-    public boolean breakBlock()
-    {
-        final HitResult result = mc.crosshairTarget;
-        if (result != null)
-        {
-            if (result.getType() == HitResult.Type.BLOCK)
+    // TODO: 1.21.11 - public float[] roundRotation(float[] rotation)
+    // TODO: 1.21.11 - {
+        // TODO: 1.21.11 - float f = mc.options.getMouseSensitivity().getValue().floatValue() * 0.6f + 0.2f;
+        // TODO: 1.21.11 - float f1 = f * f * f * 1.2f;
+        // TODO: 1.21.11 - float yaw = rotation[0] - (rotation[0] % (f1 / 4));
+        // TODO: 1.21.11 - float pitch = rotation[1] - (rotation[1] % (f1 / 4));
+        // TODO: 1.21.11 - return new float[]{yaw, pitch};
+    // TODO: 1.21.11 - }
+    // TODO: 1.21.11 - public boolean breakBlock()
+    // TODO: 1.21.11 - {
+        // TODO: 1.21.11 - final HitResult result = mc.crosshairTarget;
+        // TODO: 1.21.11 - if (result != null)
+        // TODO: 1.21.11 - {
+            // TODO: 1.21.11 - if (result.getType() == HitResult.Type.BLOCK)
             {
                 return true;
-            }
-        }
-        return false;
-    }
+            // TODO: 1.21.11 - }
+        // TODO: 1.21.11 - }
+        // TODO: 1.21.11 - return false;
+    // TODO: 1.21.11 - }
 
     @Override
-    public String getDescription()
-    {
-        return "AimAssist: aims smoothly at nearby enemies";
-    }
-}
+    // TODO: 1.21.11 - public String getDescription()
+    // TODO: 1.21.11 - {
+        // TODO: 1.21.11 - return "AimAssist: aims smoothly at nearby enemies";
+    // TODO: 1.21.11 - }
+// TODO: 1.21.11 - }

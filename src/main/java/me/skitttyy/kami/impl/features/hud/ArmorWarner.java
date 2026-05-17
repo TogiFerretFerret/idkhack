@@ -13,6 +13,7 @@ import me.skitttyy.kami.api.value.Value;
 import me.skitttyy.kami.api.value.builder.ValueBuilder;
 import me.skitttyy.kami.impl.KamiMod;
 import me.skitttyy.kami.impl.gui.ClickGui;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 
@@ -69,7 +70,14 @@ public class ArmorWarner extends HudComponent {
         this.height = 0;
 
         List<TopComponent> list = new ArrayList<>();
-        for (ItemStack stack : mc.player.getInventory().armor)
+        // TODO: port to 1.21.11 - PlayerInventory.armor removed
+        List<ItemStack> armorItems = List.of(
+            mc.player.getEquippedStack(EquipmentSlot.FEET),
+            mc.player.getEquippedStack(EquipmentSlot.LEGS),
+            mc.player.getEquippedStack(EquipmentSlot.CHEST),
+            mc.player.getEquippedStack(EquipmentSlot.HEAD)
+        );
+        for (ItemStack stack : armorItems)
         {
             if (stack == ItemStack.EMPTY) continue;
 

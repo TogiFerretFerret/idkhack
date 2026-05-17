@@ -76,7 +76,7 @@ public class BlockHighlight extends Module {
             {
                 final Entity entity = ((EntityHitResult) result).getEntity();
                 render = entity.getBoundingBox();
-                distance = pos.distanceTo(entity.getPos());
+                distance = pos.distanceTo(new Vec3d(entity.getX(), entity.getY(), entity.getZ()));
             } else if (result.getType() == HitResult.Type.BLOCK)
             {
                 BlockPos hpos = ((BlockHitResult) result).getBlockPos();

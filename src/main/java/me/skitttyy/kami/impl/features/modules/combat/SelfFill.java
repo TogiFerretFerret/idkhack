@@ -1,5 +1,6 @@
 package me.skitttyy.kami.impl.features.modules.combat;
 
+import net.minecraft.util.math.Vec3d;
 import me.skitttyy.kami.api.event.eventbus.SubscribeEvent;
 import me.skitttyy.kami.api.event.events.TickEvent;
 import me.skitttyy.kami.api.event.events.move.MovementPacketsEvent;
@@ -169,7 +170,7 @@ public class SelfFill extends Module {
                     hitcrystalCooldown.resetDelay();
                     if (!rotate.getValue().equals("None"))
                     {
-                        float[] rots = RotationUtils.getRotationsTo(mc.player.getEyePos(), crystal.getPos().subtract(0, 1.1, 0));
+                        float[] rots = RotationUtils.getRotationsTo(mc.player.getEyePos(), new Vec3d(crystal.getX(), crystal.getY(), crystal.getZ()).subtract(0, 1.1, 0));
                         RotationUtils.setRotation(rots);
                         PriorityManager.INSTANCE.lockUsageLock("SelfFill");
 
@@ -243,7 +244,7 @@ public class SelfFill extends Module {
         float[] rots = RotationUtils.getBlockRotations(pos, BlockUtils.getPlaceableSide(pos, strictDirection.getValue()));
         if (packet)
         {
-            PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(rots[0], rots[1], false));
+            PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(rots[0], rots[1], false, false));
         } else
         {
             RotationUtils.setRotation(rots);
@@ -263,7 +264,7 @@ public class SelfFill extends Module {
     {
         if (packet)
         {
-            PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(rots[0], rots[1], false));
+            PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(rots[0], rots[1], false, false));
         } else
         {
             RotationUtils.setRotation(rots);
@@ -289,7 +290,7 @@ public class SelfFill extends Module {
         {
             didBreak = false;
         }
-        int old = mc.player.getInventory().selectedSlot;
+        int old = mc.player.getInventory().getSelectedSlot();
         if (Double.isNaN(startY) && mc.player.isOnGround())
             startY = mc.player.getY();
         InventoryUtils.switchToSlot(InventoryUtils.getHotbarItemSlot(getSelectedItem()));
@@ -334,7 +335,7 @@ public class SelfFill extends Module {
 
     private void movePacket(double x, double y, double z, boolean ground)
     {
-        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(x, y, z, ground));
+        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(x, y, z, ground, false));
     }
 
     @Override

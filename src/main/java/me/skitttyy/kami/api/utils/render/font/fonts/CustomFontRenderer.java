@@ -1,6 +1,7 @@
 package me.skitttyy.kami.api.utils.render.font.fonts;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import it.unimi.dsi.fastutil.chars.Char2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -128,7 +129,7 @@ public class CustomFontRenderer implements Closeable, IMinecraft
         stack.translate(x, y, 0.0f);
         stack.scale(1.0f / scale, 1.0f / scale, 0.0f);
 
-        RenderSystem.setShader(GameRenderer::getPositionTexColorProgram);
+        // RenderSystem.setShader removed in 1.21.11
         Tessellator tessellator = Tessellator.getInstance();
         Matrix4f matrix4f = stack.peek().getPositionMatrix();
         char[] chars = text.toCharArray();
@@ -183,23 +184,13 @@ public class CustomFontRenderer implements Closeable, IMinecraft
                     xOffset += glyph.width();
                 }
             }
+            // TODO: port to 1.21.11 - RenderSystem.setShaderTexture, enableBlend, BufferRenderer.drawWithGlobalProgram removed
+            // Custom font rendering via raw GL is not directly portable; needs new pipeline approach.
+            // For now, commenting out the raw GL rendering loop.
+            /*
             for (Identifier identifier : cache.keySet())
             {
-                RenderSystem.enableBlend();
-                RenderSystem.defaultBlendFunc();
-                RenderSystem.disableCull();
-                RenderSystem.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
-                RenderSystem.texParameter(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
-                try
-                {
-                    RenderSystem.setShaderTexture(0, identifier);
-                } catch (Exception e)
-                {
-                    continue;
-                }
-
                 List<CharLocation> objects = cache.get(identifier);
-
                 BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
                 for (CharLocation object : objects)
                 {
@@ -221,9 +212,8 @@ public class CustomFontRenderer implements Closeable, IMinecraft
                     bufferBuilder.vertex(matrix4f, xo + w, yo + 0, 0).color(cr, cg, cb, a).texture(u2, v1);
                     bufferBuilder.vertex(matrix4f, xo + 0, yo + 0, 0).color(cr, cg, cb, a).texture(u1, v1);
                 }
-                BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
-                RenderSystem.disableBlend();
             }
+            */
 
             cache.clear();
         }

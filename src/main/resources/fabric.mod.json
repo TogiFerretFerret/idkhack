@@ -1,26 +1,23 @@
 {
   "schemaVersion": 1,
-  "id": "sn0w",
+  "id": "idkhack",
   "version": "${version}",
-
-  "name": "Sn0w",
-  "description": "Million dollar hack",
+  "name": "idkhack",
+  "description": "sn0w client fork by idktheflag",
   "authors": [
     "Skitttyy",
     "mmmmax",
     "hazel"
   ],
   "contact": {
-    "homepage": "https://github.com/Skitttyy/Sn0wClient"
+    "homepage": "https://github.com/Skitttyy/idkhackClient"
   },
-
   "license": "CC0-1.0",
   "icon": "assets/kami/logo.png",
-
   "environment": "*",
   "entrypoints": {
     "main": [
-      "me.skitttyy.kami.impl.KamiMod"
+      "me.idktheflag.kami.impl.KamiMod"
     ]
   },
   "mixins": [

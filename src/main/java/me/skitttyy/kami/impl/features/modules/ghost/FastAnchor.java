@@ -48,7 +48,7 @@ public class FastAnchor extends Module
             case Idle:
 
 
-                if (mc.player.getInventory().getMainHandStack().getItem() != Items.RESPAWN_ANCHOR)
+                if (mc.player.getInventory().getSelectedStack().getItem() != Items.RESPAWN_ANCHOR)
                     break;
 
 
@@ -89,7 +89,7 @@ public class FastAnchor extends Module
                 break;
             case Charge:
 
-                if(mc.player.getInventory().getMainHandStack().getItem() != Items.GLOWSTONE)
+                if(mc.player.getInventory().getSelectedStack().getItem() != Items.GLOWSTONE)
                 {
                     int slot = InventoryUtils.findBlockInHotbar(Blocks.GLOWSTONE);
 

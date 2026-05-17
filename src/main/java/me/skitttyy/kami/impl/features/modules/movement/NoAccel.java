@@ -49,7 +49,7 @@ public class NoAccel extends Module
 
         if (!mode.getValue().equals("Collide"))
         {
-            if (mc.player.isFallFlying() || mc.player.getAbilities().flying || paused) return;
+            if (mc.player.isGliding() || mc.player.getAbilities().flying || paused) return;
 
 
             if (mc.player.isSneaking() || mc.player.isSubmergedInWater() || mc.player.isInLava()) return;
@@ -105,7 +105,7 @@ public class NoAccel extends Module
     {
         if (event.getPacket() instanceof EntityPositionS2CPacket packet)
         {
-            if (packet.getEntityId() == mc.player.getId())
+            // TODO: port to 1.21.11 - if (packet.getEntityId() == mc.player.getId())
             {
                 timer.resetDelay();
             }

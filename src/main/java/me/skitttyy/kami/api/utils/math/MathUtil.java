@@ -242,9 +242,10 @@ public class MathUtil implements IMinecraft {
     public static Result calcTrajectory(Item item, float yaw)
     {
         List<Vec3d> points = new ArrayList<>();
-        double x = RenderUtil.interpolate(mc.player.prevX, mc.player.getX(), mc.getRenderTickCounter().getTickDelta(false));
-        double y = RenderUtil.interpolate(mc.player.prevY, mc.player.getY(), mc.getRenderTickCounter().getTickDelta(false));
-        double z = RenderUtil.interpolate(mc.player.prevZ, mc.player.getZ(), mc.getRenderTickCounter().getTickDelta(false));
+        Vec3d lerpedPos = mc.player.getLerpedPos(mc.getRenderTickCounter().getTickProgress(false));
+        double x = lerpedPos.x;
+        double y = lerpedPos.y;
+        double z = lerpedPos.z;
 
         y = y + mc.player.getEyeHeight(mc.player.getPose()) - 0.1000000014901161;
 
@@ -340,9 +341,10 @@ public class MathUtil implements IMinecraft {
     public static Result calcTrajectory(EnderPearlEntity entity)
     {
         List<Vec3d> points = new ArrayList<>();
-        double x = RenderUtil.interpolate(entity.prevX, entity.getX(), mc.getRenderTickCounter().getTickDelta(false));
-        double y = RenderUtil.interpolate(entity.prevY, entity.getY(), mc.getRenderTickCounter().getTickDelta(false));
-        double z = RenderUtil.interpolate(entity.prevZ, entity.getZ(), mc.getRenderTickCounter().getTickDelta(false));
+        Vec3d entityLerpedPos = entity.getLerpedPos(mc.getRenderTickCounter().getTickProgress(false));
+        double x = entityLerpedPos.x;
+        double y = entityLerpedPos.y;
+        double z = entityLerpedPos.z;
 
 
         double motionX =  entity.getVelocity().x;

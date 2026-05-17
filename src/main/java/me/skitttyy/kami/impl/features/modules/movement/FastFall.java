@@ -50,12 +50,12 @@ public class FastFall extends Module
         if (NullUtils.nullCheck()) return;
 
         if (mc.player.isRiding()
-                || mc.player.isFallFlying()
+                || mc.player.isGliding()
                 || mc.player.isHoldingOntoLadder()
                 || mc.player.isInLava()
                 || mc.player.isTouchingWater()
-                || mc.player.input.jumping
-                || mc.player.input.sneaking)
+                || mc.player.input.playerInput.jump()
+                || mc.player.input.playerInput.sneak())
         {
             return;
         }

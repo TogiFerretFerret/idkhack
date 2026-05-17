@@ -136,7 +136,7 @@ public class Tooltips extends Module {
             final int slotx = x + 1 + item % 9 * 18;
             final int sloty = y + 1 + (item / 9 - 1) * 18;
             context.drawItem(items.get(item), slotx, sloty);
-            context.drawItemInSlot(mc.textRenderer, items.get(item), slotx, sloty);
+            context.drawStackOverlay(mc.textRenderer, items.get(item), slotx, sloty);
         }
     }
 

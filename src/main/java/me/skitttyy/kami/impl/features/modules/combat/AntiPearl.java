@@ -94,7 +94,7 @@ public class AntiPearl extends Module
 
 
         if(placeNextTick != null){
-            if(mc.player.getInventory().getMainHandStack().getItem().equals(Items.ITEM_FRAME))
+            if(mc.player.getInventory().getSelectedStack().getItem().equals(Items.ITEM_FRAME))
             {
                 PacketManager.INSTANCE.sendPacket(PlayerInteractEntityC2SPacket.interact(placeNextTick, mc.player.isSneaking(), Hand.MAIN_HAND));
                 PacketManager.INSTANCE.sendPacket(new HandSwingC2SPacket(Hand.MAIN_HAND));
@@ -136,7 +136,7 @@ public class AntiPearl extends Module
                         if(doubleFill.getValue())
                         if (entity.getHeldItemStack().isEmpty())
                         {
-                            int oldSlot = mc.player.getInventory().selectedSlot;
+                            int oldSlot = mc.player.getInventory().getSelectedSlot();
                             InventoryUtils.switchToSlot(getItem());
                             placeNextTick = entity;
                             oldSlotTick = oldSlot;
@@ -167,7 +167,7 @@ public class AntiPearl extends Module
 
         int blockSlot = InventoryUtils.getHotbarItemSlot(getItem());
 
-        int oldSlot = mc.player.getInventory().selectedSlot;
+        int oldSlot = mc.player.getInventory().getSelectedSlot();
         boolean switched = false;
 
 
@@ -175,7 +175,7 @@ public class AntiPearl extends Module
 
         for (BlockPos pos : toPlace)
         {
-            if (blockSlot != mc.player.getInventory().selectedSlot)
+            if (blockSlot != mc.player.getInventory().getSelectedSlot())
             {
                 InventoryUtils.switchToSlot(blockSlot);
                 switched = true;

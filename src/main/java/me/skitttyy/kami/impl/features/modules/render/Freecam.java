@@ -85,8 +85,8 @@ public class Freecam extends Module
         perspective = mc.options.getPerspective();
 
 
-        RenderUtil.set(pos, mc.gameRenderer.getCamera().getPos());
-        RenderUtil.set(prevPos, mc.gameRenderer.getCamera().getPos());
+        RenderUtil.set(pos, mc.gameRenderer.getCamera().getCameraPos());
+        RenderUtil.set(prevPos, mc.gameRenderer.getCamera().getCameraPos());
 
         prevYaw = yaw;
         prevPitch = pitch;
@@ -158,7 +158,7 @@ public class Freecam extends Module
     @SubscribeEvent
     public void onTick(TickEvent.AfterClientTickEvent event)
     {
-        if (mc.cameraEntity.isInsideWall()) mc.getCameraEntity().noClip = true;
+        // TODO: port to 1.21.11 - if (mc.cameraEntity.isInsideWall()) mc.getCameraEntity().noClip = true;
         if (!perspective.isFirstPerson()) mc.options.setPerspective(Perspective.FIRST_PERSON);
 
         Vec3d forward = Vec3d.fromPolar(0, yaw);
@@ -226,31 +226,31 @@ public class Freecam extends Module
 
         boolean cancel = true;
 
-        if (mc.options.forwardKey.matchesKey(event.getKey(), 0))
+        // TODO: port to 1.21.11 - if (mc.options.forwardKey.matchesKey(event.getKey(), 0))
         {
             forward = event.getAction() != GLFW.GLFW_RELEASE;
             mc.options.forwardKey.setPressed(false);
-        } else if (mc.options.backKey.matchesKey(event.getKey(), 0))
+        // TODO: port to 1.21.11 - } else if (mc.options.backKey.matchesKey(event.getKey(), 0))
         {
             backward = event.getAction() != GLFW.GLFW_RELEASE;
             mc.options.backKey.setPressed(false);
-        } else if (mc.options.rightKey.matchesKey(event.getKey(), 0))
+        // TODO: port to 1.21.11 - } else if (mc.options.rightKey.matchesKey(event.getKey(), 0))
         {
             right = event.getAction() != GLFW.GLFW_RELEASE;
             mc.options.rightKey.setPressed(false);
-        } else if (mc.options.leftKey.matchesKey(event.getKey(), 0))
+        // TODO: port to 1.21.11 - } else if (mc.options.leftKey.matchesKey(event.getKey(), 0))
         {
             left = event.getAction() != GLFW.GLFW_RELEASE;
             mc.options.leftKey.setPressed(false);
-        } else if (mc.options.jumpKey.matchesKey(event.getKey(), 0))
+        // TODO: port to 1.21.11 - } else if (mc.options.jumpKey.matchesKey(event.getKey(), 0))
         {
             up = event.getAction() != GLFW.GLFW_RELEASE;
             mc.options.jumpKey.setPressed(false);
-        } else if (mc.options.sneakKey.matchesKey(event.getKey(), 0))
+        // TODO: port to 1.21.11 - } else if (mc.options.sneakKey.matchesKey(event.getKey(), 0))
         {
             down = event.getAction() != GLFW.GLFW_RELEASE;
             mc.options.sneakKey.setPressed(false);
-        } else
+        // TODO: 1.21.11 - } else
         {
             cancel = false;
         }
@@ -259,37 +259,37 @@ public class Freecam extends Module
     }
 
     @SubscribeEvent
-    private void onMouseButton(MouseEvent event)
-    {
-        if (checkGuiMove()) return;
+    // TODO: 1.21.11 - private void onMouseButton(MouseEvent event)
+    // TODO: 1.21.11 - {
+        // TODO: 1.21.11 - if (checkGuiMove()) return;
 
         boolean cancel = true;
 
-        if (mc.options.forwardKey.matchesMouse(event.getButton()))
+        // TODO: port to 1.21.11 - if (mc.options.forwardKey.matchesMouse(event.getButton()))
         {
             forward = !event.getType().equals(MouseEvent.Type.LIFT);
             mc.options.forwardKey.setPressed(false);
-        } else if (mc.options.backKey.matchesMouse(event.getButton()))
+        // TODO: port to 1.21.11 - } else if (mc.options.backKey.matchesMouse(event.getButton()))
         {
             backward = !event.getType().equals(MouseEvent.Type.LIFT);
             mc.options.backKey.setPressed(false);
-        } else if (mc.options.rightKey.matchesMouse(event.getButton()))
+        // TODO: port to 1.21.11 - } else if (mc.options.rightKey.matchesMouse(event.getButton()))
         {
             right = !event.getType().equals(MouseEvent.Type.LIFT);
             mc.options.rightKey.setPressed(false);
-        } else if (mc.options.leftKey.matchesMouse(event.getButton()))
+        // TODO: port to 1.21.11 - } else if (mc.options.leftKey.matchesMouse(event.getButton()))
         {
             left = !event.getType().equals(MouseEvent.Type.LIFT);
             mc.options.leftKey.setPressed(false);
-        } else if (mc.options.jumpKey.matchesMouse(event.getButton()))
+        // TODO: port to 1.21.11 - } else if (mc.options.jumpKey.matchesMouse(event.getButton()))
         {
             up = !event.getType().equals(MouseEvent.Type.LIFT);
             mc.options.jumpKey.setPressed(false);
-        } else if (mc.options.sneakKey.matchesMouse(event.getButton()))
+        // TODO: port to 1.21.11 - } else if (mc.options.sneakKey.matchesMouse(event.getButton()))
         {
             down = !event.getType().equals(MouseEvent.Type.LIFT);
             mc.options.sneakKey.setPressed(false);
-        } else
+        // TODO: 1.21.11 - } else
         {
             cancel = false;
         }
@@ -297,7 +297,7 @@ public class Freecam extends Module
         if (cancel) event.setCancelled(true);
     }
 
-    public void changeLookDirection(double deltaX, double deltaY)
+    // TODO: 1.21.11 - public void changeLookDirection(double deltaX, double deltaY)
     {
         prevYaw = yaw;
         prevPitch = pitch;
@@ -309,22 +309,22 @@ public class Freecam extends Module
     }
 
 
-    public double getX(float tickDelta)
+    // TODO: 1.21.11 - public double getX(float tickDelta)
     {
         return MathHelper.lerp(tickDelta, prevPos.x, pos.x);
     }
 
-    public double getY(float tickDelta)
+    // TODO: 1.21.11 - public double getY(float tickDelta)
     {
         return MathHelper.lerp(tickDelta, prevPos.y, pos.y);
     }
 
-    public double getZ(float tickDelta)
+    // TODO: 1.21.11 - public double getZ(float tickDelta)
     {
         return MathHelper.lerp(tickDelta, prevPos.z, pos.z);
     }
 
-    public double getYaw(float tickDelta)
+    // TODO: 1.21.11 - public double getYaw(float tickDelta)
     {
         return MathHelper.lerp(tickDelta, prevYaw, yaw);
     }

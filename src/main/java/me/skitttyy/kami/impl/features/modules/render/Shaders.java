@@ -1,7 +1,7 @@
 package me.skitttyy.kami.impl.features.modules.render;
 
 import com.mojang.authlib.GameProfile;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.opengl.GlStateManager;
 import com.mojang.blaze3d.platform.TextureUtil;
 import me.skitttyy.kami.api.event.eventbus.SubscribeEvent;
 import me.skitttyy.kami.api.event.events.network.ServerEvent;
@@ -320,10 +320,10 @@ public class Shaders extends Module {
                     shaderEffect.setUniformValue("texelSize", 1.0f / mc.getWindow().getScaledWidth(), 1.0f / mc.getWindow().getScaledHeight());
                     shaderEffect.setUniformValue("glowSampleStep", outlineQuality.getValue().intValue());
                     shaderEffect.setUniformValue("glowIntensityScale", glowRadius.getValue().floatValue());
-                    shaderEffect.render(mc.getRenderTickCounter().getTickDelta(true));
+                    shaderEffect.render(mc.getRenderTickCounter().getTickProgress(true));
                 }, () ->
                 {
-                    renderEntities(event.getTickDelta(), event.getMatrices());
+                    renderEntities(event.getTickProgress(), event.getMatrices());
                 });
             }
             case "Image" -> {
@@ -342,10 +342,10 @@ public class Shaders extends Module {
                     shaderEffect.setUniformValue("texelSize", 1.0f / mc.getWindow().getScaledWidth(), 1.0f / mc.getWindow().getScaledHeight());
                     shaderEffect.setUniformValue("glowSampleStep", outlineQuality.getValue().intValue());
                     shaderEffect.setUniformValue("glowIntensityScale", glowRadius.getValue().floatValue());
-                    shaderEffect.render(mc.getRenderTickCounter().getTickDelta(true));
+                    shaderEffect.render(mc.getRenderTickCounter().getTickProgress(true));
                 }, () ->
                 {
-                    renderEntities(event.getTickDelta(), event.getMatrices());
+                    renderEntities(event.getTickProgress(), event.getMatrices());
                 });
             }
             case "Rainbow" -> {
@@ -365,11 +365,11 @@ public class Shaders extends Module {
                     shaderEffect.setUniformValue("glowSampleStep", outlineQuality.getValue().intValue());
                     shaderEffect.setUniformValue("glowIntensityScale", glowRadius.getValue().floatValue());
                     shaderEffect.setUniformValue("time", shaderTime);
-                    shaderEffect.render(mc.getRenderTickCounter().getTickDelta(true));
+                    shaderEffect.render(mc.getRenderTickCounter().getTickProgress(true));
                     shaderTime += rainbowSpeed.getValue().floatValue();
                 }, () ->
                 {
-                    renderEntities(event.getTickDelta(), event.getMatrices());
+                    renderEntities(event.getTickProgress(), event.getMatrices());
                 });
                 break;
             }
@@ -424,17 +424,17 @@ public class Shaders extends Module {
             }
 
             if (checkShaders(entity)) {
-                Vec3d start = mc.gameRenderer.getCamera().getPos();
-                if (start.squaredDistanceTo(entity.getPos()) > MathUtil.square(renderDistance.getValue().doubleValue())) {
+                Vec3d start = mc.gameRenderer.getCamera().getCameraPos();
+                if (start.squaredDistanceTo(new Vec3d(entity.getX(), entity.getY(), entity.getZ())) > MathUtil.square(renderDistance.getValue().doubleValue())) {
                     continue;
                 }
 
                 Color color = getESPColor(entity);
-                Vec3d camera = mc.gameRenderer.getCamera().getPos();
+                Vec3d camera = mc.gameRenderer.getCamera().getCameraPos();
                 double d = MathHelper.lerp(tickDelta, entity.lastRenderX, entity.getX());
                 double e = MathHelper.lerp(tickDelta, entity.lastRenderY, entity.getY());
                 double f = MathHelper.lerp(tickDelta, entity.lastRenderZ, entity.getZ());
-                float g = MathHelper.lerp(tickDelta, entity.prevYaw, entity.getYaw());
+                float g = MathHelper.lerp(tickDelta, entity.lastYaw, entity.getYaw());
                 EntityRenderer<Entity> entityRenderer = (EntityRenderer<Entity>) mc.getEntityRenderDispatcher().getRenderer(entity);
                 VertexConsumerProvider vertexConsumerProvider = ShaderManager.INSTANCE.createVertexConsumers(((IWorldRenderer) mc.worldRenderer).hookGetBufferBuilders().getEntityVertexConsumers(), color);
                 int light = mc.getEntityRenderDispatcher().getLight(entity, tickDelta);
@@ -465,7 +465,7 @@ public class Shaders extends Module {
                     Color color = getStorageESPColor(blockEntity);
                     VertexConsumerProvider vertexConsumerProvider = ShaderManager.INSTANCE.createVertexConsumers(((IWorldRenderer) mc.worldRenderer).hookGetBufferBuilders().getEntityVertexConsumers(), color);
                     if (checkStorageShaders(blockEntity)) {
-                        Vec3d vec3d = mc.gameRenderer.getCamera().getPos();
+                        Vec3d vec3d = mc.gameRenderer.getCamera().getCameraPos();
                         double d = vec3d.getX();
                         double e = vec3d.getY();
                         double g = vec3d.getZ();
@@ -516,11 +516,11 @@ public class Shaders extends Module {
                     shaderEffect.setUniformValue("glowSampleStep", outlineQuality.getValue().intValue());
                     shaderEffect.setUniformValue("glowIntensityScale", glowRadius.getValue().floatValue());
 
-                    shaderEffect.render(mc.getRenderTickCounter().getTickDelta(true));
+                    shaderEffect.render(mc.getRenderTickCounter().getTickProgress(true));
                 }, () ->
                 {
                     ignoreEntityRender = true;
-                    ((IGameRenderer) mc.gameRenderer).doRenderHand(mc.gameRenderer.getCamera(), event.getTickDelta(), event.getMatrices().peek().getPositionMatrix());
+                    ((IGameRenderer) mc.gameRenderer).doRenderHand(mc.gameRenderer.getCamera(), event.getTickProgress(), event.getMatrices().peek().getPositionMatrix());
                     ignoreEntityRender = false;
                 });
             }
@@ -540,11 +540,11 @@ public class Shaders extends Module {
                     shaderEffect.setUniformValue("texelSize", 1.0f / mc.getWindow().getScaledWidth(), 1.0f / mc.getWindow().getScaledHeight());
                     shaderEffect.setUniformValue("glowSampleStep", outlineQuality.getValue().intValue());
                     shaderEffect.setUniformValue("glowIntensityScale", glowRadius.getValue().floatValue());
-                    shaderEffect.render(mc.getRenderTickCounter().getTickDelta(true));
+                    shaderEffect.render(mc.getRenderTickCounter().getTickProgress(true));
                 }, () ->
                 {
                     ignoreEntityRender = true;
-                    ((IGameRenderer) mc.gameRenderer).doRenderHand(mc.gameRenderer.getCamera(), event.getTickDelta(), event.getMatrices().peek().getPositionMatrix());
+                    ((IGameRenderer) mc.gameRenderer).doRenderHand(mc.gameRenderer.getCamera(), event.getTickProgress(), event.getMatrices().peek().getPositionMatrix());
                     ignoreEntityRender = false;
                 });
             }
@@ -565,12 +565,12 @@ public class Shaders extends Module {
                     shaderEffect.setUniformValue("glowSampleStep", outlineQuality.getValue().intValue());
                     shaderEffect.setUniformValue("glowIntensityScale", glowRadius.getValue().floatValue());
                     shaderEffect.setUniformValue("time", shaderTime);
-                    shaderEffect.render(mc.getRenderTickCounter().getTickDelta(true));
+                    shaderEffect.render(mc.getRenderTickCounter().getTickProgress(true));
                     shaderTime += rainbowSpeed.getValue().floatValue();
                 }, () ->
                 {
                     ignoreEntityRender = true;
-                    ((IGameRenderer) mc.gameRenderer).doRenderHand(mc.gameRenderer.getCamera(), event.getTickDelta(), event.getMatrices().peek().getPositionMatrix());
+                    ((IGameRenderer) mc.gameRenderer).doRenderHand(mc.gameRenderer.getCamera(), event.getTickProgress(), event.getMatrices().peek().getPositionMatrix());
                     ignoreEntityRender = false;
                 });
                 break;

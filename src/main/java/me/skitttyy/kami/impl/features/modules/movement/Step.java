@@ -95,7 +95,7 @@ public class Step extends Module
 
         if (mode.getValue().equals("Normal"))
         {
-            double height = mc.player.getY() - mc.player.prevY;
+            double height = mc.player.getY() - mc.player.lastY;
             if (height <= 0.5 || height > stepHeight.getValue().doubleValue())
             {
                 return;
@@ -113,7 +113,7 @@ public class Step extends Module
             }
             for (double off : offs)
             {
-                PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.prevX, mc.player.prevY + off, mc.player.prevZ, false));
+                PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.lastX, mc.player.lastY + off, mc.player.lastZ, false, false));
             }
             stepTimer.resetDelay();
             if (AutoFeetPlace.INSTANCE.isEnabled())
@@ -151,7 +151,7 @@ public class Step extends Module
         {
             one = true;
         }
-        if (mc.player.horizontalCollision && ((mc.player.input.movementForward != 0.0f || mc.player.input.movementSideways != 0.0f) || forceStep) && mc.player.isOnGround())
+        if (mc.player.horizontalCollision && ((mc.player.input.getMovementInput().y != 0.0f || mc.player.input.getMovementInput().x != 0.0f) || forceStep) && mc.player.isOnGround())
         {
             if (one && stepHeight.getValue().doubleValue() >= 1.0)
             {
@@ -159,7 +159,7 @@ public class Step extends Module
 
                 for (double v : oneOffset)
                 {
-                    PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.prevX, mc.player.prevY + v, mc.player.prevZ, false));
+                    PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.lastX, mc.player.lastY + v, mc.player.lastZ, false, false));
                 }
                 mc.player.setPosition(mc.player.getX(), mc.player.getY() + 1.0, mc.player.getZ());
             }
@@ -168,7 +168,7 @@ public class Step extends Module
                 final double[] oneFiveOffset = getStepOffsets(1.5f);
                 for (double v : oneFiveOffset)
                 {
-                    PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.prevX, mc.player.prevY + v, mc.player.prevZ, false));
+                    PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.lastX, mc.player.lastY + v, mc.player.lastZ, false, false));
                 }
                 mc.player.setPosition(mc.player.getX(), mc.player.getY() + 1.5, mc.player.getZ());
             }
@@ -177,7 +177,7 @@ public class Step extends Module
                 final double[] twoOffset = getStepOffsets(2.0);
                 for (double v : twoOffset)
                 {
-                    PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.prevX, mc.player.prevY + v, mc.player.prevZ, false));
+                    PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.lastX, mc.player.lastY + v, mc.player.lastZ, false, false));
                 }
                 mc.player.setPosition(mc.player.getX(), mc.player.getY() + 2.0, mc.player.getZ());
             }
@@ -186,7 +186,7 @@ public class Step extends Module
                 final double[] twoFiveOffset = getStepOffsets(2.5);
                 for (double v : twoFiveOffset)
                 {
-                    PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.prevX, mc.player.prevY + v, mc.player.prevZ, false));
+                    PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.lastX, mc.player.lastY + v, mc.player.lastZ, false, false));
                 }
                 mc.player.setPosition(mc.player.getX(), mc.player.getY() + 2.5f, mc.player.getZ());
             }
@@ -200,7 +200,7 @@ public class Step extends Module
 
 
         stepTimer.setDelay(50);
-        if (mc.player.isTouchingWater() || mc.player.isInLava() || mc.player.isFallFlying())
+        if (mc.player.isTouchingWater() || mc.player.isInLava() || mc.player.isGliding())
         {
             if (timer.getValue())
                 RenderTimer.setTickLength(1.0f);
@@ -257,7 +257,7 @@ public class Step extends Module
 
     public static void setStepHeight(float height)
     {
-        mc.player.getAttributeInstance(EntityAttributes.GENERIC_STEP_HEIGHT).setBaseValue(height);
+        // TODO: port to 1.21.11 - mc.player.getAttributeInstance(EntityAttributes.GENERIC_STEP_HEIGHT).setBaseValue(height);
     }
 
 

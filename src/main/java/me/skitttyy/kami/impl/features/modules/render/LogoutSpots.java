@@ -41,10 +41,10 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.model.AnimalModel;
+import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
-import net.minecraft.client.util.SkinTextures;
+import net.minecraft.entity.player.SkinTextures;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
@@ -229,7 +229,7 @@ public class LogoutSpots extends Module
                     entity.setHealth(playerEntity.getHealth());
                     entity.setAbsorptionAmount(playerEntity.getAbsorptionAmount());
                     ((ILimbAnimator) entity.limbAnimator).setLimbPos(playerEntity.limbAnimator.getPos());
-                    players.add(new LoggedPlayer(entity, ((AbstractClientPlayerEntity) playerEntity).getSkinTextures(), uuid2));
+                    players.add(new LoggedPlayer(entity, ((AbstractClientPlayerEntity) playerEntity).getSkin(), uuid2));
                     lastPlayers.remove(uuid2);
                     break;
                 }
@@ -239,7 +239,7 @@ public class LogoutSpots extends Module
 
     }
 
-    private void renderEntity(MatrixStack matrices, LivingEntity entity, PlayerEntityModel<PlayerEntity> modelBase, LoggedPlayer player, RenderWorldEvent event)
+    private void renderEntity(MatrixStack matrices, LivingEntity entity, PlayerEntityModel modelBase, LoggedPlayer player, RenderWorldEvent event)
     {
         if (mode.getValue().equals("Model"))
         {
@@ -260,15 +260,11 @@ public class LogoutSpots extends Module
             matrices.multiply(RotationAxis.POSITIVE_Y.rotation(MathUtil.rad(180 - entity.bodyYaw)));
             prepareScale(matrices);
 
-            modelBase.animateModel((PlayerEntity) entity, entity.limbAnimator.getPos(), entity.limbAnimator.getSpeed(), mc.getRenderTickCounter().getTickDelta(false));
-
-            float limbSpeed = Math.min(entity.limbAnimator.getSpeed(), 1f);
-
-            modelBase.setAngles((PlayerEntity) entity, entity.limbAnimator.getPos(), limbSpeed, entity.age, entity.headYaw - entity.bodyYaw, entity.getPitch());
-
-
-            WireframeEntityRenderer.renderModel(matrices, (AnimalModel) modelBase, RenderType.BOTH, fill.getValue().getColor(), line.getValue().getColor());
-            RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+            // TODO: port to 1.21.11 - animateModel/setAngles now take render states instead of entity params
+            // AnimalModel removed, PlayerEntityModel no longer generic
+            // modelBase.animateModel(...) and modelBase.setAngles(...) need PlayerEntityRenderState
+            WireframeEntityRenderer.renderModel(matrices, (EntityModel) modelBase, RenderType.BOTH, fill.getValue().getColor(), line.getValue().getColor());
+            // TODO: port to 1.21.11 - RenderSystem.setShaderColor() removed
             matrices.pop();
         } else
         {
@@ -282,7 +278,7 @@ public class LogoutSpots extends Module
             {
 
                 renderWaypoint(player, event);
-                RenderSystem.enableBlend();
+                // RenderSystem.enableBlend(); // TODO: port to 1.21.11
 
             });
         }
@@ -292,9 +288,9 @@ public class LogoutSpots extends Module
 
     private void renderWaypoint(LoggedPlayer loc, RenderWorldEvent event)
     {
-        Vec3d interpolate = Interpolator.getInterpolatedEyePos(mc.getCameraEntity(), event.getTickDelta());
+        Vec3d interpolate = Interpolator.getInterpolatedEyePos(mc.getCameraEntity(), event.getTickProgress());
         Camera camera = mc.gameRenderer.getCamera();
-        Vec3d pos = camera.getPos();
+        Vec3d pos = camera.getCameraPos();
 
 
         double dx = (pos.getX() - interpolate.getX()) - loc.player.getX();
@@ -306,13 +302,13 @@ public class LogoutSpots extends Module
         TextSection[] text = new TextSection[1];
         text[0] = new TextSection(renderEntityName(loc.player, loc), ColorUtil.newAlpha(fill.getValue().getColor(), 255));
 
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
+        // RenderSystem.enableBlend(); // TODO: port to 1.21.11
+        // RenderSystem.defaultBlendFunc(); // TODO: port to 1.21.11
         GL11.glDepthFunc(GL11.GL_ALWAYS);
 
         RenderUtil.drawWaypoint(text, loc.player.getX(), loc.player.getY() + loc.player.getHeight() + (loc.player.isSneaking() ? 0.4f : 0.43f), loc.player.getZ(), mc.gameRenderer.getCamera(), borderColor.getValue().getColor());
         GL11.glDepthFunc(GL11.GL_LEQUAL);
-        RenderSystem.disableBlend();
+        // RenderSystem.disableBlend(); // TODO: port to 1.21.11
 
     }
 
@@ -392,7 +388,7 @@ public class LogoutSpots extends Module
 
     class LoggedPlayer
     {
-        private final PlayerEntityModel<PlayerEntity> modelPlayer;
+        private final PlayerEntityModel modelPlayer;
         private final PlayerEntity player;
         public String playerName;
         public Box bb;
@@ -402,7 +398,7 @@ public class LogoutSpots extends Module
         {
             this.player = player;
             this.id = id;
-            modelPlayer = new PlayerEntityModel<>(new EntityRendererFactory.Context(mc.getEntityRenderDispatcher(), mc.getItemRenderer(), mc.getBlockRenderManager(), mc.getEntityRenderDispatcher().getHeldItemRenderer(), mc.getResourceManager(), mc.getEntityModelLoader(), mc.textRenderer).getPart(EntityModelLayers.PLAYER), texture.model().equals(SkinTextures.Model.SLIM));
+            modelPlayer = new PlayerEntityModel(mc.getLoadedEntityModels().getModelPart(EntityModelLayers.PLAYER), texture.model() == net.minecraft.entity.player.PlayerSkinType.SLIM);
             modelPlayer.getHead().scale(new Vector3f(-0.3f, -0.3f, -0.3f));
             this.bb = player.getBoundingBox();
             playerName = player.getName().getString();

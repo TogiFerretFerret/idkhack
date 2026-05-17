@@ -129,7 +129,7 @@ public class Speed extends Module
     {
         if (NullUtils.nullCheck()) return;
 
-        if (mc.player.isFallFlying()) return;
+        if (mc.player.isGliding()) return;
 
 
         if (LongJump.INSTANCE.isEnabled() && LongJump.INSTANCE.mode.getValue().contains("Strict") && BoostManager.INSTANCE.canDoLongjump())
@@ -160,7 +160,7 @@ public class Speed extends Module
             {
                 mc.player.setSprinting(true);
             }
-            ncpPrevMotion = Math.sqrt((mc.player.getX() - mc.player.prevX) * (mc.player.getX() - mc.player.prevX) + (mc.player.getZ() - mc.player.prevZ) * (mc.player.getZ() - mc.player.prevZ));
+            ncpPrevMotion = Math.sqrt((mc.player.getX() - mc.player.lastX) * (mc.player.getX() - mc.player.lastX) + (mc.player.getZ() - mc.player.lastZ) * (mc.player.getZ() - mc.player.lastZ));
         }
     }
 
@@ -180,7 +180,7 @@ public class Speed extends Module
     {
         if (NullUtils.nullCheck()) return;
 
-        if (mc.player.isFallFlying()) return;
+        if (mc.player.isGliding()) return;
 
         if (LongJump.INSTANCE.isEnabled() && LongJump.INSTANCE.mode.getValue().contains("Strict") && BoostManager.INSTANCE.canDoLongjump())
         {
@@ -190,8 +190,8 @@ public class Speed extends Module
 
         if (isStrafeSpeed())
         {
-            double dX = mc.player.getX() - mc.player.prevX;
-            double dZ = mc.player.getZ() - mc.player.prevZ;
+            double dX = mc.player.getX() - mc.player.lastX;
+            double dZ = mc.player.getZ() - mc.player.lastZ;
             prevMotion = Math.sqrt(dX * dX + dZ * dZ);
         }
     }
@@ -201,7 +201,7 @@ public class Speed extends Module
     {
         if (NullUtils.nullCheck()) return;
 
-        if (mc.player.isFallFlying()) return;
+        if (mc.player.isGliding()) return;
         if (LongJump.INSTANCE.isEnabled() && LongJump.INSTANCE.mode.getValue().contains("Strict") && BoostManager.INSTANCE.canDoLongjump())
         {
             reset();
@@ -239,9 +239,9 @@ public class Speed extends Module
 
     public void doStrafe(MoveEvent event)
     {
-        if (state != 1 || (mc.player.input.movementForward == 0.0f || mc.player.input.movementSideways == 0.0f))
+        if (state != 1 || (mc.player.input.getMovementInput().y == 0.0f || mc.player.input.getMovementInput().x == 0.0f))
         {
-            if (state == 2 && (mc.player.input.movementForward != 0.0f || mc.player.input.movementSideways != 0.0f) && mc.player.isOnGround())
+            if (state == 2 && (mc.player.input.getMovementInput().y != 0.0f || mc.player.input.getMovementInput().x != 0.0f) && mc.player.isOnGround())
             {
                 double jumpSpeed = 0.0D;
 
@@ -273,7 +273,7 @@ public class Speed extends Module
                 List<VoxelShape> collisionBoxes = Streams.stream(mc.world.getCollisions(mc.player, mc.player.getBoundingBox().offset(0.0, mc.player.getVelocity().y, 0.0))).toList();
                 if ((collisionBoxes.size() > 0 || mc.player.verticalCollision) && state > 0)
                 {
-                    state = mc.player.input.movementForward == 0.0f && mc.player.input.movementSideways == 0.0f ? 0 : 1;
+                    state = mc.player.input.getMovementInput().y == 0.0f && mc.player.input.getMovementInput().x == 0.0f ? 0 : 1;
                 }
                 currentSpeed = prevMotion - prevMotion / 159.0;
             }
@@ -285,8 +285,8 @@ public class Speed extends Module
         currentSpeed = Math.max(currentSpeed, getBaseMotionSpeed());
 
 
-        double forward = mc.player.input.movementForward;
-        double strafe = mc.player.input.movementSideways;
+        double forward = mc.player.input.getMovementInput().y;
+        double strafe = mc.player.input.getMovementInput().x;
         float yaw = mc.player.getYaw();
 
         if (forward == 0.0D && strafe == 0.0D)
@@ -323,7 +323,7 @@ public class Speed extends Module
         }
 
 
-        if (mc.player.input.movementForward == 0.0f && mc.player.input.movementSideways == 0.0f)
+        if (mc.player.input.getMovementInput().y == 0.0f && mc.player.input.getMovementInput().x == 0.0f)
         {
             return;
         }
@@ -341,7 +341,7 @@ public class Speed extends Module
             {
                 PlayerUtils.setMotionY(mc.player.getVelocity().y - 0.08D);
                 event.setY(event.getY() - 0.09316090325960147D);
-                mc.player.setPos(mc.player.getPos().x, mc.player.getPos().y - 0.09316090325960147D, mc.player.getPos().z);
+                mc.player.setPos(new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ()).x, new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ()).y - 0.09316090325960147D, new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ()).z);
             }
 
             // start motion
@@ -422,10 +422,10 @@ public class Speed extends Module
                 aacCounter = 0;
             }
 
-            float forward = mc.player.input.movementForward;
-            float strafe = mc.player.input.movementSideways;
+            float forward = mc.player.input.getMovementInput().y;
+            float strafe = mc.player.input.getMovementInput().x;
             if (mc.player.isSneaking()) strafe = 0;
-            float yaw = mc.player.prevYaw + (mc.player.getYaw() - mc.player.prevYaw) * mc.getRenderTickCounter().getTickDelta(false);
+            float yaw = mc.player.lastYaw + (mc.player.getYaw() - mc.player.lastYaw) * mc.getRenderTickCounter().getTickProgress(false);
 
             if (!PlayerUtils.isMoving())
             {
@@ -494,7 +494,7 @@ public class Speed extends Module
     {
         if (event.getPacket() instanceof EntityPositionS2CPacket packet)
         {
-            if (packet.getEntityId() == mc.player.getId())
+            // TODO: port to 1.21.11 - if (packet.getEntityId() == mc.player.getId())
             {
                 ncpPrevMotion = 0.0D;
                 currentSpeed = 0.0D;

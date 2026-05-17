@@ -482,7 +482,8 @@ public class BlockUtils implements IMinecraft
         boolean unShift = false;
         if (!mc.player.isSneaking() && SNEAK_BLOCKS.contains(mc.world.getBlockState(neighbour).getBlock()))
         {
-            PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.PRESS_SHIFT_KEY));
+            // TODO: port to 1.21.11 - PRESS_SHIFT_KEY removed from ClientCommandC2SPacket.Mode, sneaking now uses PlayerInput
+            mc.player.setSneaking(true);
             unShift = true;
         }
 
@@ -498,7 +499,8 @@ public class BlockUtils implements IMinecraft
 
 
             if (unShift)
-                PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.RELEASE_SHIFT_KEY));
+                // TODO: port to 1.21.11 - RELEASE_SHIFT_KEY removed from ClientCommandC2SPacket.Mode
+            mc.player.setSneaking(false);
 
             return true;
         } else
@@ -513,7 +515,8 @@ public class BlockUtils implements IMinecraft
 
 
             if (unShift)
-                PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.RELEASE_SHIFT_KEY));
+                // TODO: port to 1.21.11 - RELEASE_SHIFT_KEY removed from ClientCommandC2SPacket.Mode
+            mc.player.setSneaking(false);
 
             return result.isAccepted();
         }
@@ -544,7 +547,8 @@ public class BlockUtils implements IMinecraft
 //        boolean unShift = false;
 //        if (!mc.player.isSneaking() && SNEAK_BLOCKS.contains(mc.world.getBlockState(neighbour).getBlock()))
 //        {
-//            PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.PRESS_SHIFT_KEY));
+//            // TODO: port to 1.21.11 - PRESS_SHIFT_KEY removed from ClientCommandC2SPacket.Mode, sneaking now uses PlayerInput
+//            mc.player.setSneaking(true);
 //            unShift = true;
 //        }
 //
@@ -560,7 +564,8 @@ public class BlockUtils implements IMinecraft
 //
 //
 //            if (unShift)
-//                PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.RELEASE_SHIFT_KEY));
+//                // TODO: port to 1.21.11 - RELEASE_SHIFT_KEY removed from ClientCommandC2SPacket.Mode
+//            mc.player.setSneaking(false);
 //
 //            return true;
 //        } else
@@ -575,7 +580,8 @@ public class BlockUtils implements IMinecraft
 //
 //
 //            if (unShift)
-//                PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.RELEASE_SHIFT_KEY));
+//                // TODO: port to 1.21.11 - RELEASE_SHIFT_KEY removed from ClientCommandC2SPacket.Mode
+//            mc.player.setSneaking(false);
 //
 //            return result.isAccepted();
 //        }
@@ -597,7 +603,8 @@ public class BlockUtils implements IMinecraft
         boolean unShift = false;
         if (!mc.player.isSneaking() && SNEAK_BLOCKS.contains(mc.world.getBlockState(pos).getBlock()))
         {
-            PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.PRESS_SHIFT_KEY));
+            // TODO: port to 1.21.11 - PRESS_SHIFT_KEY removed from ClientCommandC2SPacket.Mode, sneaking now uses PlayerInput
+            mc.player.setSneaking(true);
             unShift = true;
         }
 
@@ -613,7 +620,8 @@ public class BlockUtils implements IMinecraft
 
 
             if (unShift)
-                PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.RELEASE_SHIFT_KEY));
+                // TODO: port to 1.21.11 - RELEASE_SHIFT_KEY removed from ClientCommandC2SPacket.Mode
+            mc.player.setSneaking(false);
 
             return true;
         } else
@@ -628,7 +636,8 @@ public class BlockUtils implements IMinecraft
 
 
             if (unShift)
-                PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.RELEASE_SHIFT_KEY));
+                // TODO: port to 1.21.11 - RELEASE_SHIFT_KEY removed from ClientCommandC2SPacket.Mode
+            mc.player.setSneaking(false);
 
             return result.isAccepted();
         }
@@ -649,7 +658,8 @@ public class BlockUtils implements IMinecraft
         boolean unShift = false;
         if (!mc.player.isSneaking() && SNEAK_BLOCKS.contains(mc.world.getBlockState(neighbour).getBlock()))
         {
-            PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.PRESS_SHIFT_KEY));
+            // TODO: port to 1.21.11 - PRESS_SHIFT_KEY removed from ClientCommandC2SPacket.Mode, sneaking now uses PlayerInput
+            mc.player.setSneaking(true);
             unShift = true;
         }
 
@@ -667,12 +677,14 @@ public class BlockUtils implements IMinecraft
 //            if (unShift)
 //            {
 //                mc.player.setSneaking(false);
-//                PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.RELEASE_SHIFT_KEY));
+//                // TODO: port to 1.21.11 - RELEASE_SHIFT_KEY removed from ClientCommandC2SPacket.Mode
+            mc.player.setSneaking(false);
 //            }
 
 
             if (unShift)
-                PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.RELEASE_SHIFT_KEY));
+                // TODO: port to 1.21.11 - RELEASE_SHIFT_KEY removed from ClientCommandC2SPacket.Mode
+            mc.player.setSneaking(false);
 
 
             return true;
@@ -690,10 +702,12 @@ public class BlockUtils implements IMinecraft
 //            if (unShift)
 //            {
 //                mc.player.setSneaking(false);
-//                PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.RELEASE_SHIFT_KEY));
+//                // TODO: port to 1.21.11 - RELEASE_SHIFT_KEY removed from ClientCommandC2SPacket.Mode
+            mc.player.setSneaking(false);
 //            }
             if (unShift)
-                PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.RELEASE_SHIFT_KEY));
+                // TODO: port to 1.21.11 - RELEASE_SHIFT_KEY removed from ClientCommandC2SPacket.Mode
+            mc.player.setSneaking(false);
 
 
             return result.isAccepted();

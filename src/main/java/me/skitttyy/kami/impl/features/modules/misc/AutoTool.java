@@ -29,9 +29,9 @@ public class AutoTool extends Module {
         if (state.getBlock() != Blocks.AIR && MineUtils.canBreak(event.getPos()))
         {
             int slot = InventoryUtils.getBestToolSlot(state.getBlock());
-            if (slot != -1 && mc.player.getInventory().selectedSlot != slot)
+            if (slot != -1 && mc.player.getInventory().getSelectedSlot() != slot)
             {
-                mc.player.getInventory().selectedSlot = InventoryUtils.getBestToolSlot(state.getBlock());
+                // TODO: port to 1.21.11 - mc.player.getInventory().getSelectedSlot() = InventoryUtils.getBestToolSlot(state.getBlock());
                 ((IClientPlayerInteractionManager) mc.interactionManager).doSyncSelectedSlot();
             }
         }

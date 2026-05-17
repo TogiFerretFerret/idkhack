@@ -291,11 +291,11 @@ public class AutoPlacer extends Module {
 
         int blockSlot = getSlot();
 
-        int oldSlot = mc.player.getInventory().selectedSlot;
+        int oldSlot = mc.player.getInventory().getSelectedSlot();
         boolean switched = false;
         for (BlockPos pos : toPlace) {
 
-            if (blockSlot != mc.player.getInventory().selectedSlot) {
+            if (blockSlot != mc.player.getInventory().getSelectedSlot()) {
                 InventoryUtils.switchToSlot(blockSlot);
                 switched = true;
             }

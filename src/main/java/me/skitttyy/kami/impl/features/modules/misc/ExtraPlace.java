@@ -62,7 +62,7 @@ public class ExtraPlace extends Module {
             if (mc.currentScreen != null)
                 return;
 
-            if (!(mc.player.getInventory().getMainHandStack().getItem() instanceof BlockItem)) return;
+            if (!(mc.player.getInventory().getSelectedStack().getItem() instanceof BlockItem)) return;
 
             try
             {
@@ -106,7 +106,7 @@ public class ExtraPlace extends Module {
         if (NullUtils.nullCheck()) return;
 
 
-        if (!(mc.player.getInventory().getMainHandStack().getItem() instanceof BlockItem)) return;
+        if (!(mc.player.getInventory().getSelectedStack().getItem() instanceof BlockItem)) return;
 
 
         try

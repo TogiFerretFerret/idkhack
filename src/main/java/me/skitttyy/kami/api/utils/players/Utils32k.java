@@ -4,7 +4,7 @@ import me.skitttyy.kami.api.wrapper.IMinecraft;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.SwordItem;
+import net.minecraft.item.Items;
 
 public class Utils32k implements IMinecraft {
 
@@ -37,7 +37,7 @@ public class Utils32k implements IMinecraft {
             {
                 continue;
             }
-            if (!(stack.getItem() instanceof SwordItem))
+            if (!isSword(stack))
             {
                 continue;
             }
@@ -74,6 +74,15 @@ public class Utils32k implements IMinecraft {
         return false;
     }
 
+
+    private static boolean isSword(ItemStack stack) {
+        return stack.getItem() == Items.DIAMOND_SWORD
+                || stack.getItem() == Items.NETHERITE_SWORD
+                || stack.getItem() == Items.IRON_SWORD
+                || stack.getItem() == Items.GOLDEN_SWORD
+                || stack.getItem() == Items.STONE_SWORD
+                || stack.getItem() == Items.WOODEN_SWORD;
+    }
 
     public static boolean checkEnchant(ItemStack stack)
     {

@@ -4,8 +4,10 @@ import me.skitttyy.kami.api.gui.helpers.Rect;
 import me.skitttyy.kami.api.gui.misc.SearchBar;
 import me.skitttyy.kami.api.utils.Timer;
 import me.skitttyy.kami.api.wrapper.IMinecraft;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.input.KeyInput;
 import me.skitttyy.kami.api.gui.component.IComponent;
 import me.skitttyy.kami.api.gui.context.Context;
 import me.skitttyy.kami.api.gui.helpers.MouseHelper;
@@ -67,7 +69,7 @@ public class HudEditor extends Screen implements IMinecraft {
         {
             if (component.isActive()) component.draw(context, mouse);
 
-            context.getDrawContext().draw();
+            // context.getDrawContext().draw(); // TODO: port to 1.21.11 - draw() removed
         }
         getContext().getRenderer().renderLast(getContext());
 
@@ -87,8 +89,11 @@ public class HudEditor extends Screen implements IMinecraft {
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button)
+    public boolean mouseClicked(Click click, boolean bl)
     {
+        double mouseX = click.x();
+        double mouseY = click.y();
+        int button = click.button();
         MouseHelper mouse = new MouseHelper((int) mouseX, (int) mouseY);
         IComponent hovered = context.getHovering(mouse);
         if (hovered != null)
@@ -96,12 +101,15 @@ public class HudEditor extends Screen implements IMinecraft {
             if (hovered.isActive()) hovered.click(context, mouse, button);
         }
 
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(click, bl);
     }
 
     @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int button)
+    public boolean mouseReleased(Click click)
     {
+        double mouseX = click.x();
+        double mouseY = click.y();
+        int button = click.button();
         MouseHelper mouse = new MouseHelper((int) mouseX, (int) mouseY);
         for (IComponent component : context.getComponents())
         {
@@ -109,17 +117,18 @@ public class HudEditor extends Screen implements IMinecraft {
         }
 
 
-        return super.mouseReleased(mouseX, mouseY, button);
+        return super.mouseReleased(click);
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers)
+    public boolean keyPressed(KeyInput keyInput)
     {
+        int keyCode = keyInput.key();
         for (IComponent component : context.getComponents())
         {
             if (component.isActive()) component.key(context, keyCode, (char) keyCode);
         }
-        return super.keyPressed(keyCode, scanCode, modifiers);
+        return super.keyPressed(keyInput);
     }
 
 

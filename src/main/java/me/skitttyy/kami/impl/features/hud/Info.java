@@ -1,6 +1,7 @@
 package me.skitttyy.kami.impl.features.hud;
 
 
+import net.minecraft.util.math.Vec3d;
 import me.skitttyy.kami.api.event.eventbus.SubscribeEvent;
 import me.skitttyy.kami.api.event.events.network.PacketEvent;
 import me.skitttyy.kami.api.event.events.render.FrameEvent;
@@ -30,7 +31,6 @@ import net.minecraft.block.enums.ChestType;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.texture.StatusEffectSpriteManager;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
@@ -299,7 +299,7 @@ public class Info extends HudComponent
         if (saturation.getValue())
             info.add(new InfoComponent(null, "Saturation " + (grayVals.getValue() ? Formatting.GRAY : Formatting.WHITE) + String.format("%.2f", mc.player.getHungerManager().getSaturationLevel())));
         if (lightLevel.getValue())
-            info.add(new InfoComponent(null, "Light " + (grayVals.getValue() ? Formatting.GRAY : Formatting.WHITE) + String.format("%s", mc.world.getLightLevel(BlockPos.ofFloored(mc.player.getPos())))));
+            info.add(new InfoComponent(null, "Light " + (grayVals.getValue() ? Formatting.GRAY : Formatting.WHITE) + String.format("%s", mc.world.getLightLevel(BlockPos.ofFloored(new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ()))))));
 
         if (PPS.getValue())
             info.add(new InfoComponent(null, "PPS " + (grayVals.getValue() ? Formatting.GRAY : Formatting.WHITE) + TPSManager.INSTANCE.getSendPackets() + "->" + TPSManager.INSTANCE.getIncPackets()));
@@ -399,7 +399,7 @@ public class Info extends HudComponent
         }
 
         if (biome.getValue())
-            info.add(new InfoComponent(null, "Biome " + (grayVals.getValue() ? Formatting.GRAY : Formatting.WHITE) + mc.world.getBiome(BlockPos.ofFloored(mc.player.getPos())).getIdAsString()));
+            info.add(new InfoComponent(null, "Biome " + (grayVals.getValue() ? Formatting.GRAY : Formatting.WHITE) + mc.world.getBiome(BlockPos.ofFloored(new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ()))).getIdAsString()));
         if (speed.getValue())
             info.add(new InfoComponent(null, "Speed " + (grayVals.getValue() ? Formatting.GRAY : Formatting.WHITE) + this.dfSpeed.format(MathHelper.sqrt((float) (Math.pow(coordsDiff('x'), 2.0) + Math.pow(coordsDiff('z'), 2.0))) / 0.05 * 3.6) + " km/h"));
 
@@ -454,9 +454,9 @@ public class Info extends HudComponent
             LAG_COMPONENT.setVisible(false);
         }
 
-        if (pearlTimer.getValue() && mc.player.getItemCooldownManager().isCoolingDown(Items.ENDER_PEARL))
+        if (pearlTimer.getValue() && mc.player.getItemCooldownManager().isCoolingDown(new ItemStack(Items.ENDER_PEARL)))
         {
-            float progress = mc.player.getItemCooldownManager().getCooldownProgress(Items.ENDER_PEARL, 0);
+            float progress = mc.player.getItemCooldownManager().getCooldownProgress(new ItemStack(Items.ENDER_PEARL), 0);
 
             PEARL_COMPONENT.setText("Ender Pearl Cooldown (" + pearlFormat.format(progress) + "s)");
             PEARL_COMPONENT.setVisible(true);
@@ -570,8 +570,6 @@ public class Info extends HudComponent
 
     public void renderPotions(DrawContext context, List<InfoComponent> potions)
     {
-        StatusEffectSpriteManager statusEffectSpriteManager = mc.getStatusEffectSpriteManager();
-
 
         for (InfoComponent comp : potions)
         {
@@ -588,17 +586,9 @@ public class Info extends HudComponent
             float height = alignment.getValue().contains("Top") ? ClickGui.CONTEXT.getRenderer().getTextHeight(comp.text) : -ClickGui.CONTEXT.getRenderer().getTextHeight(comp.text);
 
 
-            if (potionIcon.getValue() && comp.effect.shouldShowIcon())
-            {
+            // TODO: port to 1.21.11 - StatusEffectSpriteManager removed, potion icon rendering needs new sprite API
+            // if (potionIcon.getValue() && comp.effect.shouldShowIcon()) { ... }
 
-                int iconX = (xPos.getValue().intValue() + (alignment.getValue().contains("Right") ? -ClickGui.CONTEXT.getRenderer().getTextWidth(comp.text) : ClickGui.CONTEXT.getRenderer().getTextWidth(comp.text)) + (alignment.getValue().contains("Right") ? -10 : 1));
-
-                Sprite sprite = statusEffectSpriteManager.getSprite(comp.effect.getEffectType());
-
-                context.setShaderColor(1.0F, 1.0F, 1.0F, 1.0f);
-                context.drawSprite(iconX, (yPos.getValue().intValue() + off), 0, 9, 9, sprite);
-                context.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            }
             off += height;
             if (spacing.getValue())
                 off += alignment.getValue().contains("Top") ? 1 : -1;
@@ -655,11 +645,11 @@ public class Info extends HudComponent
         {
             case 'x':
             {
-                return mc.player.getX() - mc.player.prevX;
+                return mc.player.getX() - mc.player.lastX;
             }
             case 'z':
             {
-                return mc.player.getZ() - mc.player.prevZ;
+                return mc.player.getZ() - mc.player.lastZ;
             }
             default:
             {

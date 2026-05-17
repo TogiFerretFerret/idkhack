@@ -1,16 +1,14 @@
 package me.skitttyy.kami.mixin.accessor;
 
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.RenderPhase;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(RenderLayer.MultiPhaseParameters.class)
+// TODO: port to 1.21.11
+// RenderLayer.MultiPhaseParameters inner class is removed in 1.21.11
+// OutlineMode is now at RenderSetup.OutlineMode
+// Texture info is now in RenderSetup.TextureSpec
+@Mixin(RenderLayer.class)
 public interface IRenderLayerMultiPhaseParameters
 {
-    @Accessor("outlineMode")
-    RenderLayer.OutlineMode getOutlineMode();
 
-    @Accessor("texture")
-    RenderPhase.TextureBase getTexture();
 }

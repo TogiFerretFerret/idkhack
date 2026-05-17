@@ -12,6 +12,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +63,7 @@ public class CrystalManager implements IMinecraft {
             BlockPos pos = entry.getKey();
             Pair.BoxPair pair = entry.getValue();
 
-            if (mc.player.getPos().squaredDistanceTo(pos.toCenterPos()) > MathUtil.square(16.0f))
+            if (new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ()).squaredDistanceTo(pos.toCenterPos()) > MathUtil.square(16.0f))
             {
                 crystalBoxes.remove(pos);
                 return;

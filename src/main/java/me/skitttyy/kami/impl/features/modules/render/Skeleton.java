@@ -61,13 +61,13 @@ public class Skeleton extends Module
         {
             return;
         }
-        float g = event.getTickDelta();
-        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.disableDepthTest();
-        RenderSystem.depthMask(mc.isFancyGraphicsOrBetter());
-        RenderSystem.enableCull();
+        // TODO: port to 1.21.11 - float g = event.getTickProgress();
+        // TODO: port to 1.21.11 - RenderSystem.setShader(GameRenderer::getPositionColorProgram);
+        // RenderSystem.enableBlend(); // TODO: port to 1.21.11
+        // RenderSystem.defaultBlendFunc(); // TODO: port to 1.21.11
+        // RenderSystem.disableDepthTest(); // TODO: port to 1.21.11
+        // TODO: port to 1.21.11 - RenderSystem.depthMask(mc.isFancyGraphicsOrBetter());
+        // RenderSystem.enableCull(); // TODO: port to 1.21.11
         for (Entity entity : mc.world.getEntities())
         {
             if (entity == null || !entity.isAlive())
@@ -85,22 +85,22 @@ public class Skeleton extends Module
                 Vec3d skeletonPos = Interpolator.getInterpolatedPosition(entity, g);
 
                 PlayerEntityRenderer livingEntityRenderer =
-                        (PlayerEntityRenderer) (LivingEntityRenderer<?, ?>) mc.getEntityRenderDispatcher().getRenderer(playerEntity);
-                PlayerEntityModel<AbstractClientPlayerEntity> playerModel = livingEntityRenderer.getModel();
+                        // TODO: port to 1.21.11 - (PlayerEntityRenderer) (LivingEntityRenderer<?, ?>) mc.getEntityRenderDispatcher().getRenderer(playerEntity);
+                // TODO: port to 1.21.11 - PlayerEntityModel<AbstractClientPlayerEntity> playerModel = livingEntityRenderer.getModel();
 
-                float h = MathHelper.lerpAngleDegrees(g,
-                        playerEntity.prevBodyYaw, playerEntity.bodyYaw);
-                float j = MathHelper.lerpAngleDegrees(g,
-                        playerEntity.prevHeadYaw, playerEntity.headYaw);
+                // TODO: 1.21.11 - float h = MathHelper.lerpAngleDegrees(g,
+                        // TODO: port to 1.21.11 - playerEntity.prevBodyYaw, playerEntity.bodyYaw);
+                // TODO: 1.21.11 - float j = MathHelper.lerpAngleDegrees(g,
+                        // TODO: 1.21.11 - playerEntity.lastHeadYaw, playerEntity.headYaw);
 
 
-                if (AntiCheat.INSTANCE.visualize.getValue() && entity == mc.player && !RotationManager.INSTANCE.FROM_INV)
+                // TODO: 1.21.11 - if (AntiCheat.INSTANCE.visualize.getValue() && entity == mc.player && !RotationManager.INSTANCE.FROM_INV)
                 {
-                    ILivingEntity accessor = (ILivingEntity) entity;
-                    j = MathHelper.lerpAngleDegrees(g, accessor.kami_getPrevHeadYaw(), accessor.kami_getHeadYaw());
+                    // TODO: 1.21.11 - ILivingEntity accessor = (ILivingEntity) entity;
+                    // TODO: 1.21.11 - j = MathHelper.lerpAngleDegrees(g, accessor.kami_getPrevHeadYaw(), accessor.kami_getHeadYaw());
                 }
-                BipedEntityModel.ArmPose armPose = PlayerEntityRenderer.getArmPose((AbstractClientPlayerEntity) playerEntity, Hand.MAIN_HAND);
-                BipedEntityModel.ArmPose armPose2 = PlayerEntityRenderer.getArmPose((AbstractClientPlayerEntity) playerEntity, Hand.OFF_HAND);
+                // TODO: port to 1.21.11 - BipedEntityModel.ArmPose armPose = PlayerEntityRenderer.getArmPose((AbstractClientPlayerEntity) playerEntity, Hand.MAIN_HAND);
+                // TODO: port to 1.21.11 - BipedEntityModel.ArmPose armPose2 = PlayerEntityRenderer.getArmPose((AbstractClientPlayerEntity) playerEntity, Hand.OFF_HAND);
 
                 if (armPose.isTwoHanded())
                     armPose2 = playerEntity.getOffHandStack().isEmpty() ? BipedEntityModel.ArmPose.EMPTY : BipedEntityModel.ArmPose.ITEM;
@@ -120,8 +120,8 @@ public class Skeleton extends Module
                 float o = 0.0f;
                 if (!playerEntity.hasVehicle() && playerEntity.isAlive())
                 {
-                    n = playerEntity.limbAnimator.getSpeed(event.getTickDelta());
-                    o = playerEntity.limbAnimator.getPos(event.getTickDelta());
+                    // TODO: port to 1.21.11 - n = playerEntity.limbAnimator.getSpeed(event.getTickProgress());
+                    o = playerEntity.limbAnimator.getPos(event.getTickProgress());
                     if (playerEntity.isBaby())
                     {
                         o *= 3.0f;
@@ -131,7 +131,7 @@ public class Skeleton extends Module
                         n = 1.0f;
                     }
                 }
-                float l = playerEntity.age + event.getTickDelta();
+                float l = playerEntity.age + event.getTickProgress();
                 float k = j - h;
                 float m = playerEntity.getPitch(g);
 
@@ -144,13 +144,13 @@ public class Skeleton extends Module
 
 
 
-                playerModel.animateModel((AbstractClientPlayerEntity) playerEntity, o, n, event.getTickDelta());
+                playerModel.animateModel((AbstractClientPlayerEntity) playerEntity, o, n, event.getTickProgress());
                 playerModel.setAngles((AbstractClientPlayerEntity) playerEntity, o, n, l, k, m);
 
 
                 boolean swimming = playerEntity.isInSwimmingPose();
                 boolean sneaking = playerEntity.isInSneakingPose();
-                boolean flying = playerEntity.isFallFlying();
+                boolean flying = playerEntity.isGliding();
 
                 if (entity == mc.player && (LongJump.isGrimJumping() || Flight.isGrimFlying() || ElytraFly.isPacketFlying()))
                     flying = false;
@@ -248,32 +248,32 @@ public class Skeleton extends Module
                 matrixStack.pop();
             }
         }
-        RenderSystem.disableCull();
-        RenderSystem.disableBlend();
-        RenderSystem.enableDepthTest();
-        RenderSystem.depthMask(true);
-        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
+        // RenderSystem.disableCull(); // TODO: port to 1.21.11
+        // RenderSystem.disableBlend(); // TODO: port to 1.21.11
+        // RenderSystem.enableDepthTest(); // TODO: port to 1.21.11
+        // TODO: 1.21.11 - RenderSystem.depthMask(true);
+        // TODO: 1.21.11 - RenderSystem.setShader(GameRenderer::getPositionColorProgram);
     }
 
-    private void rotateSkeleton(MatrixStack matrix, ModelPart modelPart)
-    {
+    // TODO: 1.21.11 - private void rotateSkeleton(MatrixStack matrix, ModelPart modelPart)
+    // TODO: 1.21.11 - {
         if (modelPart.roll != 0.0f)
         {
             matrix.multiply(RotationAxis.POSITIVE_Z.rotation(modelPart.roll));
-        }
-        if (modelPart.yaw != 0.0f)
+        // TODO: 1.21.11 - }
+        // TODO: 1.21.11 - if (modelPart.yaw != 0.0f)
         {
             matrix.multiply(RotationAxis.NEGATIVE_Y.rotation(modelPart.yaw));
-        }
-        if (modelPart.pitch != 0.0f)
+        // TODO: 1.21.11 - }
+        // TODO: 1.21.11 - if (modelPart.pitch != 0.0f)
         {
             matrix.multiply(RotationAxis.NEGATIVE_X.rotation(modelPart.pitch));
-        }
-    }
+        // TODO: 1.21.11 - }
+    // TODO: 1.21.11 - }
 
     @Override
-    public String getDescription()
-    {
+    // TODO: 1.21.11 - public String getDescription()
+    // TODO: 1.21.11 - {
         return "Skeleton: renders players skeletons";
-    }
-}
+    // TODO: 1.21.11 - }
+// TODO: 1.21.11 - }

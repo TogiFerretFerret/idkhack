@@ -50,9 +50,9 @@ public class WireframeEntityRenderer implements IMinecraft
 //        WireframeEntityRenderer.lineColor = lineColor;
 //        WireframeEntityRenderer.shapeMode = shapeMode;
 //
-//        offsetX = MathHelper.lerp(event.getTickDelta(), entity.lastRenderX, entity.getX());
-//        offsetY = MathHelper.lerp(event.getTickDelta(), entity.lastRenderY, entity.getY());
-//        offsetZ = MathHelper.lerp(event.getTickDelta(), entity.lastRenderZ, entity.getZ());
+//        offsetX = MathHelper.lerp(event.getTickProgress(), entity.lastRenderX, entity.getX());
+//        offsetY = MathHelper.lerp(event.getTickProgress(), entity.lastRenderY, entity.getY());
+//        offsetZ = MathHelper.lerp(event.getTickProgress(), entity.lastRenderZ, entity.getZ());
 //
 //        matrices.push();
 //        matrices.scale((float) scale, (float) scale, (float) scale);
@@ -88,18 +88,18 @@ public class WireframeEntityRenderer implements IMinecraft
 //                }
 //            }
 //
-//            model.handSwingProgress = livingEntity.getHandSwingProgress(event.getTickDelta());
+//            model.handSwingProgress = livingEntity.getHandSwingProgress(event.getTickProgress());
 //            model.riding = livingEntity.hasVehicle();
 //            model.child = livingEntity.isBaby();
 //
-//            float bodyYaw = MathHelper.lerpAngleDegrees(event.getTickDelta(), livingEntity.prevBodyYaw, livingEntity.bodyYaw);
-//            float headYaw = MathHelper.lerpAngleDegrees(event.getTickDelta(), livingEntity.prevHeadYaw, livingEntity.headYaw);
+//            float bodyYaw = MathHelper.lerpAngleDegrees(event.getTickProgress(), livingEntity.prevBodyYaw, livingEntity.bodyYaw);
+//            float headYaw = MathHelper.lerpAngleDegrees(event.getTickProgress(), livingEntity.lastHeadYaw, livingEntity.headYaw);
 //            float yaw = headYaw - bodyYaw;
 //
 //            float animationProgress;
 //            if (livingEntity.hasVehicle() && livingEntity.getVehicle() instanceof LivingEntity livingEntity2)
 //            {
-//                bodyYaw = MathHelper.lerpAngleDegrees(event.getTickDelta(), livingEntity2.prevBodyYaw, livingEntity2.bodyYaw);
+//                bodyYaw = MathHelper.lerpAngleDegrees(event.getTickProgress(), livingEntity2.prevBodyYaw, livingEntity2.bodyYaw);
 //                yaw = headYaw - bodyYaw;
 //                animationProgress = MathHelper.wrapDegrees(yaw);
 //
@@ -112,27 +112,27 @@ public class WireframeEntityRenderer implements IMinecraft
 //                yaw = headYaw - bodyYaw;
 //            }
 //
-//            float pitch = MathHelper.lerp(event.getTickDelta(), livingEntity.prevPitch, livingEntity.getPitch());
+//            float pitch = MathHelper.lerp(event.getTickProgress(), livingEntity.lastPitch, livingEntity.getPitch());
 //
-//            animationProgress = renderer.getAnimationProgress(livingEntity, event.getTickDelta());
+//            animationProgress = renderer.getAnimationProgress(livingEntity, event.getTickProgress());
 //            float limbDistance = 0;
 //            float limbAngle = 0;
 //
 //            if (!livingEntity.hasVehicle() && livingEntity.isAlive())
 //            {
-//                limbDistance = livingEntity.limbAnimator.getSpeed(event.getTickDelta());
-//                limbAngle = livingEntity.limbAnimator.getPos(event.getTickDelta());
+//                limbDistance = livingEntity.limbAnimator.getSpeed(event.getTickProgress());
+//                limbAngle = livingEntity.limbAnimator.getPos(event.getTickProgress());
 //
 //                if (livingEntity.isBaby()) limbAngle *= 3;
 //                if (limbDistance > 1) limbDistance = 1;
 //            }
 //
-//            model.animateModel(livingEntity, limbAngle, limbDistance, event.getTickDelta());
+//            model.animateModel(livingEntity, limbAngle, limbDistance, event.getTickProgress());
 //            model.setAngles(livingEntity, limbAngle, limbDistance, animationProgress, yaw, pitch);
 //
-//            renderer.setupTransforms(livingEntity, matrices, animationProgress, bodyYaw, event.getTickDelta(), livingEntity.getScale());
+//            renderer.setupTransforms(livingEntity, matrices, animationProgress, bodyYaw, event.getTickProgress(), livingEntity.getScale());
 //            matrices.scale(-1, -1, 1);
-//            renderer.scale(livingEntity, matrices, event.getTickDelta());
+//            renderer.scale(livingEntity, matrices, event.getTickProgress());
 //            matrices.translate(0, -1.5010000467300415, 0);
 //
 //            // Render
@@ -145,8 +145,8 @@ public class WireframeEntityRenderer implements IMinecraft
 //            boolean chamsEnabled = false;
 //
 //            matrices.push();
-//            float h = EndCrystalEntityRenderer.getYOffset(crystalEntity, event.getTickDelta());
-//            float j = ((float) crystalEntity.endCrystalAge + event.getTickDelta()) * 3.0F;
+//            float h = EndCrystalEntityRenderer.getYOffset(crystalEntity, event.getTickProgress());
+//            float j = ((float) crystalEntity.endCrystalAge + event.getTickProgress()) * 3.0F;
 //            matrices.push();
 //            matrices.scale(2.0F, 2.0F, 2.0F);
 //            matrices.translate(0.0D, -0.5D, 0.0D);
@@ -172,9 +172,9 @@ public class WireframeEntityRenderer implements IMinecraft
 //
 //            matrices.push();
 //            matrices.translate(0.0D, 0.375D, 0.0D);
-//            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0F - MathHelper.lerp(event.getTickDelta(), entity.prevYaw, entity.getYaw())));
-//            float h = (float) boatEntity.getDamageWobbleTicks() - event.getTickDelta();
-//            float j = boatEntity.getDamageWobbleStrength() - event.getTickDelta();
+//            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0F - MathHelper.lerp(event.getTickProgress(), entity.lastYaw, entity.getYaw())));
+//            float h = (float) boatEntity.getDamageWobbleTicks() - event.getTickProgress();
+//            float j = boatEntity.getDamageWobbleStrength() - event.getTickProgress();
 //            if (j < 0.0F) j = 0.0F;
 //
 //            if (h > 0.0F)
@@ -182,16 +182,16 @@ public class WireframeEntityRenderer implements IMinecraft
 //                matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(MathHelper.sin(h) * h * j / 10.0F * (float) boatEntity.getDamageWobbleSide()));
 //            }
 //
-//            float k = boatEntity.interpolateBubbleWobble(event.getTickDelta());
+//            float k = boatEntity.interpolateBubbleWobble(event.getTickProgress());
 //            if (!MathHelper.approximatelyEquals(k, 0.0F))
 //            {
-//                matrices.multiply(new Quaternionf().setAngleAxis(boatEntity.interpolateBubbleWobble(event.getTickDelta()), 1.0F, 0.0F, 1.0F));
+//                matrices.multiply(new Quaternionf().setAngleAxis(boatEntity.interpolateBubbleWobble(event.getTickProgress()), 1.0F, 0.0F, 1.0F));
 //            }
 //
 //            CompositeEntityModel<BoatEntity> boatEntityModel = renderer.texturesAndModels.get(boatEntity.getVariant()).getSecond();
 //            matrices.scale(-1.0F, -1.0F, 1.0F);
 //            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(90.0F));
-//            boatEntityModel.setAngles(boatEntity, event.getTickDelta(), 0.0F, -0.1F, 0.0F, 0.0F);
+//            boatEntityModel.setAngles(boatEntity, event.getTickProgress(), 0.0F, -0.1F, 0.0F, 0.0F);
 //            boatEntityModel.getParts().forEach(modelPart -> render(modelPart));
 //            if (!boatEntity.isSubmergedInWater() && boatEntityModel instanceof ModelWithWaterPatch modelWithWaterPatch)
 //                render(modelWithWaterPatch.getWaterPatch());
@@ -199,9 +199,9 @@ public class WireframeEntityRenderer implements IMinecraft
 //            matrices.pop();
 //        } else if (entityRenderer instanceof ItemEntityRenderer)
 //        {
-//            double dx = (entity.getX() - entity.prevX) * event.getTickDelta();
-//            double dy = (entity.getY() - entity.prevY) * event.getTickDelta();
-//            double dz = (entity.getZ() - entity.prevZ) * event.getTickDelta();
+//            double dx = (entity.getX() - entity.lastX) * event.getTickProgress();
+//            double dy = (entity.getY() - entity.lastY) * event.getTickProgress();
+//            double dz = (entity.getZ() - entity.lastZ) * event.getTickProgress();
 //
 //            Box box = entity.getBoundingBox();
 //            RenderUtil.renderLinesBox(matrices, dx + box.minX, dy + box.minY, dz + box.minZ, dx + box.maxX, dy + box.maxY, dz + box.maxZ, lineColor, lineColor);
@@ -215,7 +215,8 @@ public class WireframeEntityRenderer implements IMinecraft
         if (!part.visible || (part.cuboids.isEmpty() && part.children.isEmpty())) return;
 
         matrices.push();
-        part.rotate(matrices);
+        // TODO: port to 1.21.11 - ModelPart.rotate() no longer takes MatrixStack, takes Quaternionf or Vector3f
+        // part.rotate(matrices);
 
 //        for (ModelPart.Cuboid cuboid : part.cuboids) render( cuboid, offsetX, offsetY, offsetZ);
         for (ModelPart.Cuboid cuboid : part.cuboids) render(cuboid);
@@ -228,14 +229,15 @@ public class WireframeEntityRenderer implements IMinecraft
     {
         for (ModelPart.Quad quad : cuboid.sides)
         {
-            // Transform positions
-            pos1.set(quad.vertices[0].pos.x / 16, quad.vertices[0].pos.y / 16, quad.vertices[0].pos.z / 16, 1);
+            // Transform positions - In 1.21.11, vertices is accessed via vertices() and pos fields via x()/y()/z()
+            ModelPart.Vertex[] verts = quad.vertices();
+            pos1.set(verts[0].x() / 16, verts[0].y() / 16, verts[0].z() / 16, 1);
 
-            pos2.set(quad.vertices[1].pos.x / 16, quad.vertices[1].pos.y / 16, quad.vertices[1].pos.z / 16, 1);
+            pos2.set(verts[1].x() / 16, verts[1].y() / 16, verts[1].z() / 16, 1);
 
-            pos3.set(quad.vertices[2].pos.x / 16, quad.vertices[2].pos.y / 16, quad.vertices[2].pos.z / 16, 1);
+            pos3.set(verts[2].x() / 16, verts[2].y() / 16, verts[2].z() / 16, 1);
 
-            pos4.set(quad.vertices[3].pos.x / 16, quad.vertices[3].pos.y / 16, quad.vertices[3].pos.z / 16, 1);
+            pos4.set(verts[3].x() / 16, verts[3].y() / 16, verts[3].z() / 16, 1);
 
             // Render
             if (shapeMode.sides())
@@ -287,148 +289,20 @@ public class WireframeEntityRenderer implements IMinecraft
         }
     }
 
-    public static void renderModel(MatrixStack matrix, EntityModel<LivingEntity> model, RenderType type, Color sideColor, Color lineColor)
+    // TODO: port to 1.21.11 - EntityModel no longer generic over LivingEntity (now uses EntityRenderState),
+    // AnimalModel fields (child, headScaled, etc) removed, SinglePartEntityModel/CompositeEntityModel removed,
+    // LlamaEntityModel/RabbitEntityModel fields no longer accessible. Needs complete rewrite.
+    public static void renderModel(MatrixStack matrix, EntityModel<?> model, RenderType type, Color sideColor, Color lineColor)
     {
         matrices = matrix;
         shapeMode = type;
 
-
         WireframeEntityRenderer.sideColor = sideColor;
         WireframeEntityRenderer.lineColor = lineColor;
 
-
-        if (model instanceof AnimalModel m)
-        {
-            if (m.child)
-            {
-                matrices.push();
-                float g;
-                if (m.headScaled)
-                {
-                    g = 1.5F / m.invertedChildHeadScale;
-                    matrices.scale(g, g, g);
-                }
-
-                matrices.translate(0.0D, m.childHeadYOffset / 16.0F, m.childHeadZOffset / 16.0F);
-                if (model instanceof BipedEntityModel mo) render(mo.head);
-                else m.getHeadParts().forEach(modelPart -> render((ModelPart) modelPart));
-                matrices.pop();
-                matrices.push();
-                g = 1.0F / m.invertedChildBodyScale;
-                matrices.scale(g, g, g);
-                matrices.translate(0.0D, m.childBodyYOffset / 16.0F, 0.0D);
-                if (model instanceof BipedEntityModel mo)
-                {
-                    render(mo.body);
-                    render(mo.leftArm);
-                    render(mo.rightArm);
-                    render(mo.leftLeg);
-                    render(mo.rightLeg);
-                } else m.getBodyParts().forEach(modelPart -> render((ModelPart) modelPart));
-                matrices.pop();
-            } else
-            {
-                if (model instanceof BipedEntityModel mo)
-                {
-                    render(mo.head);
-                    render(mo.body);
-                    render(mo.leftArm);
-                    render(mo.rightArm);
-                    render(mo.leftLeg);
-                    render(mo.rightLeg);
-                } else
-                {
-                    m.getHeadParts().forEach(modelPart -> render((ModelPart) modelPart));
-                    m.getBodyParts().forEach(modelPart -> render((ModelPart) modelPart));
-                }
-            }
-        } else
-        {
-            if (model instanceof SinglePartEntityModel m)
-            {
-                render(m.getPart());
-            } else if (model instanceof CompositeEntityModel m)
-            {
-                m.getParts().forEach(modelPart -> render((ModelPart) modelPart));
-            } else if (model instanceof LlamaEntityModel m)
-            {
-                if (m.child)
-                {
-                    matrices.push();
-                    matrices.scale(0.71428573F, 0.64935064F, 0.7936508F);
-                    matrices.translate(0.0D, 1.3125D, 0.2199999988079071D);
-                    render(m.head);
-                    matrices.pop();
-                    matrices.push();
-                    matrices.scale(0.625F, 0.45454544F, 0.45454544F);
-                    matrices.translate(0.0D, 2.0625D, 0.0D);
-                    render(m.body);
-                    matrices.pop();
-                    matrices.push();
-                    matrices.scale(0.45454544F, 0.41322312F, 0.45454544F);
-                    matrices.translate(0.0D, 2.0625D, 0.0D);
-                    render(m.rightHindLeg);
-                    render(m.leftHindLeg);
-                    render(m.rightFrontLeg);
-                    render(m.leftFrontLeg);
-                    render(m.rightChest);
-                    render(m.leftChest);
-                    matrices.pop();
-                } else
-                {
-                    render(m.head);
-                    render(m.body);
-                    render(m.rightHindLeg);
-                    render(m.leftHindLeg);
-                    render(m.rightFrontLeg);
-                    render(m.leftFrontLeg);
-                    render(m.rightChest);
-                    render(m.leftChest);
-                }
-            } else if (model instanceof RabbitEntityModel m)
-            {
-                if (m.child)
-                {
-                    matrices.push();
-                    matrices.scale(0.56666666F, 0.56666666F, 0.56666666F);
-                    matrices.translate(0.0D, 1.375D, 0.125D);
-                    render(m.head);
-                    render(m.leftEar);
-                    render(m.rightEar);
-                    render(m.nose);
-                    matrices.pop();
-                    matrices.push();
-                    matrices.scale(0.4F, 0.4F, 0.4F);
-                    matrices.translate(0.0D, 2.25D, 0.0D);
-                    render(m.leftHindLeg);
-                    render(m.rightHindLeg);
-                    render(m.leftHaunch);
-                    render(m.rightHaunch);
-                    render(m.body);
-                    render(m.leftFrontLeg);
-                    render(m.rightFrontLeg);
-                    render(m.tail);
-                    matrices.pop();
-                } else
-                {
-                    matrices.push();
-                    matrices.scale(0.6F, 0.6F, 0.6F);
-                    matrices.translate(0.0D, 1.0D, 0.0D);
-                    render(m.leftHindLeg);
-                    render(m.rightHindLeg);
-                    render(m.leftHaunch);
-                    render(m.rightHaunch);
-                    render(m.body);
-                    render(m.leftFrontLeg);
-                    render(m.rightFrontLeg);
-                    render(m.head);
-                    render(m.rightEar);
-                    render(m.leftEar);
-                    render(m.tail);
-                    render(m.nose);
-                    matrices.pop();
-                }
-            }
+        // Render all parts of the model
+        for (ModelPart part : model.getParts()) {
+            render(part);
         }
     }
 

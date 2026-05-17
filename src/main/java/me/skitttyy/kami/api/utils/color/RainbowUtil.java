@@ -74,7 +74,7 @@ public class RainbowUtil {
 
     public static void render32k(DrawContext context, String s, Float x, Float y)
     {
-        render32k(context.getMatrices(), s, x, y);
+        render32k(new MatrixStack(), s, x, y);
     }
 
     public static void render32k(MatrixStack stack, String s, Float x, Float y)

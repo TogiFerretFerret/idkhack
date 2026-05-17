@@ -368,7 +368,7 @@ public class OtherGui extends Module implements IColorScheme, IMetrics, IRendere
     @Override
     public void renderText(DrawContext context, String text, float x, float y, Color color, boolean shadow)
     {
-        Fonts.VANILLA.drawText(context, context.getMatrices(), text, x, y, color.getRGB(), shadow);
+        Fonts.VANILLA.drawText(context, new net.minecraft.client.util.math.MatrixStack(), text, x, y, color.getRGB(), shadow);
     }
 
     @Override
@@ -376,20 +376,20 @@ public class OtherGui extends Module implements IColorScheme, IMetrics, IRendere
 
         if (mode == RectMode.Fill)
         {
-            RenderUtil.renderGradient(context.getDrawContext().getMatrices(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), color.getRGB(), bottom.getRGB(), false);
+            RenderUtil.renderGradient(new net.minecraft.client.util.math.MatrixStack(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), color.getRGB(), bottom.getRGB(), false);
         }
         if (mode == RectMode.FillHorizontal)
         {
-            RenderUtil.renderGradient(context.getDrawContext().getMatrices(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), color.getRGB(), bottom.getRGB(), true);
+            RenderUtil.renderGradient(new net.minecraft.client.util.math.MatrixStack(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), color.getRGB(), bottom.getRGB(), true);
         }
         if (mode == RectMode.Outline)
         {
-            RenderUtil.renderOutline(context.getDrawContext().getMatrices(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), color.getRGB(), true);
+            RenderUtil.renderOutline(new net.minecraft.client.util.math.MatrixStack(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), color.getRGB(), true);
         }
 
         if (mode == RectMode.OutlineNoRasturize)
         {
-            RenderUtil.renderOutline(context.getDrawContext().getMatrices(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), color.getRGB(), false);
+            RenderUtil.renderOutline(new net.minecraft.client.util.math.MatrixStack(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), color.getRGB(), false);
         }
     }
 

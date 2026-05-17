@@ -81,11 +81,11 @@ public class EntitySpeed extends Module
             if (mc.player.isRiding() && mc.player.getControllingVehicle() != null)
             {
 
-                Vec3d vec3d = mc.player.getControllingVehicle().getPos().add(0.0, getBounds(mc.player.getControllingVehicle().getPos()), 0.0);
-                BoatEntity entityBoat = new BoatEntity(mc.world, vec3d.x, vec3d.y, vec3d.z);
+                Vec3d vec3d = new Vec3d(mc.player.getControllingVehicle().getX(), mc.player.getControllingVehicle().getY(), mc.player.getControllingVehicle().getZ()).add(0.0, getBounds(new Vec3d(mc.player.getControllingVehicle().getX(), mc.player.getControllingVehicle().getY(), mc.player.getControllingVehicle().getZ())), 0.0);
+                // TODO: port to 1.21.11 - BoatEntity entityBoat = new BoatEntity(mc.world, vec3d.x, vec3d.y, vec3d.z);
                 entityBoat.setYaw(mc.player.getControllingVehicle().getYaw());
                 entityBoat.setPitch(mc.player.getControllingVehicle().getPitch());
-                PacketManager.INSTANCE.sendPacket(new VehicleMoveC2SPacket(entityBoat));
+                // TODO: port to 1.21.11 - PacketManager.INSTANCE.sendPacket(new VehicleMoveC2SPacket(entityBoat));
             }
     }
 
@@ -114,8 +114,8 @@ public class EntitySpeed extends Module
     {
         Vec3d motion = mc.player.getControllingVehicle().getVelocity();
         //
-        float forward = mc.player.input.movementForward;
-        float strafe = mc.player.input.movementSideways;
+        float forward = mc.player.input.getMovementInput().y;
+        float strafe = mc.player.input.getMovementInput().x;
         if (forward == 0 && strafe == 0)
         {
             mc.player.getControllingVehicle().setVelocity(0.0, motion.y, 0.0);

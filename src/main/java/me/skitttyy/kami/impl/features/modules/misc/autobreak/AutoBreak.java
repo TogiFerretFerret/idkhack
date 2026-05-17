@@ -278,7 +278,7 @@ public class AutoBreak extends Module
 
         if (selectedPos != null && !isMining() && (!remineMode.getValue().equals("None")) && !remineMode.getValue().equals("Insta") && !(BlockUtils.getBlockState(selectedPos).getBlock() instanceof AirBlock) && cooldown.isPassed())
         {
-            if (mc.player.getPos().squaredDistanceTo(selectedPos.getX() + 0.5f, selectedPos.getY() + 0.5f, selectedPos.getZ() + 0.5f) <= MathUtil.square(breakRange.getValue().floatValue()))
+            if (new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ()).squaredDistanceTo(selectedPos.getX() + 0.5f, selectedPos.getY() + 0.5f, selectedPos.getZ() + 0.5f) <= MathUtil.square(breakRange.getValue().floatValue()))
             {
                 Direction minableSide = BlockUtils.getMineableSide(selectedPos, strictDirection.getValue());
 
@@ -484,7 +484,7 @@ public class AutoBreak extends Module
         Direction direction = BlockUtils.getMineableSide(pos, strictDirection.getValue());
 
         int slot = normalData.getBestSlot();
-        int oldSlot = mc.player.getInventory().selectedSlot;
+        int oldSlot = mc.player.getInventory().getSelectedSlot();
 
 
         boolean doSwap = slot != -1 && RotationManager.INSTANCE.serverSlot != slot;
@@ -509,7 +509,7 @@ public class AutoBreak extends Module
                     InventoryUtils.switchToBypass(InventoryUtils.hotbarToInventory(slot), false);
 
                     if (send)
-                        PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY(), mc.player.getZ(), true));
+                        PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY(), mc.player.getZ(), true, false));
 
                     if (!mode.getValue().equals("Double"))
                         didAction = true;
@@ -593,7 +593,7 @@ public class AutoBreak extends Module
 
 
         int slot = packetData.getBestSlot();
-        int oldSlot = mc.player.getInventory().selectedSlot;
+        int oldSlot = mc.player.getInventory().getSelectedSlot();
 
 
         boolean doSwap = slot != -1 && RotationManager.INSTANCE.serverSlot != slot;
@@ -1002,7 +1002,7 @@ public class AutoBreak extends Module
                 mining.getZ() + render1.minZ, mining.getX() + render1.maxX,
                 mining.getY() + render1.maxY, mining.getZ() + render1.maxZ);
         Vec3d center = render.getCenter();
-        float scale = MathHelper.clamp(MathHelper.lerp(mc.getRenderTickCounter().getTickDelta(false), data.getLastBestDamage() / maxBreak, data.getBestDamage() / maxBreak), 0, 1.0f);
+        float scale = MathHelper.clamp(MathHelper.lerp(mc.getRenderTickCounter().getTickProgress(false), data.getLastBestDamage() / maxBreak, data.getBestDamage() / maxBreak), 0, 1.0f);
         double dx = (render1.maxX - render1.minX) / 2.0;
         double dy = (render1.maxY - render1.minY) / 2.0;
         double dz = (render1.maxZ - render1.minZ) / 2.0;
@@ -1014,7 +1014,7 @@ public class AutoBreak extends Module
         {
 
 
-            float progress = (float) MathHelper.clamp(MathUtil.normalize((MathHelper.lerp(mc.getRenderTickCounter().getTickDelta(false), data.getLastBestDamage(), data.getBestDamage())) - color, 0, 0.3), 0, 1);
+            float progress = (float) MathHelper.clamp(MathUtil.normalize((MathHelper.lerp(mc.getRenderTickCounter().getTickProgress(false), data.getLastBestDamage(), data.getBestDamage())) - color, 0, 0.3), 0, 1);
             fillColorInterp = ColorUtil.interpolate(progress, fillColor2.getValue().getColor(), fillColorInterp);
             lineColorInterp = ColorUtil.interpolate(progress, lineColor2.getValue().getColor(), lineColorInterp);
         }

@@ -60,7 +60,7 @@ public class ElytraSwap extends Module {
                 if (instaFly.getValue() && !mc.player.isOnGround())
                 {
                     PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.START_FALL_FLYING));
-                    mc.player.startFallFlying();
+                    mc.player.startGliding();
                     if (firework.getValue())
                         PlayerUtils.doFirework();
                 }

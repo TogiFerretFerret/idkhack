@@ -166,7 +166,7 @@ public class AntiHolecamp extends Module {
                 }
             }
 
-            int oldSlot = mc.player.getInventory().selectedSlot;
+            int oldSlot = mc.player.getInventory().getSelectedSlot();
 
 
             InventoryUtils.switchToSlot(slot);
@@ -174,7 +174,7 @@ public class AntiHolecamp extends Module {
             BlockUtils.placeBlock(toPlace, BlockUtils.getPlaceableSide(toPlace, strictDirection.getValue()), false);
 
 
-            if (oldSlot != mc.player.getInventory().selectedSlot)
+            if (oldSlot != mc.player.getInventory().getSelectedSlot())
                 InventoryUtils.switchToSlot(oldSlot);
 
             if (!didPiston)

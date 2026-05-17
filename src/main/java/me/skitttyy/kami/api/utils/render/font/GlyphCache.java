@@ -174,17 +174,10 @@ public class GlyphCache implements IMinecraft
                     backingBuffer.put(argb);
                 }
             }
-            NativeImageBackedTexture texture = new NativeImageBackedTexture(image);
+            NativeImageBackedTexture texture = new NativeImageBackedTexture(() -> "kami_glyph_cache", image);
             texture.upload();
-            texture.setFilter(true, true);
-            if (RenderSystem.isOnRenderThread())
-            {
-                mc.getTextureManager().registerTexture(identifier, texture);
-            }
-            else
-            {
-                RenderSystem.recordRenderCall(() -> mc.getTextureManager().registerTexture(identifier, texture));
-            }
+            // TODO: port to 1.21.11 - recordRenderCall removed
+            mc.getTextureManager().registerTexture(identifier, texture);
         }
         catch (Throwable e)
         {

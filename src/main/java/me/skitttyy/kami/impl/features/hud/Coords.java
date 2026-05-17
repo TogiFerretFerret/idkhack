@@ -86,7 +86,7 @@ public class Coords extends HudComponent {
         width = ClickGui.CONTEXT.getRenderer().getTextWidth(coords);
         height = -ClickGui.CONTEXT.getRenderer().getTextHeight(coords) * (direction.getValue() ? 2 : 1);
         Fonts.doOneText(event.getContext(),
-                getFacing(mc.player.getHorizontalFacing().getName().toUpperCase()),
+                getFacing(mc.player.getHorizontalFacing().getId().toUpperCase()),
                 xPos.getValue().floatValue() + 1,
                 yPos.getValue().floatValue() - ClickGui.CONTEXT.getRenderer().getTextHeight("XYZ") - k,
                 HudColors.getTextColor(yPos.getValue().intValue() - ClickGui.CONTEXT.getRenderer().getTextHeight("XYZ")),

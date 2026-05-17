@@ -108,30 +108,30 @@ public class AutoLog extends Module
                     Instant.now(),
                     NetworkEncryptionUtils.SecureRandomUtil.nextLong(),
                     null,
-                    new LastSeenMessageList.Acknowledgment(1, new BitSet(2))));
-            this.toggle();
-            return;
-        }
-        if (mc.getNetworkHandler() == null)
-        {
-            mc.world.disconnect();
-            this.toggle();
+                    // TODO: port to 1.21.11 - new LastSeenMessageList.Acknowledgment(1, new BitSet(2))));
+            // TODO: 1.21.11 - this.toggle();
+            // TODO: 1.21.11 - return;
+        // TODO: 1.21.11 - }
+        // TODO: 1.21.11 - if (mc.getNetworkHandler() == null)
+        // TODO: 1.21.11 - {
+            // TODO: port to 1.21.11 - mc.world.disconnect();
+            // TODO: 1.21.11 - this.toggle();
 
-            return;
-        }
+            // TODO: 1.21.11 - return;
+        // TODO: 1.21.11 - }
         disconnectReason = String.format(disconnectReason, args);
         mc.getNetworkHandler().getConnection().disconnect(Text.of(disconnectReason));
         this.toggle();
     }
 
-    private boolean checkEnemy(AbstractClientPlayerEntity player)
+    // TODO: 1.21.11 - private boolean checkEnemy(AbstractClientPlayerEntity player)
     {
         return player.getDisplayName() != null && !FriendManager.INSTANCE.isFriend(player) && !player.equals(FakePlayer.INSTANCE.fakePlayer);
     }
 
     @Override
-    public String getDescription()
+    // TODO: 1.21.11 - public String getDescription()
     {
         return "AutoLog: Attempts disconnect when needed";
     }
-}
+// TODO: 1.21.11 - }

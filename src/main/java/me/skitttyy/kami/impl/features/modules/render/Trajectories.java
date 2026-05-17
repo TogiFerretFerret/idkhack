@@ -78,7 +78,7 @@ public class Trajectories extends Module
             {
                 if (entity instanceof EnderPearlEntity pearl)
                 {
-                    if(!mc.world.getWorldBorder().contains(pearl.getPos())) return;
+                    if(!mc.world.getWorldBorder().contains(new Vec3d(pearl.getX(), pearl.getY(), pearl.getZ()))) return;
 
                     MathUtil.Result result = MathUtil.calcTrajectory(pearl);
 

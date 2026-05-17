@@ -164,7 +164,7 @@ public class AutoFeetPlace extends Module
             past.resetDelay();
         }
 
-        if (jumpDisable.getValue() && (!mc.player.isInLava() && !mc.player.isSubmergedInWater()) && (Math.abs(mc.player.getY() - startY) > (mc.player.getItemCooldownManager().isCoolingDown(Items.ENDER_PEARL) ? 0.5 : 0.2)))
+        if (jumpDisable.getValue() && (!mc.player.isInLava() && !mc.player.isSubmergedInWater()) && (Math.abs(mc.player.getY() - startY) > (mc.player.getItemCooldownManager().isCoolingDown(new net.minecraft.item.ItemStack(Items.ENDER_PEARL)) ? 0.5 : 0.2)))
         {
 
             setEnabled(false);
@@ -350,12 +350,12 @@ public class AutoFeetPlace extends Module
 
         int blockSlot = getSlot();
 
-        int oldSlot = mc.player.getInventory().selectedSlot;
+        int oldSlot = mc.player.getInventory().getSelectedSlot();
         boolean switched = false;
         for (BlockPos pos : toPlace)
         {
 
-            if (blockSlot != mc.player.getInventory().selectedSlot)
+            if (blockSlot != mc.player.getInventory().getSelectedSlot())
             {
                 InventoryUtils.switchToSlot(blockSlot);
                 switched = true;
@@ -434,7 +434,7 @@ public class AutoFeetPlace extends Module
     {
         int blockSlot = getSlot();
 
-        int oldSlot = mc.player.getInventory().selectedSlot;
+        int oldSlot = mc.player.getInventory().getSelectedSlot();
         boolean switched = false;
 
         if (blockSlot == -1) return;
@@ -484,7 +484,7 @@ public class AutoFeetPlace extends Module
             PlayerUtils.attackTarget(entity);
             hitcrystalCooldown.resetDelay();
 
-            if (blockSlot != mc.player.getInventory().selectedSlot)
+            if (blockSlot != mc.player.getInventory().getSelectedSlot())
             {
                 InventoryUtils.switchToSlot(blockSlot);
                 switched = true;

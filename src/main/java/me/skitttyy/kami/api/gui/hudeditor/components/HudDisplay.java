@@ -77,11 +77,11 @@ public class HudDisplay implements IComponent, IDraggable {
             if (getDims().collideWithMouse(mouse))
             {
 
-                context.getDrawContext().getMatrices().push();
-                context.getDrawContext().getMatrices().translate(0.0f, 0.0f, 3000.0F);
-
+                // TODO: port to 1.21.11 - Matrix3x2fStack doesn't support 3D translate
+                // new net.minecraft.client.util.math.MatrixStack().push();
+                // new net.minecraft.client.util.math.MatrixStack().translate(0.0f, 0.0f, 3000.0F);
                 HudEditorGUI.CONTEXT.getRenderer().renderText(context.getDrawContext(), hudComponent.getName(), mouse.getX() + 10, mouse.getY(), Color.WHITE, ClickGui.CONTEXT.getColorScheme().doesTextShadow());
-                context.getDrawContext().getMatrices().pop();
+                // new net.minecraft.client.util.math.MatrixStack().pop();
 
             }
         }

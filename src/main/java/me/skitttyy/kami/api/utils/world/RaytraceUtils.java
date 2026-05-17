@@ -38,18 +38,18 @@ public class RaytraceUtils implements IMinecraft
 
     public static BlockHitResult getBlockHitResult(float yaw, float pitch, RaycastContext.ShapeType type)
     {
-        return getBlockHitResult(yaw, pitch, (float) mc.player.getAttributes().getValue(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE), mc.player, type);
+        return getBlockHitResult(yaw, pitch, (float) mc.player.getAttributes().getValue(EntityAttributes.BLOCK_INTERACTION_RANGE), mc.player, type);
     }
 
 
     public static BlockHitResult getBlockHitResult(float yaw, float pitch)
     {
-        return getBlockHitResult(yaw, pitch, (float) mc.player.getAttributes().getValue(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE));
+        return getBlockHitResult(yaw, pitch, (float) mc.player.getAttributes().getValue(EntityAttributes.BLOCK_INTERACTION_RANGE));
     }
 
     public static BlockHitResult getBlockHitResultWithEntity(float yaw, float pitch, Entity from)
     {
-        return getBlockHitResult(yaw, pitch, (float) mc.player.getAttributes().getValue(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE), from, RaycastContext.ShapeType.VISUAL);
+        return getBlockHitResult(yaw, pitch, (float) mc.player.getAttributes().getValue(EntityAttributes.BLOCK_INTERACTION_RANGE), from, RaycastContext.ShapeType.VISUAL);
     }
 
     public static BlockHitResult getBlockHitResult(float yaw, float pitch, float distance)
@@ -201,7 +201,7 @@ public class RaytraceUtils implements IMinecraft
 
     public static Vec3d getEyesPos(@NotNull Entity entity)
     {
-        return entity.getPos().add(0, entity.getEyeHeight(entity.getPose()), 0);
+        return new Vec3d(entity.getX(), entity.getY(), entity.getZ()).add(0, entity.getEyeHeight(entity.getPose()), 0);
     }
 
 }

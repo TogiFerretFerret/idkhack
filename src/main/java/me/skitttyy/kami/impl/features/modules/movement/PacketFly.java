@@ -304,7 +304,7 @@ public class PacketFly extends Module
             PlayerUtils.setMotionZ(motionZ);
 
 
-            Vec3d posVec = mc.player.getPos();
+            Vec3d posVec = new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ());
 
             Vec3d moveVec = posVec.add(motionX, velY, motionZ);
 
@@ -401,7 +401,7 @@ public class PacketFly extends Module
 
     public void sendMovePackets(Vec3d vec)
     {
-        PacketManager.INSTANCE.sendQuietPacket(new PlayerMoveC2SPacket.PositionAndOnGround(vec.x, vec.y, vec.z, true));
+        PacketManager.INSTANCE.sendQuietPacket(new PlayerMoveC2SPacket.PositionAndOnGround(vec.x, vec.y, vec.z, true, false));
     }
 
 
@@ -413,11 +413,11 @@ public class PacketFly extends Module
         if (event.getPacket() instanceof PlayerPositionLookS2CPacket packet)
         {
 
-            Vec3d prediction = predictions.get(packet.getTeleportId());
+            // TODO: port to 1.21.11 - Vec3d prediction = predictions.get(packet.getTeleportId());
             if (prediction != null)
             {
 
-                if (prediction.x == packet.getX() && prediction.y == packet.getY() && prediction.z == packet.getZ())
+                // TODO: port to 1.21.11 - if (prediction.x == packet.getX() && prediction.y == packet.getY() && prediction.z == packet.getZ())
                 {
 
                     if (!mode.getValue().equals("Lagback"))
@@ -428,21 +428,21 @@ public class PacketFly extends Module
 
                     if (dupe.getValue() || mc.player.age % 2 == 0)
                     {
-                        PacketManager.INSTANCE.sendQuietPacket(new TeleportConfirmC2SPacket(packet.getTeleportId()));
+                        // TODO: port to 1.21.11 - PacketManager.INSTANCE.sendQuietPacket(new TeleportConfirmC2SPacket(packet.getTeleportId()));
                     }
-                    predictions.remove(packet.getTeleportId());
+                    // TODO: port to 1.21.11 - predictions.remove(packet.getTeleportId());
 
                     return;
                 }
             }
 
-            ((IPlayerPositionLookS2CPacket) packet).setYaw(mc.player.getYaw());
-            ((IPlayerPositionLookS2CPacket) packet).setPitch(mc.player.getPitch());
+            // TODO: port to 1.21.11 - ((IPlayerPositionLookS2CPacket) packet).setYaw(mc.player.getYaw());
+            // TODO: port to 1.21.11 - ((IPlayerPositionLookS2CPacket) packet).setPitch(mc.player.getPitch());
 
-            PacketManager.INSTANCE.sendQuietPacket(new TeleportConfirmC2SPacket(packet.getTeleportId()));
+            // TODO: port to 1.21.11 - PacketManager.INSTANCE.sendQuietPacket(new TeleportConfirmC2SPacket(packet.getTeleportId()));
 
             lagTime = 10;
-            tpId = packet.getTeleportId();
+            // TODO: port to 1.21.11 - tpId = packet.getTeleportId();
         }
     }
 

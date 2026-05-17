@@ -103,7 +103,7 @@ public class Velocity extends Module
                         return;
                     }
 
-                    if (flag && packet.getVelocityX() == 0 && packet.getVelocityZ() == 0 && packet.getVelocityZ() == 0)
+                    // TODO: port to 1.21.11 - if (flag && packet.getVelocityX() == 0 && packet.getVelocityZ() == 0 && packet.getVelocityZ() == 0)
                     {
                         flag = false;
                         return;
@@ -116,9 +116,9 @@ public class Velocity extends Module
                         return;
                     }
 
-                    ((IEntityVelocityUpdateS2CPacket) packet).setVelocityX((int) (packet.getVelocityX() * (horizontal.getValue().floatValue() / 100.0f)));
-                    ((IEntityVelocityUpdateS2CPacket) packet).setVelocityY((int) (packet.getVelocityY() * (vertical.getValue().floatValue() / 100.0f)));
-                    ((IEntityVelocityUpdateS2CPacket) packet).setVelocityZ((int) (packet.getVelocityZ() * (horizontal.getValue().floatValue() / 100.0f)));
+                    // TODO: port to 1.21.11 - ((IEntityVelocityUpdateS2CPacket) packet).setVelocityX((int) (packet.getVelocityX() * (horizontal.getValue().floatValue() / 100.0f)));
+                    // TODO: port to 1.21.11 - ((IEntityVelocityUpdateS2CPacket) packet).setVelocityY((int) (packet.getVelocityY() * (vertical.getValue().floatValue() / 100.0f)));
+                    // TODO: port to 1.21.11 - ((IEntityVelocityUpdateS2CPacket) packet).setVelocityZ((int) (packet.getVelocityZ() * (horizontal.getValue().floatValue() / 100.0f)));
                 }
                 if (event.getPacket() instanceof ExplosionS2CPacket packet)
                 {
@@ -127,9 +127,9 @@ public class Velocity extends Module
                         PacketManager.INSTANCE.specialCaseCancel(packet);
                         return;
                     }
-                    ((IExplosionS2CPacket) packet).setPlayerVelocityX(packet.getPlayerVelocityX() * (horizontal.getValue().floatValue() / 100.0f));
-                    ((IExplosionS2CPacket) packet).setPlayerVelocityY(packet.getPlayerVelocityY() * (vertical.getValue().floatValue() / 100.0f));
-                    ((IExplosionS2CPacket) packet).setPlayerVelocityZ(packet.getPlayerVelocityZ() * (horizontal.getValue().floatValue() / 100.0f));
+                    // TODO: port to 1.21.11 - ((IExplosionS2CPacket) packet).setPlayerVelocityX(packet.getPlayerVelocityX() * (horizontal.getValue().floatValue() / 100.0f));
+                    // TODO: port to 1.21.11 - ((IExplosionS2CPacket) packet).setPlayerVelocityY(packet.getPlayerVelocityY() * (vertical.getValue().floatValue() / 100.0f));
+                    // TODO: port to 1.21.11 - ((IExplosionS2CPacket) packet).setPlayerVelocityZ(packet.getPlayerVelocityZ() * (horizontal.getValue().floatValue() / 100.0f));
                 }
                 break;
             case "GrimV2":
@@ -172,8 +172,8 @@ public class Velocity extends Module
 
                 if (event.getPacket() instanceof EntityDamageS2CPacket packet && packet.entityId() == mc.player.getId())
                 {
-                    PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(false));
-                    PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(true));
+                    PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(false, false));
+                    PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(true, false));
                 } else if (event.getPacket() instanceof PlayerPositionLookS2CPacket)
                 {
                     timeout = 25;
@@ -233,7 +233,7 @@ public class Velocity extends Module
 
         if (sendVelo)
         {
-            mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY(), mc.player.getZ(), RotationManager.INSTANCE.getServerYaw(), RotationManager.INSTANCE.getServerPitch(), mc.player.isOnGround()));
+            mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY(), mc.player.getZ(), RotationManager.INSTANCE.getServerYaw(), RotationManager.INSTANCE.getServerPitch(), mc.player.isOnGround(), mc.player.horizontalCollision));
             if (mc.player.isCrawling())
             {
                 mc.getNetworkHandler().sendPacket(new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.STOP_DESTROY_BLOCK, mc.player.getBlockPos(), Direction.DOWN));

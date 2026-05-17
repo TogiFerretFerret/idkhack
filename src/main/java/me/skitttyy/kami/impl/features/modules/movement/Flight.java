@@ -94,8 +94,8 @@ public class Flight extends Module
                     }
                 }
                 float speed = horizontalSpeed.getValue().floatValue();
-                float forward = mc.player.input.movementForward;
-                float strafe = mc.player.input.movementSideways;
+                float forward = mc.player.input.getMovementInput().y;
+                float strafe = mc.player.input.getMovementInput().x;
                 float yaw = mc.player.getYaw();
                 if (forward == 0.0f && strafe == 0.0f)
                 {
@@ -140,7 +140,7 @@ public class Flight extends Module
                     event.setCancelled(true);
                     return;
                 }
-                if (!mc.player.isFallFlying())
+                if (!mc.player.isGliding())
                 {
 
 
@@ -152,7 +152,7 @@ public class Flight extends Module
                     }
 
                     PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.START_FALL_FLYING));
-                    mc.player.startFallFlying();
+                    mc.player.startGliding();
 
 
                     if (firework.getValue())

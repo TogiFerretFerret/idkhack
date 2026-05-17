@@ -391,12 +391,12 @@ public class SelfTrap extends Module
 
         int blockSlot = getSlot();
 
-        int oldSlot = mc.player.getInventory().selectedSlot;
+        int oldSlot = mc.player.getInventory().getSelectedSlot();
         boolean switched = false;
         for (BlockPos pos : toPlace)
         {
 
-            if (blockSlot != mc.player.getInventory().selectedSlot)
+            if (blockSlot != mc.player.getInventory().getSelectedSlot())
             {
                 InventoryUtils.switchToSlot(blockSlot);
                 switched = true;
@@ -491,7 +491,7 @@ public class SelfTrap extends Module
     {
         int blockSlot = getSlot();
 
-        int oldSlot = mc.player.getInventory().selectedSlot;
+        int oldSlot = mc.player.getInventory().getSelectedSlot();
         boolean switched = false;
 
         if (blockSlot == -1) return;
@@ -542,7 +542,7 @@ public class SelfTrap extends Module
             PlayerUtils.attackTarget(entity);
             hitcrystalCooldown.resetDelay();
 
-            if (blockSlot != mc.player.getInventory().selectedSlot)
+            if (blockSlot != mc.player.getInventory().getSelectedSlot())
             {
                 InventoryUtils.switchToSlot(blockSlot);
                 switched = true;

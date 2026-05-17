@@ -1,6 +1,7 @@
 package me.skitttyy.kami.api.utils.render;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import me.skitttyy.kami.api.gui.font.Fonts;
 import me.skitttyy.kami.api.utils.chat.ChatUtils;
 import me.skitttyy.kami.api.utils.color.TextSection;
@@ -10,19 +11,14 @@ import me.skitttyy.kami.api.utils.render.world.layer.Sn0wLayers;
 import me.skitttyy.kami.impl.features.modules.client.FontModule;
 import me.skitttyy.kami.impl.features.modules.client.Optimizer;
 import me.skitttyy.kami.impl.features.modules.render.Nametags;
-import me.skitttyy.kami.mixin.accessor.IItemRenderer;
-import me.skitttyy.kami.mixin.accessor.ITessellator;
 import me.skitttyy.kami.mixin.accessor.IWorldRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.*;
-import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.client.render.model.json.ModelTransformationMode;
-import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.item.ItemDisplayContext;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import org.joml.Matrix4f;
@@ -37,7 +33,7 @@ import static me.skitttyy.kami.api.utils.render.world.buffers.RenderBuffers.*;
 import static me.skitttyy.kami.api.wrapper.IMinecraft.mc;
 
 public class RenderUtil {
-    public static final Tessellator TESSELLATOR = RenderSystem.renderThreadTesselator();
+    public static final Tessellator TESSELLATOR = Tessellator.getInstance();
 
     public static void renderRect(MatrixStack matrices, double x1, double y1, double x2, double y2, int color)
     {
@@ -49,40 +45,13 @@ public class RenderUtil {
         return (oldValue + (newValue - oldValue) * interpolationValue);
     }
 
-    public static void renderItem(ItemStack stack, ModelTransformationMode renderMode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, World world, int seed)
+    // TODO: port to 1.21.11 - renderItem needs complete rewrite.
+    // ModelTransformationMode replaced by ItemDisplayContext, BakedModel API changed,
+    // ModelIdentifier removed, ItemRenderer API completely overhauled.
+    // The item rendering pipeline is entirely different in 1.21.11.
+    public static void renderItem(ItemStack stack, ItemDisplayContext renderMode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, World world, int seed)
     {
-        BakedModel bakedModel = mc.getItemRenderer().getModel(stack, null, null, seed);
-        boolean bl;
-        if (stack.isEmpty())
-        {
-            return;
-        }
-        matrices.push();
-
-        bl = renderMode == ModelTransformationMode.GUI || renderMode == ModelTransformationMode.GROUND || renderMode == ModelTransformationMode.FIXED;
-        if (bl)
-        {
-            if (stack.isOf(Items.TRIDENT))
-            {
-                bakedModel = mc.getItemRenderer().getModels().getModelManager().getModel(ModelIdentifier.ofVanilla("trident", "inventory"));
-            } else if (stack.isOf(Items.SPYGLASS))
-            {
-                bakedModel = mc.getItemRenderer().getModels().getModelManager().getModel(ModelIdentifier.ofVanilla("spyglass", "inventory"));
-            }
-        }
-
-        bakedModel.getTransformation().getTransformation(renderMode).apply(false, matrices);
-
-        matrices.translate(-0.5f, -0.5f, -0.5f);
-
-        if (bakedModel.isBuiltin() || stack.isOf(Items.TRIDENT) && !bl)
-        {
-            ((IItemRenderer) mc.getItemRenderer()).getBuiltInModelItemRenderer().render(stack, renderMode, matrices, vertexConsumers, 15728895, OverlayTexture.DEFAULT_UV);
-        } else
-        {
-            ((IItemRenderer) mc.getItemRenderer()).renderBakedItemModelAccess(bakedModel, stack, 15728895, OverlayTexture.DEFAULT_UV, matrices, getItemGlintConsumer(vertexConsumers, RenderLayers.getItemLayer(stack, false), stack.hasGlint()));
-        }
-        matrices.pop();
+        // TODO: port to 1.21.11 - Item rendering API completely changed
     }
 
     public static VertexConsumer getItemGlintConsumer(VertexConsumerProvider vertexConsumers, RenderLayer layer, boolean glint)
@@ -99,16 +68,16 @@ public class RenderUtil {
     {
         context.drawItem(item, pos.x, pos.y);
 
-        context.drawItemInSlot(mc.textRenderer, item, pos.x, pos.y);
-        context.getMatrices().push();
-        context.getMatrices().translate(0.0F, 0.0F, 600.0f);
+        context.drawStackOverlay(mc.textRenderer, item, pos.x, pos.y);
+        context.getMatrices().pushMatrix();
+        // TODO: port to 1.21.11 - Matrix3x2fStack has no z translate
 
         if ((count > 1) || always)
         {
             if (count >= 1000)
             {
                 Fonts.renderText(
-                        context.getMatrices(),
+                        context,
                         String.valueOf(count),
                         pos.x + 19 - Fonts.getTextWidth(String.valueOf(count)),
                         pos.y + 9,
@@ -118,7 +87,7 @@ public class RenderUtil {
             } else
             {
                 Fonts.renderText(
-                        context.getMatrices(),
+                        context,
                         String.valueOf(count),
                         pos.x + 19 - 2 - Fonts.getTextWidth(String.valueOf(count)),
                         pos.y + 9,
@@ -128,7 +97,7 @@ public class RenderUtil {
             }
 
         }
-        context.getMatrices().pop();
+        context.getMatrices().popMatrix();
     }
 
     public static void renderOutline(MatrixStack matrices, double x1, double y1, double x2, double y2, int color, boolean rasturize)
@@ -144,14 +113,14 @@ public class RenderUtil {
 
     public static void renderGradient(MatrixStack matrices, double startX, double startY, double endX, double endY, int colorStart, int colorEnd, boolean horizontal, int z)
     {
-        RenderSystem.enableBlend();
-        if (RenderSystem.getShader() != GameRenderer.getPositionColorProgram())
-            RenderSystem.setShader(GameRenderer::getPositionColorProgram);
+        // RenderSystem.enableBlend(); // TODO: port to 1.21.11
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder builder = tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
         renderGradient(matrices.peek().getPositionMatrix(), builder, startX, startY, endX, endY, z, colorStart, colorEnd, horizontal);
-        BufferRenderer.drawWithGlobalProgram(builder.end());
-        RenderSystem.disableBlend();
+        // TODO: port to 1.21.11 - BufferRenderer.drawWithGlobalProgram() removed, need new draw path
+        BuiltBuffer built = builder.endNullable();
+        if (built != null) built.close();
+        // RenderSystem.disableBlend(); // TODO: port to 1.21.11
     }
 
     public static void renderGradient(Matrix4f matrix, BufferBuilder builder, double startX, double startY, double endX, double endY, double z, int colorStart, int colorEnd, boolean horizontal)
@@ -159,14 +128,14 @@ public class RenderUtil {
         endX += startX;
         endY += startY;
 
-        float f = (float) ColorHelper.Argb.getAlpha(colorStart) / 255.0f;
-        float g = (float) ColorHelper.Argb.getRed(colorStart) / 255.0f;
-        float h = (float) ColorHelper.Argb.getGreen(colorStart) / 255.0f;
-        float i = (float) ColorHelper.Argb.getBlue(colorStart) / 255.0f;
-        float j = (float) ColorHelper.Argb.getAlpha(colorEnd) / 255.0f;
-        float k = (float) ColorHelper.Argb.getRed(colorEnd) / 255.0f;
-        float l = (float) ColorHelper.Argb.getGreen(colorEnd) / 255.0f;
-        float m = (float) ColorHelper.Argb.getBlue(colorEnd) / 255.0f;
+        float f = (float) ColorHelper.getAlpha(colorStart) / 255.0f;
+        float g = (float) ColorHelper.getRed(colorStart) / 255.0f;
+        float h = (float) ColorHelper.getGreen(colorStart) / 255.0f;
+        float i = (float) ColorHelper.getBlue(colorStart) / 255.0f;
+        float j = (float) ColorHelper.getAlpha(colorEnd) / 255.0f;
+        float k = (float) ColorHelper.getRed(colorEnd) / 255.0f;
+        float l = (float) ColorHelper.getGreen(colorEnd) / 255.0f;
+        float m = (float) ColorHelper.getBlue(colorEnd) / 255.0f;
 
         if (horizontal)
         {
@@ -206,13 +175,11 @@ public class RenderUtil {
             y1 = y2;
             y2 = i;
         }
-        float f = (float) ColorHelper.Argb.getAlpha(color) / 255.0f;
-        float g = (float) ColorHelper.Argb.getRed(color) / 255.0f;
-        float h = (float) ColorHelper.Argb.getGreen(color) / 255.0f;
-        float j = (float) ColorHelper.Argb.getBlue(color) / 255.0f;
-        RenderSystem.enableBlend();
-        if (RenderSystem.getShader() != GameRenderer.getPositionColorProgram())
-            RenderSystem.setShader(GameRenderer::getPositionColorProgram);
+        float f = (float) ColorHelper.getAlpha(color) / 255.0f;
+        float g = (float) ColorHelper.getRed(color) / 255.0f;
+        float h = (float) ColorHelper.getGreen(color) / 255.0f;
+        float j = (float) ColorHelper.getBlue(color) / 255.0f;
+        // RenderSystem.enableBlend(); // TODO: port to 1.21.11
 
 
         BufferBuilder buffer = TESSELLATOR.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
@@ -221,15 +188,17 @@ public class RenderUtil {
         buffer.vertex(matrix4f, (float) x2, (float) y2, (float) z).color(g, h, j, f);
         buffer.vertex(matrix4f, (float) x2, (float) y1, (float) z).color(g, h, j, f);
 
-        BufferRenderer.drawWithGlobalProgram(buffer.end());
-        RenderSystem.disableBlend();
+        // TODO: port to 1.21.11 - BufferRenderer.drawWithGlobalProgram() removed
+        BuiltBuffer built = buffer.endNullable();
+        if (built != null) built.close();
+        // RenderSystem.disableBlend(); // TODO: port to 1.21.11
     }
 
 
     public static void drawText(String text, Vec3d renderPos, float size)
     {
         Camera camera = mc.gameRenderer.getCamera();
-        final Vec3d pos = camera.getPos();
+        final Vec3d pos = camera.getCameraPos();
 
 
         MatrixStack matrixStack = new MatrixStack();
@@ -239,12 +208,12 @@ public class RenderUtil {
         matrixStack.translate(renderPos.x - pos.getX(), renderPos.y - pos.getY(), renderPos.z - pos.getZ());
         matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-camera.getYaw()));
         matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
+        // RenderSystem.enableBlend(); // TODO: port to 1.21.11
+        // RenderSystem.defaultBlendFunc(); // TODO: port to 1.21.11
 
         matrixStack.scale(-0.01f * size, -0.01f * size, -1.0f);
 
-        float distance = (float) renderPos.distanceTo(mc.player.getPos());
+        float distance = (float) renderPos.distanceTo(new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ()));
         float scaleDistance = (distance / 2.0f) / (2.0f + (2.0f - size));
         if (scaleDistance < 1f)
             scaleDistance = 1;
@@ -255,7 +224,7 @@ public class RenderUtil {
         float hwidth = Fonts.getTextWidth(text) / 2.0f;
         Fonts.renderText(matrixStack, text, -hwidth, 0.0f, Color.WHITE, true);
         GL11.glDepthFunc(GL11.GL_LEQUAL);
-        RenderSystem.disableBlend();
+        // RenderSystem.disableBlend(); // TODO: port to 1.21.11
         matrixStack.pop();
     }
 
@@ -272,13 +241,11 @@ public class RenderUtil {
         float y2 = (float) (y1 + height);
         if (rasturize) y2 = y2 - 0.1f;
         Matrix4f matrix4f = matrices.peek().getPositionMatrix();
-        float f = (float) ColorHelper.Argb.getAlpha(color) / 255.0f;
-        float g = (float) ColorHelper.Argb.getRed(color) / 255.0f;
-        float h = (float) ColorHelper.Argb.getGreen(color) / 255.0f;
-        float j = (float) ColorHelper.Argb.getBlue(color) / 255.0f;
-        RenderSystem.enableBlend();
-        if (RenderSystem.getShader() != GameRenderer.getPositionColorProgram())
-            RenderSystem.setShader(GameRenderer::getPositionColorProgram);
+        float f = (float) ColorHelper.getAlpha(color) / 255.0f;
+        float g = (float) ColorHelper.getRed(color) / 255.0f;
+        float h = (float) ColorHelper.getGreen(color) / 255.0f;
+        float j = (float) ColorHelper.getBlue(color) / 255.0f;
+        // RenderSystem.enableBlend(); // TODO: port to 1.21.11
         BufferBuilder buffer = TESSELLATOR.begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION_COLOR);
 
         buffer.vertex(matrix4f, (float) x1, (float) y1, (float) z).color(g, h, j, f);
@@ -295,8 +262,10 @@ public class RenderUtil {
 
         buffer.vertex(matrix4f, (float) x2, (float) y1, (float) z).color(g, h, j, f);
         buffer.vertex(matrix4f, (float) x1, (float) y1, (float) z).color(g, h, j, f);
-        BufferRenderer.drawWithGlobalProgram(buffer.end());
-        RenderSystem.disableBlend();
+        // TODO: port to 1.21.11 - BufferRenderer.drawWithGlobalProgram() removed
+        BuiltBuffer built = buffer.endNullable();
+        if (built != null) built.close();
+        // RenderSystem.disableBlend(); // TODO: port to 1.21.11
     }
 
 
@@ -379,7 +348,7 @@ public class RenderUtil {
         matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(camera.getYaw() + 180.0F));
 
-        matrices.translate(x - camera.getPos().x, y - camera.getPos().y, z - camera.getPos().z);
+        matrices.translate(x - camera.getCameraPos().x, y - camera.getCameraPos().y, z - camera.getCameraPos().z);
 
         return matrices;
     }
@@ -480,14 +449,13 @@ public class RenderUtil {
 
     public static void renderLine(Vec3d offset, double x1, double y1, double z1, double x2, double y2, double z2, Color top, Color bottom, float width)
     {
-        float old = RenderSystem.getShaderLineWidth();
-        RenderSystem.lineWidth(width);
+        // TODO: port to 1.21.11 - RenderSystem.lineWidth() removed
         MatrixStack matrices = matrixFrom(x1, y1, z1);
         matrices.push();
 
         drawLine(matrices, offset.x, offset.y, offset.z, (float) (x2 - x1), (float) (y2 - y1), (float) (z2 - z1), top, bottom);
         matrices.pop();
-        RenderSystem.lineWidth(old);
+        // TODO: port to 1.21.11 - RenderSystem.lineWidth() removed
 
     }
 
@@ -502,19 +470,6 @@ public class RenderUtil {
 
     public static void drawCircle(Buffer buffer, float radius, int slices, Vec3d pos, Direction direction, Color color)
     {
-//        if (side == 2)
-//        {
-//            matrices.rotate(90.0f, 1.0f, 0.0f, 0.0f);
-//        } else if (side == 3)
-//        {
-//            GlStateManager.rotate(90.0f, 1.0f, 0.0f, 0.0f);
-//        } else if (side == 4)
-//        {
-//            GlStateManager.rotate(90.0f, 0.0f, 0.0f, 1.0f);
-//        } else if (side == 5)
-//        {
-//            GlStateManager.rotate(90.0f, 0.0f, 0.0f, 1.0f);
-//        }
         MatrixStack matrices = matrixFrom(pos.x, pos.y, pos.z);
 
         matrices.push();
@@ -623,12 +578,12 @@ public class RenderUtil {
 
 
         width = width / 2;
-        final Vec3d pos = camera.getPos();
+        final Vec3d pos = camera.getCameraPos();
         MatrixStack matrices = new MatrixStack();
         final double maxRenderDistance = (mc.options.getViewDistance().getValue() << 4);
         Vec3d waypointVec = new Vec3d(x, y, z);
 
-        Vec3d playerPos = Interpolator.getInterpolatedPosition(mc.getCameraEntity(), mc.getRenderTickCounter().getTickDelta(false));
+        Vec3d playerPos = Interpolator.getInterpolatedPosition(mc.getCameraEntity(), mc.getRenderTickCounter().getTickProgress(false));
         if (playerPos.distanceTo(waypointVec) > maxRenderDistance)
         {
             final Vec3d delta = waypointVec.subtract(playerPos).normalize();
@@ -642,7 +597,7 @@ public class RenderUtil {
         z = waypointVec.z;
 
 
-        Vec3d interpolate = Interpolator.getInterpolatedEyePos(mc.getCameraEntity(), mc.getRenderTickCounter().getTickDelta(false));
+        Vec3d interpolate = Interpolator.getInterpolatedEyePos(mc.getCameraEntity(), mc.getRenderTickCounter().getTickProgress(false));
 
 
 

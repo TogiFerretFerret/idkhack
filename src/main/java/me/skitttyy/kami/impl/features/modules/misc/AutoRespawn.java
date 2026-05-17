@@ -37,7 +37,7 @@ public class AutoRespawn extends Module {
         private final long finalTime;
 
         public ScreenAutoRespawn(IDeathScreen screen) {
-            super(screen.getDeathMessage(), screen.isScreenHardcore());
+            // TODO: port to 1.21.11 - super(screen.getDeathMessage(), screen.isScreenHardcore());
             finalTime = System.currentTimeMillis() + (time.getValue().longValue() * 1000);
         }
 

@@ -104,8 +104,8 @@ public class BowAim extends Module
         double duration1 = duration * 3.0f;
         double coeff = 0.05000000074505806;
         float pitch = (float) (-Math.toDegrees(calculateArc(entity, duration1, coeff)));
-        double ix = entity.getX() - entity.prevX;
-        double iz = entity.getZ() - entity.prevZ;
+        double ix = entity.getX() - entity.lastX;
+        double iz = entity.getZ() - entity.lastZ;
         double d = mc.player.distanceTo(entity);
         d -= d % 2.0;
         ix = d / 2.0 * ix * (mc.player.isSprinting() ? 1.3 : 1.1);

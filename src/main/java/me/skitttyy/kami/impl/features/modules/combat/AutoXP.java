@@ -70,9 +70,9 @@ public class AutoXP extends Module {
         int slot = InventoryUtils.getHotbarItemSlot(Items.EXPERIENCE_BOTTLE);
 
 
-        boolean swap = slot != mc.player.getInventory().selectedSlot;
+        boolean swap = slot != mc.player.getInventory().getSelectedSlot();
 
-        int oldSlot = mc.player.getInventory().selectedSlot;
+        int oldSlot = mc.player.getInventory().getSelectedSlot();
         if (swap)
             InventoryUtils.switchToSlot(slot);
 
@@ -118,7 +118,7 @@ public class AutoXP extends Module {
 
 
         if (mend.getValue())
-            for (ItemStack stack : mc.player.getInventory().armor)
+            // TODO: port to 1.21.11 - for (ItemStack stack : mc.player.getInventory().armor)
             {
                 if (stack == ItemStack.EMPTY) continue;
 

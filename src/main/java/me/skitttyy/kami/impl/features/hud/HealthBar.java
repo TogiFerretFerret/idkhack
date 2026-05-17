@@ -1,6 +1,7 @@
 package me.skitttyy.kami.impl.features.hud;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.gl.RenderPipelines;
 import me.skitttyy.kami.api.event.eventbus.SubscribeEvent;
 import me.skitttyy.kami.api.event.events.render.RenderGameOverlayEvent;
 import me.skitttyy.kami.api.feature.hud.HudComponent;
@@ -106,7 +107,7 @@ public class HealthBar extends HudComponent
                 boolean bl = ((IIngameHud) mc.inGameHud).getHeartJumpEndTick() > (long) ((IIngameHud) mc.inGameHud).getTicks() && (((IIngameHud) mc.inGameHud).getHeartJumpEndTick() - (long) ((IIngameHud) mc.inGameHud).getTicks()) / 3L % 2L == 1L;
 
 
-                float f = Math.max((float) mc.player.getAttributeValue(EntityAttributes.GENERIC_MAX_HEALTH), (float) Math.max(j, i));
+                float f = Math.max((float) mc.player.getAttributeValue(EntityAttributes.MAX_HEALTH), (float) Math.max(j, i));
                 int o = 0;
                 int p = MathHelper.ceil((f + (float) o) / 2.0F / 10.0F);
                 int q = Math.max(10 - (p - 2), 3);
@@ -147,17 +148,17 @@ public class HealthBar extends HudComponent
 
 
                     Fonts.doOneText(event.getContext(), text, x - (totalWidth / 2), y, healthColor, FontModule.INSTANCE.textShadow.getValue());
-                    RenderSystem.enableBlend();
-                    event.getContext().drawGuiTexture(InGameHud.HeartType.NORMAL.getTexture(false, false, false), (int) (x - (totalWidth / 2) + offset), (int) (y), 7, 7);
-                    RenderSystem.disableBlend();
+                    // RenderSystem.enableBlend(); // TODO: port to 1.21.11
+                    event.getContext().drawGuiTexture(RenderPipelines.GUI_TEXTURED, InGameHud.HeartType.NORMAL.getTexture(false, false, false), (int) (x - (totalWidth / 2) + offset), (int) (y), 7, 7);
+                    // RenderSystem.disableBlend(); // TODO: port to 1.21.11
                     offset += 7;
                     if (absorption)
                     {
                         Fonts.doOneText(event.getContext(), absorptionText, x - (totalWidth / 2) + offset, y, healthColor, FontModule.INSTANCE.textShadow.getValue());
                         offset += Fonts.getTextWidth(absorptionText);
-                        RenderSystem.enableBlend();
-                        event.getContext().drawGuiTexture(InGameHud.HeartType.ABSORBING.getTexture(false, false, false), (int) (x - (totalWidth / 2) + offset), (int) (y), 7, 7);
-                        RenderSystem.disableBlend();
+                        // RenderSystem.enableBlend(); // TODO: port to 1.21.11
+                        event.getContext().drawGuiTexture(RenderPipelines.GUI_TEXTURED, InGameHud.HeartType.ABSORBING.getTexture(false, false, false), (int) (x - (totalWidth / 2) + offset), (int) (y), 7, 7);
+                        // RenderSystem.disableBlend(); // TODO: port to 1.21.11
                     }
                 }
 
@@ -195,17 +196,17 @@ public class HealthBar extends HudComponent
 
 
                     Fonts.doOneText(event.getContext(), text, x - (totalWidth / 2), y, healthColor, FontModule.INSTANCE.textShadow.getValue());
-                    RenderSystem.enableBlend();
-                    event.getContext().drawGuiTexture(InGameHud.HeartType.NORMAL.getTexture(false, false, false), (int) (x - (totalWidth / 2) + offset), (int) (y), 7, 7);
-                    RenderSystem.disableBlend();
+                    // RenderSystem.enableBlend(); // TODO: port to 1.21.11
+                    event.getContext().drawGuiTexture(RenderPipelines.GUI_TEXTURED, InGameHud.HeartType.NORMAL.getTexture(false, false, false), (int) (x - (totalWidth / 2) + offset), (int) (y), 7, 7);
+                    // RenderSystem.disableBlend(); // TODO: port to 1.21.11
                     offset += 7;
                     if (absorption)
                     {
                         Fonts.doOneText(event.getContext(), absorptionText, x - (totalWidth / 2) + offset, y, healthColor, FontModule.INSTANCE.textShadow.getValue());
                         offset += Fonts.getTextWidth(absorptionText);
-                        RenderSystem.enableBlend();
-                        event.getContext().drawGuiTexture(InGameHud.HeartType.ABSORBING.getTexture(false, false, false), (int) (x - (totalWidth / 2) + offset), (int) (y), 7, 7);
-                        RenderSystem.disableBlend();
+                        // RenderSystem.enableBlend(); // TODO: port to 1.21.11
+                        event.getContext().drawGuiTexture(RenderPipelines.GUI_TEXTURED, InGameHud.HeartType.ABSORBING.getTexture(false, false, false), (int) (x - (totalWidth / 2) + offset), (int) (y), 7, 7);
+                        // RenderSystem.disableBlend(); // TODO: port to 1.21.11
                     }
                 }
                 break;
@@ -228,10 +229,12 @@ public class HealthBar extends HudComponent
 
                 Color healthColor = getHealthColor();
 
-                RenderUtil.renderRect(event.getContext().getMatrices(), (x - half - 0.5), (y - 0.5), (half * 2) + 1f, thickness + 1, 0x78000000);
-                RenderUtil.renderGradient(event.getContext().getMatrices(), (x - half - 0.5), (y - 0.5), width * percentage + 1, thickness + 1,
+                // TODO: port to 1.21.11 - DrawContext.getMatrices() now returns Matrix3x2fStack, not MatrixStack
+                net.minecraft.client.util.math.MatrixStack barMatrices = new net.minecraft.client.util.math.MatrixStack();
+                RenderUtil.renderRect(barMatrices, (x - half - 0.5), (y - 0.5), (half * 2) + 1f, thickness + 1, 0x78000000);
+                RenderUtil.renderGradient(barMatrices, (x - half - 0.5), (y - 0.5), width * percentage + 1, thickness + 1,
                         barColor.getValue().equals("Scissor") ? Color.RED.darker().getRGB() : leftColor.getValue().getColor().darker().getRGB(), barColor.getValue().equals("Scissor") ? healthColor.darker().getRGB() : rightColor.getValue().getColor().darker().getRGB(), true);
-                RenderUtil.renderGradient(event.getContext().getMatrices(), (x - half), y, width * percentage, thickness,
+                RenderUtil.renderGradient(barMatrices, (x - half), y, width * percentage, thickness,
                         barColor.getValue().equals("Scissor") ? Color.RED.getRGB() : leftColor.getValue().getColor().getRGB(), barColor.getValue().equals("Scissor") ? healthColor.getRGB() : rightColor.getValue().getColor().getRGB(), true);
 
 
@@ -259,17 +262,17 @@ public class HealthBar extends HudComponent
 
 
                     Fonts.doOneText(event.getContext(), text, x - (totalWidth / 2), y + thickness + 4, healthColor, FontModule.INSTANCE.textShadow.getValue());
-                    RenderSystem.enableBlend();
-                    event.getContext().drawGuiTexture(InGameHud.HeartType.NORMAL.getTexture(false, false, false), (int) (x - (totalWidth / 2) + offset), (int) (y + thickness + 4), 7, 7);
-                    RenderSystem.disableBlend();
+                    // RenderSystem.enableBlend(); // TODO: port to 1.21.11
+                    event.getContext().drawGuiTexture(RenderPipelines.GUI_TEXTURED, InGameHud.HeartType.NORMAL.getTexture(false, false, false), (int) (x - (totalWidth / 2) + offset), (int) (y + thickness + 4), 7, 7);
+                    // RenderSystem.disableBlend(); // TODO: port to 1.21.11
                     offset += 7;
                     if (absorption)
                     {
                         Fonts.doOneText(event.getContext(), absorptionText, x - (totalWidth / 2) + offset, y + thickness + 4, healthColor, FontModule.INSTANCE.textShadow.getValue());
                         offset += Fonts.getTextWidth(absorptionText);
-                        RenderSystem.enableBlend();
-                        event.getContext().drawGuiTexture(InGameHud.HeartType.ABSORBING.getTexture(false, false, false), (int) (x - (totalWidth / 2) + offset), (int) (y + thickness + 4), 7, 7);
-                        RenderSystem.disableBlend();
+                        // RenderSystem.enableBlend(); // TODO: port to 1.21.11
+                        event.getContext().drawGuiTexture(RenderPipelines.GUI_TEXTURED, InGameHud.HeartType.ABSORBING.getTexture(false, false, false), (int) (x - (totalWidth / 2) + offset), (int) (y + thickness + 4), 7, 7);
+                        // RenderSystem.disableBlend(); // TODO: port to 1.21.11
                     }
                 }
                 break;

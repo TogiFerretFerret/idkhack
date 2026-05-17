@@ -313,20 +313,20 @@ public class Renderer implements IRenderer, IMinecraft {
     public void renderRect(Rect rect, Color color, Color bottom, RectMode mode, Context context) {
         if (mode == RectMode.Fill)
         {
-            RenderUtil.renderGradient(context.getDrawContext().getMatrices(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), color.getRGB(), bottom.getRGB(), false);
+            RenderUtil.renderGradient(new net.minecraft.client.util.math.MatrixStack(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), color.getRGB(), bottom.getRGB(), false);
         }
         if (mode == RectMode.FillHorizontal)
         {
-            RenderUtil.renderGradient(context.getDrawContext().getMatrices(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), color.getRGB(), bottom.getRGB(), true);
+            RenderUtil.renderGradient(new net.minecraft.client.util.math.MatrixStack(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), color.getRGB(), bottom.getRGB(), true);
         }
         if (mode == RectMode.Outline)
         {
-            RenderUtil.renderOutline(context.getDrawContext().getMatrices(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), color.getRGB(), true);
+            RenderUtil.renderOutline(new net.minecraft.client.util.math.MatrixStack(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), color.getRGB(), true);
         }
 
         if (mode == RectMode.OutlineNoRasturize)
         {
-            RenderUtil.renderOutline(context.getDrawContext().getMatrices(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), color.getRGB(), false);
+            RenderUtil.renderOutline(new net.minecraft.client.util.math.MatrixStack(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), color.getRGB(), false);
         }
     }
 

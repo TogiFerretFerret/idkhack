@@ -1,5 +1,6 @@
 package me.skitttyy.kami.impl.features.modules.client;
 
+import net.minecraft.util.math.Vec3d;
 import baritone.api.BaritoneAPI;
 import baritone.api.pathing.goals.GoalXZ;
 import me.skitttyy.kami.api.event.eventbus.SubscribeEvent;
@@ -139,7 +140,7 @@ public class Baritone extends Module
     }
 
     public void doObstaclePass(){
-        BaritoneAPI.getProvider().getPrimaryBaritone().getCustomGoalProcess().setGoalAndPath(GoalXZ.fromDirection(mc.player.getPos(), mc.player.getYaw(), 10));
+        BaritoneAPI.getProvider().getPrimaryBaritone().getCustomGoalProcess().setGoalAndPath(GoalXZ.fromDirection(new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ()), mc.player.getYaw(), 10));
     }
     @Override
     public String getDescription()

@@ -166,8 +166,8 @@ public class PlayerUtils implements IMinecraft
 
     public static double[] getMoveSpeed(double speed)
     {
-        float forward = mc.player.input.movementForward;
-        float strafe = mc.player.input.movementSideways;
+        float forward = mc.player.input.getMovementInput().y;
+        float strafe = mc.player.input.getMovementInput().x;
         float yaw = mc.player.getYaw();
 
         if (!isMoving())
@@ -216,10 +216,10 @@ public class PlayerUtils implements IMinecraft
 
     public static Vec2f getStrafeVec(final float speed)
     {
-        float forward = mc.player.input.movementForward;
-        float strafe = mc.player.input.movementSideways;
+        float forward = mc.player.input.getMovementInput().y;
+        float strafe = mc.player.input.getMovementInput().x;
 
-        float yaw = mc.player.prevYaw + (mc.player.getYaw() - mc.player.prevYaw) * mc.getRenderTickCounter().getTickDelta(false);
+        float yaw = mc.player.lastYaw + (mc.player.getYaw() - mc.player.lastYaw) * mc.getRenderTickCounter().getTickProgress(false);
 
         if (AntiCheat.INSTANCE.strafeFix.getValue())
         {
@@ -278,18 +278,18 @@ public class PlayerUtils implements IMinecraft
 
     public static float getYawOffset(Input input, float rotationYaw)
     {
-        if (input.movementForward < 0.0f) rotationYaw += 180.0f;
+        if (input.getMovementInput().y < 0.0f) rotationYaw += 180.0f;
 
         float forward = 1.0f;
-        if (input.movementForward < 0.0f)
+        if (input.getMovementInput().y < 0.0f)
         {
             forward = -0.5f;
-        } else if (input.movementForward > 0.0f)
+        } else if (input.getMovementInput().y > 0.0f)
         {
             forward = 0.5f;
         }
 
-        float strafe = input.movementSideways;
+        float strafe = input.getMovementInput().x;
         if (strafe > 0.0f) rotationYaw -= 90.0f * forward;
         if (strafe < 0.0f) rotationYaw += 90.0f * forward;
         return rotationYaw;
@@ -373,9 +373,9 @@ public class PlayerUtils implements IMinecraft
     {
         ClientPlayerEntity player = mc.player;
 
-        if (mc.player.input.jumping && !mc.player.input.sneaking) return true;
+        if (mc.player.input.playerInput.jump() && !mc.player.input.playerInput.sneak()) return true;
 
-        if (mc.player.input.sneaking && mc.player.input.jumping) return true;
+        if (mc.player.input.playerInput.sneak() && mc.player.input.playerInput.jump()) return true;
 
 
         if (player != null)
@@ -388,7 +388,7 @@ public class PlayerUtils implements IMinecraft
 
     public static boolean isActuallyMoving()
     {
-        return mc.player.input.movementForward != 0 || mc.player.input.movementSideways != 0 || mc.player.getVelocity().y != 0;
+        return mc.player.input.getMovementInput().y != 0 || mc.player.input.getMovementInput().x != 0 || mc.player.getVelocity().y != 0;
     }
 
 
@@ -415,7 +415,7 @@ public class PlayerUtils implements IMinecraft
         PacketManager.INSTANCE.sendPacket(packet);
         mc.player.attack(entity);
         mc.player.swingHand(Hand.MAIN_HAND);
-        mc.player.resetLastAttackedTicks();
+        mc.player.resetTicksSinceLastAttack();
     }
 
     public static Vec2f safeWalk(final double motionX, final double motionZ)
@@ -494,7 +494,7 @@ public class PlayerUtils implements IMinecraft
 
         if (entity instanceof EndCrystalEntity)
         {
-            if (canVecBeSeen(entity.getPos().add(0, 1.700000047683716, 0)))
+            if (canVecBeSeen(new Vec3d(entity.getX(), entity.getY(), entity.getZ()).add(0, 1.700000047683716, 0)))
             {
                 return true;
             }
@@ -627,8 +627,8 @@ public class PlayerUtils implements IMinecraft
 
     public static double[] forward(final double distance, float iYaw, boolean override)
     {
-        float forward = override ? 1.0f : mc.player.input.movementForward;
-        float side = override ? 0.0f : mc.player.input.movementSideways;
+        float forward = override ? 1.0f : mc.player.input.getMovementInput().y;
+        float side = override ? 0.0f : mc.player.input.getMovementInput().x;
         float yaw = iYaw;
         if (forward != 0.0f)
         {
@@ -749,7 +749,7 @@ public class PlayerUtils implements IMinecraft
 
     public static boolean isElytraEquipped()
     {
-        ItemStack stack = mc.player.getInventory().getArmorStack(2);
+        ItemStack stack = mc.player.getInventory().getStack(36 + 2);
         if (stack == null) return false;
 
 
@@ -796,13 +796,13 @@ public class PlayerUtils implements IMinecraft
         int swingProgressInt = mc.player.handSwingTicks;
         boolean isSwingInProgress = mc.player.handSwinging;
         float rotationYaw = mc.player.getYaw();
-        float prevRotationYaw = mc.player.prevYaw;
-        float renderYawOffset = mc.player.renderYaw;
-        float prevRenderYawOffset = mc.player.lastRenderYaw;
+        float prevRotationYaw = mc.player.lastYaw;
+        float renderYawOffset = mc.player.bodyYaw;
+        float prevRenderYawOffset = mc.player.lastBodyYaw;
         float rotationYawHead = mc.player.headYaw;
-        float prevRotationYawHead = mc.player.prevHeadYaw;
-        float cameraYaw = mc.player.renderYaw;
-        float prevCameraYaw = mc.player.lastRenderYaw;
+        float prevRotationYawHead = mc.player.lastHeadYaw;
+        float cameraYaw = mc.player.bodyYaw;
+        float prevCameraYaw = mc.player.lastBodyYaw;
         // float renderArmYaw        = mc.player.renderArmYaw;
         // float prevRenderArmYaw    = mc.player.prevRenderArmYaw;
         // float renderArmPitch      = mc.player.renderArmPitch;
@@ -830,13 +830,13 @@ public class PlayerUtils implements IMinecraft
         mc.player.handSwingTicks = swingProgressInt;
         mc.player.handSwinging = isSwingInProgress;
         mc.player.setYaw(rotationYaw);
-        mc.player.prevYaw = prevRotationYaw;
-        // mc.player.renderYaw                  = renderYawOffset;
-        // mc.player.lastRenderYaw              = prevRenderYawOffset;
+        mc.player.lastYaw = prevRotationYaw;
+        // mc.player.bodyYaw                  = renderYawOffset;
+        // mc.player.lastBodyYaw              = prevRenderYawOffset;
         mc.player.headYaw = rotationYawHead;
-        mc.player.prevHeadYaw = prevRotationYawHead;
-        mc.player.renderYaw = cameraYaw;
-        mc.player.lastRenderYaw = prevCameraYaw;
+        mc.player.lastHeadYaw = prevRotationYawHead;
+        mc.player.bodyYaw = cameraYaw;
+        mc.player.lastBodyYaw = prevCameraYaw;
         // mc.player.renderArmYaw               = renderArmYaw;
         // mc.player.prevRenderArmYaw           = prevRenderArmYaw;
         // mc.player.renderArmPitch             = renderArmPitch;
@@ -864,7 +864,7 @@ public class PlayerUtils implements IMinecraft
 
     public static void switchAndUse(int slot)
     {
-        int oldSlot = mc.player.getInventory().selectedSlot;
+        int oldSlot = mc.player.getInventory().getSelectedSlot();
         InventoryUtils.switchToSlot(slot);
         use();
         InventoryUtils.switchToSlot(oldSlot);
@@ -889,9 +889,9 @@ public class PlayerUtils implements IMinecraft
                 ));
                 return;
             }
-            InventoryUtils.swap(fireworkInv, mc.player.getInventory().selectedSlot);
+            InventoryUtils.swap(fireworkInv, mc.player.getInventory().getSelectedSlot());
             use();
-            InventoryUtils.swap(fireworkInv, mc.player.getInventory().selectedSlot);
+            InventoryUtils.swap(fireworkInv, mc.player.getInventory().getSelectedSlot());
         }
     }
 
@@ -913,7 +913,7 @@ public class PlayerUtils implements IMinecraft
             {
                 InventoryUtils.swapArmor(2, slot);
                 PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.START_FALL_FLYING));
-                mc.player.startFallFlying();
+                // TODO: port to 1.21.11 - startFallFlying() removed
             }
         }
 

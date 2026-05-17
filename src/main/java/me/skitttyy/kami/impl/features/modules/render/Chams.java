@@ -128,8 +128,9 @@ public class Chams extends Module
 
         // Entity chams
 
-        if (!walls.getValue())
-            RenderSystem.enableDepthTest();
+        if (!walls.getValue()) {
+            // RenderSystem.enableDepthTest(); // TODO: port to 1.21.11
+        }
 
 
         if (shiny.getValue())
@@ -138,8 +139,8 @@ public class Chams extends Module
         for (Entity entity : mc.world.getEntities())
         {
 
-            double x = Math.abs(mc.gameRenderer.getCamera().getPos().x - entity.getX());
-            double z = Math.abs(mc.gameRenderer.getCamera().getPos().z - entity.getZ());
+            double x = Math.abs(mc.gameRenderer.getCamera().getCameraPos().x - entity.getX());
+            double z = Math.abs(mc.gameRenderer.getCamera().getCameraPos().z - entity.getZ());
             double d = (mc.options.getViewDistance().getValue() + 1) * 16;
             if (mc.player.distanceTo(entity) > range.getValue().floatValue() || x > d || z > d)
             {
@@ -149,7 +150,7 @@ public class Chams extends Module
             {
 
 
-                Vec3d pos = Interpolator.getInterpolatedPosition(entity, event.getTickDelta());
+                Vec3d pos = Interpolator.getInterpolatedPosition(entity, event.getTickProgress());
 
                 Vec3d matrixPos = pos;
 
@@ -157,7 +158,7 @@ public class Chams extends Module
                 {
                     LivingEntityRenderer renderer = (LivingEntityRenderer) mc.getEntityRenderDispatcher().getRenderer(entity);
 
-                    Vec3d vec3d = renderer.getPositionOffset(entity, event.getTickDelta());
+                    Vec3d vec3d = renderer.getPositionOffset(entity, event.getTickProgress());
 
                     matrixPos = new Vec3d(matrixPos.x + vec3d.x, matrixPos.y + vec3d.y, matrixPos.z + vec3d.z);
                 }
@@ -166,7 +167,7 @@ public class Chams extends Module
 
                 stack.push();
 
-                renderEntityChams(stack, entity, event.getTickDelta());
+                renderEntityChams(stack, entity, event.getTickProgress());
 
                 stack.pop();
             }
@@ -174,8 +175,9 @@ public class Chams extends Module
         if (shiny.getValue())
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-        if (!walls.getValue())
-            RenderSystem.disableDepthTest();
+        if (!walls.getValue()) {
+            // RenderSystem.disableDepthTest(); // TODO: port to 1.21.11
+        }
     }
 
 
@@ -203,7 +205,7 @@ public class Chams extends Module
             event.model.riding = event.entity.hasVehicle();
             event.model.child = event.entity.isBaby();
             float h = MathHelper.lerpAngleDegrees(event.g, event.entity.prevBodyYaw, event.entity.bodyYaw);
-            float j = MathHelper.lerpAngleDegrees(event.g, event.entity.prevHeadYaw, event.entity.headYaw);
+            float j = MathHelper.lerpAngleDegrees(event.g, event.entity.lastHeadYaw, event.entity.headYaw);
             if (AntiCheat.INSTANCE.visualize.getValue() && event.entity == MinecraftClient.getInstance().player && !RotationManager.INSTANCE.FROM_INV)
             {
                 ILivingEntity accessor = (ILivingEntity) event.entity;
@@ -230,7 +232,7 @@ public class Chams extends Module
                 }
                 k = j - h;
             }
-            float m = MathHelper.lerp(event.g, event.entity.prevPitch, event.entity.getPitch());
+            float m = MathHelper.lerp(event.g, event.entity.lastPitch, event.entity.getPitch());
             if (AntiCheat.INSTANCE.visualize.getValue() && event.entity == MinecraftClient.getInstance().player && !RotationManager.INSTANCE.FROM_INV)
             {
                 ILivingEntity accessor = (ILivingEntity) event.entity;
@@ -310,7 +312,7 @@ public class Chams extends Module
         if (shiny.getValue())
             GL11.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_CONSTANT_ALPHA);
 
-        ChamsModelRenderer.renderHand(event.getMatrices(), event.getTickDelta(), wireColor.getValue().getColor(), fill.getValue().getColor(),
+        ChamsModelRenderer.renderHand(event.getMatrices(), event.getTickProgress(), wireColor.getValue().getColor(), fill.getValue().getColor(),
                 1.0f, wireColor.getValue().getAlpha() != 0, fill.getValue().getColor().getAlpha() != 0, false);
 
         if (shiny.getValue())

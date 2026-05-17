@@ -259,7 +259,7 @@ public class Scaffold extends Module
         }
 
         if (mode.getValue().equals("Swap"))
-            mc.player.getInventory().selectedSlot = getBlockSlot();
+            // TODO: port to 1.21.11 - mc.player.getInventory().getSelectedSlot() = getBlockSlot();
         pos = null;
 
         pos = findNextPos();
@@ -364,11 +364,11 @@ public class Scaffold extends Module
                 float half = width / 2;
 
 
-                RenderUtil.renderRect(event.getContext().getMatrices(), (x - half - 0.5), (y - 0.5), (half * 2) + 1f, thickness + 1, 0x78000000);
-                RenderUtil.renderGradient(event.getContext().getMatrices(), (x - half - 0.5), (y - 0.5), width * percentage + 1, thickness + 1,
-                        barColor.getValue().equals("Scissor") ? Color.RED.darker().getRGB() : leftColor.getValue().getColor().darker().getRGB(), barColor.getValue().equals("Scissor") ? blockColor.darker().getRGB() : rightColor.getValue().getColor().darker().getRGB(), true);
-                RenderUtil.renderGradient(event.getContext().getMatrices(), (x - half), y, width * percentage, thickness,
-                        barColor.getValue().equals("Scissor") ? Color.RED.getRGB() : leftColor.getValue().getColor().getRGB(), barColor.getValue().equals("Scissor") ? blockColor.getRGB() : rightColor.getValue().getColor().getRGB(), true);
+                // TODO: port to 1.21.11 - RenderUtil.renderRect(event.getContext().getMatrices(), (x - half - 0.5), (y - 0.5), (half * 2) + 1f, thickness + 1, 0x78000000);
+                // TODO: port to 1.21.11 - RenderUtil.renderGradient(event.getContext().getMatrices(), (x - half - 0.5), (y - 0.5), width * percentage + 1, thickness + 1,
+                        // TODO: 1.21.11 - barColor.getValue().equals("Scissor") ? Color.RED.darker().getRGB() : leftColor.getValue().getColor().darker().getRGB(), barColor.getValue().equals("Scissor") ? blockColor.darker().getRGB() : rightColor.getValue().getColor().darker().getRGB(), true);
+                // TODO: port to 1.21.11 - RenderUtil.renderGradient(event.getContext().getMatrices(), (x - half), y, width * percentage, thickness,
+                        // TODO: 1.21.11 - barColor.getValue().equals("Scissor") ? Color.RED.getRGB() : leftColor.getValue().getColor().getRGB(), barColor.getValue().equals("Scissor") ? blockColor.getRGB() : rightColor.getValue().getColor().getRGB(), true);
                 if (slot != -1 && blockText.getValue())
                 {
                     ItemStack blockStack = new ItemStack(mc.player.getInventory().getStack(slot).getItem());
@@ -488,7 +488,7 @@ public class Scaffold extends Module
 
         if (placeTimer.isPassed())
         {
-            int oldSlot = mc.player.getInventory().selectedSlot;
+            int oldSlot = mc.player.getInventory().getSelectedSlot();
             if (mode.getValue().equals("Silent"))
                 InventoryUtils.switchToSlot(getBlockSlot());
 

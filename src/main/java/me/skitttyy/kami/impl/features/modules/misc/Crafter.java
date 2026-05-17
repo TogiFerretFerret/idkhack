@@ -46,13 +46,13 @@ public class Crafter extends Module
         List<RecipeResultCollection> recipeResultCollectionList = mc.player.getRecipeBook().getOrderedResults();
         for (RecipeResultCollection recipeResultCollection : recipeResultCollectionList)
         {
-            for (RecipeEntry<?> recipe : recipeResultCollection.getRecipes(true))
+            // TODO: port to 1.21.11 - for (RecipeEntry<?> recipe : recipeResultCollection.getRecipes(true))
             {
-                final Item item = recipe.value().getResult(mc.world.getRegistryManager()).getItem();
+                // TODO: port to 1.21.11 - final Item item = recipe.value().getResult(mc.world.getRegistryManager()).getItem();
 
                 if (item.equals(targetItem))
                 {
-                    mc.interactionManager.clickRecipe(mc.player.currentScreenHandler.syncId, recipe, true);
+                    // TODO: port to 1.21.11 - mc.interactionManager.clickRecipe(mc.player.currentScreenHandler.syncId, recipe, true);
                     mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, 0, 1, SlotActionType.QUICK_MOVE, mc.player);
                 }
             }

@@ -13,7 +13,6 @@ import me.skitttyy.kami.api.value.Value;
 import me.skitttyy.kami.api.value.builder.ValueBuilder;
 import me.skitttyy.kami.mixin.accessor.IPlayerMoveC2SPacket;
 import me.skitttyy.kami.mixin.accessor.IPlayerPositionLookS2CPacket;
-import net.minecraft.client.gui.screen.DownloadingTerrainScreen;
 import net.minecraft.network.packet.BrandCustomPayload;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.network.packet.c2s.common.CustomPayloadC2SPacket;
@@ -61,7 +60,7 @@ public class AntiPackets extends Module {
 
         if (slot.getValue() && event.getPacket() instanceof UpdateSelectedSlotS2CPacket) {
             event.setCancelled(true);
-            PacketManager.INSTANCE.sendPacket(new UpdateSelectedSlotC2SPacket(mc.player.getInventory().selectedSlot));
+            PacketManager.INSTANCE.sendPacket(new UpdateSelectedSlotC2SPacket(mc.player.getInventory().getSelectedSlot()));
         }
 
     }

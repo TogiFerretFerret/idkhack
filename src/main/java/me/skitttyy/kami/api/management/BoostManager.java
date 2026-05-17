@@ -47,16 +47,19 @@ public class BoostManager implements IMinecraft {
 
         if (event.getPacket() instanceof ExplosionS2CPacket packet)
         {
-
-            if (mc.player.getPos().distanceTo(new Vec3d(packet.getX(), packet.getY(), packet.getZ())) <= 6.0 && (packet.getPlayerVelocityX() != 0 || packet.getPlayerVelocityZ()!= 0))
+            Vec3d center = packet.center();
+            if (new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ()).distanceTo(center) <= 6.0 && packet.playerKnockback().isPresent())
             {
-                explosionTimer.resetDelay();
+                Vec3d knockback = packet.playerKnockback().get();
+                if (knockback.x != 0 || knockback.z != 0)
+                {
+                    explosionTimer.resetDelay();
 
-                boostExplosionSpeed = Math.hypot(packet.getPlayerVelocityX(), packet.getPlayerVelocityZ());
+                    boostExplosionSpeed = Math.hypot(knockback.x, knockback.z);
 
-                canLongjump = true;
-                longjumpTimer.resetDelay();
-
+                    canLongjump = true;
+                    longjumpTimer.resetDelay();
+                }
             }
         }
     }

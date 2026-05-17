@@ -121,7 +121,7 @@ public class Platformer extends Module
 
         int blockSlot = InventoryUtils.getHotbarItemSlot(Items.OBSIDIAN);
 
-        int oldSlot = mc.player.getInventory().selectedSlot;
+        int oldSlot = mc.player.getInventory().getSelectedSlot();
         boolean switched = false;
 
 
@@ -129,7 +129,7 @@ public class Platformer extends Module
 
         for (BlockPos pos : toPlace)
         {
-            if (blockSlot != mc.player.getInventory().selectedSlot)
+            if (blockSlot != mc.player.getInventory().getSelectedSlot())
             {
                 InventoryUtils.switchToSlot(blockSlot);
                 switched = true;

@@ -1,5 +1,6 @@
 package me.skitttyy.kami.api.utils.world;
 
+import net.minecraft.util.math.Vec3d;
 import me.skitttyy.kami.api.utils.math.MathUtil;
 import me.skitttyy.kami.api.utils.players.PlayerUtils;
 import me.skitttyy.kami.api.wrapper.IMinecraft;
@@ -132,7 +133,7 @@ public class ProtectionUtils implements IMinecraft
             }
         }
         blocks.sort(Comparator.comparingDouble(mod ->
-                mc.player.getPos().distanceTo(mod.toCenterPos())
+                new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ()).distanceTo(mod.toCenterPos())
         ));
 
 

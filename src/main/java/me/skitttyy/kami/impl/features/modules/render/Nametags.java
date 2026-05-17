@@ -1,6 +1,6 @@
 package me.skitttyy.kami.impl.features.modules.render;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.opengl.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.skitttyy.kami.api.event.eventbus.SubscribeEvent;
 import me.skitttyy.kami.api.event.events.render.RenderWorldEvent;
@@ -24,7 +24,7 @@ import me.skitttyy.kami.impl.KamiMod;
 import me.skitttyy.kami.impl.features.modules.client.FontModule;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.render.*;
-import net.minecraft.client.render.model.json.ModelTransformationMode;
+import net.minecraft.item.ItemDisplayContext;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.enchantment.Enchantment;
@@ -247,9 +247,9 @@ public class Nametags extends Module
         }
         RenderBuffers.scheduleRender(() ->
         {
-            Vec3d interpolate = Interpolator.getInterpolatedEyePos(mc.getCameraEntity(), event.getTickDelta());
+            Vec3d interpolate = Interpolator.getInterpolatedEyePos(mc.getCameraEntity(), event.getTickProgress());
             Camera camera = mc.gameRenderer.getCamera();
-            Vec3d pos = camera.getPos();
+            Vec3d pos = camera.getCameraPos();
             for (Entity entity : mc.world.getEntities())
             {
                 if (entity instanceof PlayerEntity player)
@@ -259,7 +259,7 @@ public class Nametags extends Module
                         continue;
                     }
                     TextSection[] sections = getInfo(player).toArray(new TextSection[0]);
-                    Vec3d pinterpolate = Interpolator.getRenderPosition(player, event.getTickDelta());
+                    Vec3d pinterpolate = Interpolator.getRenderPosition(player, event.getTickProgress());
                     double rx = player.getX() - pinterpolate.getX();
                     double ry = player.getY() - pinterpolate.getY();
                     double rz = player.getZ() - pinterpolate.getZ();
@@ -288,20 +288,20 @@ public class Nametags extends Module
                     render(sections, hwidth, player, rx, ry, rz, camera, scaling);
                 }
             }
-            RenderSystem.enableBlend();
+            // RenderSystem.enableBlend(); // TODO: port to 1.21.11
         });
     }
 
 
     private void render(TextSection[] sections, float width, PlayerEntity entity, double x, double y, double z, Camera camera, float scaling)
     {
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
+        // RenderSystem.enableBlend(); // TODO: port to 1.21.11
+        // RenderSystem.defaultBlendFunc(); // TODO: port to 1.21.11
         GL11.glDepthFunc(GL11.GL_ALWAYS);
 
         renderInfo(sections, width, entity, x, y, z, camera, scaling);
         GL11.glDepthFunc(GL11.GL_LEQUAL);
-        RenderSystem.disableBlend();
+        // RenderSystem.disableBlend(); // TODO: port to 1.21.11
     }
 
     public List<TextSection> getInfo(PlayerEntity player)
@@ -420,7 +420,7 @@ public class Nametags extends Module
 
     private void renderInfo(TextSection[] sections, float width, PlayerEntity entity, double x, double y, double z, Camera camera, float scaling)
     {
-        final Vec3d pos = camera.getPos();
+        final Vec3d pos = camera.getCameraPos();
         MatrixStack matrices = new MatrixStack();
         matrices.push();
         matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
@@ -511,13 +511,12 @@ public class Nametags extends Module
                 matrixStack.translate(8.0f, 8.0f, 0.0f);
                 matrixStack.scale(16.0f, 16.0f, 16.0F);
                 matrixStack.multiplyPositionMatrix(new Matrix4f().scaling(1.0f, -1.0f, 0.0001f));
-                Vector3f[] shaderLights = RenderSystem.shaderLightDirections.clone();
+                // TODO: port to 1.21.11 - RenderSystem.shaderLightDirections/setShaderLights changed
                 DiffuseLighting.disableGuiDepthLighting();
 
-                RenderUtil.renderItem(stack, ModelTransformationMode.GUI, matrixStack, mc.getBufferBuilders().getEntityVertexConsumers(), null, 0);
+                RenderUtil.renderItem(stack, ItemDisplayContext.GUI, matrixStack, mc.getBufferBuilders().getEntityVertexConsumers(), null, 0);
                 mc.getBufferBuilders().getEntityVertexConsumers().draw();
                 DiffuseLighting.enableGuiDepthLighting();
-                RenderSystem.setShaderLights(shaderLights[0], shaderLights[1]);
                 matrixStack.pop();
 
                 if (stack.getCount() != 1)

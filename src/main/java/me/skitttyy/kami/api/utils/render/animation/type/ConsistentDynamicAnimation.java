@@ -63,15 +63,14 @@ public class ConsistentDynamicAnimation extends Animation
         }
     }
 
-    @Override
-    public void setEasing(Easing easing)
+    public void updateEasing(Easing easing)
     {
 
         if(oldEasing != null){
             oldEasing = easing;
             return;
         }
-        super.setEasing(easing);
+        this.easing = easing;
     }
 
     public boolean isFinished()

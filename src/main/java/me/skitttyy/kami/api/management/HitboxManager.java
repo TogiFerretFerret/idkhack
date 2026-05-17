@@ -1,5 +1,6 @@
 package me.skitttyy.kami.api.management;
 
+import net.minecraft.util.math.Vec3d;
 import me.skitttyy.kami.api.event.eventbus.SubscribeEvent;
 import me.skitttyy.kami.api.event.events.network.PacketEvent;
 import me.skitttyy.kami.api.utils.NullUtils;
@@ -73,6 +74,6 @@ public class HitboxManager implements IMinecraft
 
     public Box getCrawlingBoundingBox(Entity entity)
     {
-        return entity.getDimensions(EntityPose.SWIMMING).getBoxAt(entity.getPos());
+        return entity.getDimensions(EntityPose.SWIMMING).getBoxAt(new Vec3d(entity.getX(), entity.getY(), entity.getZ()));
     }
 }

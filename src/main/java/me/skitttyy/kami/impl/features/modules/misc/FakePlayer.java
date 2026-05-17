@@ -173,9 +173,9 @@ public class FakePlayer extends Module
             fakePlayer.setYaw(p.getYaw());
             fakePlayer.setPitch(p.getPitch());
             fakePlayer.setHeadYaw(p.getHead());
-            fakePlayer.updateTrackedPositionAndAngles(
-                    p.getX(), p.getY(), p.getZ(), p.getYaw(), p.getPitch(),
-                    3);
+            // TODO: port to 1.21.11 - fakePlayer.updateTrackedPositionAndAngles(
+                    // TODO: 1.21.11 - p.getX(), p.getY(), p.getZ(), p.getYaw(), p.getPitch(),
+                    // TODO: 1.21.11 - 3);
             fakePlayer.setVelocity(p.getVelocity());
         }
     }
@@ -205,7 +205,7 @@ public class FakePlayer extends Module
             else fakePlayer.setHealth(fakePlayer.getHealth() + fakePlayer.getAbsorptionAmount() - 1f);
             if (fakePlayer.isDead())
             {
-                if (fakePlayer.tryUseTotem(mc.world.getDamageSources().generic()))
+                // TODO: port to 1.21.11 - if (fakePlayer.tryUseTotem(mc.world.getDamageSources().generic()))
                 {
                     fakePlayer.setHealth(10f);
                     PopManager.INSTANCE.onPop(fakePlayer);
@@ -237,11 +237,11 @@ public class FakePlayer extends Module
 
             if (!crystalAvailable)
                 fakePlayer.onDamaged(mc.world.getDamageSources().generic());
-            fakePlayer.setHealth((fakePlayer.getHealth() + fakePlayer.getAbsorptionAmount()) - CrystalUtil.calculateDamage(fakePlayer, new Vec3d(explosion.getX(), explosion.getY(), explosion.getZ()), false, false));
+            // TODO: port to 1.21.11 - fakePlayer.setHealth((fakePlayer.getHealth() + fakePlayer.getAbsorptionAmount()) - CrystalUtil.calculateDamage(fakePlayer, new Vec3d(explosion.getX(), explosion.getY(), explosion.getZ()), false, false));
             crystalAvailable = false;
             if (fakePlayer.isDead())
             {
-                if (fakePlayer.tryUseTotem(mc.world.getDamageSources().generic()))
+                // TODO: port to 1.21.11 - if (fakePlayer.tryUseTotem(mc.world.getDamageSources().generic()))
                 {
                     PopManager.INSTANCE.onPop(fakePlayer);
                     fakePlayer.setHealth(10f);

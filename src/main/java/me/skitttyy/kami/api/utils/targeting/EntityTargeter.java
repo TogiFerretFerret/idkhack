@@ -93,7 +93,7 @@ public class EntityTargeter implements IMinecraft {
         {
             return true;
         }
-        if ((entity instanceof BoatEntity || entity instanceof MinecartEntity) && toTarget.contains(EntityType.BOAT))
+        if ((entity instanceof BoatEntity || entity instanceof MinecartEntity) && toTarget.contains(EntityType.OAK_BOAT))
         {
             return true;
         }

@@ -21,18 +21,18 @@ public class BoatKillCommand extends Command
         if (!(mc.player.getVehicle() instanceof BoatEntity boat)) return;
 
 
-        Vec3d originalPos = boat.getPos();
+        Vec3d originalPos = new Vec3d(boat.getX(), boat.getY(), boat.getZ());
         boat.setPosition(originalPos.add(0, 0.05, 0));
-        VehicleMoveC2SPacket groundPacket = new VehicleMoveC2SPacket(boat);
+        VehicleMoveC2SPacket groundPacket = VehicleMoveC2SPacket.fromVehicle(boat);
         boat.setPosition(originalPos.add(0, 20, 0));
-        VehicleMoveC2SPacket skyPacket = new VehicleMoveC2SPacket(boat);
+        VehicleMoveC2SPacket skyPacket = VehicleMoveC2SPacket.fromVehicle(boat);
         boat.setPosition(originalPos);
         for (int i = 0; i < 20; i++)
         {
             PacketManager.INSTANCE.sendPacket(skyPacket);
             PacketManager.INSTANCE.sendPacket(groundPacket);
         }
-        PacketManager.INSTANCE.sendPacket(new VehicleMoveC2SPacket(boat));
+        PacketManager.INSTANCE.sendPacket(VehicleMoveC2SPacket.fromVehicle(boat));
     }
 
 }

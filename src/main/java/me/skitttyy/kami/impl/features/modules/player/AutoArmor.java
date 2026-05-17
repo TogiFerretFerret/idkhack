@@ -10,13 +10,15 @@ import me.skitttyy.kami.api.utils.chat.ChatUtils;
 import me.skitttyy.kami.api.utils.players.InventoryUtils;
 import me.skitttyy.kami.api.value.Value;
 import me.skitttyy.kami.api.value.builder.ValueBuilder;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.EquippableComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
-import net.minecraft.item.ArmorItem;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.screen.slot.SlotActionType;
-import net.minecraft.util.ClickType;
 
 public class AutoArmor extends Module {
 
@@ -51,7 +53,7 @@ public class AutoArmor extends Module {
 
         for (int i = 3; i >= 0; i--)
         {
-            if (mc.player.getInventory().armor.get(i).isEmpty())
+            // TODO: port to 1.21.11 - if (mc.player.getInventory().armor.get(i).isEmpty())
             {
                 if (equipArmor(i))
                     break;
@@ -68,14 +70,15 @@ public class AutoArmor extends Module {
 
         for (int i = 0; i < 35; i++)
         {
-            Item item = mc.player.getInventory().getStack(i).getItem();
+            ItemStack stack = mc.player.getInventory().getStack(i);
+            EquippableComponent equippable = stack.get(DataComponentTypes.EQUIPPABLE);
 
-            if (item instanceof ArmorItem && getTypeFromItem(item) == armorType)
+            if (equippable != null && getTypeFromSlot(equippable.slot()) == armorType)
             {
-                int damageReduction = ((ArmorItem) item).getProtection();
-                if (getTypeFromItem(item) == ArmorType.PANTS && pantsBlastPrio.getValue())
+                int damageReduction = stack.getItem().getDefaultStack().getOrDefault(DataComponentTypes.ATTRIBUTE_MODIFIERS, null) != null ? getArmorValue(stack) : 0;
+                if (getTypeFromSlot(equippable.slot()) == ArmorType.PANTS && pantsBlastPrio.getValue())
                 {
-                    if (InventoryUtils.getEnchantmentLevel(mc.player.getInventory().getStack(i), Enchantments.BLAST_PROTECTION) > 0)
+                    if (InventoryUtils.getEnchantmentLevel(stack, Enchantments.BLAST_PROTECTION) > 0)
                     {
                         bestSlot = i;
                         bestRating = damageReduction;
@@ -103,6 +106,28 @@ public class AutoArmor extends Module {
             }
         }
         return false;
+    }
+
+    private int getArmorValue(ItemStack stack)
+    {
+        // Approximate armor value based on item
+        Item item = stack.getItem();
+        if (item == Items.NETHERITE_HELMET || item == Items.NETHERITE_CHESTPLATE || item == Items.NETHERITE_LEGGINGS || item == Items.NETHERITE_BOOTS) return 3;
+        if (item == Items.DIAMOND_HELMET || item == Items.DIAMOND_CHESTPLATE || item == Items.DIAMOND_LEGGINGS || item == Items.DIAMOND_BOOTS) return 3;
+        if (item == Items.IRON_HELMET || item == Items.IRON_CHESTPLATE || item == Items.IRON_LEGGINGS || item == Items.IRON_BOOTS) return 2;
+        return 1;
+    }
+
+    private ArmorType getTypeFromSlot(EquipmentSlot slot)
+    {
+        return switch (slot)
+        {
+            case HEAD -> ArmorType.HELMET;
+            case CHEST -> ArmorType.CHESTPLATE;
+            case LEGS -> ArmorType.PANTS;
+            case FEET -> ArmorType.BOOTS;
+            default -> null;
+        };
     }
 
 

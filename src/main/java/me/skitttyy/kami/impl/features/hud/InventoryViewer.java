@@ -89,13 +89,14 @@ public class InventoryViewer extends HudComponent
             this.yPos.setValue(event.getContext().getScaledWindowHeight() - 1 - height);
         }
         DrawContext context = event.getContext();
-        context.getMatrices().push();
-        context.getMatrices().translate(0.0f, 0.0f, 999.0f);
+        context.getMatrices().pushMatrix();
+        // TODO: port to 1.21.11 - Matrix3x2fStack has no z translate
         try
         {
-            final List<ItemStack> items = mc.player.getInventory().main;
+            final List<ItemStack> items = mc.player.getInventory().getMainStacks();
 
-            renderBox(context.getMatrices(), xPos.getValue().intValue(), yPos.getValue().intValue());
+            // TODO: port to 1.21.11 - DrawContext.getMatrices() now returns Matrix3x2fStack, use new MatrixStack for renderBox
+            renderBox(new net.minecraft.client.util.math.MatrixStack(), xPos.getValue().intValue(), yPos.getValue().intValue());
             renderItems(context, items, xPos.getValue().intValue(), yPos.getValue().intValue() + 18);
             List<Item> ItemsList = new ArrayList<>();
             if (aboveItems.getValue())
@@ -128,7 +129,7 @@ public class InventoryViewer extends HudComponent
         {
             e.printStackTrace();
         }
-        context.getMatrices().pop();
+        context.getMatrices().popMatrix();
     }
 
     private void renderBox(MatrixStack matrices, final int x, final int y)
@@ -144,7 +145,7 @@ public class InventoryViewer extends HudComponent
             final int slotx = x + 1 + (item - 9) % 9 * 18;
             final int sloty = y + 1 + ((item - 9) / 9 - 1) * 18;
             context.drawItem(items.get(item), slotx, sloty);
-            context.drawItemInSlot(mc.textRenderer, items.get(item), slotx, sloty);
+            context.drawStackOverlay(mc.textRenderer, items.get(item), slotx, sloty);
         }
     }
 

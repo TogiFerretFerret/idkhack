@@ -238,7 +238,7 @@ public class Holefill extends Module
 
         int blockSlot = InventoryUtils.getHotbarItemSlot(getBlockType());
 
-        int oldSlot = mc.player.getInventory().selectedSlot;
+        int oldSlot = mc.player.getInventory().getSelectedSlot();
         boolean switched = false;
         for (HoleUtils.Hole targetHole : toPlace)
         {

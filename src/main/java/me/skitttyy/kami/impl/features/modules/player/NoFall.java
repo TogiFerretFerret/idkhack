@@ -43,15 +43,15 @@ public class NoFall extends Module
             case "Latency":
                 if (mc.world.getRegistryKey() == World.NETHER)
                 {
-                    PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), 0, mc.player.getZ(), true));
+                    PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), 0, mc.player.getZ(), true, false));
                 } else
                 {
-                    PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(0, 64, 0, true));
+                    PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(0, 64, 0, true, false));
                 }
                 mc.player.fallDistance = 0.0f;
                 break;
             case "Grim":
-                PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY() + 1.0e-9, mc.player.getZ(), mc.player.getYaw(), mc.player.getPitch(), true));
+                PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY() + 1.0e-9, mc.player.getZ(), mc.player.getYaw(), mc.player.getPitch(), true, false));
                 mc.player.onLanding();
                 break;
         }
@@ -90,7 +90,7 @@ public class NoFall extends Module
                     mc.player.getAbilities().flying = true;
                     mc.player.getAbilities().allowFlying = true;
                     packet.setOnGround(false);
-                    mc.player.velocityModified = true;
+                    // TODO: port to 1.21.11 - mc.player.velocityModified = true;
                     mc.player.getAbilities().flying = false;
                     mc.player.getAbilities().allowFlying = false;
                     mc.player.jump();

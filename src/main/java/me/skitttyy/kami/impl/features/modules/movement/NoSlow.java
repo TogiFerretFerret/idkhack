@@ -13,8 +13,8 @@ import me.skitttyy.kami.api.value.Value;
 import me.skitttyy.kami.api.value.builder.ValueBuilder;
 import me.skitttyy.kami.impl.features.modules.render.Freecam;
 import me.skitttyy.kami.impl.gui.ClickGui;
-import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.network.packet.Packet;
@@ -87,21 +87,21 @@ public class NoSlow extends Module
             {
                 for (KeyBinding k : new KeyBinding[]{mc.options.forwardKey, mc.options.backKey, mc.options.leftKey, mc.options.rightKey, mc.options.jumpKey, mc.options.sprintKey})
                 {
-                    k.setPressed(InputUtil.isKeyPressed(mc.getWindow().getHandle(), InputUtil.fromTranslationKey(k.getBoundKeyTranslationKey()).getCode()));
+                    k.setPressed(InputUtil.isKeyPressed(mc.getWindow(), InputUtil.fromTranslationKey(k.getBoundKeyTranslationKey()).getCode()));
                 }
-                if (InputUtil.isKeyPressed(mc.getWindow().getHandle(), 264))
+                if (InputUtil.isKeyPressed(mc.getWindow(), 264))
                 {
                     mc.player.setPitch(mc.player.getPitch() + 5);
                 }
-                if (InputUtil.isKeyPressed(mc.getWindow().getHandle(), 265))
+                if (InputUtil.isKeyPressed(mc.getWindow(), 265))
                 {
                     mc.player.setPitch(mc.player.getPitch() - 5);
                 }
-                if (InputUtil.isKeyPressed(mc.getWindow().getHandle(), 262))
+                if (InputUtil.isKeyPressed(mc.getWindow(), 262))
                 {
                     mc.player.setYaw(mc.player.getYaw() + 5);
                 }
-                if (InputUtil.isKeyPressed(mc.getWindow().getHandle(), 263))
+                if (InputUtil.isKeyPressed(mc.getWindow(), 263))
                 {
                     mc.player.setYaw(mc.player.getYaw() - 5);
                 }
@@ -126,13 +126,13 @@ public class NoSlow extends Module
         switch (mode.getValue())
         {
             case "Grim":
-                if (mc.player.isUsingItem() && !mc.player.isRiding() && !mc.player.isFallFlying() && !mc.player.isSneaking())
+                if (mc.player.isUsingItem() && !mc.player.isRiding() && !mc.player.isGliding() && !mc.player.isSneaking())
                 {
                     if (mc.player.getActiveHand() == Hand.MAIN_HAND)
                     {
 
-//                        PacketManager.INSTANCE.sendPacket(new UpdateSelectedSlotC2SPacket(mc.player.getInventory().selectedSlot % 8 + 1));
-//                        PacketManager.INSTANCE.sendPacket(new UpdateSelectedSlotC2SPacket(mc.player.getInventory().selectedSlot));
+//                        PacketManager.INSTANCE.sendPacket(new UpdateSelectedSlotC2SPacket(mc.player.getInventory().getSelectedSlot() % 8 + 1));
+//                        PacketManager.INSTANCE.sendPacket(new UpdateSelectedSlotC2SPacket(mc.player.getInventory().getSelectedSlot()));
                         PacketManager.INSTANCE.sendPacket(id -> new PlayerInteractItemC2SPacket(Hand.OFF_HAND, id, RotationManager.INSTANCE.getServerYaw(), RotationManager.INSTANCE.getServerPitch()));
                     }
                 }
@@ -187,7 +187,7 @@ public class NoSlow extends Module
                 {
                     //if u just swapped items ncp doesnt check for noslow (items) this disables the check onground and in air lol
                     if (mc.player.isUsingItem() && packet.changesPosition())
-                        mc.player.networkHandler.sendPacket(new UpdateSelectedSlotC2SPacket(mc.player.getInventory().selectedSlot));
+                        mc.player.networkHandler.sendPacket(new UpdateSelectedSlotC2SPacket(mc.player.getInventory().getSelectedSlot()));
                 } else if (guiMove.getValue() && event.getPacket() instanceof ClickSlotC2SPacket && PlayerUtils.isMoving())
                 {
                     doStrictPre();
@@ -201,7 +201,7 @@ public class NoSlow extends Module
     public boolean doStrictPre()
     {
         if (mc.player.isSneaking())
-            PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.RELEASE_SHIFT_KEY));
+            // TODO: port to 1.21.11 - PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.RELEASE_SHIFT_KEY));
 
         if (mc.player.isSprinting())
             PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.STOP_SPRINTING));
@@ -209,7 +209,7 @@ public class NoSlow extends Module
 
         if (mc.player.isOnGround() && !mc.options.jumpKey.isPressed() && !mc.world.getBlockCollisions(mc.player, mc.player.getBoundingBox().offset(0.0, 0.0656, 0.0)).iterator().hasNext())
         {
-            PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + 0.0656, mc.player.getZ(), false));
+            PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + 0.0656, mc.player.getZ(), false, false));
             return true;
         }
         return false;
@@ -219,7 +219,7 @@ public class NoSlow extends Module
     public void doStrictPost()
     {
         if (mc.player.isSneaking())
-            PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.PRESS_SHIFT_KEY));
+            // TODO: port to 1.21.11 - PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.PRESS_SHIFT_KEY));
 
         if (mc.player.isSprinting())
             PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.START_SPRINTING));
@@ -248,9 +248,9 @@ public class NoSlow extends Module
                     if (event.getPacket() instanceof ClickSlotC2SPacket packet)
                     {
 
-                        if (packet.getSyncId() != 0) return;
+                        // TODO: port to 1.21.11 - if (packet.getSyncId() != 0) return;
 
-                        if (packet.getActionType() != SlotActionType.PICKUP && packet.getActionType() != SlotActionType.PICKUP_ALL && packet.getActionType() != SlotActionType.QUICK_CRAFT)
+                        // TODO: port to 1.21.11 - if (packet.getActionType() != SlotActionType.PICKUP && packet.getActionType() != SlotActionType.PICKUP_ALL && packet.getActionType() != SlotActionType.QUICK_CRAFT)
                             PacketManager.INSTANCE.sendPacket(new CloseHandledScreenC2SPacket(0));
                     }
                 }
@@ -267,7 +267,7 @@ public class NoSlow extends Module
         if (Freecam.INSTANCE.isEnabled())
             return false;
 
-        if (mc.currentScreen instanceof AbstractInventoryScreen<?>)
+        if (mc.currentScreen instanceof InventoryScreen)
             return true;
 
         if (mc.currentScreen instanceof HandledScreen<?>)

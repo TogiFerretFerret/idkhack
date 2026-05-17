@@ -152,7 +152,7 @@ public abstract class MixinLivingEntity extends Entity implements ILivingEntity
             if (event.isCancelled())
                 return true;
         }
-        return instance.isFallFlying();
+        return instance.isGliding();
     }
 
     @Redirect(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getYaw()F"), slice = @Slice(from = @At(value = "FIELD", target = "Lnet/minecraft/entity/LivingEntity;prevStepBobbingAmount:F"), to = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;turnHead(FF)F")))
@@ -241,7 +241,7 @@ public abstract class MixinLivingEntity extends Entity implements ILivingEntity
         boolean stoppedFlying = prevFlying && !flying;
         if (ElytraFly.INSTANCE.isEnabled() && ElytraFly.INSTANCE.mode.getValue().equals("Bounce") && stoppedFlying && !KamiMod.isBaritonePaused())
         {
-            mc.player.startFallFlying();
+            mc.player.startGliding();
             PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.START_FALL_FLYING));
             cir.setReturnValue(true);
         }

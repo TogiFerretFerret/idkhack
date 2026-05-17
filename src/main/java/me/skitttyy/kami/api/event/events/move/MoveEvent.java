@@ -1,7 +1,6 @@
 package me.skitttyy.kami.api.event.events.move;
 
 import lombok.Getter;
-import lombok.Setter;
 import me.skitttyy.kami.api.event.Event;
 import me.skitttyy.kami.api.utils.players.PlayerUtils;
 import net.minecraft.entity.MovementType;
@@ -11,7 +10,6 @@ import net.minecraft.util.math.Vec3d;
  * @see me.skitttyy.kami.mixin.MixinClientPlayerEntity
  */
 @Getter
-@Setter
 public class MoveEvent extends Event {
     private final MovementType type;
     private double x, y, z;
@@ -23,6 +21,10 @@ public class MoveEvent extends Event {
         this.y = movement.y;
         this.z = movement.z;
     }
+
+    public void setX(double x) { this.x = x; }
+    public void setY(double y) { this.y = y; }
+    public void setZ(double z) { this.z = z; }
 
     public Vec3d getMovement()
     {

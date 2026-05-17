@@ -65,7 +65,7 @@ public class TextEntryWidget implements IWidget<String>, IComponent {
         {
             case GLFW.GLFW_KEY_V ->
             {
-                if (InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_CONTROL))
+                if (InputUtil.isKeyPressed(mc.getWindow(), GLFW.GLFW_KEY_LEFT_CONTROL))
                 {
                     setValue(getValue() + SelectionManager.getClipboard(mc));
                 }

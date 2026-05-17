@@ -1,12 +1,10 @@
 plugins {
-    id 'fabric-loom' version '1.7-SNAPSHOT'
+    id 'fabric-loom' version '1.14.10'
     id 'maven-publish'
 }
 
-sourceCompatibility = JavaVersion.VERSION_21
-targetCompatibility = JavaVersion.VERSION_21
 
-archivesBaseName = project.archives_base_name
+base.archivesName = project.archives_base_name
 version = project.clientVersion
 group = project.maven_group
 
@@ -40,10 +38,7 @@ repositories {
 
 }
 
-configurations {
-    embed
-    modImplementation.extendsFrom embed
-}
+
 def getHash() {
     def gitFolder = "$projectDir/.git/"
     def takeFromHash = 16
@@ -87,13 +82,11 @@ dependencies {
 
     modCompileOnly("meteordevelopment:baritone:${baritone_version}-SNAPSHOT")
 
-    modImplementation "org.ladysnake:satin:${satin_version}"
     // Include Satin as a Jar-in-Jar dependency (optional)
-    include "org.ladysnake:satin:${satin_version}"
 
 //	embed group: 'club.minnced', name: 'java-discord-rpc', version: '2.0.1'
 
-    embed 'org.yaml:snakeyaml:2.0'
+    include implementation('org.yaml:snakeyaml:2.0')
 }
 
 task getDeps(type: Copy) {
@@ -128,15 +121,7 @@ jar {
         rename { "${it}_${project.archivesBaseName}"}
     }
 
-    from(configurations.embed.collect {
-        it.isDirectory() ? it : zipTree(it)
-    }) {
-        exclude 'dummyThing',
-                'LICENSE.txt',
-                'META-INF/MUMFREY.RSA',
-                'META-INF/maven/**',
-                'org/**/*.html'
-    }
+    // jar-in-jar handled by Loom include
 }
 
 // configure the maven publication

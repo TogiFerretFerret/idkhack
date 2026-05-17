@@ -39,7 +39,7 @@ public class BreakData implements IMinecraft
 
 
         ItemStack stack = Items.NETHERITE_PICKAXE.getDefaultStack();
-        stack.addEnchantment(mc.world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).entryOf(Enchantments.EFFICIENCY), 5);
+        mc.world.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT).getEntry(Enchantments.EFFICIENCY.getValue()).ifPresent(entry -> stack.addEnchantment(entry, 5));
 
         float damage = MineUtils.getDamage(state, stack, false, true);
 

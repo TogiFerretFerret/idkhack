@@ -198,10 +198,10 @@ public class thirty2kaura extends Module {
             {
                 if (totem32k.getValue() && totemSlot != -1)
                 {
-                    mc.player.getInventory().selectedSlot = totemSlot;
+                    // TODO: port to 1.21.11 - mc.player.getInventory().getSelectedSlot() = totemSlot;
                 } else
                 {
-                    mc.player.getInventory().selectedSlot = newSlot;
+                    // TODO: port to 1.21.11 - mc.player.getInventory().getSelectedSlot() = newSlot;
                 }
                 holding32k = true;
             }

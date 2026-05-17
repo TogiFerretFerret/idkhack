@@ -22,6 +22,7 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
+// Note: SwordItem removed in 1.21.11, using isSword() helper instead
 import net.minecraft.network.packet.c2s.play.ClickSlotC2SPacket;
 import net.minecraft.network.packet.c2s.play.UpdateSelectedSlotC2SPacket;
 import net.minecraft.registry.RegistryKey;
@@ -39,6 +40,15 @@ import static me.skitttyy.kami.api.management.RotationManager.swapData;
 
 public class InventoryUtils implements IMinecraft
 {
+    private static final java.util.Set<Item> SWORD_ITEMS = java.util.Set.of(
+            Items.WOODEN_SWORD, Items.STONE_SWORD, Items.IRON_SWORD,
+            Items.GOLDEN_SWORD, Items.DIAMOND_SWORD, Items.NETHERITE_SWORD
+    );
+
+    public static boolean isSword(Item item) {
+        return SWORD_ITEMS.contains(item);
+    }
+
     public static final List<Integer> invalidSlots = Arrays.asList(0, 5, 6, 7, 8);
 
     public static Item[] CHESTPLATE_ITEMS = {Items.NETHERITE_CHESTPLATE, Items.DIAMOND_CHESTPLATE, Items.CHAINMAIL_CHESTPLATE, Items.IRON_CHESTPLATE, Items.GOLDEN_CHESTPLATE, Items.LEATHER_CHESTPLATE};
@@ -86,7 +96,8 @@ public class InventoryUtils implements IMinecraft
         int slot = inSlot;
         if (slot < 9) slot += 36;
 
-        ItemStack stack = mc.player.getInventory().getArmorStack(armorSlot);
+        // Armor slots: 0=feet, 1=legs, 2=chest, 3=head; inventory slots 36-39
+        ItemStack stack = mc.player.getInventory().getStack(36 + armorSlot);
         armorSlot = 8 - armorSlot;
 
         pickupSlot(slot);
@@ -152,18 +163,18 @@ public class InventoryUtils implements IMinecraft
         if (silent)
         {
             switchToSlotGhost(slot);
-            mc.player.getInventory().selectedSlot = slot;
+            mc.player.getInventory().setSelectedSlot(slot);
         } else
         {
-            if (mc.player.getInventory().selectedSlot != slot)
+            if (mc.player.getInventory().getSelectedSlot() != slot)
             {
                 final ItemStack[] hotbarCopy = new ItemStack[9];
                 for (int i = 0; i < 9; i++)
                 {
                     hotbarCopy[i] = mc.player.getInventory().getStack(i);
                 }
-                swapData.add(new PreSwapData(hotbarCopy, mc.player.getInventory().selectedSlot, slot));
-                mc.player.getInventory().selectedSlot = slot;
+                swapData.add(new PreSwapData(hotbarCopy, mc.player.getInventory().getSelectedSlot(), slot));
+                mc.player.getInventory().setSelectedSlot(slot);
             }
         }
     }
@@ -185,7 +196,7 @@ public class InventoryUtils implements IMinecraft
     {
         float maxSpeed = -1.0F;
         int slot = -1;
-        ItemStack stackCur = mc.player.getInventory().getStack(mc.player.getInventory().selectedSlot);
+        ItemStack stackCur = mc.player.getInventory().getStack(mc.player.getInventory().getSelectedSlot());
         float normalDestroySpeed = stackCur.getItem().getMiningSpeed(stackCur, block.getDefaultState());
         for (int i = 0; i < 9; i++)
         {
@@ -209,7 +220,7 @@ public class InventoryUtils implements IMinecraft
     public static int getHotbarItemSlot2(Item item)
     {
         int slot = getHotbarItemSlot(item);
-        if (slot == -1) return mc.player.getInventory().selectedSlot;
+        if (slot == -1) return mc.player.getInventory().getSelectedSlot();
         else return slot;
     }
 
@@ -239,10 +250,10 @@ public class InventoryUtils implements IMinecraft
         {
             if (resync)
             {
-                resyncClick(slot, mc.player.getInventory().selectedSlot, SlotActionType.SWAP);
+                resyncClick(slot, mc.player.getInventory().getSelectedSlot(), SlotActionType.SWAP);
             } else
             {
-                normalPacketClick(slot, mc.player.getInventory().selectedSlot, SlotActionType.SWAP);
+                normalPacketClick(slot, mc.player.getInventory().getSelectedSlot(), SlotActionType.SWAP);
             }
         }
     }
@@ -261,9 +272,11 @@ public class InventoryUtils implements IMinecraft
 
     public static void packetInvSwap(int slotId, int mouseButton, SlotActionType type, ItemStack stack, ScreenHandler handler)
     {
-        Int2ObjectArrayMap<ItemStack> map = new Int2ObjectArrayMap<>();
-        map.put(mouseButton, handler.getSlot(slotId).getStack());
-        mc.player.networkHandler.sendPacket(new ClickSlotC2SPacket(handler.syncId, handler.getRevision(), slotId, mouseButton, type, stack, map));
+        // TODO: port to 1.21.11 - ClickSlotC2SPacket now uses ItemStackHash instead of ItemStack
+        // Int2ObjectArrayMap<ItemStackHash> map = new Int2ObjectArrayMap<>();
+        // map.put(mouseButton, ItemStackHash.fromItemStack(handler.getSlot(slotId).getStack(), ...));
+        // mc.player.networkHandler.sendPacket(new ClickSlotC2SPacket(handler.syncId, handler.getRevision(), (short) slotId, (byte) mouseButton, type, map, ItemStackHash.fromItemStack(stack, ...)));
+        mc.interactionManager.clickSlot(handler.syncId, slotId, mouseButton, type, mc.player);
     }
 
 
@@ -280,7 +293,7 @@ public class InventoryUtils implements IMinecraft
 //
 //        if (slot == -1) return;
 //
-//        mc.player.getInventory().selectedSlot = slot;
+//        mc.player.getInventory().setSelectedSlot(slot);
 //
 //        if (RotationManager.INSTANCE.serverSlot != slot)
 //            switchToSlotGhost(slot);
@@ -289,7 +302,7 @@ public class InventoryUtils implements IMinecraft
 
     public static void switchToSlot(int slot)
     {
-        mc.player.getInventory().selectedSlot = slot;
+        mc.player.getInventory().setSelectedSlot(slot);
         syncItem();
     }
 
@@ -312,10 +325,10 @@ public class InventoryUtils implements IMinecraft
         if (mc.player == null) return 0;
         float baseDamage = 1f;
 
-        if (weapon.getItem() instanceof SwordItem swordItem)
+        if (isSword(weapon.getItem()))
             baseDamage = 7;
 
-        if (weapon.getItem() instanceof AxeItem axeItem)
+        if (weapon.getItem() instanceof AxeItem)
             baseDamage = 9;
 
         if (mc.player.fallDistance > 0)
@@ -328,7 +341,7 @@ public class InventoryUtils implements IMinecraft
         }
 
         // Reduce by armour
-        baseDamage = DamageUtil.getDamageLeft(ent, baseDamage, mc.world.getDamageSources().generic(), ent.getArmor(), (float) ent.getAttributeInstance(EntityAttributes.GENERIC_ARMOR_TOUGHNESS).getValue());
+        baseDamage = DamageUtil.getDamageLeft(ent, baseDamage, mc.world.getDamageSources().generic(), ent.getArmor(), (float) ent.getAttributeInstance(EntityAttributes.ARMOR_TOUGHNESS).getValue());
         return baseDamage;
     }
 
@@ -381,13 +394,13 @@ public class InventoryUtils implements IMinecraft
         for (int i = 0; i < 9; i++)
         {
             final ItemStack stack = mc.player.getInventory().getStack(i);
-            if (stack.getItem() instanceof TridentItem || stack.getItem() instanceof AxeItem || stack.getItem() instanceof SwordItem)
+            if (stack.getItem() instanceof TridentItem || stack.getItem() instanceof AxeItem || isSword(stack.getItem()))
             {
                 float sharpness = getEnchantmentLevel(stack, Enchantments.SHARPNESS) * 0.5f + 0.5f;
 
                 float dmg = (float) (getAttackDamage(stack) + sharpness);
 
-                if (stack.getItem() instanceof SwordItem)
+                if (isSword(stack.getItem()))
                 {
                     if (dmg > sharp)
                     {
@@ -412,7 +425,7 @@ public class InventoryUtils implements IMinecraft
 
     public static void switchToSlot(Item item)
     {
-        mc.player.getInventory().selectedSlot = getHotbarItemSlot2(item);
+        mc.player.getInventory().setSelectedSlot(getHotbarItemSlot2(item));
     }
 
     public static void switchToSlotGhost(int slot)
@@ -438,8 +451,8 @@ public class InventoryUtils implements IMinecraft
     public static int getItemCount(Item item)
     {
         int count = 0;
-        count = mc.player.getInventory().main.stream().filter(itemStack -> itemStack.getItem().equals(item)).mapToInt(ItemStack::getCount).sum();
-        count += mc.player.getInventory().offHand.stream().filter(itemStack -> itemStack.getItem().equals(item)).mapToInt(ItemStack::getCount).sum();
+        count = mc.player.getInventory().getMainStacks().stream().filter(itemStack -> itemStack.getItem().equals(item)).mapToInt(ItemStack::getCount).sum();
+        count += mc.player.getOffHandStack().isEmpty() ? 0 : (mc.player.getOffHandStack().getItem().equals(item) ? mc.player.getOffHandStack().getCount() : 0);
 
         return count;
 
@@ -449,7 +462,7 @@ public class InventoryUtils implements IMinecraft
     {
         int count = 0;
         count = items.stream().filter(itemStack -> itemStack.getItem().equals(item)).mapToInt(ItemStack::getCount).sum();
-        count += mc.player.getInventory().offHand.stream().filter(itemStack -> itemStack.getItem().equals(item)).mapToInt(ItemStack::getCount).sum();
+        count += mc.player.getOffHandStack().isEmpty() ? 0 : (mc.player.getOffHandStack().getItem().equals(item) ? mc.player.getOffHandStack().getCount() : 0);
         return count;
     }
 

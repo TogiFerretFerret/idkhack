@@ -36,7 +36,7 @@ public class MineUtils implements IMinecraft
 
     public static int findBestTool(BlockPos pos, BlockState state)
     {
-        int result = mc.player.getInventory().selectedSlot;
+        int result = mc.player.getInventory().getSelectedSlot();
         if (state.getHardness(mc.world, pos) > 0)
         {
             double speed = getSpeed(state, mc.player.getMainHandStack());
@@ -146,7 +146,7 @@ public class MineUtils implements IMinecraft
             digSpeed *= miningFatigue;
         }
 
-        if (mc.player.isInsideWaterOrBubbleColumn()
+        if (mc.player.isTouchingWater()
                 && !(InventoryUtils.getEnchantmentLevel(mc.player.getEquippedStack(EquipmentSlot.HEAD), Enchantments.AQUA_AFFINITY) > 0))
         {
             digSpeed /= 5.0F;

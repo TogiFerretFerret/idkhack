@@ -13,7 +13,6 @@ import me.skitttyy.kami.api.value.builder.ValueBuilder;
 import me.skitttyy.kami.impl.features.modules.client.HudColors;
 import me.skitttyy.kami.mixin.accessor.IHandledScreen;
 import me.skitttyy.kami.mixin.accessor.IMinecraftClient;
-import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.entity.player.PlayerEntity;

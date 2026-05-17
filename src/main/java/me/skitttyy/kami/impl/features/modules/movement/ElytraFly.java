@@ -160,7 +160,7 @@ public class ElytraFly extends Module
 
                 break;
             case "Control":
-                if (!mc.player.isFallFlying()) return;
+                if (!mc.player.isGliding()) return;
 
 
                 RotationUtils.setRotation(new float[]{PlayerUtils.getMoveYaw(mc.player.getYaw()), getControlPitch()}, 99);
@@ -179,12 +179,12 @@ public class ElytraFly extends Module
         if (LongJump.isGrimJumping()) return;
 
 
-        if (!mc.player.getInventory().getArmorStack(2).getItem().equals(Items.ELYTRA))
+        if (!mc.player.getInventory().getStack(36 + 2).getItem().equals(Items.ELYTRA))
             return;
         switch (mode.getValue())
         {
             case "Creative":
-                if (!mc.player.isFallFlying())
+                if (!mc.player.isGliding())
                 {
                     return;
                 }
@@ -196,8 +196,8 @@ public class ElytraFly extends Module
                 {
                     event.motionY(-verticalSpeed.getValue().floatValue());
                 }
-                float forward = mc.player.input.movementForward;
-                float strafe = mc.player.input.movementSideways;
+                float forward = mc.player.input.getMovementInput().y;
+                float strafe = mc.player.input.getMovementInput().x;
                 if (forward == 0.0f && strafe == 0.0f)
                 {
                     event.motionX(0.0);
@@ -207,7 +207,7 @@ public class ElytraFly extends Module
                 PlayerUtils.setSpeed(horizontalSpeed.getValue().floatValue(), event);
                 break;
             case "Bounce":
-                if (!mc.player.isFallFlying())
+                if (!mc.player.isGliding())
                     return;
 
 
@@ -216,7 +216,7 @@ public class ElytraFly extends Module
 //                if (lastPos != null && groundBoost.getValue())
 //                {
 //
-//                    double speedBps = mc.player.getPos().subtract(lastPos).multiply(20.0D, 0.0D, 20.0D).length();
+//                    double speedBps = new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ()).subtract(lastPos).multiply(20.0D, 0.0D, 20.0D).length();
 //
 //                    if (mc.player.isOnGround() && mc.player.isSprinting())
 //                    {
@@ -230,24 +230,24 @@ public class ElytraFly extends Module
                 if (boostBounce.getValue())
                     doBoost(event);
 
-                lastPos = mc.player.getPos();
+                lastPos = new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ());
                 break;
             case "Control":
-                if (!mc.player.isFallFlying())
+                if (!mc.player.isGliding())
                     return;
 
                 if (boostControl.getValue())
                     doBoost(event);
                 break;
             case "Accel":
-                if (!mc.player.isFallFlying())
+                if (!mc.player.isGliding())
                     return;
 
                 doBoost(event);
                 break;
             case "Factor":
 
-                if (!mc.player.isFallFlying())
+                if (!mc.player.isGliding())
                 {
                     PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.START_FALL_FLYING));
                 }
@@ -423,7 +423,7 @@ public class ElytraFly extends Module
 
         if (KamiMod.isBaritonePaused()) return;
 
-        if (!mc.player.getInventory().getArmorStack(2).getItem().equals(Items.ELYTRA))
+        if (!mc.player.getInventory().getStack(36 + 2).getItem().equals(Items.ELYTRA))
             return;
 
 
@@ -432,7 +432,7 @@ public class ElytraFly extends Module
             case "Bounce", "Control":
 
 
-                if (mode.getValue().equals("Control") && !mc.player.isFallFlying()) return;
+                if (mode.getValue().equals("Control") && !mc.player.isGliding()) return;
 
                 if (mode.getValue().equals("Control"))
                     if (!PlayerUtils.isMoving() && !(mc.options.jumpKey.isPressed() && !mc.options.sneakKey.isPressed()) && !(mc.options.sneakKey.isPressed() && !mc.options.jumpKey.isPressed()))
@@ -443,10 +443,10 @@ public class ElytraFly extends Module
                         return;
                     }
 
-                if(!mc.player.isFallFlying())
+                if(!mc.player.isGliding())
                 {
                     PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.START_FALL_FLYING));
-                    mc.player.startFallFlying();
+                    mc.player.startGliding();
                 }
 
                 if (mc.player.isOnGround())
@@ -455,7 +455,7 @@ public class ElytraFly extends Module
                     if (lastPos != null && groundBoost.getValue())
                     {
 
-                        double speedBps = mc.player.getPos().subtract(lastPos).multiply(20.0D, 0.0D, 20.0D).length();
+                        double speedBps = new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ()).subtract(lastPos).multiply(20.0D, 0.0D, 20.0D).length();
 
                         if (mc.player.isOnGround() && mc.player.isSprinting())
                         {

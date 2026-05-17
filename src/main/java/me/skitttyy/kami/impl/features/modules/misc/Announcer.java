@@ -148,11 +148,11 @@ public class Announcer extends Module {
             {
                 for (PlayerListS2CPacket.Entry entry : packet.getPlayerAdditionEntries())
                 {
-                    if (entry.profile() != null && !entry.profile().getName().equalsIgnoreCase(""))
+                    if (entry.profile() != null && !entry.profile().name().equalsIgnoreCase(""))
                     {
-                        if (!entry.profile().getName().equalsIgnoreCase(mc.getSession().getUsername()))
+                        if (!entry.profile().name().equalsIgnoreCase(mc.getSession().getUsername()))
                         {
-                            sendMessage(joinMessages[random.nextInt(joinMessages.length)].replace("%name%", entry.profile().getName()));
+                            sendMessage(joinMessages[random.nextInt(joinMessages.length)].replace("%name%", entry.profile().name()));
                         }
                     }
                 }
@@ -164,9 +164,9 @@ public class Announcer extends Module {
             for (UUID uuid : packet.profileIds)
             {
                 PlayerListEntry entry = mc.player.networkHandler.getPlayerListEntry(uuid);
-                if (entry != null && !entry.getProfile().getName().equalsIgnoreCase("") && !entry.getProfile().getName().equalsIgnoreCase(mc.getSession().getUsername()))
+                if (entry != null && !entry.getProfile().name().equalsIgnoreCase("") && !entry.getProfile().name().equalsIgnoreCase(mc.getSession().getUsername()))
                 {
-                    sendMessage(leaveMessages[random.nextInt(leaveMessages.length)].replace("%name%", entry.getProfile().getName()));
+                    sendMessage(leaveMessages[random.nextInt(leaveMessages.length)].replace("%name%", entry.getProfile().name()));
                 }
 
             }

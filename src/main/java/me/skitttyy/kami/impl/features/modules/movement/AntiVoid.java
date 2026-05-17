@@ -50,7 +50,7 @@ public class AntiVoid extends Module {
                         PlayerUtils.setMotionY(0);
                         break;
                     case "Packet":
-                        PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + 3, mc.player.getZ(), false));
+                        PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + 3, mc.player.getZ(), false, false));
                         break;
                 }
             }

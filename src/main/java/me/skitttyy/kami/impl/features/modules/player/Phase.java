@@ -125,7 +125,7 @@ public class Phase extends Module
 
             if (throwPearl || readyToDisable) return;
 
-            if (mc.player.getItemCooldownManager().isCoolingDown(Items.ENDER_PEARL))
+            if (mc.player.getItemCooldownManager().isCoolingDown(new net.minecraft.item.ItemStack(Items.ENDER_PEARL)))
             {
 
                 if (!auto.getValue())
@@ -166,7 +166,7 @@ public class Phase extends Module
                 {
                     if (BlockUtils.canIgnite(mc.player.getBlockPos(), false))
                     {
-                        int oldSlot = mc.player.getInventory().selectedSlot;
+                        int oldSlot = mc.player.getInventory().getSelectedSlot();
 
                         if (oldSlot != flintSlot)
                             InventoryUtils.switchToSlot(flintSlot);
@@ -222,7 +222,7 @@ public class Phase extends Module
                 int slot = InventoryUtils.findBlockInHotbar(Blocks.OBSIDIAN);
                 if (slot != -1 && blockPos != null && BlockUtils.canPlaceBlock(blockPos, true))
                 {
-                    int oldslot = mc.player.getInventory().selectedSlot;
+                    int oldslot = mc.player.getInventory().getSelectedSlot();
                     InventoryUtils.switchToSlot(slot);
                     RotationUtils.doSilentRotate(blockPos, true);
                     BlockUtils.placeBlock(blockPos, BlockUtils.getPlaceableSide(blockPos, true), false);
@@ -275,8 +275,8 @@ public class Phase extends Module
             } else if (mc.player.age % ticks.getValue().intValue() == 0)
             {
                 mc.player.setPosition(mc.player.getX() + MathHelper.clamp(roundToClosest(mc.player.getX(), Math.floor(mc.player.getX()) + 0.238, Math.floor(mc.player.getX()) + 0.762) - mc.player.getX(), -0.03, 0.03), mc.player.getY(), mc.player.getZ() + MathHelper.clamp(roundToClosest(mc.player.getZ(), Math.floor(mc.player.getZ()) + 0.238, Math.floor(mc.player.getZ()) + 0.762) - mc.player.getZ(), -0.03, 0.03));
-                PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY(), mc.player.getZ(), true));
-                PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(roundToClosest(mc.player.getX(), Math.floor(mc.player.getX()) + 0.23, Math.floor(mc.player.getX()) + 0.77), mc.player.getY(), roundToClosest(mc.player.getZ(), Math.floor(mc.player.getZ()) + 0.23, Math.floor(mc.player.getZ()) + 0.77), true));
+                PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY(), mc.player.getZ(), true, false));
+                // TODO: port to 1.21.11 - PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(roundToClosest(mc.player.getX(), Math.floor(mc.player.getX()) + 0.23, Math.floor(mc.player.getX()) + 0.77), mc.player.getY(), roundToClosest(mc.player.getZ(), Math.floor(mc.player.getZ()) + 0.23, Math.floor(mc.player.getZ()) + 0.77), true));
             }
             disable++;
             if (disable >= distance.getValue().doubleValue())
@@ -401,23 +401,23 @@ public class Phase extends Module
 
         if (throwPearl && !Float.isNaN(yaw) && !Float.isNaN(pitch))
         {
-            final int oldSlot = mc.player.getInventory().selectedSlot;
+            final int oldSlot = mc.player.getInventory().getSelectedSlot();
 
             if (inventory.getValue() && pearlSlot == -1)
             {
-                InventoryUtils.swap(pearlInv, mc.player.getInventory().selectedSlot);
+                InventoryUtils.swap(pearlInv, mc.player.getInventory().getSelectedSlot());
             } else
             {
                 InventoryUtils.switchToSlot(pearlSlot);
             }
 
             if (!mc.player.isCrawling() && !isClimbing())
-                PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY(), mc.player.getZ(), yaw, pitch, mc.player.isOnGround()));
+                PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY(), mc.player.getZ(), yaw, pitch, mc.player.isOnGround(), mc.player.horizontalCollision));
             PacketManager.INSTANCE.sendPacket(id -> new PlayerInteractItemC2SPacket(Hand.MAIN_HAND, id, yaw, pitch));
             mc.player.swingHand(Hand.MAIN_HAND);
             if (inventory.getValue() && pearlSlot == -1)
             {
-                InventoryUtils.swap(pearlInv, mc.player.getInventory().selectedSlot);
+                InventoryUtils.swap(pearlInv, mc.player.getInventory().getSelectedSlot());
             } else
             {
                 InventoryUtils.switchToSlot(oldSlot);

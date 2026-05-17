@@ -197,7 +197,7 @@ public class Holesnap extends Module {
         {
             if (targetHole == null || lastTarget == null) return;
 
-            float yawRad = getRotationTo(lastTarget, mc.player.getPos()).x;
+            float yawRad = getRotationTo(lastTarget, new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ())).x;
             double[] dir = PlayerUtils.forward(0.1, yawRad, true);
             Step.INSTANCE.doNCPStep(dir, true);
         }
@@ -228,7 +228,7 @@ public class Holesnap extends Module {
         }
 
         HoleUtils.Hole doubleHole = HoleUtils.isDoubleHoleFr(PlayerUtils.getPlayerPos());
-        if ((HoleUtils.isObbyHole(PlayerUtils.getPlayerPos()) || HoleUtils.isBedrockHoles(PlayerUtils.getPlayerPos()) || (doubles.getValue() && doubleHole != null && (lastTarget == null || (mc.player.getPos().distanceTo(lastTarget) < 0.1 || targetHole.toTarget != null)))) && (!selfHole.getValue() || !PlayerUtils.getPlayerPos().equals(startPos)))
+        if ((HoleUtils.isObbyHole(PlayerUtils.getPlayerPos()) || HoleUtils.isBedrockHoles(PlayerUtils.getPlayerPos()) || (doubles.getValue() && doubleHole != null && (lastTarget == null || (new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ()).distanceTo(lastTarget) < 0.1 || targetHole.toTarget != null)))) && (!selfHole.getValue() || !PlayerUtils.getPlayerPos().equals(startPos)))
         {
             if (postTimer.getValue() && !disablenexttick)
             {
@@ -281,7 +281,7 @@ public class Holesnap extends Module {
             NoAccel.paused = true;
 
             cancel = true;
-            Vec3d playerPos = mc.player.getPos();
+            Vec3d playerPos = new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ());
             Vec3d targetPos;
             if (targetHole.doubleHole)
             {
@@ -363,7 +363,7 @@ public class Holesnap extends Module {
         {
 
             Vec3d targetPos = lastTarget;
-            RenderUtil.renderLineFromPosToPos(mc.player.getPos(), targetPos, rightColor.getValue().getColor(), leftColor.getValue().getColor(), 1);
+            RenderUtil.renderLineFromPosToPos(new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ()), targetPos, rightColor.getValue().getColor(), leftColor.getValue().getColor(), 1);
 
         }
     }
@@ -402,7 +402,7 @@ public class Holesnap extends Module {
     {
         if (targetHole != null && lastTarget != null)
         {
-            Vec3d playerPos = mc.player.getPos();
+            Vec3d playerPos = new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ());
 
 
             return df.format(playerPos.distanceTo(lastTarget));

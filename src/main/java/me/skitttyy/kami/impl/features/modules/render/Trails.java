@@ -120,7 +120,7 @@ public class Trails extends Module
                         trails.get(entity.getId()).timer.setPaused(false);
                     } else
                     {
-                        trails.get(entity.getId()).positions.add(new Position(entity.getPos()));
+                        trails.get(entity.getId()).positions.add(new Position(new Vec3d(entity.getX(), entity.getY(), entity.getZ())));
                     }
                 } else
                 {
@@ -145,7 +145,7 @@ public class Trails extends Module
                     }
                 }
                 playerTrail.positions.removeAll(toRemove);
-                playerTrail.positions.add(new Position(mc.player.getPos()));
+                playerTrail.positions.add(new Position(new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ())));
             } else
             {
                 trails.put(mc.player.getId(), new ItemTrail(mc.player));
@@ -226,7 +226,7 @@ public class Trails extends Module
     boolean allowEntity(Entity e)
     {
 
-        if(!mc.world.getWorldBorder().contains(e.getPos())) return false;
+        if(!mc.world.getWorldBorder().contains(new Vec3d(e.getX(), e.getY(), e.getZ()))) return false;
 
         return e instanceof EnderPearlEntity || (e instanceof ExperienceBottleEntity && xp.getValue()) || (e instanceof ArrowEntity && arrow.getValue());
     }

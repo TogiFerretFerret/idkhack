@@ -80,7 +80,7 @@ public class AutoTotem extends Module {
 
     public Item getItem()
     {
-        if (swordGap.getValue() && (mc.player.getInventory().getMainHandStack().getItem().equals(Items.DIAMOND_SWORD) || mc.player.getInventory().getMainHandStack().getItem().equals(Items.NETHERITE_SWORD)) && mc.options.useKey.isPressed() && mc.currentScreen == null && mc.player.getHealth() + mc.player.getAbsorptionAmount() > totemSwordGap.getValue().doubleValue())
+        if (swordGap.getValue() && (mc.player.getInventory().getSelectedStack().getItem().equals(Items.DIAMOND_SWORD) || mc.player.getInventory().getSelectedStack().getItem().equals(Items.NETHERITE_SWORD)) && mc.options.useKey.isPressed() && mc.currentScreen == null && mc.player.getHealth() + mc.player.getAbsorptionAmount() > totemSwordGap.getValue().doubleValue())
         {
             return Items.ENCHANTED_GOLDEN_APPLE;
         } else if (mc.player.getHealth() + mc.player.getAbsorptionAmount() > totemHealth.getValue().doubleValue())

@@ -17,11 +17,10 @@ import me.skitttyy.kami.api.value.Value;
 import me.skitttyy.kami.api.value.builder.ValueBuilder;
 import me.skitttyy.kami.mixin.accessor.ILimbAnimator;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.model.AnimalModel;
+import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
-import net.minecraft.client.util.SkinTextures;
+import net.minecraft.entity.player.SkinTextures;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -82,7 +81,7 @@ public class PopChams extends Module {
 
     }
 
-    private void renderEntity(MatrixStack matrices, LivingEntity entity, PlayerEntityModel<PlayerEntity> modelBase, Identifier texture, long startTime, PopCham cham)
+    private void renderEntity(MatrixStack matrices, LivingEntity entity, PlayerEntityModel modelBase, Identifier texture, long startTime, PopCham cham)
     {
         modelBase.leftPants.visible = false;
         modelBase.rightPants.visible = false;
@@ -100,11 +99,8 @@ public class PopChams extends Module {
         matrices.multiply(RotationAxis.POSITIVE_Y.rotation(MathUtil.rad(180 - entity.bodyYaw)));
         prepareScale(matrices);
 
-        modelBase.animateModel((PlayerEntity) entity, entity.limbAnimator.getPos(), entity.limbAnimator.getSpeed(), mc.getRenderTickCounter().getTickDelta(false));
-
-        float limbSpeed = Math.min(entity.limbAnimator.getSpeed(), 1f);
-
-        modelBase.setAngles((PlayerEntity) entity, entity.limbAnimator.getPos(), limbSpeed, entity.age, entity.headYaw - entity.bodyYaw, entity.getPitch());
+        // TODO: port to 1.21.11 - animateModel/setAngles now take render states instead of entity params
+        // AnimalModel removed, PlayerEntityModel no longer generic
 
         int lineA = lineColor.getValue().getAlpha();
         int fillA = fill.getValue().getAlpha();
@@ -117,8 +113,8 @@ public class PopChams extends Module {
             lineA = (int) (normal * lineA);
             fillA = (int) (normal * fillA);
         }
-        WireframeEntityRenderer.renderModel(matrices, (AnimalModel) modelBase, RenderType.BOTH, ColorUtil.newAlpha(fill.getValue().getColor(), fillA), ColorUtil.newAlpha(lineColor.getValue().getColor(), lineA));
-        RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+        WireframeEntityRenderer.renderModel(matrices, (EntityModel) modelBase, RenderType.BOTH, ColorUtil.newAlpha(fill.getValue().getColor(), fillA), ColorUtil.newAlpha(lineColor.getValue().getColor(), lineA));
+        // TODO: port to 1.21.11 - RenderSystem.setShaderColor() removed
         matrices.pop();
 
         if (lineA == 0 && fillA == 0)
@@ -174,21 +170,21 @@ public class PopChams extends Module {
         entity.setSneaking(eventEntity.isSneaking());
         entity.limbAnimator.setSpeed(eventEntity.limbAnimator.getSpeed());
         ((ILimbAnimator) entity.limbAnimator).setLimbPos(eventEntity.limbAnimator.getPos());
-        popList.add(new PopCham(entity, ((AbstractClientPlayerEntity) eventEntity).getSkinTextures()));
+        popList.add(new PopCham(entity, ((AbstractClientPlayerEntity) eventEntity).getSkin()));
     }
 
     private class PopCham {
         private final PlayerEntity player;
-        private final PlayerEntityModel<PlayerEntity> modelPlayer;
+        private final PlayerEntityModel modelPlayer;
         private Identifier texture;
         long startTime;
 
         public PopCham(PlayerEntity player, SkinTextures texture)
         {
             this.player = player;
-            modelPlayer = new PlayerEntityModel<>(new EntityRendererFactory.Context(mc.getEntityRenderDispatcher(), mc.getItemRenderer(), mc.getBlockRenderManager(), mc.getEntityRenderDispatcher().getHeldItemRenderer(), mc.getResourceManager(), mc.getEntityModelLoader(), mc.textRenderer).getPart(EntityModelLayers.PLAYER), texture.model().equals(SkinTextures.Model.SLIM));
+            modelPlayer = new PlayerEntityModel(mc.getLoadedEntityModels().getModelPart(EntityModelLayers.PLAYER), texture.model() == net.minecraft.entity.player.PlayerSkinType.SLIM);
             modelPlayer.getHead().scale(new Vector3f(-0.3f, -0.3f, -0.3f));
-            this.texture = texture.texture();
+            this.texture = texture.body() != null ? texture.body().texturePath() : null;
             this.startTime = System.currentTimeMillis();
         }
 

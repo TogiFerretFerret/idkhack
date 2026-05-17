@@ -4,12 +4,11 @@ package me.skitttyy.kami.api.gui.shulker.positioners;
 import me.skitttyy.kami.api.gui.shulker.GlobalValues;
 import me.skitttyy.kami.api.gui.shulker.container.ContainerManager;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.ColorHelper;
 
 public class CapacityBarRenderer extends OverlayRenderer {
-    public static final int CAPACITY_BAR_COLOR_FILL = MathHelper.packRgb(0.4F, 0.4F, 1.0F);
+    public static final int CAPACITY_BAR_COLOR_FILL = ColorHelper.fromFloats(1.0F, 0.4F, 0.4F, 1.0F);
     public static final int CAPACITY_BAR_COLOR_BACK = -16777216;
 
     float capacity;
@@ -56,9 +55,9 @@ public class CapacityBarRenderer extends OverlayRenderer {
 
     protected void render(DrawContext context)
     {
-        context.fill(RenderLayer.getGuiOverlay(), xBackgroundStart, yBackgroundStart, xBackgroundEnd, yBackgroundEnd,
+        context.fill(xBackgroundStart, yBackgroundStart, xBackgroundEnd, yBackgroundEnd,
                 CAPACITY_BAR_COLOR_BACK);
-        context.fill(RenderLayer.getGuiOverlay(), xCapacityStart, yCapacityStart, xCapacityEnd, yCapacityEnd,
+        context.fill(xCapacityStart, yCapacityStart, xCapacityEnd, yCapacityEnd,
                 CAPACITY_BAR_COLOR_FILL | CAPACITY_BAR_COLOR_BACK);
     }
 

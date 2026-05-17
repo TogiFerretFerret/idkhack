@@ -25,10 +25,10 @@ public class ColorUtil {
     {
         int rgb = color.getRGB();
 
-        float f = (float) ColorHelper.Argb.getAlpha(rgb) / 255.0f;
-        float g = (float) ColorHelper.Argb.getRed(rgb) / 255.0f;
-        float h = (float) ColorHelper.Argb.getGreen(rgb) / 255.0f;
-        float j = (float) ColorHelper.Argb.getBlue(rgb) / 255.0f;
+        float f = (float) ColorHelper.getAlpha(rgb) / 255.0f;
+        float g = (float) ColorHelper.getRed(rgb) / 255.0f;
+        float h = (float) ColorHelper.getGreen(rgb) / 255.0f;
+        float j = (float) ColorHelper.getBlue(rgb) / 255.0f;
         return consumer.color(g, h, j, f);
     }
     public static Color brighten(Color color, double fraction) {

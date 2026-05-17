@@ -19,7 +19,7 @@ public class AutoWalk extends Module {
     {
         if (NullUtils.nullCheck()) return;
 
-        event.input.movementForward++;
+        // TODO: port to 1.21.11 - event.input.getMovementInput().y++;
     }
 
 

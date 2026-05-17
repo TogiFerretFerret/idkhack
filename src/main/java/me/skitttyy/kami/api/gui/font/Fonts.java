@@ -13,6 +13,9 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
 
+// Helper: in 1.21.11, DrawContext.getMatrices() returns Matrix3x2fStack, not MatrixStack.
+// We create a fresh MatrixStack when needed for font rendering.
+
 public class Fonts implements IMinecraft
 {
     public static final VanillaTextRenderer VANILLA = new VanillaTextRenderer();
@@ -41,27 +44,29 @@ public class Fonts implements IMinecraft
 
     public static void renderText(DrawContext context, String text, float x, float y, Color color, boolean shadow)
     {
+        MatrixStack stack = new MatrixStack();
         if (FontModule.INSTANCE.isEnabled())
         {
-            CUSTOM.drawText(context.getMatrices(), text, x, y, color, shadow);
+            CUSTOM.drawText(stack, text, x, y, color, shadow);
         } else
         {
-            VANILLA.drawText(context, context.getMatrices(), text, x, y, color.getRGB(), shadow);
+            VANILLA.drawText(context, stack, text, x, y, color.getRGB(), shadow);
         }
     }
 
     public static void doOneText(DrawContext context, String text, float x, float y, Color color, boolean shadow)
     {
+        MatrixStack stack = new MatrixStack();
         if (FontModule.INSTANCE.isEnabled())
         {
-            CUSTOM.drawText(context.getMatrices(), text, x, y, color, shadow);
+            CUSTOM.drawText(stack, text, x, y, color, shadow);
         } else
         {
             if(FontModule.INSTANCE.pop.getValue())
             {
-                VANILLA.renderCsgoLayer(context, context.getMatrices(), text, x, y, color.getRGB());
+                VANILLA.renderCsgoLayer(context, stack, text, x, y, color.getRGB());
             }else{
-                VANILLA.renderTextNoLayer(context, context.getMatrices(), text, x, y, color.getRGB(), shadow);
+                VANILLA.renderTextNoLayer(context, stack, text, x, y, color.getRGB(), shadow);
 
             }
         }
@@ -70,18 +75,20 @@ public class Fonts implements IMinecraft
 
     public static void doOneHUd(DrawContext context, String text, float x, float y, Color color, boolean shadow)
     {
+        MatrixStack stack = new MatrixStack();
         if (FontModule.INSTANCE.isEnabled())
         {
-            CUSTOM.drawText(context.getMatrices(), text, x, y, color, shadow);
+            CUSTOM.drawText(stack, text, x, y, color, shadow);
         } else
         {
-            VANILLA.renderTextNoLayer(context, context.getMatrices(), text, x, y, color.getRGB(), shadow);
+            VANILLA.renderTextNoLayer(context, stack, text, x, y, color.getRGB(), shadow);
         }
     }
 
     public static void doOneVanilla(DrawContext context, String text, float x, float y, Color color, boolean shadow)
     {
-        VANILLA.renderTextNoLayer(context, context.getMatrices(), text, x, y, color.getRGB(), shadow);
+        MatrixStack stack = new MatrixStack();
+        VANILLA.renderTextNoLayer(context, stack, text, x, y, color.getRGB(), shadow);
     }
 
 

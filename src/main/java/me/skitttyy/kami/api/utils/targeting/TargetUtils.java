@@ -1,5 +1,6 @@
 package me.skitttyy.kami.api.utils.targeting;
 
+import net.minecraft.util.math.Vec3d;
 import com.google.common.collect.Streams;
 import me.skitttyy.kami.api.management.FriendManager;
 import me.skitttyy.kami.api.utils.players.PlayerUtils;
@@ -25,8 +26,8 @@ public class TargetUtils implements IMinecraft {
                 .filter(TargetUtils::isAlive)
                 .filter(entity -> entity.getId() != mc.player.getId())
                 .filter(entity -> !FriendManager.INSTANCE.isFriend(entity))
-                .filter(entity -> mc.player.getPos().distanceTo(entity.getPos())<= targetRange)
-                .min(Comparator.comparingDouble(entity -> mc.player.getPos().distanceTo(entity.getPos())))
+                .filter(entity -> new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ()).distanceTo(new Vec3d(entity.getX(), entity.getY(), entity.getZ()))<= targetRange)
+                .min(Comparator.comparingDouble(entity -> new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ()).distanceTo(new Vec3d(entity.getX(), entity.getY(), entity.getZ()))))
                 .orElse(null);
     }
 
@@ -39,8 +40,8 @@ public class TargetUtils implements IMinecraft {
                 .filter(TargetUtils::isAlive)
                 .filter(entity -> entity.getId() != mc.player.getId())
                 .filter(entity -> !FriendManager.INSTANCE.isFriend(entity))
-                .filter(entity -> crystal.getPos().distanceTo(entity.getPos()) <= targetRange)
-                .min(Comparator.comparingDouble(entity -> crystal.getPos().distanceTo(entity.getPos())))
+                .filter(entity -> new Vec3d(crystal.getX(), crystal.getY(), crystal.getZ()).distanceTo(new Vec3d(entity.getX(), entity.getY(), entity.getZ())) <= targetRange)
+                .min(Comparator.comparingDouble(entity -> new Vec3d(crystal.getX(), crystal.getY(), crystal.getZ()).distanceTo(new Vec3d(entity.getX(), entity.getY(), entity.getZ()))))
                 .orElse(null);
     }
 
@@ -53,7 +54,7 @@ public class TargetUtils implements IMinecraft {
                 .filter(TargetUtils::isAlive)
                 .filter(entity -> entity.getId() != mc.player.getId())
                 .filter(entity -> !FriendManager.INSTANCE.isFriend(entity))
-                .filter(entity ->  mc.player.getPos().distanceTo(entity.getPos()) <= targetRange);
+                .filter(entity ->  new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ()).distanceTo(new Vec3d(entity.getX(), entity.getY(), entity.getZ())) <= targetRange);
     }
 
 
@@ -73,10 +74,10 @@ public class TargetUtils implements IMinecraft {
                 .filter(TargetUtils::isAlive)
                 .filter(entity -> entity.getId() != mc.player.getId())
                 .filter(entity -> !FriendManager.INSTANCE.isFriend(entity))
-                .filter(entity ->  mc.player.getPos().distanceTo(entity.getPos()) <= targetRange)
+                .filter(entity ->  new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ()).distanceTo(new Vec3d(entity.getX(), entity.getY(), entity.getZ())) <= targetRange)
                 .filter(entity -> mc.player.getY() > entity.getY())
 
-                .min(Comparator.comparingDouble(entity ->  mc.player.getPos().distanceTo(entity.getPos())))
+                .min(Comparator.comparingDouble(entity ->  new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ()).distanceTo(new Vec3d(entity.getX(), entity.getY(), entity.getZ()))))
                 .orElse(null);
     }
 
@@ -88,10 +89,10 @@ public class TargetUtils implements IMinecraft {
                 .filter(TargetUtils::isAlive)
                 .filter(entity -> entity.getId() != mc.player.getId())
                 .filter(entity -> !FriendManager.INSTANCE.isFriend(entity))
-                .filter(entity ->  mc.player.getPos().distanceTo(entity.getPos()) <= targetRange)
+                .filter(entity ->  new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ()).distanceTo(new Vec3d(entity.getX(), entity.getY(), entity.getZ())) <= targetRange)
                 .filter(entity -> !HoleUtils.isInBlock((PlayerEntity) entity))
                 .filter(entity -> !HoleUtils.isHole(entity.getBlockPos()))
-                .min(Comparator.comparingDouble(entity ->  mc.player.getPos().distanceTo(entity.getPos())))
+                .min(Comparator.comparingDouble(entity ->  new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ()).distanceTo(new Vec3d(entity.getX(), entity.getY(), entity.getZ()))))
                 .orElse(null);
     }
 

@@ -52,7 +52,7 @@ public class Waypoints extends Module {
 
 
                 }
-                RenderSystem.enableBlend();
+                // RenderSystem.enableBlend(); // TODO: port to 1.21.11
 
             });
         }
@@ -63,9 +63,9 @@ public class Waypoints extends Module {
     private void renderWaypoint(WaypointManager.WayPoint loc, RenderWorldEvent event)
     {
 
-        Vec3d interpolate = Interpolator.getInterpolatedEyePos(mc.getCameraEntity(), event.getTickDelta());
+        Vec3d interpolate = Interpolator.getInterpolatedEyePos(mc.getCameraEntity(), event.getTickProgress());
         Camera camera = mc.gameRenderer.getCamera();
-        Vec3d pos = camera.getPos();
+        Vec3d pos = camera.getCameraPos();
 
 
         double dx = (pos.getX() - interpolate.getX()) - loc.getX();
@@ -79,12 +79,12 @@ public class Waypoints extends Module {
 
         text[0] = new TextSection(Formatting.WHITE + loc.getName() + distance, new Color(255, 255, 255));
 
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
+        // RenderSystem.enableBlend(); // TODO: port to 1.21.11
+        // RenderSystem.defaultBlendFunc(); // TODO: port to 1.21.11
         GL11.glDepthFunc(GL11.GL_ALWAYS);
         RenderUtil.drawWaypoint(text, loc.getX(), loc.getY() + 1.4, loc.getZ(), mc.gameRenderer.getCamera(), HudColors.getTextColor(0));
         GL11.glDepthFunc(GL11.GL_LEQUAL);
-        RenderSystem.disableBlend();
+        // RenderSystem.disableBlend(); // TODO: port to 1.21.11
 
     }
 

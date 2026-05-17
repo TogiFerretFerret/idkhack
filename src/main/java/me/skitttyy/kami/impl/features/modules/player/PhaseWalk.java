@@ -156,7 +156,7 @@ public class PhaseWalk extends Module {
                 else
                     PlayerUtils.setSpeed(PlayerUtils.getStrictBaseSpeed(0.2873f), event);
 
-            } else if (mc.player.input.movementForward == 0.0F && mc.player.input.movementSideways == 0.0F)
+            } else if (mc.player.input.getMovementInput().y == 0.0F && mc.player.input.getMovementInput().x == 0.0F)
             {
                 event.motionX(0);
                 event.motionZ(0);
@@ -244,7 +244,7 @@ public class PhaseWalk extends Module {
                     event.setCancelled(true);
                     IPlayerMoveC2SPacket packet = (IPlayerMoveC2SPacket) movePacket;
 
-                    PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(packet.getX(), packet.getY(), packet.getZ(), movePacket.isOnGround()));
+                    // TODO: port to 1.21.11 - PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(packet.getX(), packet.getY(), packet.getZ(), movePacket.isOnGround()));
                 }
             }
         }
@@ -259,19 +259,19 @@ public class PhaseWalk extends Module {
         {
             if (handleTeleport.getValue().contains("Predict"))
             {
-                Vec3d prediction = predictions.get(packet.getTeleportId());
+                // TODO: port to 1.21.11 - Vec3d prediction = predictions.get(packet.getTeleportId());
                 if (prediction != null)
                 {
 
-                    if (prediction.x == packet.getX() && prediction.y == packet.getY() && prediction.z == packet.getZ())
+                    // TODO: port to 1.21.11 - if (prediction.x == packet.getX() && prediction.y == packet.getY() && prediction.z == packet.getZ())
                     {
                         event.setCancelled(true);
-                        predictions.remove(packet.getTeleportId());
-                        PacketManager.INSTANCE.sendPacket(new TeleportConfirmC2SPacket(packet.getTeleportId()));
+                        // TODO: port to 1.21.11 - predictions.remove(packet.getTeleportId());
+                        // TODO: port to 1.21.11 - PacketManager.INSTANCE.sendPacket(new TeleportConfirmC2SPacket(packet.getTeleportId()));
                         return;
                     }
                 }
-                tpId = packet.getTeleportId();
+                // TODO: port to 1.21.11 - tpId = packet.getTeleportId();
                 return;
             }
 
@@ -314,7 +314,7 @@ public class PhaseWalk extends Module {
 
     public void sendPackets(double x, double y, double z)
     {
-        PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(x, y, z, mc.player.isOnGround()));
+        PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(x, y, z, mc.player.isOnGround(), mc.player.horizontalCollision));
         sendMovePackets(new Vec3d(mc.player.getX(), mc.player.getY() - 85, mc.player.getZ()));
         if (handleTeleport.getValue().contains("Predict"))
         {
@@ -330,7 +330,7 @@ public class PhaseWalk extends Module {
 
     public void sendMovePackets(Vec3d vec)
     {
-        PacketManager.INSTANCE.sendQuietPacket(new PlayerMoveC2SPacket.PositionAndOnGround(vec.x, vec.y, vec.z, mc.player.isOnGround()));
+        PacketManager.INSTANCE.sendQuietPacket(new PlayerMoveC2SPacket.PositionAndOnGround(vec.x, vec.y, vec.z, mc.player.isOnGround(), mc.player.horizontalCollision));
     }
 
     public void onEnable()

@@ -75,7 +75,7 @@ public class AutoMace extends Module
     {
         if (event.getPacket() instanceof PlayerPositionLookS2CPacket && reset)
         {
-            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(mc.player.isOnGround()));
+            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(mc.player.isOnGround(), mc.player.horizontalCollision));
             reset = false;
         }
     }
@@ -90,24 +90,24 @@ public class AutoMace extends Module
 
         if (mc.player.squaredDistanceTo(target.getX(), mc.player.getY(), target.getZ()) > MathUtil.square(6.0f))
         {
-            if (!mc.player.isFallFlying())
+            if (!mc.player.isGliding())
             {
                 PlayerUtils.equipElytra();
             }
 
         } else
         {
-            if (mc.player.isFallFlying())
+            if (mc.player.isGliding())
             {
                 PlayerUtils.disEquipElytra();
             }
         }
-        if (mc.player.isFallFlying())
+        if (mc.player.isGliding())
         {
-            PlayerUtils.moveTowards(event, target.getPos(), ElytraFly.INSTANCE.horizontalSpeed.getValue().floatValue(), true);
+            PlayerUtils.moveTowards(event, new Vec3d(target.getX(), target.getY(), target.getZ()), ElytraFly.INSTANCE.horizontalSpeed.getValue().floatValue(), true);
         } else
         {
-            PlayerUtils.moveTowards(event, target.getPos(), PlayerUtils.getBaseSpeed(0.2873f), false);
+            PlayerUtils.moveTowards(event, new Vec3d(target.getX(), target.getY(), target.getZ()), PlayerUtils.getBaseSpeed(0.2873f), false);
 
         }
     }
@@ -124,10 +124,10 @@ public class AutoMace extends Module
         if (AutoBreak.INSTANCE.didAction) return;
 
         int slot = InventoryUtils.getHotbarItemSlot(Items.MACE);
-        int previousSlot = mc.player.getInventory().selectedSlot;
+        int previousSlot = mc.player.getInventory().getSelectedSlot();
 
 
-        Vec3d previous = mc.player.getPos();
+        Vec3d previous = new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ());
         if (slot != previousSlot)
             InventoryUtils.switchToSlot(slot);
         mc.interactionManager.attackEntity(mc.player, target);
@@ -152,7 +152,7 @@ public class AutoMace extends Module
 
 
         if (PlayerUtils.isElytraEquipped())
-            if (mc.player.isFallFlying()) mc.player.stopFallFlying();
+            if (mc.player.isGliding()) mc.player.stopGliding();
 
 
     }
@@ -184,9 +184,9 @@ public class AutoMace extends Module
 
     private void doRubberband(Vec3d previous)
     {
-        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(false));
-        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + 1, mc.player.getZ(), false));
-        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(previous.x, previous.y, previous.z, false));
+        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(false, false));
+        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + 1, mc.player.getZ(), false, false));
+        // TODO: port to 1.21.11 - mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(previous.x, previous.y, previous.z, false, false, false));
         reset = true;
     }
 

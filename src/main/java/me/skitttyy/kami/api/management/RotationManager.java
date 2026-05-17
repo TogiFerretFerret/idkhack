@@ -162,13 +162,14 @@ public class RotationManager implements IMinecraft
         {
             if (KamiMod.isBaritonePaused())
                 return;
-            float forward = mc.player.input.movementForward;
-            float sideways = mc.player.input.movementSideways;
-            float delta = (mc.player.getYaw() - rotation.getYaw()) * MathHelper.RADIANS_PER_DEGREE;
-            float cos = MathHelper.cos(delta);
-            float sin = MathHelper.sin(delta);
-            mc.player.input.movementSideways = Math.round(sideways * cos - forward * sin);
-            mc.player.input.movementForward = Math.round(forward * cos + sideways * sin);
+            // TODO: port to 1.21.11 - Input.movementForward/movementSideways removed, now uses getMovementInput() -> Vec2f
+            // Strafe fix is non-functional until ported
+            // float forward = mc.player.input.getMovementInput().y;
+            // float sideways = mc.player.input.getMovementInput().x;
+            // float delta = (mc.player.getYaw() - rotation.getYaw()) * MathHelper.RADIANS_PER_DEGREE;
+            // float cos = MathHelper.cos(delta);
+            // float sin = MathHelper.sin(delta);
+            // New input system doesn't allow direct field assignment
         }
     }
 

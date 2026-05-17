@@ -251,10 +251,10 @@ public class Sn0wGui extends Module implements IColorScheme, IMetrics, IRenderer
 
                 if (!FontModule.INSTANCE.isEnabled() && FontModule.INSTANCE.pop.getValue())
                 {
-                    Fonts.VANILLA.renderCsgoLayer(context.getDrawContext(), context.getDrawContext().getMatrices(), icon, rect.getX() + rect.getWidth() - mc.textRenderer.getWidth(icon) - 2, rect.getY() + centerY + 1, ColorUtil.interpolate(fadeAnimation.getScaledTime(), context.getColorScheme().getTextColor(), ColorUtil.newAlpha(context.getColorScheme().getTextColor(), 0)).getRGB());
+                    Fonts.VANILLA.renderCsgoLayer(context.getDrawContext(), new net.minecraft.client.util.math.MatrixStack(), icon, rect.getX() + rect.getWidth() - mc.textRenderer.getWidth(icon) - 2, rect.getY() + centerY + 1, ColorUtil.interpolate(fadeAnimation.getScaledTime(), context.getColorScheme().getTextColor(), ColorUtil.newAlpha(context.getColorScheme().getTextColor(), 0)).getRGB());
                 } else
                 {
-                    Fonts.VANILLA.renderTextNoLayer(context.getDrawContext(), context.getDrawContext().getMatrices(), icon, rect.getX() + rect.getWidth() - mc.textRenderer.getWidth(icon) - 2, rect.getY() + centerY + 1, ColorUtil.interpolate(fadeAnimation.getScaledTime(), context.getColorScheme().getTextColor(), ColorUtil.newAlpha(context.getColorScheme().getTextColor(), 0)).getRGB(), context.getColorScheme().doesTextShadow());
+                    Fonts.VANILLA.renderTextNoLayer(context.getDrawContext(), new net.minecraft.client.util.math.MatrixStack(), icon, rect.getX() + rect.getWidth() - mc.textRenderer.getWidth(icon) - 2, rect.getY() + centerY + 1, ColorUtil.interpolate(fadeAnimation.getScaledTime(), context.getColorScheme().getTextColor(), ColorUtil.newAlpha(context.getColorScheme().getTextColor(), 0)).getRGB(), context.getColorScheme().doesTextShadow());
                 }
                 break;
             }
@@ -445,7 +445,7 @@ public class Sn0wGui extends Module implements IColorScheme, IMetrics, IRenderer
 
                 Color left = ColorUtil.interpolate(fadeAnimation.getScaledTime(), color, ColorUtil.newAlpha(color, 0));
                 Color right = ColorUtil.interpolate(fadeAnimation.getScaledTime(), color2, ColorUtil.newAlpha(color2, 0));
-                RenderUtil.renderGradient(context.getDrawContext().getMatrices(), x, y, actualWidth, 6, left.getRGB(), right.getRGB(), true);
+                RenderUtil.renderGradient(new net.minecraft.client.util.math.MatrixStack(), x, y, actualWidth, 6, left.getRGB(), right.getRGB(), true);
 
             }
 
@@ -583,20 +583,20 @@ public class Sn0wGui extends Module implements IColorScheme, IMetrics, IRenderer
         Color bottom = ColorUtil.interpolate(fadeAnimation.getScaledTime(), inputBottom, ColorUtil.newAlpha(inputBottom, 0));
         if (mode == RectMode.Fill)
         {
-            RenderUtil.renderGradient(context.getDrawContext().getMatrices(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), color.getRGB(), bottom.getRGB(), false);
+            RenderUtil.renderGradient(new net.minecraft.client.util.math.MatrixStack(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), color.getRGB(), bottom.getRGB(), false);
         }
         if (mode == RectMode.FillHorizontal)
         {
-            RenderUtil.renderGradient(context.getDrawContext().getMatrices(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), color.getRGB(), bottom.getRGB(), true);
+            RenderUtil.renderGradient(new net.minecraft.client.util.math.MatrixStack(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), color.getRGB(), bottom.getRGB(), true);
         }
         if (mode == RectMode.Outline)
         {
-            RenderUtil.renderOutline(context.getDrawContext().getMatrices(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), color.getRGB(), true);
+            RenderUtil.renderOutline(new net.minecraft.client.util.math.MatrixStack(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), color.getRGB(), true);
         }
 
         if (mode == RectMode.OutlineNoRasturize)
         {
-            RenderUtil.renderOutline(context.getDrawContext().getMatrices(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), color.getRGB(), false);
+            RenderUtil.renderOutline(new net.minecraft.client.util.math.MatrixStack(), rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), color.getRGB(), false);
         }
     }
 

@@ -115,13 +115,13 @@ public class Criticals extends Module
                 switch (mode.getValue())
                 {
                     case "Strict":
-                        PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + 1.1E-7D, mc.player.getZ(), false));
-                        PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + 1.0E-8D, mc.player.getZ(), false));
+                        PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + 1.1E-7D, mc.player.getZ(), false, false));
+                        PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + 1.0E-8D, mc.player.getZ(), false, false));
                         groundMe = true;
                         break;
                     case "Packet":
-                        PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + 0.0625D, mc.player.getZ(), false));
-                        PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY(), mc.player.getZ(), false));
+                        PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + 0.0625D, mc.player.getZ(), false, false));
+                        PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY(), mc.player.getZ(), false, false));
                         break;
                     case "Jump":
                         if (mc.player.isOnGround())
@@ -132,16 +132,16 @@ public class Criticals extends Module
                             PlayerUtils.setMotionY(0.3425);
                         break;
                     case "Grim":
-                        PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + 0.0625D, mc.player.getZ(), false));
-                        PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + 0.04535, mc.player.getZ(), false));
+                        PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + 0.0625D, mc.player.getZ(), false, false));
+                        PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + 0.04535, mc.player.getZ(), false, false));
                         break;
                     case "GrimV2":
-                        PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY() - 0.0001f, mc.player.getZ(), RotationUtils.getActualYaw(), RotationUtils.getActualPitch(), false));
+                        PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY() - 0.0001f, mc.player.getZ(), RotationUtils.getActualYaw(), RotationUtils.getActualPitch(), false, false));
                         break;
                     case "GrimCC":
-                        PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + 0.0625, mc.player.getZ(), false));
-                        PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + 0.0625013579, mc.player.getZ(), false));
-                        PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + 1.3579e-6, mc.player.getZ(), false));
+                        PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + 0.0625, mc.player.getZ(), false, false));
+                        PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + 0.0625013579, mc.player.getZ(), false, false));
+                        PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + 1.3579e-6, mc.player.getZ(), false, false));
 
                         break;
 
@@ -158,9 +158,9 @@ public class Criticals extends Module
 
         if (event.getPacket() instanceof ExplosionS2CPacket packet)
         {
-            Vec3d explosionVec = new Vec3d(packet.getX(), packet.getY(), packet.getZ());
+            // TODO: port to 1.21.11 - Vec3d explosionVec = new Vec3d(packet.getX(), packet.getY(), packet.getZ());
 
-            if (explosionVec.distanceTo(mc.player.getPos()) < 6.0)
+            if (explosionVec.distanceTo(new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ())) < 6.0)
             {
                 canGrimCrit = true;
             }
@@ -226,7 +226,7 @@ public class Criticals extends Module
             if (groundMe)
             {
 
-                PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY(), mc.player.getZ(), true));
+                PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY(), mc.player.getZ(), true, false));
                 groundMe = false;
             }
             if (resetSprint)

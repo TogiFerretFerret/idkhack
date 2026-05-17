@@ -247,7 +247,7 @@ public abstract class ColorWidget implements IWidget<Color>, IComponent {
     @Override
     public void key(Context context, int key, char character)
     {
-        if (hovering && InputUtil.isKeyPressed(mc.getWindow().getHandle(), InputUtil.GLFW_KEY_LEFT_CONTROL) && open)
+        if (hovering && InputUtil.isKeyPressed(mc.getWindow(), InputUtil.GLFW_KEY_LEFT_CONTROL) && open)
         {
             if (key == GLFW.GLFW_KEY_C)
             {

@@ -153,13 +153,13 @@ public abstract class MixinClientPlayNetworkHandler extends ClientCommonNetworkH
 //            d = vec3d.getX();
 //            e = playerEntity.getX() + packet.getX();
 //            playerEntity.lastRenderX += packet.getX();
-//            playerEntity.prevX += packet.getX();
+//            playerEntity.lastX += packet.getX();
 //        } else
 //        {
 //            d = 0.0;
 //            e = packet.getX();
 //            playerEntity.lastRenderX = e;
-//            playerEntity.prevX = e;
+//            playerEntity.lastX = e;
 //        }
 //
 //        double f;
@@ -169,13 +169,13 @@ public abstract class MixinClientPlayNetworkHandler extends ClientCommonNetworkH
 //            f = vec3d.getY();
 //            g = playerEntity.getY() + packet.getY();
 //            playerEntity.lastRenderY += packet.getY();
-//            playerEntity.prevY += packet.getY();
+//            playerEntity.lastY += packet.getY();
 //        } else
 //        {
 //            f = 0.0;
 //            g = packet.getY();
 //            playerEntity.lastRenderY = g;
-//            playerEntity.prevY = g;
+//            playerEntity.lastY = g;
 //        }
 //
 //        double h;
@@ -185,13 +185,13 @@ public abstract class MixinClientPlayNetworkHandler extends ClientCommonNetworkH
 //            h = vec3d.getZ();
 //            i = playerEntity.getZ() + packet.getZ();
 //            playerEntity.lastRenderZ += packet.getZ();
-//            playerEntity.prevZ += packet.getZ();
+//            playerEntity.lastZ += packet.getZ();
 //        } else
 //        {
 //            h = 0.0;
 //            i = packet.getZ();
 //            playerEntity.lastRenderZ = i;
-//            playerEntity.prevZ = i;
+//            playerEntity.lastZ = i;
 //        }
 //
 //        playerEntity.setPosition(e, g, i);
@@ -222,20 +222,20 @@ public abstract class MixinClientPlayNetworkHandler extends ClientCommonNetworkH
 //        if (!AntiPackets.INSTANCE.isEnabled() || !AntiPackets.INSTANCE.serverRotate.getValue())
 //        {
 //            playerEntity.setPitch(pitch);
-//            playerEntity.prevPitch = pitch;
+//            playerEntity.lastPitch = pitch;
 //
 //            playerEntity.setYaw(yaw);
-//            playerEntity.prevYaw = yaw;
+//            playerEntity.lastYaw = yaw;
 //        }
 //
 //        this.connection.send(new TeleportConfirmC2SPacket(packet.getTeleportId()));
 //
 //
 //        if(AntiPackets.INSTANCE.isEnabled() && AntiPackets.INSTANCE.serverRotate.getValue() && AntiPackets.INSTANCE.adjust.getValue()){
-//            this.connection.send(new PlayerMoveC2SPacket.Full(playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), RotationUtils.getActualYaw(), RotationUtils.getActualPitch(), false));
+//            this.connection.send(new PlayerMoveC2SPacket.Full(playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), RotationUtils.getActualYaw(), RotationUtils.getActualPitch(), false, false));
 //        }else
 //        {
-//            this.connection.send(new PlayerMoveC2SPacket.Full(playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), yaw, pitch, false));
+//            this.connection.send(new PlayerMoveC2SPacket.Full(playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), yaw, pitch, false, false));
 //        }
 //    }
     @Overwrite
@@ -258,36 +258,36 @@ public abstract class MixinClientPlayNetworkHandler extends ClientCommonNetworkH
             d = vec3d.getX();
             e = playerEntity.getX() + packet.getX();
             playerEntity.lastRenderX += packet.getX();
-            playerEntity.prevX += packet.getX();
+            playerEntity.lastX += packet.getX();
         } else
         {
             d = 0.0;
             playerEntity.lastRenderX = e = packet.getX();
-            playerEntity.prevX = e;
+            playerEntity.lastX = e;
         }
         if (bl2)
         {
             f = vec3d.getY();
             g = playerEntity.getY() + packet.getY();
             playerEntity.lastRenderY += packet.getY();
-            playerEntity.prevY += packet.getY();
+            playerEntity.lastY += packet.getY();
         } else
         {
             f = 0.0;
             playerEntity.lastRenderY = g = packet.getY();
-            playerEntity.prevY = g;
+            playerEntity.lastY = g;
         }
         if (bl3)
         {
             h = vec3d.getZ();
             i = playerEntity.getZ() + packet.getZ();
             playerEntity.lastRenderZ += packet.getZ();
-            playerEntity.prevZ += packet.getZ();
+            playerEntity.lastZ += packet.getZ();
         } else
         {
             h = 0.0;
             playerEntity.lastRenderZ = i = packet.getZ();
-            playerEntity.prevZ = i;
+            playerEntity.lastZ = i;
         }
         playerEntity.setPosition(e, g, i);
         playerEntity.setVelocity(d, f, h);
@@ -306,7 +306,7 @@ public abstract class MixinClientPlayNetworkHandler extends ClientCommonNetworkH
             if (!AntiPackets.INSTANCE.isEnabled() || !AntiPackets.INSTANCE.serverRotate.getValue())
             {
                 playerEntity.setPitch(playerEntity.getPitch() + k);
-                playerEntity.prevPitch += k;
+                playerEntity.lastPitch += k;
             }
         } else
         {
@@ -314,7 +314,7 @@ public abstract class MixinClientPlayNetworkHandler extends ClientCommonNetworkH
             if (!AntiPackets.INSTANCE.isEnabled() || !AntiPackets.INSTANCE.serverRotate.getValue())
             {
                 playerEntity.setPitch(k);
-                playerEntity.prevPitch = k;
+                playerEntity.lastPitch = k;
             }
         }
 
@@ -326,7 +326,7 @@ public abstract class MixinClientPlayNetworkHandler extends ClientCommonNetworkH
             if (!AntiPackets.INSTANCE.isEnabled() || !AntiPackets.INSTANCE.serverRotate.getValue())
             {
                 playerEntity.setYaw(playerEntity.getYaw() + j);
-                playerEntity.prevYaw += j;
+                playerEntity.lastYaw += j;
             }
         } else
         {
@@ -334,7 +334,7 @@ public abstract class MixinClientPlayNetworkHandler extends ClientCommonNetworkH
             if (!AntiPackets.INSTANCE.isEnabled() || !AntiPackets.INSTANCE.serverRotate.getValue())
             {
                 playerEntity.setYaw(j);
-                playerEntity.prevYaw = j;
+                playerEntity.lastYaw = j;
             }
         }
         this.connection.send(new TeleportConfirmC2SPacket(packet.getTeleportId()));
@@ -342,16 +342,16 @@ public abstract class MixinClientPlayNetworkHandler extends ClientCommonNetworkH
 
         if (!AntiPackets.INSTANCE.isEnabled() || !AntiPackets.INSTANCE.serverRotate.getValue())
         {
-            this.connection.send(new PlayerMoveC2SPacket.Full(playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), playerEntity.getYaw(), playerEntity.getPitch(), false));
+            this.connection.send(new PlayerMoveC2SPacket.Full(playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), playerEntity.getYaw(), playerEntity.getPitch(), false, false));
         } else if (AntiPackets.INSTANCE.isEnabled() && AntiPackets.INSTANCE.serverRotate.getValue())
         {
             if (AntiPackets.INSTANCE.adjust.getValue())
             {
-                this.connection.send(new PlayerMoveC2SPacket.Full(playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), RotationUtils.getActualYaw(), RotationUtils.getActualPitch(), false));
+                this.connection.send(new PlayerMoveC2SPacket.Full(playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), RotationUtils.getActualYaw(), RotationUtils.getActualPitch(), false, false));
 
             } else
             {
-                this.connection.send(new PlayerMoveC2SPacket.Full(playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), yaw, pitch, false));
+                this.connection.send(new PlayerMoveC2SPacket.Full(playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), yaw, pitch, false, false));
             }
         }
     }

@@ -103,7 +103,7 @@ public class Catcher extends Module
                 }
             }
 
-            int id = oppPearls.entrySet().stream().min(Comparator.comparingDouble(ent -> mc.player.getPos().distanceTo(mc.world.getEntityById(ent.getKey()).getPos()))).get().getKey();
+            int id = oppPearls.entrySet().stream().min(Comparator.comparingDouble(ent -> { Entity e2 = mc.world.getEntityById(ent.getKey()); return mc.player.squaredDistanceTo(e2.getX(), e2.getY(), e2.getZ()); })).get().getKey();
             EnderPearlEntity pearlEntity = (EnderPearlEntity) mc.world.getEntityById(id);
 
             if (pearlEntity == null) return;
@@ -175,7 +175,7 @@ public class Catcher extends Module
 
         int blockSlot = InventoryUtils.getHotbarItemSlot(Items.OBSIDIAN);
 
-        int oldSlot = mc.player.getInventory().selectedSlot;
+        int oldSlot = mc.player.getInventory().getSelectedSlot();
         boolean switched = false;
 
 
@@ -183,7 +183,7 @@ public class Catcher extends Module
 
         for (BlockPos pos : toPlace)
         {
-            if (blockSlot != mc.player.getInventory().selectedSlot)
+            if (blockSlot != mc.player.getInventory().getSelectedSlot())
             {
                 InventoryUtils.switchToSlot(blockSlot);
                 switched = true;

@@ -152,7 +152,7 @@ public class AntiChainPop extends Module
             lethal = false;
             List<EndCrystalEntity> crystals = getNearByCrystals();
             ArrayList<Vec3d> crystalsPos = new ArrayList<>();
-            crystals.forEach(e -> crystalsPos.add(e.getPos()));
+            crystals.forEach(e -> crystalsPos.add(new Vec3d(e.getX(), e.getY(), e.getZ())));
 
             for (Vec3d pos : crystalsPos)
             {
@@ -169,7 +169,7 @@ public class AntiChainPop extends Module
         if (totemSlot != -1 && (curHurtTime || !hurtTime.getValue()) && mc.player.getHealth() + mc.player.getAbsorptionAmount() < health.getValue().longValue() && lethal)
         {
             if (mc.player.getMainHandStack().getItem() != Items.TOTEM_OF_UNDYING)
-                oldSlot = mc.player.getInventory().selectedSlot;
+                oldSlot = mc.player.getInventory().getSelectedSlot();
 
 
             InventoryUtils.switchToSlot(totemSlot);
@@ -183,7 +183,7 @@ public class AntiChainPop extends Module
             } else if (oldSlot != -1 && totemSlot != -1)
             {
                 if (mc.player.getMainHandStack().getItem() != Items.TOTEM_OF_UNDYING)
-                    oldSlot = mc.player.getInventory().selectedSlot;
+                    oldSlot = mc.player.getInventory().getSelectedSlot();
 
 
                 InventoryUtils.switchToSlot(totemSlot);
@@ -193,7 +193,7 @@ public class AntiChainPop extends Module
 
     private List<EndCrystalEntity> getNearByCrystals()
     {
-        Vec3d pos = mc.player.getPos();
+        Vec3d pos = new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ());
         return mc.world.getEntitiesByClass(EndCrystalEntity.class, new Box(pos.add(-4, -4, -4), pos.add(4, 4, 4)), a -> true);
     }
 

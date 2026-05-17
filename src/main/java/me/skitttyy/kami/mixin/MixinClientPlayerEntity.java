@@ -171,10 +171,10 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
                     bl2 = false;
                 } else if (bl2 && bl3)
                 {
-                    networkHandler.sendPacket(new PlayerMoveC2SPacket.Full(x, y, z, yaw, pitch, ground));
+                    networkHandler.sendPacket(new PlayerMoveC2SPacket.Full(x, y, z, yaw, pitch, ground, false));
                 } else if (bl2)
                 {
-                    networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(x, y, z, ground));
+                    networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(x, y, z, ground, false));
                 } else if (bl3)
                 {
                     networkHandler.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(yaw, pitch, ground));

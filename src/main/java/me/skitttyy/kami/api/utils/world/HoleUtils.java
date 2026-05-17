@@ -440,7 +440,7 @@ public class HoleUtils implements IMinecraft {
         {
             targetPos = new Vec3d(hole.pos1.getX() + 0.5, mc.player.getY(), hole.pos1.getZ() + 0.5);
         }
-        return mc.player.getPos().distanceTo(targetPos);
+        return new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ()).distanceTo(targetPos);
     }
 
     public static class Hole {

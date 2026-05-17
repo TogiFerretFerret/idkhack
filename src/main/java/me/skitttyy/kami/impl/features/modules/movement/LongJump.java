@@ -74,7 +74,7 @@ public class LongJump extends Module
         switch (mode.getValue())
         {
             case "Grim":
-                if (!mc.player.isFallFlying())
+                if (!mc.player.isGliding())
                     return;
 
 
@@ -90,7 +90,7 @@ public class LongJump extends Module
                 if (mode.getValue().contains("Strict") && !BoostManager.INSTANCE.canDoLongjump()) return;
 
 
-                if (mc.player.isFallFlying() || mc.player.isInLava() || mc.player.isSubmergedInWater())
+                if (mc.player.isGliding() || mc.player.isInLava() || mc.player.isSubmergedInWater())
                 {
                     return;
                 }
@@ -102,7 +102,7 @@ public class LongJump extends Module
                         break;
                     case 2:
                         double motionY = 0.40123128;
-                        if ((mc.player.input.movementForward != 0.0F || mc.player.input.movementSideways != 0.0F) && mc.player.isOnGround())
+                        if ((mc.player.input.getMovementInput().y != 0.0F || mc.player.input.getMovementInput().x != 0.0F) && mc.player.isOnGround())
                         {
                             if (mc.player.hasStatusEffect(StatusEffects.JUMP_BOOST))
                                 motionY += ((mc.player.getStatusEffect(StatusEffects.JUMP_BOOST).getAmplifier() + 1) * 0.1F);
@@ -116,13 +116,13 @@ public class LongJump extends Module
                     default:
                         if ((!Streams.stream(mc.world.getCollisions(mc.player, mc.player.getBoundingBox().offset(0.0D, mc.player.getVelocity().y, 0.0D))).toList().isEmpty() || mc.player.verticalCollision) && stage > 0)
                         {
-                            stage = mc.player.input.movementForward == 0.0F && mc.player.input.movementSideways == 0.0F ? 0 : 1;
+                            stage = mc.player.input.getMovementInput().y == 0.0F && mc.player.input.getMovementInput().x == 0.0F ? 0 : 1;
                         }
                         moveSpeed = lastDist - lastDist / 159.0D;
                         break;
                 }
                 moveSpeed = Math.max(moveSpeed, getBaseMoveSpeed());
-                double forward = mc.player.input.movementForward, strafe = mc.player.input.movementSideways, yaw = mc.player.getYaw();
+                double forward = mc.player.input.getMovementInput().y, strafe = mc.player.input.getMovementInput().x, yaw = mc.player.getYaw();
                 if (forward != 0 && strafe != 0)
                 {
                     forward = forward * Math.sin(Math.PI / 4);
@@ -155,12 +155,12 @@ public class LongJump extends Module
 
                 if (RotationManager.INSTANCE.isRotationBlocked(99))
                     return;
-                if (!mc.player.isFallFlying())
+                if (!mc.player.isGliding())
                 {
                     InventoryUtils.swapArmor(2, slot);
 
                     PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.START_FALL_FLYING));
-                    mc.player.startFallFlying();
+                    mc.player.startGliding();
                     if (MiddleClick.INSTANCE.fireworkSchedule)
                     {
                         MiddleClick.INSTANCE.doFirework();
@@ -195,7 +195,7 @@ public class LongJump extends Module
 
         if (!hasBeenGrounded && onGround.getValue()) return;
 
-        lastDist = Math.sqrt(((mc.player.getX() - mc.player.prevX) * (mc.player.getX() - mc.player.prevX)) + ((mc.player.getZ() - mc.player.prevZ) * (mc.player.getZ() - mc.player.prevZ)));
+        lastDist = Math.sqrt(((mc.player.getX() - mc.player.lastX) * (mc.player.getX() - mc.player.lastX)) + ((mc.player.getZ() - mc.player.lastZ) * (mc.player.getZ() - mc.player.lastZ)));
         if (canSprint())
         {
             mc.player.setSprinting(true);
@@ -291,7 +291,7 @@ public class LongJump extends Module
 
     private boolean canSprint()
     {
-        return ((mc.player.input.movementSideways != 0.0F || mc.player.input.movementForward != 0.0F) && !mc.player.isBlocking() && !mc.player.isClimbing() && !mc.player.horizontalCollision && mc.player.getHungerManager().getFoodLevel() > 6);
+        return ((mc.player.input.getMovementInput().x != 0.0F || mc.player.input.getMovementInput().y != 0.0F) && !mc.player.isBlocking() && !mc.player.isClimbing() && !mc.player.horizontalCollision && mc.player.getHungerManager().getFoodLevel() > 6);
     }
 
     @Override

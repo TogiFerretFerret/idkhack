@@ -72,7 +72,7 @@ public class MiddleClick extends Module
 
         if (mc.mouse.wasMiddleButtonClicked())
         {
-            if (!isAutoXP() && (!fireworks.getValue() || !mc.player.isFallFlying()))
+            if (!isAutoXP() && (!fireworks.getValue() || !mc.player.isGliding()))
             {
                 if (pearl.getValue() && fastProjectile.getValue())
                 {
@@ -134,7 +134,7 @@ public class MiddleClick extends Module
                             fireworkSchedule = true;
                             return;
 
-                        } else if (mc.player.isFallFlying())
+                        } else if (mc.player.isGliding())
                         {
                             doFirework();
                             hasPressed = true;
@@ -188,9 +188,9 @@ public class MiddleClick extends Module
                     ));
                     return;
                 }
-                InventoryUtils.swap(pearlInv, mc.player.getInventory().selectedSlot);
+                InventoryUtils.swap(pearlInv, mc.player.getInventory().getSelectedSlot());
                 PlayerUtils.use();
-                InventoryUtils.swap(pearlInv, mc.player.getInventory().selectedSlot);
+                InventoryUtils.swap(pearlInv, mc.player.getInventory().getSelectedSlot());
             }
             return;
         }
@@ -217,16 +217,16 @@ public class MiddleClick extends Module
                 ));
                 return;
             }
-            InventoryUtils.swap(fireworkInv, mc.player.getInventory().selectedSlot);
+            InventoryUtils.swap(fireworkInv, mc.player.getInventory().getSelectedSlot());
             PlayerUtils.use();
-            InventoryUtils.swap(fireworkInv, mc.player.getInventory().selectedSlot);
+            InventoryUtils.swap(fireworkInv, mc.player.getInventory().getSelectedSlot());
         }
     }
 
 
     public void switchAndUse(int slot, boolean pearl)
     {
-        int oldSlot = mc.player.getInventory().selectedSlot;
+        int oldSlot = mc.player.getInventory().getSelectedSlot();
         InventoryUtils.switchToSlotGhost(slot);
         if (pearl && fastProjectile.getValue() && System.currentTimeMillis() - startTime > 500)
         {
@@ -256,11 +256,11 @@ public class MiddleClick extends Module
             Color left = HudColors.getTextColor(0);
             Color right = HudColors.getTextColor((int) Fonts.getTextHeight("AA"));
 
-            RenderUtil.renderRect(event.getContext().getMatrices(), (x - half - 0.5), (y - 0.5), (half * 2) + 1f, thickness + 1, 0x78000000);
-            RenderUtil.renderGradient(event.getContext().getMatrices(), (x - half - 0.5), (y - 0.5), width * percentage + 1, thickness + 1,
-                    left.darker().getRGB(), right.darker().getRGB(), true);
-            RenderUtil.renderGradient(event.getContext().getMatrices(), (x - half), y, width * percentage, thickness,
-                    left.getRGB(), right.getRGB(), true);
+            // TODO: port to 1.21.11 - RenderUtil.renderRect(event.getContext().getMatrices(), (x - half - 0.5), (y - 0.5), (half * 2) + 1f, thickness + 1, 0x78000000);
+            // TODO: port to 1.21.11 - RenderUtil.renderGradient(event.getContext().getMatrices(), (x - half - 0.5), (y - 0.5), width * percentage + 1, thickness + 1,
+                    // TODO: 1.21.11 - left.darker().getRGB(), right.darker().getRGB(), true);
+            // TODO: port to 1.21.11 - RenderUtil.renderGradient(event.getContext().getMatrices(), (x - half), y, width * percentage, thickness,
+                    // TODO: 1.21.11 - left.getRGB(), right.getRGB(), true);
         }
     }
 
@@ -279,7 +279,7 @@ public class MiddleClick extends Module
         if (isAutoXP())
             return "XP";
 
-        if (mc.player.isFallFlying() && fireworks.getValue())
+        if (mc.player.isGliding() && fireworks.getValue())
             return "Firework";
 
         return "Pearl";

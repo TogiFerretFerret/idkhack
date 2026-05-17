@@ -107,7 +107,7 @@ public class AutoWeb extends Module {
         if (NullUtils.nullCheck()) return;
 
 
-        boolean offhand = mc.player.getInventory().offHand.get(0).getItem() == Items.COBWEB;
+        // TODO: port to 1.21.11 - boolean offhand = mc.player.getInventory().offHand.get(0).getItem() == Items.COBWEB;
 
 
         if (mode.getValue().equals("Target"))
@@ -171,13 +171,13 @@ public class AutoWeb extends Module {
                 this.setEnabled(false);
             return;
         }
-        int oldSlot = mc.player.getInventory().selectedSlot;
+        int oldSlot = mc.player.getInventory().getSelectedSlot();
         boolean switched = false;
         for (BlockPos pos : toPlace)
         {
 
 
-            if (webSlot != mc.player.getInventory().selectedSlot)
+            if (webSlot != mc.player.getInventory().getSelectedSlot())
             {
                 InventoryUtils.switchToSlot(webSlot);
                 switched = true;

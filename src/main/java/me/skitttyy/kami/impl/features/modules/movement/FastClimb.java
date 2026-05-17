@@ -24,7 +24,7 @@ public class FastClimb extends Module {
         if (NullUtils.nullCheck()) return;
 
 
-        if (mc.player.input.movementForward > 0.01
+        if (mc.player.input.getMovementInput().y > 0.01
                 && mc.player.isOnGround()
                 && mc.world.getBlockState(new BlockPos((int) mc.player.getX(), (int) (mc.player.getY() - 1), (int) mc.player.getZ())).getBlock() instanceof StairsBlock) {
 

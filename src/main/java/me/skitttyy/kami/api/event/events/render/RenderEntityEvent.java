@@ -7,13 +7,14 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.model.EntityModel;
+import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 
 import java.util.List;
 
 @Getter
-public class RenderEntityEvent<T extends LivingEntity> extends Event
+public class RenderEntityEvent<S extends LivingEntityRenderState> extends Event
 {
     public final LivingEntity entity;
 
@@ -24,12 +25,12 @@ public class RenderEntityEvent<T extends LivingEntity> extends Event
     public final int i;
     public final RenderLayer layer;
     public final EntityModel model;
-    public final List<FeatureRenderer<T, EntityModel<T>>> features;
+    public final List<FeatureRenderer<S, EntityModel<S>>> features;
     public RenderEntityEvent(LivingEntity entity, float f, float g,
                              MatrixStack matrixStack,
                              VertexConsumerProvider vertexConsumerProvider,
                              int i, EntityModel model, RenderLayer layer,
-                             List<FeatureRenderer<T, EntityModel<T>>> features)
+                             List<FeatureRenderer<S, EntityModel<S>>> features)
     {
         this.entity = entity;
         this.f = f;

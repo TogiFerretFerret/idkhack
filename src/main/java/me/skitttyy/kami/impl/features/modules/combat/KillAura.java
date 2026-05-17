@@ -197,15 +197,15 @@ public class KillAura extends Module
             return;
         }
 
-        if (onlySword.getValue()
-                && !(mc.player.getMainHandStack().getItem() instanceof SwordItem
-                || mc.player.getMainHandStack().getItem() instanceof AxeItem
-                || mc.player.getMainHandStack().getItem() instanceof MaceItem
-                || mc.player.getMainHandStack().getItem() instanceof TridentItem))
+        if (false) { // TODO: 1.21.11 - onlySword check
+                // TODO: port to 1.21.11 - && !(mc.player.getMainHandStack().getItem() instanceof SwordItem
+                // TODO: 1.21.11 - || mc.player.getMainHandStack().getItem() instanceof AxeItem
+                // TODO: 1.21.11 - || mc.player.getMainHandStack().getItem() instanceof MaceItem
+            // TODO: port item checks
         {
             target = null;
             return;
-        } else
+        // TODO: 1.21.11 - } else
         {
             if (autoSwitch.getValue() && (!noGapSwitch.getValue() || !PlayerUtils.isEatingGap()))
                 equipBestWeapon();
@@ -265,7 +265,7 @@ public class KillAura extends Module
 
             if (target instanceof PlayerEntity entity)
             {
-                if (PlayerUtils.isBoostedByFirework() && AntiCheat.INSTANCE.strafeFix.getValue() && !entity.isFallFlying())
+                if (PlayerUtils.isBoostedByFirework() && AntiCheat.INSTANCE.strafeFix.getValue() && !entity.isGliding())
                     return;
             }
 
@@ -299,12 +299,12 @@ public class KillAura extends Module
     }
 
     @SubscribeEvent
-    public void onRenderWorld(RenderWorldEvent event)
-    {
-        if (NullUtils.nullCheck()) return;
+    // TODO: 1.21.11 - public void onRenderWorld(RenderWorldEvent event)
+    // TODO: 1.21.11 - {
+        // TODO: 1.21.11 - if (NullUtils.nullCheck()) return;
 
 
-        if (PriorityManager.INSTANCE.isUsageLocked()) return;
+        // TODO: 1.21.11 - if (PriorityManager.INSTANCE.isUsageLocked()) return;
 
         if (!esp.getValue()) return;
 
@@ -327,17 +327,17 @@ public class KillAura extends Module
         }
     }
 
-    public static void equipBestWeapon()
+    // TODO: 1.21.11 - public static void equipBestWeapon()
     {
         int slot = InventoryUtils.getSwordSlot();
 
-        if (slot == -1 || slot == mc.player.getInventory().selectedSlot) return;
+        if (slot == -1 || slot == mc.player.getInventory().getSelectedSlot()) return;
 
         InventoryUtils.switchToSlot(slot);
     }
 
 
-    public boolean isInAttackRange(Vec3d pos, Entity entity)
+    // TODO: 1.21.11 - public boolean isInAttackRange(Vec3d pos, Entity entity)
     {
         final Vec3d entityPos = getAttackRotateVec(entity);
         double dist = pos.distanceTo(entityPos);
@@ -359,7 +359,7 @@ public class KillAura extends Module
 
     public Vec3d getAttackRotateVec(Entity entity)
     {
-        Vec3d feetPos = entity.getPos();
+        Vec3d feetPos = new Vec3d(entity.getX(), entity.getY(), entity.getZ());
         return switch (rotateType.getValue())
         {
             case "Feet" -> feetPos;

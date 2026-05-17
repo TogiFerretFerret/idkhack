@@ -137,9 +137,9 @@ public class AutoRegearCommand extends Command {
 
         // String that is going to be our inventory
         StringBuilder jsonInventory = new StringBuilder();
-        for (ItemStack item : mc.player.getInventory().main) {
+        for (ItemStack item : mc.player.getInventory().getMainStacks()) {
             // Add everything
-            jsonInventory.append(item.getItem().getDefaultStack().getTranslationKey()).append(" ");
+            jsonInventory.append(item.getItem().getTranslationKey()).append(" ");
         }
         // Add to the json
         map.put(name, jsonInventory.toString());

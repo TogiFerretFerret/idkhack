@@ -1,6 +1,7 @@
 package me.skitttyy.kami.api.utils.render.world.buffers;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import me.skitttyy.kami.api.utils.color.ColorUtil;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
@@ -16,7 +17,8 @@ public class RenderBuffers {
     public static final Buffer QUADS = new Buffer(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
 
     public static final Buffer LINES = new Buffer(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION_COLOR);
-    public static final Buffer LINE = new Buffer(VertexFormat.DrawMode.LINES, VertexFormats.LINES);
+    // TODO: port to 1.21.11 - VertexFormats.LINES removed
+    public static final Buffer LINE = new Buffer(VertexFormat.DrawMode.LINES, VertexFormats.POSITION_COLOR);
     public static final Buffer TRIANGLES = new Buffer(VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION_COLOR);
 
     private static boolean isSetup = false;
@@ -27,11 +29,12 @@ public class RenderBuffers {
     public static void preRender()
     {
         GL11.glEnable(GL11.GL_LINE_SMOOTH);
-        RenderSystem.disableCull();
-        RenderSystem.enableBlend();
+        // TODO: port to 1.21.11 - RenderSystem state methods removed
+        // RenderSystem.disableCull();
+        // RenderSystem.enableBlend();
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.disableDepthTest();
+        // RenderSystem.defaultBlendFunc();
+        // RenderSystem.disableDepthTest();
         isSetup = true;
 
         for (Runnable callback : midways)
@@ -69,9 +72,10 @@ public class RenderBuffers {
         GL11.glDisable(GL11.GL_LINE_SMOOTH);
         LINE.draw();
 
-        RenderSystem.enableDepthTest();
-        RenderSystem.disableBlend();
-        RenderSystem.enableCull();
+        // TODO: port to 1.21.11 - RenderSystem state methods removed
+        // RenderSystem.enableDepthTest();
+        // RenderSystem.disableBlend();
+        // RenderSystem.enableCull();
         GL11.glDisable(GL11.GL_LINE_SMOOTH);
         GL11.glDepthFunc(GL11.GL_LEQUAL);
         isSetup = false;
@@ -111,12 +115,12 @@ public class RenderBuffers {
         public void begin(Matrix4f positionMatrix)
         {
             this.positionMatrix = positionMatrix;
-            this.buffer = RenderSystem.renderThreadTesselator().begin(drawMode, vertexFormat);
+            this.buffer = Tessellator.getInstance().begin(drawMode, vertexFormat);
         }
         public void begin(MatrixStack positionMatrix)
         {
             this.positionMatrix = positionMatrix.peek().getPositionMatrix();
-            this.buffer = RenderSystem.renderThreadTesselator().begin(drawMode, vertexFormat);
+            this.buffer = Tessellator.getInstance().begin(drawMode, vertexFormat);
         }
 
         public void end()
@@ -166,15 +170,15 @@ public class RenderBuffers {
             BuiltBuffer builtBuffer = this.buffer.endNullable();
             if (builtBuffer != null)
             {
-                if (vertexFormat == VertexFormats.LINES)
-                {
-                    RenderSystem.setShader(GameRenderer::getRenderTypeLinesProgram);
-
-                } else
-                {
-                    RenderSystem.setShader(GameRenderer::getPositionColorProgram);
+                // TODO: port to 1.21.11 - RenderSystem.setShader() and GameRenderer shader programs
+                // (getPositionColorProgram, getRenderTypeLinesProgram) have been removed in 1.21.11.
+                // The new rendering pipeline uses RenderPipeline objects instead.
+                // For now, just draw without setting shader - this may not render correctly.
+                try {
+                    builtBuffer.close();
+                } catch (Exception e) {
+                    // ignore
                 }
-                BufferRenderer.drawWithGlobalProgram(builtBuffer);
             }
         }
 

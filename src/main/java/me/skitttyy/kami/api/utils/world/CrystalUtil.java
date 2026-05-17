@@ -16,7 +16,9 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.item.ArmorItem;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.EquippableComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -133,12 +135,19 @@ public class CrystalUtil implements IMinecraft
         }
 
         // Armor reduction
-        damage = DamageUtil.getDamageLeft(entity, damage, damageSource, entity.getArmor(), (float) entity.getAttributeValue(EntityAttributes.GENERIC_ARMOR_TOUGHNESS));
+        damage = DamageUtil.getDamageLeft(entity, damage, damageSource, entity.getArmor(), (float) entity.getAttributeValue(EntityAttributes.ARMOR_TOUGHNESS));
 
         // Resistance reduction
         damage = resistanceReduction(entity, damage);
 
-        float protAmount = getProtectionAmount(entity.getArmorItems());
+        // TODO: port to 1.21.11 - getArmorItems() removed, iterate armor slots manually
+        java.util.List<ItemStack> armorItems = java.util.List.of(
+            entity.getEquippedStack(EquipmentSlot.HEAD),
+            entity.getEquippedStack(EquipmentSlot.CHEST),
+            entity.getEquippedStack(EquipmentSlot.LEGS),
+            entity.getEquippedStack(EquipmentSlot.FEET)
+        );
+        float protAmount = getProtectionAmount(armorItems);
 
         if (protAmount > 0)
             damage = DamageUtil.getInflictedDamage(damage, protAmount);
@@ -158,11 +167,12 @@ public class CrystalUtil implements IMinecraft
     {
         if (CatAura.INSTANCE.armorAssume.getValue())
         {
-            if (stack.hasEnchantments() && stack.getItem() instanceof ArmorItem armorItem)
+            EquippableComponent equippable = stack.get(DataComponentTypes.EQUIPPABLE);
+            if (stack.hasEnchantments() && equippable != null)
             {
-                return switch (armorItem.getType())
+                return switch (equippable.slot())
                 {
-                    case LEGGINGS -> 8;
+                    case LEGS -> 8;
                     case BODY -> 0;
                     default -> 4;
                 };
@@ -171,8 +181,8 @@ public class CrystalUtil implements IMinecraft
                 return 0;
             }
         }
-        int modifierBlast = EnchantmentHelper.getLevel(mc.world.getRegistryManager().get(Enchantments.BLAST_PROTECTION.getRegistryRef()).getEntry(Enchantments.BLAST_PROTECTION).get(), stack);
-        int modifier = EnchantmentHelper.getLevel(mc.world.getRegistryManager().get(Enchantments.PROTECTION.getRegistryRef()).getEntry(Enchantments.PROTECTION).get(), stack);
+        int modifierBlast = EnchantmentHelper.getLevel(mc.world.getRegistryManager().getOrThrow(Enchantments.BLAST_PROTECTION.getRegistryRef()).getEntry(Enchantments.BLAST_PROTECTION.getValue()).get(), stack);
+        int modifier = EnchantmentHelper.getLevel(mc.world.getRegistryManager().getOrThrow(Enchantments.PROTECTION.getRegistryRef()).getEntry(Enchantments.PROTECTION.getValue()).get(), stack);
         return modifierBlast * 2 + modifier;
     }
 

@@ -112,7 +112,7 @@ public class Search extends Module {
                     ColorUtil.newAlpha(blockColor, 255)
             );
             if (tracers.getValue())
-                RenderUtil.renderTracerLine(mc.gameRenderer.getCamera().getPos(), renderBB.getCenter(), ColorUtil.newAlpha(blockColor, 255), ColorUtil.newAlpha(blockColor, 255), lineWidth.getValue().floatValue());
+                RenderUtil.renderTracerLine(mc.gameRenderer.getCamera().getCameraPos(), renderBB.getCenter(), ColorUtil.newAlpha(blockColor, 255), ColorUtil.newAlpha(blockColor, 255), lineWidth.getValue().floatValue());
         }
 
     }

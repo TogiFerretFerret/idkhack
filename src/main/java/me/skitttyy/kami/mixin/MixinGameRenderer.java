@@ -79,7 +79,7 @@ public abstract class MixinGameRenderer implements IMinecraft
     @Inject(method = "renderWorld", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/GameRenderer;renderHand(Lnet/minecraft/client/render/Camera;FLorg/joml/Matrix4f;)V", shift = At.Shift.AFTER))    public void hookRenderWorld$2(RenderTickCounter tickCounter, CallbackInfo ci, @Local(ordinal = 1) Matrix4f matrix4f2, @Local(ordinal = 1) float tickDelta, @Local MatrixStack matrixStack)
     {
 
-        RenderHandEvent event = new RenderHandEvent(matrixStack, mc.getRenderTickCounter().getTickDelta(false));
+        RenderHandEvent event = new RenderHandEvent(matrixStack, mc.getRenderTickCounter().getTickProgress(false));
         event.post();
 
 
@@ -117,7 +117,7 @@ public abstract class MixinGameRenderer implements IMinecraft
 //            matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
 //            matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(camera.getYaw() + 180.0f));
 //            RenderSystem.applyModelViewMatrix();
-//            ShaderManager.INSTANCE.renderShader(() -> ((IGameRenderer) mc.gameRenderer).doRenderHand(mc.gameRenderer.getCamera(), mc.getRenderTickCounter().getTickDelta(false), matrixStack.peek().getPositionMatrix()), Shaders.INSTANCE.getShader());
+//            ShaderManager.INSTANCE.renderShader(() -> ((IGameRenderer) mc.gameRenderer).doRenderHand(mc.gameRenderer.getCamera(), mc.getRenderTickCounter().getTickProgress(false), matrixStack.peek().getPositionMatrix()), Shaders.INSTANCE.getShader());
 //            RenderSystem.getModelViewStack().popMatrix();
 //            RenderSystem.applyModelViewMatrix();
 //        }
@@ -175,34 +175,34 @@ public abstract class MixinGameRenderer implements IMinecraft
             double x = cameraE.getX();
             double y = cameraE.getY();
             double z = cameraE.getZ();
-            double prevX = cameraE.prevX;
-            double prevY = cameraE.prevY;
-            double prevZ = cameraE.prevZ;
+            double prevX = cameraE.lastX;
+            double prevY = cameraE.lastY;
+            double prevZ = cameraE.lastZ;
             float yaw = cameraE.getYaw();
             float pitch = cameraE.getPitch();
-            float prevYaw = cameraE.prevYaw;
-            float prevPitch = cameraE.prevPitch;
-            ((IVec3d) cameraE.getPos()).set(freecam.pos.x, freecam.pos.y - cameraE.getEyeHeight(cameraE.getPose()), freecam.pos.z);
-            cameraE.prevX = freecam.prevPos.x;
-            cameraE.prevY = freecam.prevPos.y - cameraE.getEyeHeight(cameraE.getPose());
-            cameraE.prevZ = freecam.prevPos.z;
+            float prevYaw = cameraE.lastYaw;
+            float prevPitch = cameraE.lastPitch;
+            ((IVec3d) new Vec3d(cameraE.getX(), cameraE.getY(), cameraE.getZ())).set(freecam.pos.x, freecam.pos.y - cameraE.getEyeHeight(cameraE.getPose()), freecam.pos.z);
+            cameraE.lastX = freecam.prevPos.x;
+            cameraE.lastY = freecam.prevPos.y - cameraE.getEyeHeight(cameraE.getPose());
+            cameraE.lastZ = freecam.prevPos.z;
             cameraE.setYaw(freecam.yaw);
             cameraE.setPitch(freecam.pitch);
-            cameraE.prevYaw = freecam.prevYaw;
-            cameraE.prevPitch = freecam.prevPitch;
+            cameraE.lastYaw = freecam.lastYaw;
+            cameraE.lastPitch = freecam.lastPitch;
 
             freecamSet = true;
             updateCrosshairTarget(tickDelta);
             freecamSet = false;
 
-            ((IVec3d) cameraE.getPos()).set(x, y, z);
-            cameraE.prevX = prevX;
-            cameraE.prevY = prevY;
-            cameraE.prevZ = prevZ;
+            ((IVec3d) new Vec3d(cameraE.getX(), cameraE.getY(), cameraE.getZ())).set(x, y, z);
+            cameraE.lastX = prevX;
+            cameraE.lastY = prevY;
+            cameraE.lastZ = prevZ;
             cameraE.setYaw(yaw);
             cameraE.setPitch(pitch);
-            cameraE.prevYaw = prevYaw;
-            cameraE.prevPitch = prevPitch;
+            cameraE.lastYaw = prevYaw;
+            cameraE.lastPitch = prevPitch;
         }
     }
 

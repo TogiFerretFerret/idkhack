@@ -48,7 +48,6 @@ import net.minecraft.item.EndCrystalItem;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.c2s.play.*;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
-import net.minecraft.network.packet.s2c.play.ExperienceOrbSpawnS2CPacket;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -408,7 +407,7 @@ public class CatAura extends Module {
                 PacketManager.INSTANCE.sendPacket(interactentity);
 
                 mc.player.swingHand(offhand ? Hand.OFF_HAND : Hand.MAIN_HAND);
-                mc.player.resetLastAttackedTicks();
+                mc.player.resetTicksSinceLastAttack();
                 hitCrystals.put(entity.getId(), System.currentTimeMillis());
                 breakTimer.resetDelay();
                 AntiCheat.INSTANCE.handleMultiTask();
@@ -652,14 +651,14 @@ public class CatAura extends Module {
 
 
         if (autoSwitch.getValue().equals("None") && breakTargetRot == null) {
-            if (!offhand && mc.player.getInventory().getMainHandStack().getItem() != Items.END_CRYSTAL) {
+            if (!offhand && mc.player.getInventory().getSelectedStack().getItem() != Items.END_CRYSTAL) {
                 return;
             }
         }
 
 
         if (target != null) {
-            if (PlayerUtils.isBoostedByFirework() && AntiCheat.INSTANCE.strafeFix.getValue() && !target.isFallFlying())
+            if (PlayerUtils.isBoostedByFirework() && AntiCheat.INSTANCE.strafeFix.getValue() && !target.isGliding())
                 return;
         }
 
@@ -718,7 +717,7 @@ public class CatAura extends Module {
                 StatusEffectInstance weaknessEffect = mc.player.getStatusEffect(StatusEffects.WEAKNESS);
                 StatusEffectInstance strengthEffect = mc.player.getStatusEffect(StatusEffects.STRENGTH);
                 boolean swapBack = false;
-                int curSlot = mc.player.getInventory().selectedSlot;
+                int curSlot = mc.player.getInventory().getSelectedSlot();
                 if (!antiWeakness.getValue().equals("None") && (weaknessEffect != null && (strengthEffect == null || strengthEffect.getAmplifier() <= weaknessEffect.getAmplifier()))) {
                     /**
                      * TODO: THIS
@@ -726,7 +725,7 @@ public class CatAura extends Module {
                      */
 
                     int bestWeapon = InventoryUtils.getSwordSlot();
-                    if (bestWeapon != -1 && mc.player.getInventory().selectedSlot != bestWeapon) {
+                    if (bestWeapon != -1 && mc.player.getInventory().getSelectedSlot() != bestWeapon) {
                         switch (antiWeakness.getValue()) {
                             case "Normal":
                                 InventoryUtils.switchToSlot(bestWeapon);
@@ -747,7 +746,7 @@ public class CatAura extends Module {
                 PlayerInteractEntityC2SPacket packet = PlayerInteractEntityC2SPacket.attack(calcCrystal, mc.player.isSneaking());
                 PacketManager.INSTANCE.sendPacket(packet);
                 mc.player.swingHand(offhand ? Hand.OFF_HAND : Hand.MAIN_HAND);
-                mc.player.resetLastAttackedTicks();
+                mc.player.resetTicksSinceLastAttack();
                 if (!mc.player.isOnGround())
                     mc.player.addCritParticles(calcCrystal);
 
@@ -848,19 +847,19 @@ public class CatAura extends Module {
                 }
 
                 if (!offhand && (autoSwitch.getValue().equals("Silent") || autoSwitch.getValue().equals("SilentBypass"))) {
-                    if (!(mc.player.getInventory().getMainHandStack().getItem() instanceof EndCrystalItem))
+                    if (!(mc.player.getInventory().getSelectedStack().getItem() instanceof EndCrystalItem))
                         doSilent = true;
                 }
 
 
                 if (!autoSwitch.getValue().contains("Silent")) {
-                    if (!(mc.player.getInventory().getMainHandStack().getItem() instanceof EndCrystalItem) && !offhand) {
+                    if (!(mc.player.getInventory().getSelectedStack().getItem() instanceof EndCrystalItem) && !offhand) {
                         renderPos = null;
                         return;
                     }
                 }
 
-                int oldSlot = mc.player.getInventory().selectedSlot;
+                int oldSlot = mc.player.getInventory().getSelectedSlot();
 
 
                 if (doSilent) {
@@ -968,7 +967,7 @@ public class CatAura extends Module {
         return switch (miningIgnore.getValue()) {
             case "Ignore" -> true;
             case "StrictIgnore" ->
-                    offhand || (mc.player.getInventory().getMainHandStack().getItem() instanceof EndCrystalItem);
+                    offhand || (mc.player.getInventory().getSelectedStack().getItem() instanceof EndCrystalItem);
             default -> false;
         };
     }
@@ -1221,11 +1220,11 @@ public class CatAura extends Module {
         for (Entity entity : mc.world.getEntities()) {
             if (entity instanceof EndCrystalEntity crystal) {
                 if (canBreakCrystal(crystal)) {
-                    final float targetDamage = CrystalUtil.calculateDamage(targetPlayer, entity.getPos(), terrain.getValue(), false);
+                    final float targetDamage = CrystalUtil.calculateDamage(targetPlayer, new Vec3d(entity.getX(), entity.getY(), entity.getZ()), terrain.getValue(), false);
 
                     // (isArmorBreaker(targetPlayer) && targetDamage >= minDmgArmor.getloatValue())
                     if (maxDamage < targetDamage && (targetDamage > minDmg.getValue().doubleValue()) || (lethalCrystals.getValue().intValue() != 0 && (targetDamage * lethalCrystals.getValue().floatValue() >= targetPlayer.getHealth() + targetPlayer.getAbsorptionAmount()))) {
-                        final float selfDamage = CrystalUtil.calculateDamage(mc.player, entity.getPos(), terrain.getValue(), false);
+                        final float selfDamage = CrystalUtil.calculateDamage(mc.player, new Vec3d(entity.getX(), entity.getY(), entity.getZ()), terrain.getValue(), false);
 
                         if (selfDamage > maxSelfDmg.getValue().doubleValue()) continue;
 
@@ -1261,11 +1260,11 @@ public class CatAura extends Module {
     public boolean canBreakCrystal(EndCrystalEntity entity) {
 
 
-        double distance = mc.player.getEyePos().distanceTo(entity.getPos().add(0, 1.700000047683716, 0));
+        double distance = mc.player.getEyePos().distanceTo(new Vec3d(entity.getX(), entity.getY(), entity.getZ()).add(0, 1.700000047683716, 0));
 
         if (rotationsType.getValue().equals("MultiPoint")) {
             if (entity.getBlockPos().getY() > mc.player.getBlockPos().getY()) {
-                distance = mc.player.getEyePos().distanceTo(entity.getPos().add(0, 0.5f, 0));
+                distance = mc.player.getEyePos().distanceTo(new Vec3d(entity.getX(), entity.getY(), entity.getZ()).add(0, 0.5f, 0));
             }
         }
 
@@ -1408,10 +1407,10 @@ public class CatAura extends Module {
         if (autoDtap.getValue() && autoHit.getValue() && calcPos == null && !mc.player.isUsingItem() && cooldown.isPassed()) {
             if (HoleUtils.isSurrounded(target.getBlockPos()) && !HoleUtils.isSurrounded(target.getBlockPos().up()) && mc.world.getBlockState(target.getBlockPos().up(2)).isAir()) {
                 if (!didAutoDtapAttack && target.hurtTime == 0 && !doingAutoDtap && KillAura.INSTANCE.isInAttackRange(mc.player.getEyePos(), target)) {
-                    int oldSlot = mc.player.getInventory().selectedSlot;
+                    int oldSlot = mc.player.getInventory().getSelectedSlot();
                     int bestWeapon = InventoryUtils.getSwordSlot();
                     boolean switched = false;
-                    if (bestWeapon != -1 && mc.player.getInventory().selectedSlot != bestWeapon) {
+                    if (bestWeapon != -1 && mc.player.getInventory().getSelectedSlot() != bestWeapon) {
                         InventoryUtils.switchToSlot(bestWeapon);
                         switched = true;
                     }

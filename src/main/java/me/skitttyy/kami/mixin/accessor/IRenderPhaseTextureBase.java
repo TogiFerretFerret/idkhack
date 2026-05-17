@@ -1,15 +1,14 @@
 package me.skitttyy.kami.mixin.accessor;
 
-import net.minecraft.client.render.RenderPhase;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.render.RenderLayer;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Invoker;
 
-import java.util.Optional;
-
-@Mixin(RenderPhase.TextureBase.class)
+// TODO: port to 1.21.11
+// RenderPhase.TextureBase is removed in 1.21.11
+// RenderPhase class itself is gone - replaced by RenderSetup
+// Texture info is now accessed via RenderSetup.TextureSpec which has a location() method
+@Mixin(RenderLayer.class)
 public interface IRenderPhaseTextureBase
 {
-    @Invoker("getId")
-    Optional<Identifier> invokeGetId();
+
 }

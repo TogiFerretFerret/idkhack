@@ -12,9 +12,11 @@ import me.skitttyy.kami.api.value.builder.ValueBuilder;
 import me.skitttyy.kami.impl.features.modules.client.HudColors;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.tag.FluidTags;
+import java.util.List;
 import net.minecraft.util.math.MathHelper;
 import me.skitttyy.kami.api.feature.hud.HudComponent;
 import me.skitttyy.kami.api.utils.NullUtils;
@@ -84,14 +86,21 @@ public class ArmorHud extends HudComponent
         int i = width / 2;
         int iteration = 0;
         int y = height - 55 - (mc.player.isSubmergedIn(FluidTags.WATER) ? 10 : 0);
-        for (ItemStack is : mc.player.getInventory().armor)
+        // TODO: port to 1.21.11 - PlayerInventory.armor removed, use equipment slots
+        List<ItemStack> armorItems = List.of(
+            mc.player.getEquippedStack(EquipmentSlot.FEET),
+            mc.player.getEquippedStack(EquipmentSlot.LEGS),
+            mc.player.getEquippedStack(EquipmentSlot.CHEST),
+            mc.player.getEquippedStack(EquipmentSlot.HEAD)
+        );
+        for (ItemStack is : armorItems)
         {
             iteration++;
             if (is.isEmpty()) continue;
             int x = i - 90 + (9 - iteration) * 20 + 2;
 
             context.drawItem(is, x, y);
-            context.drawItemInSlot(mc.textRenderer, is, x, y);
+            context.drawStackOverlay(mc.textRenderer, is, x, y);
             String s = (is.getCount() > 1) ? (is.getCount() + "") : "";
             Fonts.doOneText(context, s, (x + 19 - 2 - ClickGui.CONTEXT.getRenderer().getTextWidth(s)), (y + 9), HudColors.getTextColor(y + 9), true);
             if (percent)
@@ -102,8 +111,8 @@ public class ArmorHud extends HudComponent
 
                 if(small.getValue())
                 {
-                    context.getMatrices().push();
-                    context.getMatrices().scale(0.625f, 0.625f, 1.0f);
+                    context.getMatrices().pushMatrix();
+                    context.getMatrices().scale(0.625f, 0.625f);
                     Fonts.doOneText(
                             context,
                             dmg + (percentIcon.getValue() ? "%" : ""),
@@ -111,7 +120,7 @@ public class ArmorHud extends HudComponent
                             (y * 1.6f) - 11,
                             getArmorColor(dmg, y + 9),
                             true);
-                    context.getMatrices().pop();
+                    context.getMatrices().popMatrix();
                 }else{
                     Fonts.doOneText(
                             context,

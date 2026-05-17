@@ -12,7 +12,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.c2s.play.PlayerInteractItemC2SPacket;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.GameMode;
@@ -48,6 +47,9 @@ public abstract class MixinClientPlayerInteractionManager implements IMinecraft 
         }
     }
 
+    // TODO: port to 1.21.11
+    // TypedActionResult is removed in 1.21.11 - ItemStack.use now returns ActionResult directly
+    // isCoolingDown now takes ItemStack instead of Item
     @Inject(method = "interactItem", at = @At(value = "HEAD"), cancellable = true)
     public void hookInteractItem(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir)
     {
@@ -57,32 +59,26 @@ public abstract class MixinClientPlayerInteractionManager implements IMinecraft 
             cir.setReturnValue(ActionResult.PASS);
         }
         syncSelectedSlot();
-        // Strafe fix cuz goofy 1.19 sends move packet when using items
         final float yaw = RotationManager.INSTANCE.isRotating() ? RotationManager.INSTANCE.getRotationYaw() : mc.player.getYaw();
         final float pitch = RotationManager.INSTANCE.isRotating() ? RotationManager.INSTANCE.getRotationPitch() : mc.player.getPitch();
-        MutableObject mutableObject = new MutableObject();
+        MutableObject<ActionResult> mutableObject = new MutableObject<>();
         this.sendSequencedPacket(mc.world, (sequence) ->
         {
             PlayerInteractItemC2SPacket playerInteractItemC2SPacket = new PlayerInteractItemC2SPacket(hand, sequence, yaw, pitch);
             ItemStack itemStack = player.getStackInHand(hand);
-            if (player.getItemCooldownManager().isCoolingDown(itemStack.getItem()))
+            if (player.getItemCooldownManager().isCoolingDown(itemStack))
             {
                 mutableObject.setValue(ActionResult.PASS);
                 return playerInteractItemC2SPacket;
             } else
             {
-                TypedActionResult<ItemStack> typedActionResult = itemStack.use(mc.world, player, hand);
-                ItemStack itemStack2 = (ItemStack) typedActionResult.getValue();
-                if (itemStack2 != itemStack)
-                {
-                    player.setStackInHand(hand, itemStack2);
-                }
-
-                mutableObject.setValue(typedActionResult.getResult());
+                ActionResult actionResult = itemStack.use(mc.world, player, hand);
+                ItemStack itemStack2 = player.getStackInHand(hand);
+                mutableObject.setValue(actionResult);
                 return playerInteractItemC2SPacket;
             }
         });
-        cir.setReturnValue((ActionResult) ((Object) mutableObject.getValue()));
+        cir.setReturnValue(mutableObject.getValue());
     }
 
 

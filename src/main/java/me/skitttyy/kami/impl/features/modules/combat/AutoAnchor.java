@@ -391,21 +391,21 @@ public class AutoAnchor extends Module
 
                 if ((autoSwitch.getValue().equals("Silent") || autoSwitch.getValue().equals("SilentBypass")))
                 {
-                    if (!(mc.player.getInventory().getMainHandStack().getItem().equals(Items.RESPAWN_ANCHOR)))
+                    if (!(mc.player.getInventory().getSelectedStack().getItem().equals(Items.RESPAWN_ANCHOR)))
                         doSilent = true;
                 }
 
 
                 if (!autoSwitch.getValue().contains("Silent"))
                 {
-                    if (!(mc.player.getInventory().getMainHandStack().getItem().equals(Items.RESPAWN_ANCHOR)))
+                    if (!(mc.player.getInventory().getSelectedStack().getItem().equals(Items.RESPAWN_ANCHOR)))
                     {
                         renderPos = null;
                         return;
                     }
                 }
 
-                int oldSlot = mc.player.getInventory().selectedSlot;
+                int oldSlot = mc.player.getInventory().getSelectedSlot();
 
 
                 if (doSilent)
@@ -517,21 +517,21 @@ public class AutoAnchor extends Module
                 {
                     if ((autoSwitch.getValue().equals("Silent") || autoSwitch.getValue().equals("SilentBypass")))
                     {
-                        if (!(mc.player.getInventory().getMainHandStack().getItem().equals(Items.GLOWSTONE)))
+                        if (!(mc.player.getInventory().getSelectedStack().getItem().equals(Items.GLOWSTONE)))
                             doSilent = true;
                     }
 
 
                     if (!autoSwitch.getValue().contains("Silent"))
                     {
-                        if (!(mc.player.getInventory().getMainHandStack().getItem().equals(Items.GLOWSTONE)))
+                        if (!(mc.player.getInventory().getSelectedStack().getItem().equals(Items.GLOWSTONE)))
                         {
                             return;
                         }
                     }
                 }
 
-                int oldSlot = mc.player.getInventory().selectedSlot;
+                int oldSlot = mc.player.getInventory().getSelectedSlot();
 
 
                 if (doSilent)
@@ -672,7 +672,7 @@ public class AutoAnchor extends Module
 
         if (target != null)
         {
-            if (PlayerUtils.isBoostedByFirework() && AntiCheat.INSTANCE.strafeFix.getValue() && !target.isFallFlying())
+            if (PlayerUtils.isBoostedByFirework() && AntiCheat.INSTANCE.strafeFix.getValue() && !target.isGliding())
                 return;
         }
 

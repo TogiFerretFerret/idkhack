@@ -83,18 +83,18 @@ public class RotationUtils implements IMinecraft {
 
     public static void doSilentRotate(Rotation rotation){
         PacketManager.INSTANCE.sendQuietPacket(new PlayerMoveC2SPacket.Full(
-                mc.player.getX(), mc.player.getY(), mc.player.getZ(), rotation.getYaw(), rotation.getPitch(), mc.player.isOnGround()));
+                mc.player.getX(), mc.player.getY(), mc.player.getZ(), rotation.getYaw(), rotation.getPitch(), mc.player.isOnGround(), mc.player.horizontalCollision));
     }
     public static void doSilentRotate(float[] rotation){
         PacketManager.INSTANCE.sendQuietPacket(new PlayerMoveC2SPacket.Full(
-                mc.player.getX(), mc.player.getY(), mc.player.getZ(), rotation[0], rotation[1], mc.player.isOnGround()));
+                mc.player.getX(), mc.player.getY(), mc.player.getZ(), rotation[0], rotation[1], mc.player.isOnGround(), mc.player.horizontalCollision));
     }
 
 
 
     public static void silentSync(){
         PacketManager.INSTANCE.sendQuietPacket(new PlayerMoveC2SPacket.Full(
-                mc.player.getX(), mc.player.getY(), mc.player.getZ(), RotationUtils.getActualYaw(), RotationUtils.getActualPitch(), mc.player.isOnGround()));
+                mc.player.getX(), mc.player.getY(), mc.player.getZ(), RotationUtils.getActualYaw(), RotationUtils.getActualPitch(), mc.player.isOnGround(), mc.player.horizontalCollision));
     }
     public static void doRotate(BlockPos pos, boolean strictDirection)
     {
@@ -231,12 +231,12 @@ public class RotationUtils implements IMinecraft {
 
     public static void packetRotate(float[] rots)
     {
-        PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(rots[0], rots[1], mc.player.isOnGround()));
+        PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(rots[0], rots[1], mc.player.isOnGround(), mc.player.horizontalCollision));
     }
 
     public static void packetRotate(float yaw, float pitch)
     {
-        PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(yaw, pitch, mc.player.isOnGround()));
+        PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(yaw, pitch, mc.player.isOnGround(), mc.player.horizontalCollision));
     }
 
 }
