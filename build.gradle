@@ -59,7 +59,7 @@ loom {
 
 compileJava {
     String contents = ""
-    File update = file 'src/main/java/me/skitttyy/kami/impl/KamiMod.java'
+    File update = file 'src/main/java/sh/idktheflag/idkhack/impl/IdkHackMod.java'
     contents = update.getText( 'UTF-8' )
     contents = contents.replaceAll( 'HASH = "(.*?)"', 'HASH = "' + hash + '"' )
     contents = contents.replaceAll( 'VERSION = "(.*?)"', 'VERSION = "' + watermarkVersion + '"' )
