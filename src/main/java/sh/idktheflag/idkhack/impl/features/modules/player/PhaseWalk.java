@@ -34,7 +34,12 @@ import static net.minecraft.util.math.MathHelper.floor;
 
 // TODO: port to 1.21.11 - module disabled, see TODO.md
 public class PhaseWalk extends Module {
+    public static PhaseWalk INSTANCE;
     public PhaseWalk() {
         super("PhaseWalk", Category.Player);
+        INSTANCE = this;
+    }
+    public boolean isPhasing() {
+        return false; // TODO: port to 1.21.11
     }
 }

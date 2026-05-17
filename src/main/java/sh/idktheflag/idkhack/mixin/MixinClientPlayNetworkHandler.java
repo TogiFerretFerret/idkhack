@@ -98,7 +98,7 @@ public abstract class MixinClientPlayNetworkHandler extends ClientCommonNetworkH
     @Overwrite
     public void onBundle(BundleS2CPacket packet)
     {
-        NetworkThreadUtils.forceMainThread(packet, this, this.client);
+        // TODO 1.21.11: NetworkThreadUtils.forceMainThread(packet, this, this.client);
         Iterator var2 = packet.getPackets().iterator();
 
         while (var2.hasNext())
@@ -247,52 +247,52 @@ public abstract class MixinClientPlayNetworkHandler extends ClientCommonNetworkH
         double f;
         double e;
         double d;
-        NetworkThreadUtils.forceMainThread(packet, this, this.client);
+        // TODO 1.21.11: NetworkThreadUtils.forceMainThread(packet, this, this.client);
         ClientPlayerEntity playerEntity = this.client.player;
         Vec3d vec3d = playerEntity.getVelocity();
-        boolean bl = packet.getFlags().contains((Object) PositionFlag.X);
-        boolean bl2 = packet.getFlags().contains((Object) PositionFlag.Y);
-        boolean bl3 = packet.getFlags().contains((Object) PositionFlag.Z);
+        // TODO 1.21.11: boolean bl = packet.getFlags().contains((Object) PositionFlag.X);
+        // TODO 1.21.11: boolean bl2 = packet.getFlags().contains((Object) PositionFlag.Y);
+        // TODO 1.21.11: boolean bl3 = packet.getFlags().contains((Object) PositionFlag.Z);
         if (bl)
         {
             d = vec3d.getX();
-            e = playerEntity.getX() + packet.getX();
-            playerEntity.lastRenderX += packet.getX();
-            playerEntity.lastX += packet.getX();
+            // TODO 1.21.11: e = playerEntity.getX() + packet.getX();
+            // TODO 1.21.11: playerEntity.lastRenderX += packet.getX();
+            // TODO 1.21.11: playerEntity.lastX += packet.getX();
         } else
         {
             d = 0.0;
-            playerEntity.lastRenderX = e = packet.getX();
+            // TODO 1.21.11: playerEntity.lastRenderX = e = packet.getX();
             playerEntity.lastX = e;
         }
         if (bl2)
         {
             f = vec3d.getY();
-            g = playerEntity.getY() + packet.getY();
-            playerEntity.lastRenderY += packet.getY();
-            playerEntity.lastY += packet.getY();
+            // TODO 1.21.11: g = playerEntity.getY() + packet.getY();
+            // TODO 1.21.11: playerEntity.lastRenderY += packet.getY();
+            // TODO 1.21.11: playerEntity.lastY += packet.getY();
         } else
         {
             f = 0.0;
-            playerEntity.lastRenderY = g = packet.getY();
+            // TODO 1.21.11: playerEntity.lastRenderY = g = packet.getY();
             playerEntity.lastY = g;
         }
         if (bl3)
         {
             h = vec3d.getZ();
-            i = playerEntity.getZ() + packet.getZ();
-            playerEntity.lastRenderZ += packet.getZ();
-            playerEntity.lastZ += packet.getZ();
+            // TODO 1.21.11: i = playerEntity.getZ() + packet.getZ();
+            // TODO 1.21.11: playerEntity.lastRenderZ += packet.getZ();
+            // TODO 1.21.11: playerEntity.lastZ += packet.getZ();
         } else
         {
             h = 0.0;
-            playerEntity.lastRenderZ = i = packet.getZ();
+            // TODO 1.21.11: playerEntity.lastRenderZ = i = packet.getZ();
             playerEntity.lastZ = i;
         }
         playerEntity.setPosition(e, g, i);
         playerEntity.setVelocity(d, f, h);
-        float j = packet.getYaw();
-        float k = packet.getPitch();
+        // TODO 1.21.11: float j = packet.getYaw();
+        // TODO 1.21.11: float k = packet.getPitch();
 
 
         float pitch;

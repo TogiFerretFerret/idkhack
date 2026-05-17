@@ -18,19 +18,19 @@ public class IdkHackMod implements ModInitializer
 
     public static long START_TIME = System.currentTimeMillis();
 
-    public static String NAME = "Sn0w";
+    public static String NAME = "IdkE";
     public final static String VERSION = "2.1.2+2";
 
     /**
      * Git hash of the client
      */
-    public static final String HASH = "a570b5790b34516f";
+    public static final String HASH = "2069928180cf9d4e";
 
     /**
-     * The snowflake text ❄
-     * In chat this is ❅
+     * The snowflake text ⚑
+     * In chat this is ⚑
      */
-    public static String NAME_UNICODE = "❅";
+    public static String NAME_UNICODE = "⚑";
 
     /**
      * Event System

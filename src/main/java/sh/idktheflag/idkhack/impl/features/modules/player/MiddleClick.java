@@ -267,19 +267,17 @@ public class MiddleClick extends Module
 
     boolean isAutoXP()
     {
-        if (!AutoXP.INSTANCE.isEnabled() || !AutoXP.INSTANCE.middleClick.getValue()) return false;
-
-
-        return AutoXP.INSTANCE.isXping();
+        // TODO 1.21.11: AutoXP checks disabled
+        return false;
     }
 
     @Override
     public String getHudInfo()
     {
-        if (isAutoXP())
+        // TODO 1.21.11: if (isAutoXP())
             return "XP";
 
-        if (mc.player.isGliding() && fireworks.getValue())
+        // TODO 1.21.11: if (mc.player.isGliding() && fireworks.getValue())
             return "Firework";
 
         return "Pearl";

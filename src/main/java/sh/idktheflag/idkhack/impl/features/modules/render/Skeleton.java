@@ -82,7 +82,7 @@ public class Skeleton extends Module
                 }
 
 
-                Vec3d skeletonPos = Interpolator.getInterpolatedPosition(entity, g);
+                // TODO 1.21.11: Vec3d skeletonPos = Interpolator.getInterpolatedPosition(entity, g);
 
                 // TODO: port to 1.21.11 - EntityRenderDispatcher.getRenderer changed
                 PlayerEntityRenderer livingEntityRenderer = null;
@@ -99,12 +99,12 @@ public class Skeleton extends Module
 
                 if (playerEntity.getMainArm() == Arm.RIGHT)
                 {
-                    playerModel.rightArmPose = armPose;
-                    playerModel.leftArmPose = armPose2;
+                    // TODO 1.21.11: playerModel.rightArmPose = armPose;
+                    // TODO 1.21.11: playerModel.leftArmPose = armPose2;
                 } else
                 {
-                    playerModel.rightArmPose = armPose2;
-                    playerModel.leftArmPose = armPose;
+                    // TODO 1.21.11: playerModel.rightArmPose = armPose2;
+                    // TODO 1.21.11: playerModel.leftArmPose = armPose;
                 }
 
 
@@ -113,7 +113,7 @@ public class Skeleton extends Module
                 if (!playerEntity.hasVehicle() && playerEntity.isAlive())
                 {
                     // TODO: port to 1.21.11 - n = playerEntity.limbAnimator.getSpeed(event.getTickProgress());
-                    o = playerEntity.limbAnimator.getPos(event.getTickProgress());
+                    // TODO 1.21.11: o = playerEntity.limbAnimator.getPos(event.getTickProgress());
                     if (playerEntity.isBaby())
                     {
                         o *= 3.0f;
@@ -123,21 +123,21 @@ public class Skeleton extends Module
                         n = 1.0f;
                     }
                 }
-                float l = playerEntity.age + event.getTickProgress();
+                // TODO 1.21.11: float l = playerEntity.age + event.getTickProgress();
                 float k = j - h;
-                float m = playerEntity.getPitch(g);
+                // TODO 1.21.11: float m = playerEntity.getPitch(g);
 
 
                 if (AntiCheat.INSTANCE.visualize.getValue() && playerEntity == mc.player && !RotationManager.INSTANCE.FROM_INV)
                 {
                     ILivingEntity accessor = (ILivingEntity) playerEntity;
-                    m = MathHelper.lerpAngleDegrees(g, accessor.kami_getPrevHeadPitch(), accessor.kami_getHeadPitch());
+                    // TODO 1.21.11: m = MathHelper.lerpAngleDegrees(g, accessor.kami_getPrevHeadPitch(), accessor.kami_getHeadPitch());
                 }
 
 
 
-                playerModel.animateModel((AbstractClientPlayerEntity) playerEntity, o, n, event.getTickProgress());
-                playerModel.setAngles((AbstractClientPlayerEntity) playerEntity, o, n, l, k, m);
+                // TODO 1.21.11: playerModel.animateModel((AbstractClientPlayerEntity) playerEntity, o, n, event.getTickProgress());
+                // TODO 1.21.11: playerModel.setAngles((AbstractClientPlayerEntity) playerEntity, o, n, l, k, m);
 
 
                 boolean swimming = playerEntity.isInSwimmingPose();
@@ -153,7 +153,7 @@ public class Skeleton extends Module
                 ModelPart rightLeg = playerModel.rightLeg;
 
 
-                playerModel.sneaking = entity.isInSneakingPose();
+                // TODO 1.21.11: playerModel.sneaking = entity.isInSneakingPose();
 
 
                 MatrixStack matrixStack = RenderUtil.matrixFrom(skeletonPos.x, skeletonPos.y, skeletonPos.z);
@@ -189,35 +189,35 @@ public class Skeleton extends Module
                         sneaking ? 0.23f : 0);
                 matrixStack.push();
                 matrixStack.translate(0, sneaking ? 1.05f : 1.4f, 0);
-                rotateSkeleton(matrixStack, head);
+                // TODO 1.21.11: rotateSkeleton(matrixStack, head);
                 matrix4f = matrixStack.peek().getPositionMatrix();
                 LINES.vertex(matrix4f, 0, 0, 0);
                 LINES.vertex(matrix4f, 0, 0.25f, 0);
                 matrixStack.pop();
                 matrixStack.push();
                 matrixStack.translate(0.15f, sneaking ? 0.6f : 0.7f, sneaking ? 0.23f : 0);
-                rotateSkeleton(matrixStack, rightLeg);
+                // TODO 1.21.11: rotateSkeleton(matrixStack, rightLeg);
                 matrix4f = matrixStack.peek().getPositionMatrix();
                 LINES.vertex(matrix4f, 0, 0, 0);
                 LINES.vertex(matrix4f, 0, -0.6f, 0);
                 matrixStack.pop();
                 matrixStack.push();
                 matrixStack.translate(-0.15f, sneaking ? 0.6f : 0.7f, sneaking ? 0.23f : 0);
-                rotateSkeleton(matrixStack, leftLeg);
+                // TODO 1.21.11: rotateSkeleton(matrixStack, leftLeg);
                 matrix4f = matrixStack.peek().getPositionMatrix();
                 LINES.vertex(matrix4f, 0, 0, 0);
                 LINES.vertex(matrix4f, 0, -0.6f, 0);
                 matrixStack.pop();
                 matrixStack.push();
                 matrixStack.translate(0.37f, sneaking ? 1.05f : 1.35f, 0);
-                rotateSkeleton(matrixStack, rightArm);
+                // TODO 1.21.11: rotateSkeleton(matrixStack, rightArm);
                 matrix4f = matrixStack.peek().getPositionMatrix();
                 LINES.vertex(matrix4f, 0, 0, 0);
                 LINES.vertex(matrix4f, 0, -0.55f, 0);
                 matrixStack.pop();
                 matrixStack.push();
                 matrixStack.translate(-0.37f, sneaking ? 1.05f : 1.35f, 0);
-                rotateSkeleton(matrixStack, leftArm);
+                // TODO 1.21.11: rotateSkeleton(matrixStack, leftArm);
                 matrix4f = matrixStack.peek().getPositionMatrix();
                 LINES.vertex(matrix4f, 0, 0, 0);
                 LINES.vertex(matrix4f, 0, -0.55f, 0);
@@ -249,17 +249,17 @@ public class Skeleton extends Module
 
     // TODO: 1.21.11 - private void rotateSkeleton(MatrixStack matrix, ModelPart modelPart)
     {
-        if (modelPart.roll != 0.0f)
+        if (false) // TODO 1.21.11: if (modelPart.roll != 0.0f)
         {
-            matrix.multiply(RotationAxis.POSITIVE_Z.rotation(modelPart.roll));
+            // TODO 1.21.11: matrix.multiply(RotationAxis.POSITIVE_Z.rotation(modelPart.roll));
         }
-        if (modelPart.yaw != 0.0f)
+        if (false) // TODO 1.21.11: if (modelPart.yaw != 0.0f)
         {
-            matrix.multiply(RotationAxis.NEGATIVE_Y.rotation(modelPart.yaw));
+            // TODO 1.21.11: matrix.multiply(RotationAxis.NEGATIVE_Y.rotation(modelPart.yaw));
         }
-        if (modelPart.pitch != 0.0f)
+        if (false) // TODO 1.21.11: if (modelPart.pitch != 0.0f)
         {
-            matrix.multiply(RotationAxis.NEGATIVE_X.rotation(modelPart.pitch));
+            // TODO 1.21.11: matrix.multiply(RotationAxis.NEGATIVE_X.rotation(modelPart.pitch));
         }
     }
 

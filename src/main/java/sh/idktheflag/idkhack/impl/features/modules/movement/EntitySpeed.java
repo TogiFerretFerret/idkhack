@@ -83,8 +83,8 @@ public class EntitySpeed extends Module
 
                 Vec3d vec3d = new Vec3d(mc.player.getControllingVehicle().getX(), mc.player.getControllingVehicle().getY(), mc.player.getControllingVehicle().getZ()).add(0.0, getBounds(new Vec3d(mc.player.getControllingVehicle().getX(), mc.player.getControllingVehicle().getY(), mc.player.getControllingVehicle().getZ())), 0.0);
                 // TODO: port to 1.21.11 - BoatEntity entityBoat = new BoatEntity(mc.world, vec3d.x, vec3d.y, vec3d.z);
-                entityBoat.setYaw(mc.player.getControllingVehicle().getYaw());
-                entityBoat.setPitch(mc.player.getControllingVehicle().getPitch());
+                // TODO 1.21.11: entityBoat.setYaw(mc.player.getControllingVehicle().getYaw());
+                // TODO 1.21.11: entityBoat.setPitch(mc.player.getControllingVehicle().getPitch());
                 // TODO: port to 1.21.11 - PacketManager.INSTANCE.sendPacket(new VehicleMoveC2SPacket(entityBoat));
             }
     }

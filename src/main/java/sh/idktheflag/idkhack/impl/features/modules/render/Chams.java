@@ -150,7 +150,7 @@ public class Chams extends Module
             {
 
 
-                Vec3d pos = Interpolator.getInterpolatedPosition(entity, event.getTickProgress());
+                // TODO 1.21.11: Vec3d pos = Interpolator.getInterpolatedPosition(entity, event.getTickProgress());
 
                 Vec3d matrixPos = pos;
 
@@ -158,7 +158,7 @@ public class Chams extends Module
                 {
                     LivingEntityRenderer renderer = (LivingEntityRenderer) mc.getEntityRenderDispatcher().getRenderer(entity);
 
-                    Vec3d vec3d = renderer.getPositionOffset(entity, event.getTickProgress());
+                    // TODO 1.21.11: Vec3d vec3d = renderer.getPositionOffset(entity, event.getTickProgress());
 
                     matrixPos = new Vec3d(matrixPos.x + vec3d.x, matrixPos.y + vec3d.y, matrixPos.z + vec3d.z);
                 }
@@ -167,7 +167,7 @@ public class Chams extends Module
 
                 stack.push();
 
-                renderEntityChams(stack, entity, event.getTickProgress());
+                // TODO 1.21.11: renderEntityChams(stack, entity, event.getTickProgress());
 
                 stack.pop();
             }
@@ -201,10 +201,10 @@ public class Chams extends Module
             float n;
             Direction direction;
             event.matrixStack.push();
-            event.model.handSwingProgress = event.entity.getHandSwingProgress(event.g);
-            event.model.riding = event.entity.hasVehicle();
-            event.model.child = event.entity.isBaby();
-            float h = MathHelper.lerpAngleDegrees(event.g, event.entity.prevBodyYaw, event.entity.bodyYaw);
+            // TODO 1.21.11: event.model.handSwingProgress = event.entity.getHandSwingProgress(event.g);
+            // TODO 1.21.11: event.model.riding = event.entity.hasVehicle();
+            // TODO 1.21.11: event.model.child = event.entity.isBaby();
+            // TODO 1.21.11: float h = MathHelper.lerpAngleDegrees(event.g, event.entity.prevBodyYaw, event.entity.bodyYaw);
             float j = MathHelper.lerpAngleDegrees(event.g, event.entity.lastHeadYaw, event.entity.headYaw);
             if (AntiCheat.INSTANCE.visualize.getValue() && event.entity == MinecraftClient.getInstance().player && !RotationManager.INSTANCE.FROM_INV)
             {
@@ -214,7 +214,7 @@ public class Chams extends Module
             float k = j - h;
             if (event.entity.hasVehicle() && event.entity.getVehicle() instanceof LivingEntity livingEntity2)
             {
-                h = MathHelper.lerpAngleDegrees(event.g, livingEntity2.prevBodyYaw, livingEntity2.bodyYaw);
+                // TODO 1.21.11: h = MathHelper.lerpAngleDegrees(event.g, livingEntity2.prevBodyYaw, livingEntity2.bodyYaw);
                 k = j - h;
                 float l = MathHelper.wrapDegrees(k);
                 if (l < -85.0f)
@@ -239,7 +239,7 @@ public class Chams extends Module
                 m = MathHelper.lerpAngleDegrees(event.g, accessor.kami_getPrevHeadPitch(), accessor.kami_getHeadPitch());
             }
 
-            if (LivingEntityRenderer.shouldFlipUpsideDown(event.entity))
+            if (false) // TODO 1.21.11: if (LivingEntityRenderer.shouldFlipUpsideDown(event.entity))
             {
                 m *= -1.0f;
                 k *= -1.0f;
@@ -264,8 +264,8 @@ public class Chams extends Module
             float o = 0.0f;
             if (!event.entity.hasVehicle() && event.entity.isAlive())
             {
-                n = event.entity.limbAnimator.getSpeed(event.g);
-                o = event.entity.limbAnimator.getPos(event.g);
+                // TODO 1.21.11: n = event.entity.limbAnimator.getSpeed(event.g);
+                // TODO 1.21.11: o = event.entity.limbAnimator.getPos(event.g);
                 if (event.entity.isBaby())
                 {
                     o *= 3.0f;
@@ -275,15 +275,15 @@ public class Chams extends Module
                     n = 1.0f;
                 }
             }
-            event.model.animateModel(event.entity, o, n, event.g);
-            event.model.setAngles(event.entity, o, n, l, k, m);
+            // TODO 1.21.11: event.model.animateModel(event.entity, o, n, event.g);
+            // TODO 1.21.11: event.model.setAngles(event.entity, o, n, l, k, m);
             if (!event.entity.isSpectator())
             {
 
                 for (Object featureRenderer : event.features)
                 {
-                    ((FeatureRenderer) featureRenderer).render(event.matrixStack, event.vertexConsumerProvider, event.i,
-                            event.entity, o, n, event.g, l, k, m);
+                    // TODO 1.21.11: ((FeatureRenderer) featureRenderer).render(event.matrixStack, event.vertexConsumerProvider, event.i,
+                            // TODO 1.21.11: event.entity, o, n, event.g, l, k, m);
                 }
 
             }
@@ -312,8 +312,8 @@ public class Chams extends Module
         if (shiny.getValue())
             GL11.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_CONSTANT_ALPHA);
 
-        ChamsModelRenderer.renderHand(event.getMatrices(), event.getTickProgress(), wireColor.getValue().getColor(), fill.getValue().getColor(),
-                1.0f, wireColor.getValue().getAlpha() != 0, fill.getValue().getColor().getAlpha() != 0, false);
+        // TODO 1.21.11: ChamsModelRenderer.renderHand(event.getMatrices(), event.getTickProgress(), wireColor.getValue().getColor(), fill.getValue().getColor(),
+                // TODO 1.21.11: 1.0f, wireColor.getValue().getAlpha() != 0, fill.getValue().getColor().getAlpha() != 0, false);
 
         if (shiny.getValue())
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -360,7 +360,7 @@ public class Chams extends Module
     {
         if (entity instanceof SquidEntity)
         {
-            return MathHelper.lerp(f, ((SquidEntity) entity).prevTentacleAngle, ((SquidEntity) entity).tentacleAngle);
+            // TODO 1.21.11: return MathHelper.lerp(f, ((SquidEntity) entity).prevTentacleAngle, ((SquidEntity) entity).tentacleAngle);
         }
         return entity instanceof WolfEntity wolf ? wolf.getTailAngle() : entity.age + f;
     }

@@ -58,7 +58,7 @@ public class AutoLog extends Module
     public AutoLog()
     {
         super("AutoLog", Category.Player);
-        INSTANCE = this;
+        // TODO 1.21.11: INSTANCE = this;
     }
 
 
@@ -70,8 +70,8 @@ public class AutoLog extends Module
 
         if (onRender.getValue())
         {
-            AbstractClientPlayerEntity player = mc.world.getPlayers().stream()
-                    .filter(p -> checkEnemy(p)).findFirst().orElse(null);
+            // TODO 1.21.11: AbstractClientPlayerEntity player = mc.world.getPlayers().stream()
+                    // TODO 1.21.11: .filter(p -> checkEnemy(p)).findFirst().orElse(null);
             if (player != null)
             {
                 playerDisconnect("[AutoLog] %s came into render distance.", player.getName().getString());
@@ -127,7 +127,7 @@ public class AutoLog extends Module
 
     // TODO: 1.21.11 - private boolean checkEnemy(AbstractClientPlayerEntity player)
     {
-        return player.getDisplayName() != null && !FriendManager.INSTANCE.isFriend(player) && !player.equals(FakePlayer.INSTANCE.fakePlayer);
+        // TODO 1.21.11: return player.getDisplayName() != null && !FriendManager.INSTANCE.isFriend(player) && !player.equals(FakePlayer.INSTANCE.fakePlayer);
     }
 
     @Override

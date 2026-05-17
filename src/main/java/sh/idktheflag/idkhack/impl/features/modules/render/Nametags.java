@@ -247,7 +247,7 @@ public class Nametags extends Module
         }
         RenderBuffers.scheduleRender(() ->
         {
-            Vec3d interpolate = Interpolator.getInterpolatedEyePos(mc.getCameraEntity(), event.getTickProgress());
+            // TODO 1.21.11: Vec3d interpolate = Interpolator.getInterpolatedEyePos(mc.getCameraEntity(), event.getTickProgress());
             Camera camera = mc.gameRenderer.getCamera();
             Vec3d pos = camera.getCameraPos();
             for (Entity entity : mc.world.getEntities())
@@ -259,7 +259,7 @@ public class Nametags extends Module
                         continue;
                     }
                     TextSection[] sections = getInfo(player).toArray(new TextSection[0]);
-                    Vec3d pinterpolate = Interpolator.getRenderPosition(player, event.getTickProgress());
+                    // TODO 1.21.11: Vec3d pinterpolate = Interpolator.getRenderPosition(player, event.getTickProgress());
                     double rx = player.getX() - pinterpolate.getX();
                     double ry = player.getY() - pinterpolate.getY();
                     double rz = player.getZ() - pinterpolate.getZ();
@@ -329,7 +329,7 @@ public class Nametags extends Module
 
         if (ping.getValue() && mc.getNetworkHandler() != null)
         {
-            PlayerListEntry playerEntry = mc.getNetworkHandler().getPlayerListEntry(player.getGameProfile().getId());
+            // TODO 1.21.11: PlayerListEntry playerEntry = mc.getNetworkHandler().getPlayerListEntry(player.getGameProfile().getId());
             if (playerEntry != null)
             {
                 int latency = playerEntry.getLatency();
@@ -369,7 +369,7 @@ public class Nametags extends Module
         {
             return new Color(128, 128, 128);
         }
-        if (mc.getNetworkHandler() != null && mc.getNetworkHandler().getPlayerListEntry(player.getGameProfile().getId()) == null)
+        if (false) // TODO 1.21.11: if (mc.getNetworkHandler() != null && mc.getNetworkHandler().getPlayerListEntry(player.getGameProfile().getId()) == null)
         {
             return new Color(239, 1, 71);
         }
@@ -449,13 +449,13 @@ public class Nametags extends Module
         {
             displayItems.add(player.getOffHandStack());
         }
-        player.getInventory().armor.forEach(armorStack ->
+        // TODO 1.21.11: player.getInventory().armor.forEach(armorStack ->
         {
             if (!armorStack.isEmpty())
             {
                 displayItems.add(armorStack);
             }
-        });
+        // TODO 1.21.11: });
         if (!player.getMainHandStack().isEmpty())
         {
             displayItems.add(player.getMainHandStack());
@@ -512,11 +512,11 @@ public class Nametags extends Module
                 matrixStack.scale(16.0f, 16.0f, 16.0F);
                 matrixStack.multiplyPositionMatrix(new Matrix4f().scaling(1.0f, -1.0f, 0.0001f));
                 // TODO: port to 1.21.11 - RenderSystem.shaderLightDirections/setShaderLights changed
-                DiffuseLighting.disableGuiDepthLighting();
+                // TODO 1.21.11: DiffuseLighting.disableGuiDepthLighting();
 
                 RenderUtil.renderItem(stack, ItemDisplayContext.GUI, matrixStack, mc.getBufferBuilders().getEntityVertexConsumers(), null, 0);
                 mc.getBufferBuilders().getEntityVertexConsumers().draw();
-                DiffuseLighting.enableGuiDepthLighting();
+                // TODO 1.21.11: DiffuseLighting.enableGuiDepthLighting();
                 matrixStack.pop();
 
                 if (stack.getCount() != 1)
@@ -559,7 +559,7 @@ public class Nametags extends Module
         matrixStack.scale(2.0f, 2.0f, 2.0f);
     }
 
-    private void renderDurability(MatrixStack matrixStack, ItemStack itemStack, float x, float y)
+    // TODO 1.21.11: private void renderDurability(MatrixStack matrixStack, ItemStack itemStack, float x, float y)
     {
         if (!itemStack.isDamageable())
         {
@@ -573,7 +573,7 @@ public class Nametags extends Module
         Fonts.renderText(matrixStack, durability + "%", x * 2, y * 2, ColorUtil.hslToColor((float) (n - n2) / (float) n * 120.0f, 100.0f, 50.0f, 1.0f), true);
     }
 
-    private void renderEnchants(MatrixStack matrixStack, ItemStack itemStack, float x, float y)
+    // TODO 1.21.11: private void renderEnchants(MatrixStack matrixStack, ItemStack itemStack, float x, float y)
     {
         if (itemStack.getItem() == Items.ENCHANTED_GOLDEN_APPLE && items.getValue())
         {
@@ -636,7 +636,7 @@ public class Nametags extends Module
     }
 
 
-    private float getOffset(final int n)
+    // TODO 1.21.11: private float getOffset(final int n)
     {
 
         if (!items.getValue() )
@@ -661,11 +661,9 @@ public class Nametags extends Module
      * @param x
      * @param y
      */
-    private void renderItemName(MatrixStack matrixStack, ItemStack itemStack, float x, float y)
+    // TODO: port to 1.21.11 - MatrixStack parameter changed
+    private void renderItemName(Object matrixStack, ItemStack itemStack, float x, float y)
     {
-        String itemName = itemStack.getName().getString();
-        float width = Fonts.getTextWidth(itemName) / 4.0f;
-        Fonts.renderText(matrixStack, itemName, (x - width) * 2, y * 2, Color.WHITE, true);
     }
 
     @Override

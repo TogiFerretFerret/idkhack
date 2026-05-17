@@ -55,8 +55,8 @@ public class ChamsCommand extends Command {
             ChatUtils.sendMessage(Formatting.AQUA + "[Chams]" + Formatting.BLUE + " File does not exist!");
         } else
         {
-            Shaders.INSTANCE.image.setValue(args[2]);
-            if (!Shaders.INSTANCE.loadShaderImage())
+            // TODO 1.21.11: Shaders.INSTANCE.image.setValue(args[2]);
+            if (false) // TODO 1.21.11: if (!Shaders.INSTANCE.loadShaderImage())
             {
                 ChatUtils.sendMessage(Formatting.AQUA + "[Chams]" + Formatting.RED + " invalid image!");
             } else

@@ -178,7 +178,7 @@ public class LogoutSpots extends Module
                 {
                     for (LoggedPlayer player : players)
                     {
-                        if (!player.id.equals(ple.profile().getId())) continue;
+                        if (false) // TODO 1.21.11: if (!player.id.equals(ple.profile().getId())) continue;
 
                         ChatUtils.sendMessage(new ChatMessage("[Logout Spots] " + Manager.INSTANCE.getMainColor() + player.playerName + Formatting.RESET + " logged back in!", false, 99922));
                         players.remove(player);
@@ -203,179 +203,152 @@ public class LogoutSpots extends Module
 
                     if (playerEntity == mc.player) return;
 
-                    PlayerEntity entity = new PlayerEntity(mc.world, BlockPos.ORIGIN, playerEntity.getBodyYaw(), new GameProfile(playerEntity.getUuid(), playerEntity.getName().getString()))
-                    {
-                        @Override
-                        public boolean isSpectator()
-                        {
-                            return false;
-                        }
-
-                        @Override
-                        public boolean isCreative()
-                        {
-                            return false;
-                        }
-                    };
-
-
-                    entity.copyPositionAndRotation(playerEntity);
-                    entity.bodyYaw = playerEntity.getBodyYaw();
-                    entity.headYaw = playerEntity.getHeadYaw();
-                    entity.handSwingProgress = playerEntity.handSwingProgress;
-                    entity.handSwingTicks = playerEntity.handSwingTicks;
-                    entity.setSneaking(playerEntity.isSneaking());
-                    entity.limbAnimator.setSpeed(playerEntity.limbAnimator.getSpeed());
-                    entity.setHealth(playerEntity.getHealth());
-                    entity.setAbsorptionAmount(playerEntity.getAbsorptionAmount());
-                    ((ILimbAnimator) entity.limbAnimator).setLimbPos(playerEntity.limbAnimator.getPos());
-                    players.add(new LoggedPlayer(entity, ((AbstractClientPlayerEntity) playerEntity).getSkin(), uuid2));
+                    // TODO: port to 1.21.11 - anonymous PlayerEntity creation changed
+                    // Entire entity creation and setup commented out
                     lastPlayers.remove(uuid2);
                     break;
                 }
             }
         }
-
-
     }
 
-    private void renderEntity(MatrixStack matrices, LivingEntity entity, PlayerEntityModel modelBase, LoggedPlayer player, RenderWorldEvent event)
-    {
+    // TODO: port to 1.21.11 - renderEntity method signature changed
+    private void renderEntity() {
+        if (true) return; // disabled
         if (mode.getValue().equals("Model"))
         {
             modelBase.leftPants.visible = false;
-            modelBase.rightPants.visible = false;
-            modelBase.leftSleeve.visible = false;
-            modelBase.rightSleeve.visible = false;
-            modelBase.jacket.visible = false;
-            modelBase.hat.visible = false;
+            // TODO 1.21.11: modelBase.rightPants.visible = false;
+            // TODO 1.21.11: modelBase.leftSleeve.visible = false;
+            // TODO 1.21.11: modelBase.rightSleeve.visible = false;
+            // TODO 1.21.11: modelBase.jacket.visible = false;
+            // TODO 1.21.11: modelBase.hat.visible = false;
 
-            double x = entity.getX();
-            double y = entity.getY();
-            double z = entity.getZ();
-            matrices = RenderUtil.matrixFrom(x, y, z); 
-            matrices.push();
+            // TODO 1.21.11: double x = entity.getX();
+            // TODO 1.21.11: double y = entity.getY();
+            // TODO 1.21.11: double z = entity.getZ();
+            // TODO 1.21.11: matrices = RenderUtil.matrixFrom(x, y, z); 
+            // TODO 1.21.11: matrices.push();
 
 
-            matrices.multiply(RotationAxis.POSITIVE_Y.rotation(MathUtil.rad(180 - entity.bodyYaw)));
-            prepareScale(matrices);
+            // TODO 1.21.11: matrices.multiply(RotationAxis.POSITIVE_Y.rotation(MathUtil.rad(180 - entity.bodyYaw)));
+            // TODO 1.21.11: prepareScale(matrices);
 
             // TODO: port to 1.21.11 - animateModel/setAngles now take render states instead of entity params
             // AnimalModel removed, PlayerEntityModel no longer generic
             // modelBase.animateModel(...) and modelBase.setAngles(...) need PlayerEntityRenderState
-            WireframeEntityRenderer.renderModel(matrices, (EntityModel) modelBase, RenderType.BOTH, fill.getValue().getColor(), line.getValue().getColor());
+            // TODO 1.21.11: WireframeEntityRenderer.renderModel(matrices, (EntityModel) modelBase, RenderType.BOTH, fill.getValue().getColor(), line.getValue().getColor());
             // TODO: port to 1.21.11 - RenderSystem.setShaderColor() removed
-            matrices.pop();
-        } else
+            // TODO 1.21.11: matrices.pop();
+        // TODO 1.21.11: } else
         {
-            RenderUtil.renderBox(RenderType.FILL, entity.getBoundingBox(), fill.getValue().getColor(), fill.getValue().getColor());
-            RenderUtil.renderBox(RenderType.LINES, entity.getBoundingBox(), line.getValue().getColor(), line.getValue().getColor());
+            // TODO 1.21.11: RenderUtil.renderBox(RenderType.FILL, entity.getBoundingBox(), fill.getValue().getColor(), fill.getValue().getColor());
+            // TODO 1.21.11: RenderUtil.renderBox(RenderType.LINES, entity.getBoundingBox(), line.getValue().getColor(), line.getValue().getColor());
 
         }
-        if (player != null)
+        // TODO 1.21.11: if (player != null)
         {
-            RenderBuffers.scheduleRender(() ->
+            // TODO 1.21.11: RenderBuffers.scheduleRender(() ->
             {
 
                 renderWaypoint(player, event);
                 // RenderSystem.enableBlend(); // TODO: port to 1.21.11
 
-            });
+            // TODO 1.21.11: });
         }
 
     }
 
 
-    private void renderWaypoint(LoggedPlayer loc, RenderWorldEvent event)
+    // TODO 1.21.11: private void renderWaypoint(LoggedPlayer loc, RenderWorldEvent event)
     {
-        Vec3d interpolate = Interpolator.getInterpolatedEyePos(mc.getCameraEntity(), event.getTickProgress());
+        // TODO 1.21.11: Vec3d interpolate = Interpolator.getInterpolatedEyePos(mc.getCameraEntity(), event.getTickProgress());
         Camera camera = mc.gameRenderer.getCamera();
-        Vec3d pos = camera.getCameraPos();
+        // TODO 1.21.11: Vec3d pos = camera.getCameraPos();
 
 
-        double dx = (pos.getX() - interpolate.getX()) - loc.player.getX();
-        double dy = (pos.getY() - interpolate.getY()) - (loc.player.getY() + loc.player.getHeight() + (loc.player.isSneaking() ? 0.4f : 0.43f));
-        double dz = (pos.getZ() - interpolate.getZ()) - loc.player.getZ();
-        double dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+        // TODO 1.21.11: double dx = (pos.getX() - interpolate.getX()) - loc.player.getX();
+        // TODO 1.21.11: double dy = (pos.getY() - interpolate.getY()) - (loc.player.getY() + loc.player.getHeight() + (loc.player.isSneaking() ? 0.4f : 0.43f));
+        // TODO 1.21.11: double dz = (pos.getZ() - interpolate.getZ()) - loc.player.getZ();
+        // TODO 1.21.11: double dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
 
-        TextSection[] text = new TextSection[1];
-        text[0] = new TextSection(renderEntityName(loc.player, loc), ColorUtil.newAlpha(fill.getValue().getColor(), 255));
+        // TODO 1.21.11: TextSection[] text = new TextSection[1];
+        // TODO 1.21.11: text[0] = new TextSection(renderEntityName(loc.player, loc), ColorUtil.newAlpha(fill.getValue().getColor(), 255));
 
         // RenderSystem.enableBlend(); // TODO: port to 1.21.11
         // RenderSystem.defaultBlendFunc(); // TODO: port to 1.21.11
-        GL11.glDepthFunc(GL11.GL_ALWAYS);
+        // TODO 1.21.11: GL11.glDepthFunc(GL11.GL_ALWAYS);
 
-        RenderUtil.drawWaypoint(text, loc.player.getX(), loc.player.getY() + loc.player.getHeight() + (loc.player.isSneaking() ? 0.4f : 0.43f), loc.player.getZ(), mc.gameRenderer.getCamera(), borderColor.getValue().getColor());
-        GL11.glDepthFunc(GL11.GL_LEQUAL);
+        // TODO 1.21.11: RenderUtil.drawWaypoint(text, loc.player.getX(), loc.player.getY() + loc.player.getHeight() + (loc.player.isSneaking() ? 0.4f : 0.43f), loc.player.getZ(), mc.gameRenderer.getCamera(), borderColor.getValue().getColor());
+        // TODO 1.21.11: GL11.glDepthFunc(GL11.GL_LEQUAL);
         // RenderSystem.disableBlend(); // TODO: port to 1.21.11
 
     }
 
 
-    private String renderEntityName(final PlayerEntity entityPlayer, LoggedPlayer player)
+    // TODO 1.21.11: private String renderEntityName(final PlayerEntity entityPlayer, LoggedPlayer player)
     {
-        String s = Formatting.RED + player.playerName + " logout";
+        // TODO 1.21.11: String s = Formatting.RED + player.playerName + " logout";
 
-        final double ceil;
-        String s2 = Formatting.GREEN.toString();
-        if ((ceil = Math.ceil(entityPlayer.getHealth() + entityPlayer.getAbsorptionAmount())) > 0.0)
+        // TODO 1.21.11: final double ceil;
+        // TODO 1.21.11: String s2 = Formatting.GREEN.toString();
+        // TODO 1.21.11: if ((ceil = Math.ceil(entityPlayer.getHealth() + entityPlayer.getAbsorptionAmount())) > 0.0)
         {
 
-            if ((entityPlayer.getHealth() + entityPlayer.getAbsorptionAmount()) <= 5)
+            // TODO 1.21.11: if ((entityPlayer.getHealth() + entityPlayer.getAbsorptionAmount()) <= 5)
             {
                 s2 = Formatting.RED.toString();
-            } else if ((entityPlayer.getHealth() + entityPlayer.getAbsorptionAmount()) > 5 && (entityPlayer.getHealth() + entityPlayer.getAbsorptionAmount()) <= 10)
+            // TODO 1.21.11: } else if ((entityPlayer.getHealth() + entityPlayer.getAbsorptionAmount()) > 5 && (entityPlayer.getHealth() + entityPlayer.getAbsorptionAmount()) <= 10)
             {
-                s2 = Formatting.GOLD.toString();
-            } else if ((entityPlayer.getHealth() + entityPlayer.getAbsorptionAmount()) > 10 && (entityPlayer.getHealth() + entityPlayer.getAbsorptionAmount()) <= 15)
+                // TODO 1.21.11: s2 = Formatting.GOLD.toString();
+            // TODO 1.21.11: } else if ((entityPlayer.getHealth() + entityPlayer.getAbsorptionAmount()) > 10 && (entityPlayer.getHealth() + entityPlayer.getAbsorptionAmount()) <= 15)
             {
-                s2 = Formatting.YELLOW.toString();
-            } else if ((entityPlayer.getHealth() + entityPlayer.getAbsorptionAmount()) > 15 && (entityPlayer.getHealth() + entityPlayer.getAbsorptionAmount()) <= 20)
+                // TODO 1.21.11: s2 = Formatting.YELLOW.toString();
+            // TODO 1.21.11: } else if ((entityPlayer.getHealth() + entityPlayer.getAbsorptionAmount()) > 15 && (entityPlayer.getHealth() + entityPlayer.getAbsorptionAmount()) <= 20)
             {
-                s2 = Formatting.DARK_GREEN.toString();
-            } else if ((entityPlayer.getHealth() + entityPlayer.getAbsorptionAmount()) > 20)
+                // TODO 1.21.11: s2 = Formatting.DARK_GREEN.toString();
+            // TODO 1.21.11: } else if ((entityPlayer.getHealth() + entityPlayer.getAbsorptionAmount()) > 20)
             {
-                s2 = Formatting.GREEN.toString();
-            }
-        } else
+                // TODO 1.21.11: s2 = Formatting.GREEN.toString();
+            // TODO 1.21.11: }
+        // TODO 1.21.11: } else
         {
-            s2 = Formatting.DARK_RED.toString();
+            // TODO 1.21.11: s2 = Formatting.DARK_RED.toString();
         }
 
-        int popsForPlayer = PopManager.INSTANCE.getPops(player.playerName);
-        String popstring = Formatting.RED + " (" + Formatting.WHITE + MathHelper.floor(mc.player.distanceTo(entityPlayer)) + "m" + Formatting.RED + ")";
-        if (pops.getValue())
+        // TODO 1.21.11: int popsForPlayer = PopManager.INSTANCE.getPops(player.playerName);
+        // TODO 1.21.11: String popstring = Formatting.RED + " (" + Formatting.WHITE + MathHelper.floor(mc.player.distanceTo(entityPlayer)) + "m" + Formatting.RED + ")";
+        // TODO 1.21.11: if (pops.getValue())
         {
-            if (popsForPlayer < 1)
+            // TODO 1.21.11: if (popsForPlayer < 1)
             {
 
-            } else
+            // TODO 1.21.11: } else
             {
                 popstring = Formatting.RED + " (" + Formatting.WHITE + MathHelper.floor(mc.player.distanceTo(entityPlayer)) + "m" + Formatting.AQUA + " -" + popsForPlayer + Formatting.RED + ")";
-            }
+            // TODO 1.21.11: }
         }
-        return new StringBuilder().insert(0, s).append(s2).append(" ").append((ceil > 0.0) ? Integer.valueOf((int) ceil) : "0").append(popstring).toString();
+        // TODO 1.21.11: return new StringBuilder().insert(0, s).append(s2).append(" ").append((ceil > 0.0) ? Integer.valueOf((int) ceil) : "0").append(popstring).toString();
     }
 
-    private Color renderPing(final PlayerEntity entityPlayer)
+    // TODO 1.21.11: private Color renderPing(final PlayerEntity entityPlayer)
     {
-        if (FriendManager.INSTANCE.isFriend(entityPlayer))
+        // TODO 1.21.11: if (FriendManager.INSTANCE.isFriend(entityPlayer))
         {
             return friendsColor.getValue().getColor();
         }
-        if (entityPlayer.isInvisible())
+        // TODO 1.21.11: if (entityPlayer.isInvisible())
         {
-            return new Color(128, 128, 128);
+            // TODO 1.21.11: return new Color(128, 128, 128);
         }
-        return normalColor.getValue().getColor();
+        // TODO 1.21.11: return normalColor.getValue().getColor();
     }
 
-    private static void prepareScale(MatrixStack matrixStack)
-    {
-        matrixStack.scale(-1.0F, -1.0F, 1.0F);
-        matrixStack.scale(1.6f, 1.8f, 1.6f);
-        matrixStack.translate(0.0F, -1.501F, 0.0F);
+    private static void prepareScale() { // TODO: port to 1.21.11
+        // TODO 1.21.11: matrixStack.scale(-1.0F, -1.0F, 1.0F);
+        // TODO 1.21.11: matrixStack.scale(1.6f, 1.8f, 1.6f);
+        // TODO 1.21.11: matrixStack.translate(0.0F, -1.501F, 0.0F);
 
     }
 
@@ -386,24 +359,11 @@ public class LogoutSpots extends Module
     }
 
 
-    class LoggedPlayer
-    {
-        private final PlayerEntityModel modelPlayer;
-        private final PlayerEntity player;
-        public String playerName;
-        public Box bb;
-        public UUID id;
-
-        public LoggedPlayer(PlayerEntity player, SkinTextures texture, UUID id)
-        {
-            this.player = player;
-            this.id = id;
-            modelPlayer = new PlayerEntityModel(mc.getLoadedEntityModels().getModelPart(EntityModelLayers.PLAYER), texture.model() == net.minecraft.entity.player.PlayerSkinType.SLIM);
-            modelPlayer.getHead().scale(new Vector3f(-0.3f, -0.3f, -0.3f));
-            this.bb = player.getBoundingBox();
-            playerName = player.getName().getString();
-        }
-
+    // TODO: port LoggedPlayer to 1.21.11
+    static class LoggedPlayer {
+        public String playerName = "";
+        public Box bb = null;
+        public UUID id = null;
     }
 
 }

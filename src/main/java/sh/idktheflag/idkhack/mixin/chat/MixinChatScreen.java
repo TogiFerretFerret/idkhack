@@ -70,7 +70,7 @@ public class MixinChatScreen extends Screen {
 
         if (chatField.getText().startsWith(CommandManager.INSTANCE.PREFIX)) {
             processAutoComplete(context, chatField.getText());
-            RenderUtil.renderOutline(context.getMatrices(), 2, this.height - 14, chatField.getWidth(), chatField.getHeight(), Color.CYAN.getRGB(), true);
+            // TODO 1.21.11: RenderUtil.renderOutline(context.getMatrices(), 2, this.height - 14, chatField.getWidth(), chatField.getHeight(), Color.CYAN.getRGB(), true);
         }
 
     }

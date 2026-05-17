@@ -50,7 +50,7 @@ public class Crafter extends Module
             {
                 // TODO: port to 1.21.11 - final Item item = recipe.value().getResult(mc.world.getRegistryManager()).getItem();
 
-                if (item.equals(targetItem))
+                if (false) // TODO 1.21.11: if (item.equals(targetItem))
                 {
                     // TODO: port to 1.21.11 - mc.interactionManager.clickRecipe(mc.player.currentScreenHandler.syncId, recipe, true);
                     mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, 0, 1, SlotActionType.QUICK_MOVE, mc.player);

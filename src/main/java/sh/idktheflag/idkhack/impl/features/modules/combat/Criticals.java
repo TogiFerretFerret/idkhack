@@ -36,7 +36,7 @@ public class Criticals extends Module
     public Criticals()
     {
         super("Criticals", Category.Combat);
-        INSTANCE = this;
+        // TODO 1.21.11: INSTANCE = this;
     }
 
     public Value<String> mode = new ValueBuilder<String>()
@@ -161,7 +161,7 @@ public class Criticals extends Module
         {
             // TODO: port to 1.21.11 - Vec3d explosionVec = new Vec3d(packet.getX(), packet.getY(), packet.getZ());
 
-            if (explosionVec.distanceTo(new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ())) < 6.0)
+            if (false) // TODO 1.21.11: if (explosionVec.distanceTo(new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ())) < 6.0)
             {
                 canGrimCrit = true;
             }
