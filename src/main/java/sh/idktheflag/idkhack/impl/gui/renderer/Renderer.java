@@ -306,7 +306,11 @@ public class Renderer implements IRenderer, IMinecraft {
     @Override
     public void renderText(DrawContext context, String text, float x, float y, Color color, boolean shadow)
     {
-        // TODO 1.21.11: Fonts.VANILLA.drawText(context, context.getMatrices(), text, x, y, color.getRGB(), shadow);
+        if (shadow) {
+            context.drawTextWithShadow(mc.textRenderer, text, (int) x, (int) y, color.getRGB());
+        } else {
+            context.drawText(mc.textRenderer, text, (int) x, (int) y, color.getRGB(), false);
+        }
     }
 
     @Override
