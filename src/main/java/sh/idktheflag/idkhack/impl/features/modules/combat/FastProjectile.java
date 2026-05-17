@@ -118,7 +118,7 @@ public class FastProjectile extends Module {
     private void movePacket(double x, double y, double z, boolean ground)
     {
         if (rotate.getValue())
-            // TODO: port to 1.21.11 - mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.Full(x, y, z, mc.player.getYaw(), mc.player.getPitch(), ground));
+            // TODO: port to 1.21.11 - mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.Full(x, y, z, mc.player.getYaw(), mc.player.getPitch(), ground, false));
         // TODO: 1.21.11 - else
             mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(x, y, z, ground, false));
     }

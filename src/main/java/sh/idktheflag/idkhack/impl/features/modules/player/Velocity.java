@@ -110,11 +110,11 @@ public class Velocity extends Module
                     }
 
 
-                    if (horizontal.getValue().intValue() == 0 && vertical.getValue().intValue() == 0)
-                    {
-                        PacketManager.INSTANCE.specialCaseCancel(packet);
-                        return;
-                    }
+
+//                     {
+//                         PacketManager.INSTANCE.specialCaseCancel(packet);
+//                         return;
+//                     }
 
                     // TODO: port to 1.21.11 - ((IEntityVelocityUpdateS2CPacket) packet).setVelocityX((int) (packet.getVelocityX() * (horizontal.getValue().floatValue() / 100.0f)));
                     // TODO: port to 1.21.11 - ((IEntityVelocityUpdateS2CPacket) packet).setVelocityY((int) (packet.getVelocityY() * (vertical.getValue().floatValue() / 100.0f)));

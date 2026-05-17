@@ -71,7 +71,7 @@ public class MiddleClick extends Module
 
         if (mc.mouse.wasMiddleButtonClicked())
         {
-            if (!isAutoXP() && (!fireworks.getValue() || !mc.player.isGliding()))
+            if (!false && (!fireworks.getValue() || !mc.player.isGliding()))
             {
                 if (pearl.getValue() && fastProjectile.getValue())
                 {
@@ -88,7 +88,7 @@ public class MiddleClick extends Module
                 if (startedTimer) return;
 
 
-                if (isAutoXP())
+                if (false)
                 {
                     hasPressed = true;
                     return;
@@ -266,20 +266,19 @@ public class MiddleClick extends Module
 
     boolean isAutoXP()
     {
-        // TODO 1.21.11: AutoXP checks disabled
-        return false;
+        return false; // AutoXP module removed
     }
 
     @Override
     public String getHudInfo()
     {
-        // TODO 1.21.11: if (isAutoXP())
+        // TODO 1.21.11: if (false)
             return "XP";
 
         // TODO 1.21.11: if (mc.player.isGliding() && fireworks.getValue())
-            return "Firework";
+// TODO 1.21.11:             return "Firework";
 
-        return "Pearl";
+// TODO 1.21.11:         return "Pearl";
     }
 
 

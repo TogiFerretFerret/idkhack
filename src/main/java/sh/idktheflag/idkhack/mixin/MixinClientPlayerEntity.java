@@ -148,8 +148,8 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
             boolean bl = isSneaking();
             if (bl != lastSneaking)
             {
-                ClientCommandC2SPacket.Mode mode = bl ? ClientCommandC2SPacket.Mode.PRESS_SHIFT_KEY : ClientCommandC2SPacket.Mode.RELEASE_SHIFT_KEY;
-                networkHandler.sendPacket(new ClientCommandC2SPacket(this, mode));
+// TODO 1.21.11: // TODO 1.21.11: // TODO 1.21.11: // TODO 1.21.11:                 ClientCommandC2SPacket.Mode mode = bl ? ClientCommandC2SPacket.Mode.PRESS_SHIFT_KEY : ClientCommandC2SPacket.Mode.RELEASE_SHIFT_KEY;
+// TODO 1.21.11:                 networkHandler.sendPacket(new ClientCommandC2SPacket(this, mode));
                 lastSneaking = bl;
             }
             if (isCamera())
@@ -167,7 +167,7 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
                 if (hasVehicle())
                 {
                     Vec3d vec3d = getVelocity();
-                    networkHandler.sendPacket(new PlayerMoveC2SPacket.Full(vec3d.x, -999.0, vec3d.z, getYaw(), getPitch(), ground));
+                    networkHandler.sendPacket(new PlayerMoveC2SPacket.Full(vec3d.x, -999.0, vec3d.z, getYaw(), getPitch(), ground, false));
                     bl2 = false;
                 } else if (bl2 && bl3)
                 {
@@ -177,10 +177,10 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
                     networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(x, y, z, ground, false));
                 } else if (bl3)
                 {
-                    networkHandler.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(yaw, pitch, ground));
+                    networkHandler.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(yaw, pitch, ground, false));
                 } else if (lastOnGround != isOnGround())
                 {
-                    networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(ground));
+                    networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(ground, false));
                 }
                 if (bl2)
                 {

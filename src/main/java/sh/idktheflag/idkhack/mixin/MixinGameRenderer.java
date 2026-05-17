@@ -188,8 +188,8 @@ public abstract class MixinGameRenderer implements IMinecraft
             cameraE.lastZ = freecam.prevPos.z;
             cameraE.setYaw(freecam.yaw);
             cameraE.setPitch(freecam.pitch);
-            cameraE.lastYaw = freecam.lastYaw;
-            cameraE.lastPitch = freecam.lastPitch;
+// TODO 1.21.11: // TODO 1.21.11:             cameraE.lastYaw = freecam.lastYaw;
+// TODO 1.21.11: // TODO 1.21.11:             cameraE.lastPitch = freecam.lastPitch;
 
             freecamSet = true;
             updateCrosshairTarget(tickDelta);

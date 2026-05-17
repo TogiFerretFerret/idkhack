@@ -65,24 +65,24 @@ public abstract class MixinPlayerEntity extends LivingEntity implements IMinecra
     @Inject(method = "getBlockInteractionRange", at = @At(value = "HEAD"), cancellable = true)
     private void doReachDistance(CallbackInfoReturnable<Double> cir)
     {
-        final ReachEvent reachEvent = new ReachEvent((float) this.getAttributeValue(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE));
-        reachEvent.post();
-        if (reachEvent.isCancelled())
+// TODO 1.21.11: // TODO 1.21.11:         final ReachEvent reachEvent = new ReachEvent((float) this.getAttributeValue(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE));
+// TODO 1.21.11:         reachEvent.post();
+// TODO 1.21.11:         if (reachEvent.isCancelled())
         {
             cir.cancel();
-            cir.setReturnValue((double) reachEvent.getReach());
+// TODO 1.21.11:             cir.setReturnValue((double) reachEvent.getReach());
         }
     }
 
     @Inject(method = "getEntityInteractionRange", at = @At(value = "HEAD"), cancellable = true)
     private void doEntityReachDistance(CallbackInfoReturnable<Double> cir)
     {
-        final ReachEvent reachEvent = new ReachEvent((float) this.getAttributeValue(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE));
-        reachEvent.post();
-        if (reachEvent.isCancelled())
+// TODO 1.21.11: // TODO 1.21.11:         final ReachEvent reachEvent = new ReachEvent((float) this.getAttributeValue(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE));
+// TODO 1.21.11:         reachEvent.post();
+// TODO 1.21.11:         if (reachEvent.isCancelled())
         {
             cir.cancel();
-            cir.setReturnValue((double) reachEvent.getReach());
+// TODO 1.21.11:             cir.setReturnValue((double) reachEvent.getReach());
         }
     }
 

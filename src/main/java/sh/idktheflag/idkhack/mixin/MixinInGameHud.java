@@ -30,7 +30,7 @@ public class MixinInGameHud {
     public void renderMainHud(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci)
     {
         new RenderGameOverlayEvent.Text(context, tickCounter).post();
-        context.draw();
+// TODO 1.21.11: // TODO 1.21.11:         context.draw();
     }
 
     @Inject(method = "renderOverlay", at = @At(value = "HEAD"), cancellable = true)
