@@ -19,7 +19,6 @@
     "MixinClientConnection",
     "MixinClientPlayerInteractionManager",
     "MixinConnectScreen",
-    "MixinDrawContext",
     "MixinEnchantingTableBlockEntityRenderer",
     "MixinEndCrystalEntityRenderer",
     "MixinEntity",
