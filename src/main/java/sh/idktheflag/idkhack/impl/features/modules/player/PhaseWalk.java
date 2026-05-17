@@ -21,6 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import sh.idktheflag.idkhack.api.feature.module.Module;
+import sh.idktheflag.idkhack.api.feature.module.Category;
 import sh.idktheflag.idkhack.api.utils.NullUtils;
 import sh.idktheflag.idkhack.api.utils.Timer;
 import sh.idktheflag.idkhack.api.value.Value;
@@ -33,4 +34,7 @@ import static net.minecraft.util.math.MathHelper.floor;
 
 // TODO: port to 1.21.11 - module disabled, see TODO.md
 public class PhaseWalk extends Module {
+    public PhaseWalk() {
+        super("PhaseWalk", Category.Player);
+    }
 }

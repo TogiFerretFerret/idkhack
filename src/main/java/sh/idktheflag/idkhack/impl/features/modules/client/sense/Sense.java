@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import sh.idktheflag.idkhack.api.event.eventbus.SubscribeEvent;
 import sh.idktheflag.idkhack.api.event.events.render.RenderWorldEvent;
 import sh.idktheflag.idkhack.api.feature.module.Module;
+import sh.idktheflag.idkhack.api.feature.module.Category;
 import sh.idktheflag.idkhack.api.utils.Timer;
 import sh.idktheflag.idkhack.api.utils.chat.ChatUtils;
 import sh.idktheflag.idkhack.api.utils.color.TextSection;
@@ -25,4 +26,7 @@ import java.awt.*;
 
 // TODO: port to 1.21.11 - module disabled, see TODO.md
 public class Sense extends Module {
+    public Sense() {
+        super("Sense", Category.Client);
+    }
 }

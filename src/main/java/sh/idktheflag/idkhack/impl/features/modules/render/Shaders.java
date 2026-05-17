@@ -7,6 +7,7 @@ import sh.idktheflag.idkhack.api.event.eventbus.SubscribeEvent;
 import sh.idktheflag.idkhack.api.event.events.network.ServerEvent;
 import sh.idktheflag.idkhack.api.event.events.render.*;
 import sh.idktheflag.idkhack.api.feature.module.Module;
+import sh.idktheflag.idkhack.api.feature.module.Category;
 import sh.idktheflag.idkhack.api.management.FriendManager;
 import sh.idktheflag.idkhack.api.management.shaders.ShaderManager;
 import sh.idktheflag.idkhack.api.utils.chat.ChatUtils;
@@ -58,4 +59,7 @@ import java.util.UUID;
 
 // TODO: port to 1.21.11 - module disabled, see TODO.md
 public class Shaders extends Module {
+    public Shaders() {
+        super("Shaders", Category.Render);
+    }
 }
