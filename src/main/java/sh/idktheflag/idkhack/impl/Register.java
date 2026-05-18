@@ -194,6 +194,7 @@ public class Register
         FeatureManager.INSTANCE.getFeatures().add(new Search());
         FeatureManager.INSTANCE.getFeatures().add(new ESP());
         FeatureManager.INSTANCE.getFeatures().add(new Tracers());
+        FeatureManager.INSTANCE.getFeatures().add(new BlockESP());
         FeatureManager.INSTANCE.getFeatures().add(new ExtraTab());
         FeatureManager.INSTANCE.getFeatures().add(new Trails());
         FeatureManager.INSTANCE.getFeatures().add(new Freecam());

@@ -16,7 +16,7 @@ import java.util.List;
 public class RenderBuffers {
     public static final Buffer QUADS = new Buffer(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
     public static final Buffer LINES = new Buffer(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION_COLOR);
-    public static final Buffer LINE = new Buffer(VertexFormat.DrawMode.LINES, VertexFormats.POSITION_COLOR);
+    public static final Buffer LINE = new Buffer(VertexFormat.DrawMode.LINES, VertexFormats.LINES);
     public static final Buffer TRIANGLES = new Buffer(VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION_COLOR);
 
     private static boolean isSetup = false;

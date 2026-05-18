@@ -370,14 +370,38 @@ public class RenderUtil {
                                 double z1, double x2, double y2, double z2, Color top, Color bottom)
     {
         Matrix4f matrix4f = matrices.peek().getPositionMatrix();
+        MatrixStack.Entry peek = matrices.peek();
         Vector3f normalVec = getNormal((float) x1, (float) y1, (float) z1, (float) x2, (float) y2, (float) z2);
         LINE.begin(matrix4f);
-        LINE.color(bottom);
-        LINE.vertex(x1, y1, z1).buffer.normal(matrices.peek(), normalVec.x(), normalVec.y(), normalVec.z());
-        LINE.color(top);
-        LINE.vertex(x2, y2, z2).buffer.normal(matrices.peek(), normalVec.x(), normalVec.y(), normalVec.z());
+        LINE.buffer.vertex(matrix4f, (float) x1, (float) y1, (float) z1)
+                .color(bottom.getRed(), bottom.getGreen(), bottom.getBlue(), bottom.getAlpha())
+                .normal(peek, normalVec.x(), normalVec.y(), normalVec.z());
+        LINE.buffer.vertex(matrix4f, (float) x2, (float) y2, (float) z2)
+                .color(top.getRed(), top.getGreen(), top.getBlue(), top.getAlpha())
+                .normal(peek, normalVec.x(), normalVec.y(), normalVec.z());
         LINE.end();
+    }
 
+    /**
+     * Draw a line segment between two world-space positions using the proper LINES pipeline.
+     */
+    public static void drawWorldLine(Vec3d a, Vec3d b, Color colorA, Color colorB)
+    {
+        MatrixStack matrices = matrixFrom(a.x, a.y, a.z);
+        MatrixStack.Entry peek = matrices.peek();
+        Matrix4f matrix4f = peek.getPositionMatrix();
+        float dx = (float)(b.x - a.x), dy = (float)(b.y - a.y), dz = (float)(b.z - a.z);
+        float len = MathHelper.sqrt(dx * dx + dy * dy + dz * dz);
+        if (len == 0) return;
+        float nx = dx / len, ny = dy / len, nz = dz / len;
+        LINE.begin(matrix4f);
+        LINE.buffer.vertex(matrix4f, 0, 0, 0)
+                .color(colorA.getRed(), colorA.getGreen(), colorA.getBlue(), colorA.getAlpha())
+                .normal(peek, nx, ny, nz);
+        LINE.buffer.vertex(matrix4f, dx, dy, dz)
+                .color(colorB.getRed(), colorB.getGreen(), colorB.getBlue(), colorB.getAlpha())
+                .normal(peek, nx, ny, nz);
+        LINE.end();
     }
 
     public static Vector3f getNormal(float x1, float y1, float z1, float x2, float y2, float z2)
