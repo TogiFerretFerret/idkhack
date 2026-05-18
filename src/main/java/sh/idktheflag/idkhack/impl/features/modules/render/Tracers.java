@@ -82,7 +82,7 @@ public class Tracers extends Module {
         if (NullUtils.nullCheck()) return;
 
         float tickDelta = mc.getRenderTickCounter().getTickProgress(false);
-        Vec3d eye = mc.gameRenderer.getCamera().getCameraPos();
+        Vec3d eye = mc.player.getEyePos();
 
         for (Entity entity : mc.world.getEntities()) {
             if (entity == mc.player || !entity.isAlive()) continue;

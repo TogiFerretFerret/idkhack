@@ -7,6 +7,7 @@ import sh.idktheflag.idkhack.api.utils.chat.ChatUtils;
 import sh.idktheflag.idkhack.api.utils.color.TextSection;
 import sh.idktheflag.idkhack.api.utils.math.MathUtil;
 import sh.idktheflag.idkhack.api.utils.render.world.RenderType;
+import sh.idktheflag.idkhack.api.utils.render.world.buffers.RenderBuffers;
 import sh.idktheflag.idkhack.api.utils.render.world.layer.Sn0wLayers;
 import sh.idktheflag.idkhack.impl.features.modules.client.FontModule;
 import sh.idktheflag.idkhack.impl.features.modules.client.Optimizer;
@@ -354,65 +355,28 @@ public class RenderUtil {
     public static MatrixStack matrixFrom(double x, double y, double z)
     {
         MatrixStack matrices = new MatrixStack();
-
-        Camera camera = mc.gameRenderer.getCamera();
-        matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
-        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(camera.getYaw() + 180.0F));
-
-        matrices.translate(x - camera.getCameraPos().x, y - camera.getCameraPos().y, z - camera.getCameraPos().z);
-
+        matrices.translate((float) x, (float) y, (float) z);
         return matrices;
     }
 
-    public static void drawLine(MatrixStack matrices, double x1, double y1,
-                                double z1, double x2, double y2, double z2, Color top, Color bottom)
-    {
-        Matrix4f matrix4f = matrices.peek().getPositionMatrix();
-        MatrixStack.Entry peek = matrices.peek();
-        Vector3f normalVec = getNormal((float) x1, (float) y1, (float) z1, (float) x2, (float) y2, (float) z2);
-        LINE.begin(matrix4f);
-        LINE.buffer.vertex(matrix4f, (float) x1, (float) y1, (float) z1)
-                .color(bottom.getRed(), bottom.getGreen(), bottom.getBlue(), bottom.getAlpha())
-                .normal(peek, normalVec.x(), normalVec.y(), normalVec.z())
-                .lineWidth(1.0f);
-        LINE.buffer.vertex(matrix4f, (float) x2, (float) y2, (float) z2)
-                .color(top.getRed(), top.getGreen(), top.getBlue(), top.getAlpha())
-                .normal(peek, normalVec.x(), normalVec.y(), normalVec.z())
-                .lineWidth(1.0f);
-        LINE.end();
-    }
-
-    /**
-     * Draw a line segment between two world-space positions using the proper LINES pipeline.
-     */
     public static void drawWorldLine(Vec3d a, Vec3d b, Color colorA, Color colorB)
     {
-        Camera camera = mc.gameRenderer.getCamera();
-        Vec3d camPos = camera.getCameraPos();
-        
-        MatrixStack matrices = new MatrixStack();
-        Matrix4f matrix4f = matrices.peek().getPositionMatrix();
+        MatrixStack matrices = matrixFrom(a.x, a.y, a.z);
+        MatrixStack.Entry peek = matrices.peek();
+        Matrix4f matrix4f = peek.getPositionMatrix();
+        float dx = (float)(b.x - a.x), dy = (float)(b.y - a.y), dz = (float)(b.z - a.z);
+        if (dx == 0 && dy == 0 && dz == 0) return;
         
         RenderBuffers.LINE.begin(matrix4f);
-        RenderBuffers.LINE.buffer.vertex(matrix4f, (float)(a.x - camPos.x), (float)(a.y - camPos.y), (float)(a.z - camPos.z))
+        RenderBuffers.LINE.buffer.vertex(matrix4f, 0, 0, 0)
                 .color(colorA.getRed(), colorA.getGreen(), colorA.getBlue(), colorA.getAlpha())
-                .normal(matrices.peek(), 0, 1, 0)
+                .normal(peek, 0, 1, 0)
                 .lineWidth(1.0f);
-        RenderBuffers.LINE.buffer.vertex(matrix4f, (float)(b.x - camPos.x), (float)(b.y - camPos.y), (float)(b.z - camPos.z))
+        RenderBuffers.LINE.buffer.vertex(matrix4f, dx, dy, dz)
                 .color(colorB.getRed(), colorB.getGreen(), colorB.getBlue(), colorB.getAlpha())
-                .normal(matrices.peek(), 0, 1, 0)
+                .normal(peek, 0, 1, 0)
                 .lineWidth(1.0f);
         RenderBuffers.LINE.end();
-    }
-
-    public static Vector3f getNormal(float x1, float y1, float z1, float x2, float y2, float z2)
-    {
-        float xNormal = x2 - x1;
-        float yNormal = y2 - y1;
-        float zNormal = z2 - z1;
-        float normalSqrt = MathHelper.sqrt(xNormal * xNormal + yNormal * yNormal + zNormal * zNormal);
-
-        return new Vector3f(xNormal / normalSqrt, yNormal / normalSqrt, zNormal / normalSqrt);
     }
 
     /**
