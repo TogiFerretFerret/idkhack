@@ -28,6 +28,16 @@ public class Flight extends Module
         INSTANCE = this;
     }
 
+    @Override
+    public void onDisable()
+    {
+        if (mc.player != null)
+        {
+            mc.player.getAbilities().flying = false;
+            mc.player.getAbilities().allowFlying = false;
+        }
+    }
+
     public Value<String> mode = new ValueBuilder<String>()
             .withDescriptor("Mode")
             .withValue("Creative")
@@ -65,6 +75,12 @@ public class Flight extends Module
     public void onPlayerTick(TickEvent.PlayerTickEvent.Pre event)
     {
         if (NullUtils.nullCheck()) return;
+
+        if (mode.getValue().equals("Creative"))
+        {
+            mc.player.getAbilities().flying = true;
+            mc.player.getAbilities().allowFlying = true;
+        }
 
         if (mode.getValue().equals("Grim"))
             RotationUtils.setRotation(new float[]{PlayerUtils.getMoveYaw(mc.player.getYaw()), ElytraFly.INSTANCE.getControlPitch()}, 99);

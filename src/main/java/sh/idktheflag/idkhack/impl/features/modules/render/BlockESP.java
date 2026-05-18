@@ -6,7 +6,6 @@ import sh.idktheflag.idkhack.api.event.events.render.RenderWorldEvent;
 import sh.idktheflag.idkhack.api.feature.module.Module;
 import sh.idktheflag.idkhack.api.utils.NullUtils;
 import sh.idktheflag.idkhack.api.utils.color.ColorUtil;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
 import sh.idktheflag.idkhack.api.utils.render.RenderUtil;
 import sh.idktheflag.idkhack.api.utils.render.world.RenderType;
 import sh.idktheflag.idkhack.api.value.Value;
@@ -101,8 +100,6 @@ public class BlockESP extends Module {
             .withDescriptor("Fill").withValue(true).register(this);
     Value<Boolean> outline = new ValueBuilder<Boolean>()
             .withDescriptor("Outline").withValue(true).register(this);
-    Value<Boolean> tracers = new ValueBuilder<Boolean>()
-            .withDescriptor("Tracers").withValue(false).register(this);
 
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     private volatile Map<BlockPos, Color> found = new ConcurrentHashMap<>();
@@ -145,8 +142,6 @@ public class BlockESP extends Module {
     public void onRenderWorld(RenderWorldEvent event) {
         if (NullUtils.nullCheck()) return;
 
-        Vec3dCam eye = new Vec3dCam(mc.gameRenderer.getCamera().getCameraPos());
-
         for (Map.Entry<BlockPos, Color> entry : found.entrySet()) {
             BlockPos pos = entry.getKey();
             Color color = entry.getValue();
@@ -157,10 +152,6 @@ public class BlockESP extends Module {
             }
             if (outline.getValue()) {
                 RenderUtil.renderBox(RenderType.LINES, bb, color, color);
-            }
-            if (tracers.getValue()) {
-                RenderUtil.drawWorldLine(eye.pos, bb.getCenter(),
-                        ColorUtil.newAlpha(color, 200), ColorUtil.newAlpha(color, 150));
             }
         }
     }
@@ -213,12 +204,6 @@ public class BlockESP extends Module {
             return new Color(100, 50, 255);
 
         return null;
-    }
-
-    // tiny helper to avoid re-fetching camera pos each entry
-    private static class Vec3dCam {
-        final net.minecraft.util.math.Vec3d pos;
-        Vec3dCam(net.minecraft.util.math.Vec3d pos) { this.pos = pos; }
     }
 
     @Override
