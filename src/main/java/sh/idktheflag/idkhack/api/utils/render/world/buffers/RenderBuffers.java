@@ -30,7 +30,7 @@ public class RenderBuffers {
     private static final RenderLayer LINES_LAYER = RenderLayer.of("idkhack_lines",
             RenderSetup.builder(RenderPipelines.LINES).build());
     private static final RenderLayer DEBUG_LINES_LAYER = RenderLayer.of("idkhack_debug_lines",
-            RenderSetup.builder(RenderPipelines.DEBUG_QUADS).build());
+            RenderSetup.builder(RenderPipelines.LINES).build());
     private static final RenderLayer TRIANGLES_LAYER = RenderLayer.of("idkhack_triangles",
             RenderSetup.builder(RenderPipelines.DEBUG_TRIANGLE_FAN).build());
 

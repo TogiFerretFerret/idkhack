@@ -356,6 +356,8 @@ public class RenderUtil {
         MatrixStack matrices = new MatrixStack();
 
         Camera camera = mc.gameRenderer.getCamera();
+        matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
+        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(camera.getYaw() + 180.0F));
 
         matrices.translate(x - camera.getCameraPos().x, y - camera.getCameraPos().y, z - camera.getCameraPos().z);
 
@@ -385,19 +387,22 @@ public class RenderUtil {
      */
     public static void drawWorldLine(Vec3d a, Vec3d b, Color colorA, Color colorB)
     {
-        MatrixStack matrices = matrixFrom(a.x, a.y, a.z);
-        MatrixStack.Entry peek = matrices.peek();
-        Matrix4f matrix4f = peek.getPositionMatrix();
-        float dx = (float)(b.x - a.x), dy = (float)(b.y - a.y), dz = (float)(b.z - a.z);
-        float len = MathHelper.sqrt(dx * dx + dy * dy + dz * dz);
-        if (len == 0) return;
+        Camera camera = mc.gameRenderer.getCamera();
+        Vec3d camPos = camera.getCameraPos();
         
-        RenderBuffers.LINES.begin(matrix4f);
-        RenderBuffers.LINES.buffer.vertex(matrix4f, 0, 0, 0)
-                .color(colorA.getRed(), colorA.getGreen(), colorA.getBlue(), colorA.getAlpha());
-        RenderBuffers.LINES.buffer.vertex(matrix4f, dx, dy, dz)
-                .color(colorB.getRed(), colorB.getGreen(), colorB.getBlue(), colorB.getAlpha());
-        RenderBuffers.LINES.end();
+        MatrixStack matrices = new MatrixStack();
+        Matrix4f matrix4f = matrices.peek().getPositionMatrix();
+        
+        RenderBuffers.LINE.begin(matrix4f);
+        RenderBuffers.LINE.buffer.vertex(matrix4f, (float)(a.x - camPos.x), (float)(a.y - camPos.y), (float)(a.z - camPos.z))
+                .color(colorA.getRed(), colorA.getGreen(), colorA.getBlue(), colorA.getAlpha())
+                .normal(matrices.peek(), 0, 1, 0)
+                .lineWidth(1.0f);
+        RenderBuffers.LINE.buffer.vertex(matrix4f, (float)(b.x - camPos.x), (float)(b.y - camPos.y), (float)(b.z - camPos.z))
+                .color(colorB.getRed(), colorB.getGreen(), colorB.getBlue(), colorB.getAlpha())
+                .normal(matrices.peek(), 0, 1, 0)
+                .lineWidth(1.0f);
+        RenderBuffers.LINE.end();
     }
 
     public static Vector3f getNormal(float x1, float y1, float z1, float x2, float y2, float z2)
@@ -469,9 +474,7 @@ public class RenderUtil {
 
     public static void renderTracerLine(Vec3d from, Vec3d to, Color top, Color bottom, float lineWidth)
     {
-        final Vec3d eyes = MathUtil.rotateYaw(MathUtil.rotatePitch(new Vec3d(0.0, 0.0, 1.0), -(float) Math.toRadians(mc.player.getPitch())), -(float) Math.toRadians(mc.player.getYaw()));
-
-        renderLine(eyes, from.x, from.y, from.z, to.x, to.y, to.z, top, bottom, lineWidth);
+        drawWorldLine(from, to, top, bottom);
     }
 
     public static void renderLineFromPosToPos(Vec3d from, Vec3d to, Color top, Color bottom, float lineWidth)
