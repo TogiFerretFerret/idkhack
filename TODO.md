@@ -6,8 +6,8 @@ These modules are stubbed out and need to be rewritten for MC 1.21.11 API change
 
 ### Combat
 - **AutoWeb** - web trap placement
-- **AutoXP** - auto XP bottle throwing
-- **Criticals** - force critical hits via packet manipulation
+- ~~**AutoXP**~~ - done
+- ~~**Criticals**~~ - done
 
 ### Movement
 - **EntitySpeed** - speed on rideable entities
@@ -20,7 +20,7 @@ These modules are stubbed out and need to be rewritten for MC 1.21.11 API change
 - **PopChams** - totem pop visualization
 - **Shaders** - shader-based ESP/glow effects
 - **Skeleton** - wireframe player skeleton overlay (partially working)
-- **TimeChanger** - client-side time override
+- ~~**TimeChanger**~~ - done
 - **Tooltips** - enhanced shulker/item tooltips
 - **Waypoints** - in-world waypoint rendering
 
@@ -28,7 +28,7 @@ These modules are stubbed out and need to be rewritten for MC 1.21.11 API change
 - **AutoLog** - auto disconnect on danger
 
 ### Misc
-- **AutoRespawn** - auto respawn on death
+- ~~**AutoRespawn**~~ - done
 - **Crafter** - auto crafting
 - **Sense** - anti-cheat visualization
 

@@ -134,6 +134,8 @@ public class Register
         FeatureManager.INSTANCE.getFeatures().add(new Catcher());
         FeatureManager.INSTANCE.getFeatures().add(new AutoMace());
         FeatureManager.INSTANCE.getFeatures().add(new AutoPlacer());
+        FeatureManager.INSTANCE.getFeatures().add(new Criticals());
+        FeatureManager.INSTANCE.getFeatures().add(new AutoXP());
 
         // Player modules
         FeatureManager.INSTANCE.getFeatures().add(new Velocity());
@@ -212,6 +214,7 @@ public class Register
         FeatureManager.INSTANCE.getFeatures().add(new NewChunks());
         FeatureManager.INSTANCE.getFeatures().add(new Ambience());
         FeatureManager.INSTANCE.getFeatures().add(new PhaseESP());
+        FeatureManager.INSTANCE.getFeatures().add(new TimeChanger());
 
         // Misc modules
         FeatureManager.INSTANCE.getFeatures().add(new FakePlayer());
@@ -227,6 +230,7 @@ public class Register
         FeatureManager.INSTANCE.getFeatures().add(new Heaven());
         FeatureManager.INSTANCE.getFeatures().add(new AutoFish());
         FeatureManager.INSTANCE.getFeatures().add(new AutoReconnect());
+        FeatureManager.INSTANCE.getFeatures().add(new AutoRespawn());
         FeatureManager.INSTANCE.getFeatures().add(new Announcer());
         FeatureManager.INSTANCE.getFeatures().add(new AutoEZ());
         FeatureManager.INSTANCE.getFeatures().add(new SmallShield());
