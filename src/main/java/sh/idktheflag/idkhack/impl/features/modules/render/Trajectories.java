@@ -13,6 +13,7 @@ import sh.idktheflag.idkhack.api.utils.players.rotation.RotationUtils;
 import sh.idktheflag.idkhack.api.utils.render.RenderUtil;
 import sh.idktheflag.idkhack.api.utils.render.world.RenderType;
 import sh.idktheflag.idkhack.api.utils.render.world.buffers.RenderBuffers;
+import net.minecraft.client.util.math.MatrixStack;
 import sh.idktheflag.idkhack.api.value.Value;
 import sh.idktheflag.idkhack.api.value.builder.ValueBuilder;
 import net.minecraft.entity.Entity;
@@ -28,6 +29,7 @@ import net.minecraft.util.math.*;
 
 
 import java.awt.*;
+import java.util.List;
 
 public class Trajectories extends Module
 {
@@ -154,11 +156,20 @@ public class Trajectories extends Module
 
     public void renderTrail(MathUtil.Result result, Color start, Color end, Vec3d first)
     {
+        List<Vec3d> points = result.getPoints();
         Vec3d lastPos = first;
-        for (Vec3d p : result.getPoints())
+        for (int i = 0; i < points.size(); i++)
         {
-            double value = normalize(result.getPoints().indexOf(p), 0, result.getPoints().size());
-            RenderUtil.renderLineFromPosToPos(lastPos, p, ColorUtil.interpolate(((float) value), start, end), ColorUtil.interpolate(((float) value), start, end), lineWidth.getValue().floatValue());
+            Vec3d p = points.get(i);
+            if (p.equals(lastPos)) { lastPos = p; continue; }
+            double value = normalize(i, 0, points.size());
+            Color c = ColorUtil.interpolate((float) value, start, end);
+            MatrixStack matrices = RenderUtil.matrixFrom(lastPos.x, lastPos.y, lastPos.z);
+            RenderBuffers.LINES.begin(matrices.peek().getPositionMatrix());
+            RenderBuffers.LINES.color(c);
+            RenderBuffers.LINES.vertex(0, 0, 0);
+            RenderBuffers.LINES.vertex(p.x - lastPos.x, p.y - lastPos.y, p.z - lastPos.z);
+            RenderBuffers.LINES.end();
             lastPos = p;
         }
     }
