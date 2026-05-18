@@ -108,7 +108,7 @@ public class AimAssist extends Module {
 
         if (vehicles.getValue()) {
             toTarget.add(EntityType.MINECART);
-            toTarget.add(EntityType.BOAT);
+            toTarget.add(EntityType.OAK_BOAT);
         }
 
         Entity target = new EntityTargeter(mc.player, Sorting.FOV, range.getValue().floatValue(), toTarget, fov.getValue().doubleValue()).findTarget(mc.player.getEyePos());

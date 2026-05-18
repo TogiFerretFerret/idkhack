@@ -158,7 +158,7 @@ public class Freecam extends Module
     @SubscribeEvent
     public void onTick(TickEvent.AfterClientTickEvent event)
     {
-        if (mc.cameraEntity.isInsideWall()) mc.getCameraEntity().noClip = true;
+        if (mc.getCameraEntity().isInsideWall()) mc.getCameraEntity().noClip = true;
         if (!perspective.isFirstPerson()) mc.options.setPerspective(Perspective.FIRST_PERSON);
 
         Vec3d forward = Vec3d.fromPolar(0, yaw);
@@ -224,31 +224,22 @@ public class Freecam extends Module
     {
         if (checkGuiMove()) return;
 
-        boolean cancel = true;
-
-        // TODO: port to 1.21.11 - matchesKey API changed to KeyInput
-        // Temporary: just set all movement based on key code comparison
-        cancel = false;
-        /* Original key matching disabled - needs KeyInput port
-        if (mc.options.forwardKey.matchesKey(...)) { forward = ...; }
-        else if (mc.options.backKey.matchesKey(...)) { backward = ...; }
-        ... etc
-        */
-
-        if (cancel) event.setCancelled(true);
+        // Cancel keys matching movement to stop player
+        if (mc.options.forwardKey.isPressed() ||
+            mc.options.backKey.isPressed() ||
+            mc.options.leftKey.isPressed() ||
+            mc.options.rightKey.isPressed() ||
+            mc.options.jumpKey.isPressed() ||
+            mc.options.sneakKey.isPressed()) {
+            
+            event.setCancelled(true);
+        }
     }
 
     @SubscribeEvent
     private void onMouseButton(MouseEvent event)
     {
         if (checkGuiMove()) return;
-
-        boolean cancel = true;
-
-        // TODO: port to 1.21.11 - matchesMouse API changed
-        cancel = false;
-
-        if (cancel) event.setCancelled(true);
     }
 
     public void changeLookDirection(double deltaX, double deltaY)

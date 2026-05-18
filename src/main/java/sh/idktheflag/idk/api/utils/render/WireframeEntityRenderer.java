@@ -216,7 +216,7 @@ public class WireframeEntityRenderer implements IMinecraft
 
         matrices.push();
         // TODO: port to 1.21.11 - ModelPart.rotate() no longer takes MatrixStack, takes Quaternionf or Vector3f
-        // part.rotate(matrices);
+        part.rotate(new org.joml.Quaternionf(0,0,0,1));
 
 //        for (ModelPart.Cuboid cuboid : part.cuboids) render( cuboid, offsetX, offsetY, offsetZ);
         for (ModelPart.Cuboid cuboid : part.cuboids) render(cuboid);
