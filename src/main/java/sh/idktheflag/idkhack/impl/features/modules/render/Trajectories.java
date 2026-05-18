@@ -13,7 +13,6 @@ import sh.idktheflag.idkhack.api.utils.players.rotation.RotationUtils;
 import sh.idktheflag.idkhack.api.utils.render.RenderUtil;
 import sh.idktheflag.idkhack.api.utils.render.world.RenderType;
 import sh.idktheflag.idkhack.api.utils.render.world.buffers.RenderBuffers;
-import net.minecraft.client.util.math.MatrixStack;
 import sh.idktheflag.idkhack.api.value.Value;
 import sh.idktheflag.idkhack.api.value.builder.ValueBuilder;
 import net.minecraft.entity.Entity;
@@ -164,12 +163,7 @@ public class Trajectories extends Module
             if (p.equals(lastPos)) { lastPos = p; continue; }
             double value = normalize(i, 0, points.size());
             Color c = ColorUtil.interpolate((float) value, start, end);
-            MatrixStack matrices = RenderUtil.matrixFrom(lastPos.x, lastPos.y, lastPos.z);
-            RenderBuffers.LINES.begin(matrices.peek().getPositionMatrix());
-            RenderBuffers.LINES.color(c);
-            RenderBuffers.LINES.vertex(0, 0, 0);
-            RenderBuffers.LINES.vertex(p.x - lastPos.x, p.y - lastPos.y, p.z - lastPos.z);
-            RenderBuffers.LINES.end();
+            RenderUtil.drawWorldLine(lastPos, p, c, c);
             lastPos = p;
         }
     }

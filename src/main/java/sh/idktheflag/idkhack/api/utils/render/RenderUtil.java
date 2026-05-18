@@ -375,10 +375,12 @@ public class RenderUtil {
         LINE.begin(matrix4f);
         LINE.buffer.vertex(matrix4f, (float) x1, (float) y1, (float) z1)
                 .color(bottom.getRed(), bottom.getGreen(), bottom.getBlue(), bottom.getAlpha())
-                .normal(peek, normalVec.x(), normalVec.y(), normalVec.z());
+                .normal(peek, normalVec.x(), normalVec.y(), normalVec.z())
+                .lineWidth(1.0f);
         LINE.buffer.vertex(matrix4f, (float) x2, (float) y2, (float) z2)
                 .color(top.getRed(), top.getGreen(), top.getBlue(), top.getAlpha())
-                .normal(peek, normalVec.x(), normalVec.y(), normalVec.z());
+                .normal(peek, normalVec.x(), normalVec.y(), normalVec.z())
+                .lineWidth(1.0f);
         LINE.end();
     }
 
@@ -397,10 +399,12 @@ public class RenderUtil {
         LINE.begin(matrix4f);
         LINE.buffer.vertex(matrix4f, 0, 0, 0)
                 .color(colorA.getRed(), colorA.getGreen(), colorA.getBlue(), colorA.getAlpha())
-                .normal(peek, nx, ny, nz);
+                .normal(peek, nx, ny, nz)
+                .lineWidth(1.0f);
         LINE.buffer.vertex(matrix4f, dx, dy, dz)
                 .color(colorB.getRed(), colorB.getGreen(), colorB.getBlue(), colorB.getAlpha())
-                .normal(peek, nx, ny, nz);
+                .normal(peek, nx, ny, nz)
+                .lineWidth(1.0f);
         LINE.end();
     }
 
@@ -550,41 +554,49 @@ public class RenderUtil {
     public static void renderLinesBox(MatrixStack matrices, double x1, double y1,
                                       double z1, double x2, double y2, double z2, Color top, Color bottom)
     {
-        Matrix4f matrix4f = matrices.peek().getPositionMatrix();
+        Matrix4f m = matrices.peek().getPositionMatrix();
+        MatrixStack.Entry peek = matrices.peek();
+        // bottom face
+        drawEdge(peek, m, x1,y1,z1, x2,y1,z1, bottom);
+        drawEdge(peek, m, x2,y1,z1, x2,y1,z2, bottom);
+        drawEdge(peek, m, x2,y1,z2, x1,y1,z2, bottom);
+        drawEdge(peek, m, x1,y1,z2, x1,y1,z1, bottom);
+        // top face
+        drawEdge(peek, m, x1,y2,z1, x2,y2,z1, top);
+        drawEdge(peek, m, x2,y2,z1, x2,y2,z2, top);
+        drawEdge(peek, m, x2,y2,z2, x1,y2,z2, top);
+        drawEdge(peek, m, x1,y2,z2, x1,y2,z1, top);
+        // verticals
+        drawEdge(peek, m, x1,y1,z1, x1,y2,z1, bottom, top);
+        drawEdge(peek, m, x2,y1,z1, x2,y2,z1, bottom, top);
+        drawEdge(peek, m, x2,y1,z2, x2,y2,z2, bottom, top);
+        drawEdge(peek, m, x1,y1,z2, x1,y2,z2, bottom, top);
+    }
 
+    private static void drawEdge(MatrixStack.Entry peek, Matrix4f m,
+                                  double x1, double y1, double z1,
+                                  double x2, double y2, double z2, Color c)
+    {
+        drawEdge(peek, m, x1, y1, z1, x2, y2, z2, c, c);
+    }
 
-        LINES.begin(matrix4f);
-
-        LINES.color(bottom);
-
-        LINES.vertex(x1, y1, z1).vertex(x2, y1, z1);
-        LINES.vertex(x2, y1, z1).vertex(x2, y1, z2);
-        LINES.vertex(x2, y1, z2).vertex(x1, y1, z2);
-        LINES.vertex(x1, y1, z2).vertex(x1, y1, z1);
-        LINES.vertex(x1, y1, z1);
-
-        LINES.color(top);
-
-        LINES.vertex(x1, y2, z1);
-        LINES.color(bottom);
-
-        LINES.vertex(x2, y1, z1);
-        LINES.color(top);
-        LINES.vertex(x2, y2, z1);
-        LINES.color(bottom);
-        LINES.vertex(x2, y1, z2);
-        LINES.color(top);
-        LINES.vertex(x2, y2, z2);
-        LINES.color(bottom);
-        LINES.vertex(x1, y1, z2);
-        LINES.color(top);
-        LINES.vertex(x1, y2, z2);
-        LINES.vertex(x1, y2, z1).vertex(x2, y2, z1);
-        LINES.vertex(x2, y2, z1).vertex(x2, y2, z2);
-        LINES.vertex(x2, y2, z2).vertex(x1, y2, z2);
-        LINES.vertex(x1, y2, z2).vertex(x1, y2, z1);
-
-        LINES.end();
+    private static void drawEdge(MatrixStack.Entry peek, Matrix4f m,
+                                  double x1, double y1, double z1,
+                                  double x2, double y2, double z2, Color c1, Color c2)
+    {
+        float dx = (float)(x2-x1), dy = (float)(y2-y1), dz = (float)(z2-z1);
+        float len = MathHelper.sqrt(dx*dx + dy*dy + dz*dz);
+        if (len == 0) return;
+        LINE.begin(m);
+        LINE.buffer.vertex(m, (float)x1, (float)y1, (float)z1)
+                .color(c1.getRed(), c1.getGreen(), c1.getBlue(), c1.getAlpha())
+                .normal(peek, dx/len, dy/len, dz/len)
+                .lineWidth(1.0f);
+        LINE.buffer.vertex(m, (float)x2, (float)y2, (float)z2)
+                .color(c2.getRed(), c2.getGreen(), c2.getBlue(), c2.getAlpha())
+                .normal(peek, dx/len, dy/len, dz/len)
+                .lineWidth(1.0f);
+        LINE.end();
     }
 
     public static Vector3d set(Vector3d vec, Entity entity, double tickDelta)

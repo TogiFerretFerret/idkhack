@@ -13,7 +13,6 @@ import sh.idktheflag.idkhack.api.utils.world.EntityUtils;
 import sh.idktheflag.idkhack.api.value.Value;
 import sh.idktheflag.idkhack.api.value.builder.ValueBuilder;
 import sh.idktheflag.idkhack.impl.features.modules.client.HudColors;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,8 +20,6 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
 import java.awt.*;
-
-import static sh.idktheflag.idkhack.api.utils.render.world.buffers.RenderBuffers.*;
 
 public class Tracers extends Module {
 
@@ -105,13 +102,7 @@ public class Tracers extends Module {
     }
 
     private void drawTracer(Vec3d from, Vec3d to, Color color) {
-        MatrixStack matrices = RenderUtil.matrixFrom(from.x, from.y, from.z);
-        LINES.begin(matrices.peek().getPositionMatrix());
-        LINES.color(ColorUtil.newAlpha(color, 255));
-        LINES.vertex(0, 0, 0);
-        LINES.color(ColorUtil.newAlpha(color, 180));
-        LINES.vertex(to.x - from.x, to.y - from.y, to.z - from.z);
-        LINES.end();
+        RenderUtil.drawWorldLine(from, to, ColorUtil.newAlpha(color, 255), ColorUtil.newAlpha(color, 180));
     }
 
     private Color getColor(Entity entity) {

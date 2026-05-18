@@ -12,18 +12,14 @@ import sh.idktheflag.idkhack.api.utils.render.world.RenderType;
 import sh.idktheflag.idkhack.api.value.Value;
 import sh.idktheflag.idkhack.api.value.builder.ValueBuilder;
 import net.minecraft.block.*;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 
 import java.awt.*;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import static sh.idktheflag.idkhack.api.utils.render.world.buffers.RenderBuffers.*;
 
 public class BlockESP extends Module {
 
@@ -163,14 +159,8 @@ public class BlockESP extends Module {
                 RenderUtil.renderBox(RenderType.LINES, bb, color, color);
             }
             if (tracers.getValue()) {
-                net.minecraft.util.math.Vec3d from = eye.pos;
-                net.minecraft.util.math.Vec3d to = bb.getCenter();
-                MatrixStack matrices = RenderUtil.matrixFrom(from.x, from.y, from.z);
-                LINES.begin(matrices.peek().getPositionMatrix());
-                LINES.color(ColorUtil.newAlpha(color, 180));
-                LINES.vertex(0, 0, 0);
-                LINES.vertex(to.x - from.x, to.y - from.y, to.z - from.z);
-                LINES.end();
+                RenderUtil.drawWorldLine(eye.pos, bb.getCenter(),
+                        ColorUtil.newAlpha(color, 200), ColorUtil.newAlpha(color, 150));
             }
         }
     }
