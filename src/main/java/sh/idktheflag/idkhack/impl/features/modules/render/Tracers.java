@@ -102,7 +102,7 @@ public class Tracers extends Module {
     }
 
     private void drawTracer(Vec3d from, Vec3d to, Color color) {
-        RenderUtil.drawWorldLine(from, to, ColorUtil.newAlpha(color, 255), ColorUtil.newAlpha(color, 180));
+        RenderUtil.renderTracerLine(from, to, ColorUtil.newAlpha(color, 255), ColorUtil.newAlpha(color, 180), 1.0f);
     }
 
     private Color getColor(Entity entity) {
