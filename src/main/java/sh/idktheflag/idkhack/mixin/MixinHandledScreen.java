@@ -4,6 +4,8 @@ import sh.idktheflag.idkhack.api.utils.math.MathUtil;
 import sh.idktheflag.idkhack.impl.features.commands.AutoRegearCommand;
 import sh.idktheflag.idkhack.impl.features.modules.player.ChestStealer;
 import sh.idktheflag.idkhack.impl.features.modules.player.Tweaks;
+import sh.idktheflag.idkhack.impl.features.modules.render.Tooltips;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -83,21 +85,48 @@ public abstract class MixinHandledScreen<T extends ScreenHandler> extends Screen
     @Inject(method = "drawMouseoverTooltip", at = @At(value = "HEAD"), cancellable = true)
     private void hookDrawMouseoverTooltip(DrawContext context, int x, int y, CallbackInfo ci)
     {
-        if (!false) return;
+        if (Tooltips.INSTANCE == null || !Tooltips.INSTANCE.isEnabled() || !Tooltips.INSTANCE.shulkers.getValue()) return;
 
         if (focusedSlot == null)
         {
             return;
         }
-        if (focusedSlot.getStack().contains(DataComponentTypes.CONTAINER))
+        ItemStack stack = focusedSlot.getStack();
+        if (stack.contains(DataComponentTypes.CONTAINER))
         {
-            ContainerComponent containerComponent = focusedSlot.getStack().get(DataComponentTypes.CONTAINER);
+            ContainerComponent containerComponent = stack.get(DataComponentTypes.CONTAINER);
             List<ItemStack> items = containerComponent.stream().toList();
             if (!items.isEmpty())
             {
-// TODO: removed Tooltips - &
+                renderShulkerTooltip(context, items, x, y);
                 ci.cancel();
             }
+        }
+    }
+
+    @Unique
+    private void renderShulkerTooltip(DrawContext context, List<ItemStack> items, int x, int y) {
+        MinecraftClient mc = MinecraftClient.getInstance();
+        int rows = (int) Math.ceil(items.size() / 9.0);
+        int cols = Math.min(items.size(), 9);
+        
+        int width = cols * 18 + 4;
+        int height = rows * 18 + 4;
+        
+        int drawX = x + 12;
+        int drawY = y - 12;
+        
+        context.fill(drawX, drawY, drawX + width, drawY + height, 0xFF000000);
+        context.fill(drawX, drawY, drawX + width, drawY + 1, 0xFFFFFFFF);
+        context.fill(drawX, drawY + height - 1, drawX + width, drawY + height, 0xFFFFFFFF);
+        context.fill(drawX, drawY, drawX + 1, drawY + height, 0xFFFFFFFF);
+        context.fill(drawX + width - 1, drawY, drawX + width, drawY + height, 0xFFFFFFFF);
+        
+        for (int i = 0; i < items.size(); i++) {
+            int ix = drawX + 2 + (i % 9) * 18;
+            int iy = drawY + 2 + (i / 9) * 18;
+            context.drawItem(items.get(i), ix, iy);
+            context.drawStackOverlay(mc.textRenderer, items.get(i), ix, iy);
         }
     }
 }

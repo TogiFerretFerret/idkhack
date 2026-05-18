@@ -113,7 +113,7 @@ public class Step extends Module
             }
             for (double off : offs)
             {
-                PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.lastX, mc.player.lastY + off, mc.player.lastZ, false, false));
+                PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.lastX, mc.player.lastY + off, mc.player.lastZ, false, mc.player.horizontalCollision));
             }
             stepTimer.resetDelay();
             if (AutoFeetPlace.INSTANCE.isEnabled())
@@ -159,7 +159,7 @@ public class Step extends Module
 
                 for (double v : oneOffset)
                 {
-                    PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.lastX, mc.player.lastY + v, mc.player.lastZ, false, false));
+                    PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.lastX, mc.player.lastY + v, mc.player.lastZ, false, mc.player.horizontalCollision));
                 }
                 mc.player.setPosition(mc.player.getX(), mc.player.getY() + 1.0, mc.player.getZ());
             }
@@ -168,7 +168,7 @@ public class Step extends Module
                 final double[] oneFiveOffset = getStepOffsets(1.5f);
                 for (double v : oneFiveOffset)
                 {
-                    PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.lastX, mc.player.lastY + v, mc.player.lastZ, false, false));
+                    PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.lastX, mc.player.lastY + v, mc.player.lastZ, false, mc.player.horizontalCollision));
                 }
                 mc.player.setPosition(mc.player.getX(), mc.player.getY() + 1.5, mc.player.getZ());
             }
@@ -177,7 +177,7 @@ public class Step extends Module
                 final double[] twoOffset = getStepOffsets(2.0);
                 for (double v : twoOffset)
                 {
-                    PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.lastX, mc.player.lastY + v, mc.player.lastZ, false, false));
+                    PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.lastX, mc.player.lastY + v, mc.player.lastZ, false, mc.player.horizontalCollision));
                 }
                 mc.player.setPosition(mc.player.getX(), mc.player.getY() + 2.0, mc.player.getZ());
             }
@@ -186,7 +186,7 @@ public class Step extends Module
                 final double[] twoFiveOffset = getStepOffsets(2.5);
                 for (double v : twoFiveOffset)
                 {
-                    PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.lastX, mc.player.lastY + v, mc.player.lastZ, false, false));
+                    PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.lastX, mc.player.lastY + v, mc.player.lastZ, false, mc.player.horizontalCollision));
                 }
                 mc.player.setPosition(mc.player.getX(), mc.player.getY() + 2.5f, mc.player.getZ());
             }
@@ -257,7 +257,9 @@ public class Step extends Module
 
     public static void setStepHeight(float height)
     {
-        // TODO: port to 1.21.11 - mc.player.getAttributeInstance(EntityAttributes.GENERIC_STEP_HEIGHT).setBaseValue(height);
+        if (mc.player != null && mc.player.getAttributeInstance(EntityAttributes.STEP_HEIGHT) != null) {
+            mc.player.getAttributeInstance(EntityAttributes.STEP_HEIGHT).setBaseValue(height);
+        }
     }
 
 

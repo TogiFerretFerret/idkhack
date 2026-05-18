@@ -36,6 +36,7 @@ public class RenderBuffers {
 
     public static void preRender()
     {
+        org.lwjgl.opengl.GL11.glDisable(org.lwjgl.opengl.GL11.GL_DEPTH_TEST);
         GL11.glEnable(GL11.GL_LINE_SMOOTH);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         isSetup = true;
@@ -71,6 +72,7 @@ public class RenderBuffers {
         LINE.draw();
 
         GL11.glDisable(GL11.GL_LINE_SMOOTH);
+        org.lwjgl.opengl.GL11.glEnable(org.lwjgl.opengl.GL11.GL_DEPTH_TEST);
         GL11.glDepthFunc(GL11.GL_LEQUAL);
         isSetup = false;
     }

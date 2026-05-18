@@ -1,31 +1,32 @@
 package sh.idktheflag.idkhack.mixin;
 
-import net.minecraft.client.render.Frustum;
+import sh.idktheflag.idkhack.impl.features.modules.render.Chams;
+import sh.idktheflag.idkhack.api.wrapper.IMinecraft;
 import net.minecraft.client.render.entity.EntityRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.decoration.EndCrystalEntity;
-import org.spongepowered.asm.mixin.Mixin;
-import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.Text;
+import net.minecraft.client.render.command.OrderedRenderCommandQueue;
+import net.minecraft.client.render.state.CameraRenderState;
+import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.lwjgl.opengl.GL11;
 
 @Mixin(EntityRenderer.class)
-public class MixinEntityRenderer<T extends Entity> {
-
-    //cancel nametag rendering
-    @Inject(method = "renderLabelIfPresent", at = @At("HEAD"), cancellable = true)
-    private void renderLabelIfPresent(T entity, Text text, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, float tickDelta, CallbackInfo ci)
-    {
-        if (false || false)
-            ci.cancel();
+public abstract class MixinEntityRenderer implements IMinecraft
+{
+    @Inject(method = "render", at = @At("HEAD"))
+    private void onRenderPre(EntityRenderState state, MatrixStack matrices, OrderedRenderCommandQueue queue, CameraRenderState cameraState, CallbackInfo ci) {
+        if (Chams.INSTANCE != null && Chams.INSTANCE.isEnabled() && Chams.INSTANCE.throughWalls.getValue()) {
+            GL11.glDisable(GL11.GL_DEPTH_TEST);
+        }
     }
 
-
-
+    @Inject(method = "render", at = @At("TAIL"))
+    private void onRenderPost(EntityRenderState state, MatrixStack matrices, OrderedRenderCommandQueue queue, CameraRenderState cameraState, CallbackInfo ci) {
+        if (Chams.INSTANCE != null && Chams.INSTANCE.isEnabled() && Chams.INSTANCE.throughWalls.getValue()) {
+            GL11.glEnable(GL11.GL_DEPTH_TEST);
+        }
+    }
 }
-
-

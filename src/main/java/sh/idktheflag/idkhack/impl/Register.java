@@ -114,6 +114,7 @@ public class Register
 
         // Combat modules
         FeatureManager.INSTANCE.getFeatures().add(new KillAura());
+        FeatureManager.INSTANCE.getFeatures().add(new AutoWeb());
         FeatureManager.INSTANCE.getFeatures().add(new CatAura());
         FeatureManager.INSTANCE.getFeatures().add(new AutoTotem());
         FeatureManager.INSTANCE.getFeatures().add(new AutoFeetPlace());
@@ -168,6 +169,7 @@ public class Register
         FeatureManager.INSTANCE.getFeatures().add(new PingSpoof());
         FeatureManager.INSTANCE.getFeatures().add(new Nuker());
         FeatureManager.INSTANCE.getFeatures().add(new PortalGodMode());
+        FeatureManager.INSTANCE.getFeatures().add(new AutoLog());
 
         // Movement modules
         FeatureManager.INSTANCE.getFeatures().add(new NoSlow());
@@ -180,6 +182,7 @@ public class Register
         FeatureManager.INSTANCE.getFeatures().add(new LongJump());
         FeatureManager.INSTANCE.getFeatures().add(new ElytraFly());
         FeatureManager.INSTANCE.getFeatures().add(new Speed());
+        FeatureManager.INSTANCE.getFeatures().add(new EntitySpeed());
         FeatureManager.INSTANCE.getFeatures().add(new Timer());
         FeatureManager.INSTANCE.getFeatures().add(new TickBase());
         FeatureManager.INSTANCE.getFeatures().add(new NoAccel());
@@ -193,6 +196,7 @@ public class Register
         FeatureManager.INSTANCE.getFeatures().add(new FastFall());
         FeatureManager.INSTANCE.getFeatures().add(new TpExploit());
         FeatureManager.INSTANCE.getFeatures().add(new PacketFly());
+        FeatureManager.INSTANCE.getFeatures().add(new PhaseWalk());
 
         // Render modules
         FeatureManager.INSTANCE.getFeatures().add(new NoRender());
@@ -200,6 +204,9 @@ public class Register
         FeatureManager.INSTANCE.getFeatures().add(new FullBright());
         FeatureManager.INSTANCE.getFeatures().add(new Search());
         FeatureManager.INSTANCE.getFeatures().add(new ESP());
+        FeatureManager.INSTANCE.getFeatures().add(new LogoutSpots());
+        FeatureManager.INSTANCE.getFeatures().add(new Chams());
+        FeatureManager.INSTANCE.getFeatures().add(new PopChams());
         FeatureManager.INSTANCE.getFeatures().add(new Tracers());
         FeatureManager.INSTANCE.getFeatures().add(new BlockESP());
         FeatureManager.INSTANCE.getFeatures().add(new ExtraTab());
@@ -209,6 +216,7 @@ public class Register
         FeatureManager.INSTANCE.getFeatures().add(new Trajectories());
         FeatureManager.INSTANCE.getFeatures().add(new WeatherEditor());
         FeatureManager.INSTANCE.getFeatures().add(new Chat());
+        FeatureManager.INSTANCE.getFeatures().add(new Nametags());
         FeatureManager.INSTANCE.getFeatures().add(new ViewModel());
         FeatureManager.INSTANCE.getFeatures().add(new Capes());
         FeatureManager.INSTANCE.getFeatures().add(new Particles());
@@ -219,7 +227,9 @@ public class Register
         FeatureManager.INSTANCE.getFeatures().add(new NewChunks());
         FeatureManager.INSTANCE.getFeatures().add(new Ambience());
         FeatureManager.INSTANCE.getFeatures().add(new PhaseESP());
+        FeatureManager.INSTANCE.getFeatures().add(new Tooltips());
         FeatureManager.INSTANCE.getFeatures().add(new TimeChanger());
+        FeatureManager.INSTANCE.getFeatures().add(new Waypoints());
 
         // Misc modules
         FeatureManager.INSTANCE.getFeatures().add(new FakePlayer());

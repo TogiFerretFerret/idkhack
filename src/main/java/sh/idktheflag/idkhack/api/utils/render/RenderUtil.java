@@ -211,8 +211,6 @@ public class RenderUtil {
 
         MatrixStack matrixStack = new MatrixStack();
         matrixStack.push();
-        matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
-        matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(camera.getYaw() + 180.0f));
         matrixStack.translate(renderPos.x - pos.getX(), renderPos.y - pos.getY(), renderPos.z - pos.getZ());
         matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-camera.getYaw()));
         matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
@@ -358,8 +356,6 @@ public class RenderUtil {
         MatrixStack matrices = new MatrixStack();
 
         Camera camera = mc.gameRenderer.getCamera();
-        matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
-        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(camera.getYaw() + 180.0F));
 
         matrices.translate(x - camera.getCameraPos().x, y - camera.getCameraPos().y, z - camera.getCameraPos().z);
 

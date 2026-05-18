@@ -335,7 +335,7 @@ public class SelfFill extends Module {
 
     private void movePacket(double x, double y, double z, boolean ground)
     {
-        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(x, y, z, ground, false));
+        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(x, y, z, ground, mc.player.horizontalCollision));
     }
 
     @Override

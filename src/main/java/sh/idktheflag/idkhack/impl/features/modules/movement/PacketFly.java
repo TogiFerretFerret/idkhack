@@ -283,7 +283,7 @@ public class PacketFly extends Module
             return;
         }
 
-        double[] strafe = PlayerUtils.getMoveSpeed(moveSpeed);
+        double[] strafe = PlayerUtils.directionSpeed(moveSpeed);
 
         // loop for factorizing
         for (int i = 1; i < loops + 1; ++i)
@@ -401,7 +401,7 @@ public class PacketFly extends Module
 
     public void sendMovePackets(Vec3d vec)
     {
-        PacketManager.INSTANCE.sendQuietPacket(new PlayerMoveC2SPacket.PositionAndOnGround(vec.x, vec.y, vec.z, true, false));
+        PacketManager.INSTANCE.sendQuietPacket(new PlayerMoveC2SPacket.PositionAndOnGround(vec.x, vec.y, vec.z, true, mc.player.horizontalCollision));
     }
 
 
@@ -436,14 +436,10 @@ public class PacketFly extends Module
                 }
             }
 
-            // TODO: port to 1.21.11 - packet is now a record, can't set yaw/pitch directly
-            // ((IPlayerPositionLookS2CPacket) packet).setYaw(mc.player.getYaw());
-            // ((IPlayerPositionLookS2CPacket) packet).setPitch(mc.player.getPitch());
-
             PacketManager.INSTANCE.sendQuietPacket(new TeleportConfirmC2SPacket(packet.teleportId()));
 
             lagTime = 10;
-            // TODO: port to 1.21.11 - tpId = packet.getTeleportId();
+            tpId = packet.teleportId();
         }
     }
 

@@ -163,41 +163,30 @@ public class PlayerUtils implements IMinecraft
     }
 
 
-    public static double[] getMoveSpeed(double speed)
-    {
+    public static double[] directionSpeed(double speed) {
         float forward = mc.player.input.getMovementInput().y;
-        float strafe = mc.player.input.getMovementInput().x;
+        float side = mc.player.input.getMovementInput().x;
         float yaw = mc.player.getYaw();
 
-        if (!isMoving())
-        {
-            return new double[]{0, 0};
-        } else if (forward != 0)
-        {
-            if (strafe >= 1)
-            {
-                yaw += (float) (forward > 0 ? -45 : 45);
-                strafe = 0;
-            } else if (strafe <= -1)
-            {
-                yaw += (float) (forward > 0 ? 45 : -45);
-                strafe = 0;
+        if (forward != 0.0f) {
+            if (side > 0.0f) {
+                yaw += (float) (forward > 0.0f ? -45 : 45);
+            } else if (side < 0.0f) {
+                yaw += (float) (forward > 0.0f ? 45 : -45);
             }
-
-            if (forward > 0)
-                forward = 1;
-
-            else if (forward < 0)
-                forward = -1;
+            side = 0.0f;
+            if (forward > 0.0f) {
+                forward = 1.0f;
+            } else if (forward < 0.0f) {
+                forward = -1.0f;
+            }
         }
 
-        double sin = Math.sin(Math.toRadians(yaw + 90));
-        double cos = Math.cos(Math.toRadians(yaw + 90));
-
-        double motionX = (double) forward * speed * cos + (double) strafe * speed * sin;
-        double motionZ = (double) forward * speed * sin - (double) strafe * speed * cos;
-
-        return new double[]{motionX, motionZ};
+        final double sin = Math.sin(Math.toRadians(yaw + 90.0f));
+        final double cos = Math.cos(Math.toRadians(yaw + 90.0f));
+        final double posX = (double) forward * speed * cos + (double) side * speed * sin;
+        final double posZ = (double) forward * speed * sin - (double) side * speed * cos;
+        return new double[]{posX, posZ};
     }
 
     public static double fovFromEntity(Entity en)

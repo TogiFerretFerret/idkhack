@@ -24,6 +24,7 @@ import net.minecraft.network.packet.s2c.common.CommonPingS2CPacket;
 import net.minecraft.network.packet.s2c.play.*;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 
 import java.util.Iterator;
 import java.util.Random;
@@ -103,33 +104,37 @@ public class Velocity extends Module
                         return;
                     }
 
-                    // TODO: port to 1.21.11 - if (flag && packet.getVelocityX() == 0 && packet.getVelocityZ() == 0 && packet.getVelocityZ() == 0)
+                    if (flag && packet.getVelocity().x == 0 && packet.getVelocity().y == 0 && packet.getVelocity().z == 0)
                     {
                         flag = false;
                         return;
                     }
 
+                    if (horizontal.getValue().floatValue() == 0 && vertical.getValue().floatValue() == 0) {
+                        event.setCancelled(true);
+                        return;
+                    }
 
-
-//                     {
-//                         PacketManager.INSTANCE.specialCaseCancel(packet);
-//                         return;
-//                     }
-
-                    // TODO: port to 1.21.11 - ((IEntityVelocityUpdateS2CPacket) packet).setVelocityX((int) (packet.getVelocityX() * (horizontal.getValue().floatValue() / 100.0f)));
-                    // TODO: port to 1.21.11 - ((IEntityVelocityUpdateS2CPacket) packet).setVelocityY((int) (packet.getVelocityY() * (vertical.getValue().floatValue() / 100.0f)));
-                    // TODO: port to 1.21.11 - ((IEntityVelocityUpdateS2CPacket) packet).setVelocityZ((int) (packet.getVelocityZ() * (horizontal.getValue().floatValue() / 100.0f)));
+                    ((IEntityVelocityUpdateS2CPacket) packet).setVelocity(new Vec3d(
+                            packet.getVelocity().x * (horizontal.getValue().floatValue() / 100.0f),
+                            packet.getVelocity().y * (vertical.getValue().floatValue() / 100.0f),
+                            packet.getVelocity().z * (horizontal.getValue().floatValue() / 100.0f)
+                    ));
                 }
                 if (event.getPacket() instanceof ExplosionS2CPacket packet)
                 {
                     if (horizontal.getValue().intValue() == 0 && vertical.getValue().intValue() == 0)
                     {
-                        PacketManager.INSTANCE.specialCaseCancel(packet);
+                        event.setCancelled(true);
                         return;
                     }
-                    // TODO: port to 1.21.11 - ((IExplosionS2CPacket) packet).setPlayerVelocityX(packet.getPlayerVelocityX() * (horizontal.getValue().floatValue() / 100.0f));
-                    // TODO: port to 1.21.11 - ((IExplosionS2CPacket) packet).setPlayerVelocityY(packet.getPlayerVelocityY() * (vertical.getValue().floatValue() / 100.0f));
-                    // TODO: port to 1.21.11 - ((IExplosionS2CPacket) packet).setPlayerVelocityZ(packet.getPlayerVelocityZ() * (horizontal.getValue().floatValue() / 100.0f));
+                    // Since ExplosionS2CPacket is a record, we can't modify it easily.
+                    // For now, if either is 0, we might just cancel it to avoid knockback,
+                    // but we lose the explosion visual.
+                    // A better way would be Mixin into ClientPlayNetworkHandler.onExplosion.
+                    if (horizontal.getValue().floatValue() == 0 && vertical.getValue().floatValue() == 0) {
+                        event.setCancelled(true);
+                    }
                 }
                 break;
             case "GrimV2":

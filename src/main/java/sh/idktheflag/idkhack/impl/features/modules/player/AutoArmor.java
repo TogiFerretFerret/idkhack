@@ -53,7 +53,15 @@ public class AutoArmor extends Module {
 
         for (int i = 3; i >= 0; i--)
         {
-            // TODO: port to 1.21.11 - if (mc.player.getInventory().armor.get(i).isEmpty())
+            EquipmentSlot slot = switch (i) {
+                case 3 -> EquipmentSlot.HEAD;
+                case 2 -> EquipmentSlot.CHEST;
+                case 1 -> EquipmentSlot.LEGS;
+                case 0 -> EquipmentSlot.FEET;
+                default -> null;
+            };
+
+            if (slot != null && mc.player.getEquippedStack(slot).isEmpty())
             {
                 if (equipArmor(i))
                     break;

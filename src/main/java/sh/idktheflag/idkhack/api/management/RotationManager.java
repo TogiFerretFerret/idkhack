@@ -162,14 +162,30 @@ public class RotationManager implements IMinecraft
         {
             if (IdkHackMod.isBaritonePaused())
                 return;
-            // TODO: port to 1.21.11 - Input.movementForward/movementSideways removed, now uses getMovementInput() -> Vec2f
-            // Strafe fix is non-functional until ported
-            // float forward = mc.player.input.getMovementInput().y;
-            // float sideways = mc.player.input.getMovementInput().x;
-            // float delta = (mc.player.getYaw() - rotation.getYaw()) * MathHelper.RADIANS_PER_DEGREE;
-            // float cos = MathHelper.cos(delta);
-            // float sin = MathHelper.sin(delta);
-            // New input system doesn't allow direct field assignment
+
+            float forward = 0;
+            if (event.input.playerInput.forward()) forward++;
+            if (event.input.playerInput.backward()) forward--;
+            float sideways = 0;
+            if (event.input.playerInput.left()) sideways++;
+            if (event.input.playerInput.right()) sideways--;
+
+            float delta = (mc.player.getYaw() - rotation.getYaw()) * MathHelper.RADIANS_PER_DEGREE;
+            float cos = MathHelper.cos(delta);
+            float sin = MathHelper.sin(delta);
+
+            float newForward = forward * cos + sideways * sin;
+            float newSideways = sideways * cos - forward * sin;
+
+            event.input.playerInput = new net.minecraft.util.PlayerInput(
+                newForward > 1.0E-5F,
+                newForward < -1.0E-5F,
+                newSideways > 1.0E-5F,
+                newSideways < -1.0E-5F,
+                event.input.playerInput.jump(),
+                event.input.playerInput.sneak(),
+                event.input.playerInput.sprint()
+            );
         }
     }
 

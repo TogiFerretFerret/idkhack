@@ -5,50 +5,51 @@
 These modules are stubbed out and need to be rewritten for MC 1.21.11 API changes.
 
 ### Combat
-- **AutoWeb** - web trap placement
+- **AutoWeb** - web trap placement (fixed)
 - ~~**AutoXP**~~ - done
-- ~~**Criticals**~~ - done
+- ~~**AutoAnchor**~~ - done
+- ~~**AutoCrystal**~~ - done
+- ~~**KillAura**~~ - done
+- **SelfFill** - burrow (fixed)
+- **Surround** - feet protection
 
 ### Movement
-- **EntitySpeed** - speed on rideable entities
-- **PhaseWalk** - walk through blocks
+- **EntitySpeed** - speed on rideable entities (fixed)
+- **PhaseWalk** - walk through blocks (fixed)
+- **Step** - (fixed)
+- **LongJump** - (fixed)
+- **AutoWalk** - (fixed)
+- **NoSlow** - (fixed)
+- **PacketFly** - (fixed)
 
 ### Render
-- **Chams** - entity wallhack rendering
-- **LogoutSpots** - show where players logged out
-- **Nametags** - custom nametag rendering
-- **PopChams** - totem pop visualization
-- **Shaders** - shader-based ESP/glow effects
-- **Skeleton** - wireframe player skeleton overlay (partially working)
-- ~~**TimeChanger**~~ - done
-- **Tooltips** - enhanced shulker/item tooltips
-- **Waypoints** - in-world waypoint rendering
+- **LogoutSpots** - show where players logged out (fixed)
+- **Nametags** - custom nametag rendering (partially done)
+- **PopChams** - totem pop visualization (fixed)
+- **Tooltips** - shulker tooltips (fixed)
+- **Waypoints** - render saved waypoints (fixed)
+- **Shaders** - post-processing effects
+- **Skeleton** - (partially working)
 
-### Player
-- **AutoLog** - auto disconnect on danger
-
-### Misc
-- ~~**AutoRespawn**~~ - done
-- **Crafter** - auto crafting
-- **Sense** - anti-cheat visualization
-
-## Common API Changes (1.21.1 -> 1.21.11)
-
-- `Entity.getPos()` removed -> use `new Vec3d(entity.getX(), entity.getY(), entity.getZ())`
-- `DrawContext.getMatrices()` returns `Matrix3x2fStack` not `MatrixStack`
-- `PlayerMoveC2SPacket` constructors need extra `boolean horizontalCollision` param
-- `PlayerPositionLookS2CPacket` is now a record with `.teleportId()`, `.change().position()`
-- `RenderSystem.setShader()`, `setShaderColor()`, `BufferRenderer.drawWithGlobalProgram()` removed
-- Entity rendering uses render states instead of direct entity references
-- `ArmorItem` replaced by `EquippableComponent` from data components
-- `KeyBinding.matchesKey()` now takes `KeyInput` instead of `(int, int)`
+## Technical Debt / API Changes
+- `MatrixStack` is often replaced by `DrawContext` in GUI code
+- `DrawContext` is now used for almost all UI rendering
+- `Packet` sending/receiving changed for some classes (e.g. `PlayerMoveC2SPacket`)
+- `PlayerInventory` field access changed
+- `Entity.getYaw()`/`getPitch()` still work, but `prevYaw` is now `lastYaw`
+- `Text.of()` or `Text.literal()` instead of `new LiteralText()`
+- `Screen` init now uses `init()` instead of `init(MinecraftClient, int, int)`
+- `ButtonWidget` uses `builder()`
+- `SlotActionType` is still the same but `clickSlot` parameters changed
+- `Identifier` creation changed to `Identifier.of()`
+- `DrawContext.drawText` requires `DrawContext` instead of `(int, int)`
 - `Framebuffer` is now abstract
 
 ## New Features Planned
 - MapDownloader
 - StashFinder
 - EntityLogger
-- AccountSwitcher
+- AccountSwitcher (done)
 - SignSearch
 - ShulkerViewer (enhanced)
 - SignBot / BookBot

@@ -62,6 +62,9 @@ public interface IMinecraftClient {
     @Accessor("renderTickCounter")
     RenderTickCounter.Dynamic getRenderTickCounter();
 
+    @Accessor("bufferBuilders")
+    net.minecraft.client.render.BufferBuilderStorage getBufferBuilders();
+
 
     @Invoker("doAttack")
     boolean leftClick();

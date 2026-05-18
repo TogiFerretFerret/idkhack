@@ -201,7 +201,7 @@ public class NoSlow extends Module
     public boolean doStrictPre()
     {
         if (mc.player.isSneaking())
-            // TODO: port to 1.21.11 - PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.RELEASE_SHIFT_KEY));
+            PacketManager.INSTANCE.sendPacket(new PlayerInputC2SPacket(new net.minecraft.util.PlayerInput(mc.player.input.playerInput.forward(), mc.player.input.playerInput.backward(), mc.player.input.playerInput.left(), mc.player.input.playerInput.right(), mc.player.input.playerInput.jump(), false, mc.player.input.playerInput.sprint())));
 
         if (mc.player.isSprinting())
             PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.STOP_SPRINTING));
@@ -209,7 +209,7 @@ public class NoSlow extends Module
 
         if (mc.player.isOnGround() && !mc.options.jumpKey.isPressed() && !mc.world.getBlockCollisions(mc.player, mc.player.getBoundingBox().offset(0.0, 0.0656, 0.0)).iterator().hasNext())
         {
-            PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + 0.0656, mc.player.getZ(), false, false));
+            PacketManager.INSTANCE.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + 0.0656, mc.player.getZ(), false, mc.player.horizontalCollision));
             return true;
         }
         return false;
@@ -219,7 +219,7 @@ public class NoSlow extends Module
     public void doStrictPost()
     {
         if (mc.player.isSneaking())
-            // TODO: port to 1.21.11 - PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.PRESS_SHIFT_KEY));
+            PacketManager.INSTANCE.sendPacket(new PlayerInputC2SPacket(new net.minecraft.util.PlayerInput(mc.player.input.playerInput.forward(), mc.player.input.playerInput.backward(), mc.player.input.playerInput.left(), mc.player.input.playerInput.right(), mc.player.input.playerInput.jump(), true, mc.player.input.playerInput.sprint())));
 
         if (mc.player.isSprinting())
             PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.START_SPRINTING));
@@ -247,10 +247,9 @@ public class NoSlow extends Module
                 {
                     if (event.getPacket() instanceof ClickSlotC2SPacket packet)
                     {
+                        if (packet.syncId() != 0) return;
 
-                        // TODO: port to 1.21.11 - if (packet.getSyncId() != 0) return;
-
-                        // TODO: port to 1.21.11 - if (packet.getActionType() != SlotActionType.PICKUP && packet.getActionType() != SlotActionType.PICKUP_ALL && packet.getActionType() != SlotActionType.QUICK_CRAFT)
+                        if (packet.actionType() != SlotActionType.PICKUP && packet.actionType() != SlotActionType.PICKUP_ALL && packet.actionType() != SlotActionType.QUICK_CRAFT)
                             PacketManager.INSTANCE.sendPacket(new CloseHandledScreenC2SPacket(0));
                     }
                 }

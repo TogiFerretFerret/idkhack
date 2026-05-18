@@ -2,6 +2,7 @@ package sh.idktheflag.idkhack.api.utils.render.font.fonts;
 
 import sh.idktheflag.idkhack.api.wrapper.IMinecraft;
 import sh.idktheflag.idkhack.impl.features.modules.client.FontModule;
+import sh.idktheflag.idkhack.mixin.accessor.IMinecraftClient;
 import net.minecraft.client.font.*;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -42,7 +43,7 @@ public class VanillaTextRenderer implements IMinecraft {
         {
             return;
         }
-        VertexConsumerProvider.Immediate vertexConsumers = mc.getBufferBuilders().getEntityVertexConsumers();
+        VertexConsumerProvider.Immediate vertexConsumers = ((IMinecraftClient) mc).getBufferBuilders().getEntityVertexConsumers();
         mc.textRenderer.draw(text, x, y, color, shadow, matrix,
                 vertexConsumers, TextRenderer.TextLayerType.NORMAL, 0, 0xF000F0);
     }
@@ -65,7 +66,7 @@ public class VanillaTextRenderer implements IMinecraft {
         {
             return;
         }
-        VertexConsumerProvider.Immediate consumers = mc.getBufferBuilders().getEntityVertexConsumers();
+        VertexConsumerProvider.Immediate consumers = ((IMinecraftClient) mc).getBufferBuilders().getEntityVertexConsumers();
         mc.textRenderer.draw(text, x, y, color, shadow, matrix,
                 consumers, TextRenderer.TextLayerType.NORMAL, 0, 0xF000F0);
         consumers.draw();
@@ -90,7 +91,7 @@ public class VanillaTextRenderer implements IMinecraft {
             return;
         }
 
-        VertexConsumerProvider.Immediate vertexConsumers = mc.getBufferBuilders().getEntityVertexConsumers();
+        VertexConsumerProvider.Immediate vertexConsumers = ((IMinecraftClient) mc).getBufferBuilders().getEntityVertexConsumers();
         mc.textRenderer.draw(text, x, y, color, shadow, matrix,
                 vertexConsumers, TextRenderer.TextLayerType.SEE_THROUGH, 0, 0xF000F0);
         vertexConsumers.draw();

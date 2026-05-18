@@ -494,7 +494,7 @@ public class Speed extends Module
     {
         if (event.getPacket() instanceof EntityPositionS2CPacket packet)
         {
-            // TODO: port to 1.21.11 - if (packet.getEntityId() == mc.player.getId())
+            if (packet.entityId() == mc.player.getId())
             {
                 ncpPrevMotion = 0.0D;
                 currentSpeed = 0.0D;

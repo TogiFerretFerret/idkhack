@@ -19,7 +19,15 @@ public class AutoWalk extends Module {
     {
         if (NullUtils.nullCheck()) return;
 
-        // TODO: port to 1.21.11 - event.input.getMovementInput().y++;
+        event.input.playerInput = new net.minecraft.util.PlayerInput(
+            true, 
+            event.input.playerInput.backward(), 
+            event.input.playerInput.left(), 
+            event.input.playerInput.right(), 
+            event.input.playerInput.jump(), 
+            event.input.playerInput.sneak(), 
+            event.input.playerInput.sprint()
+        );
     }
 
 

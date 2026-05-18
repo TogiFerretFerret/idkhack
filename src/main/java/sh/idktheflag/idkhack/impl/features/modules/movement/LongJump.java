@@ -123,14 +123,17 @@ public class LongJump extends Module
                 }
                 moveSpeed = Math.max(moveSpeed, getBaseMoveSpeed());
                 double forward = mc.player.input.getMovementInput().y, strafe = mc.player.input.getMovementInput().x, yaw = mc.player.getYaw();
-                if (forward != 0 && strafe != 0)
-                {
-                    forward = forward * Math.sin(Math.PI / 4);
-                    strafe = strafe * Math.cos(Math.PI / 4);
-                } else
+                if (forward == 0 && strafe == 0)
                 {
                     event.setX(0);
                     event.setZ(0);
+                } else
+                {
+                    if (forward != 0 && strafe != 0)
+                    {
+                        forward = forward * Math.sin(Math.PI / 4);
+                        strafe = strafe * Math.cos(Math.PI / 4);
+                    }
                 }
 
                 event.setX((forward * moveSpeed * -Math.sin(Math.toRadians(yaw)) + strafe * moveSpeed * Math.cos(Math.toRadians(yaw))) * 0.99D);
