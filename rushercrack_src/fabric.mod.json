@@ -1,0 +1,30 @@
+{
+	"schemaVersion": 1,
+	"id": "rusherware",
+	"version": "2.0.5-free",
+	"name": "RusherHack",
+	"description": "Player assistance utility mod made for 2b2t.org and other anarchy servers",
+	"authors": [
+		"John200410", "FluorideHistorian"
+	],
+	"contact": {
+		"homepage": "https://rusherhack.org/"
+	},
+	"environment": "client",
+	"entrypoints": {
+		"preLaunch": [
+			"pluto.solutions.RusherCrack"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.14.0",
+		"minecraft": "~1.21",
+		"java": ">=21"
+	},
+	"mixins": [
+		"mixins.rusherhack.json",
+		"mixins.rusherhack-fabric.json",
+		"mixins.rusherhack-accessors.json"
+	],
+	"accessWidener": "rusherhack.accesswidener"
+}

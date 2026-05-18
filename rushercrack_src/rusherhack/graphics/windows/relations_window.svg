@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  - Copyright (c) 2023 Rusher Development LLC. All Rights Reserved.
+  -
+  - Unauthorized copying of this file, via any medium is strictly prohibited, proprietary, and confidential.
+  -->
+<svg id="a" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+    <path d="m63.06,49.52c-8.34,0-16.67-.01-25.01-.01-8.28,0-16.56,0-24.85.01,3.66-10.6,13.69-17.76,24.9-17.77,11.23-.01,21.29,7.15,24.95,17.77Z"
+          fill="#c1272d" stroke="#282828" stroke-miterlimit="10" stroke-width="1.17"/>
+    <circle cx="38.13" cy="21.67" r="12.14" fill="#c1272d" stroke="#282828" stroke-miterlimit="10" stroke-width="1.17"/>
+    <path d="m50.92,55.53c-8.34,0-16.67-.01-25.01-.01-8.28,0-16.56,0-24.85.01,3.66-10.6,13.69-17.76,24.9-17.77,11.23-.01,21.29,7.15,24.95,17.77Z"
+          fill="#29abe2" stroke="#282828" stroke-miterlimit="10" stroke-width="1.17"/>
+    <circle cx="25.99" cy="27.68" r="12.14" fill="#29abe2" stroke="#282828" stroke-miterlimit="10" stroke-width="1.17"/>
+</svg>

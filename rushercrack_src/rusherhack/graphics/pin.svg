@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  - Copyright (c) 2024 Rusher Development LLC. All Rights Reserved.
+  -
+  - Unauthorized copying of this file, via any medium is strictly prohibited, proprietary, and confidential.
+  -->
+
+<svg id="a" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+	<rect x="27.86" y="15.02" width="21.12" height="21.12" transform="translate(29.34 -19.67) rotate(45)" fill="#fff"
+		  stroke-width="0"/>
+	<rect x="30.26" y="11.64" width="36.33" height="7.88" rx="3.94" ry="3.94"
+		  transform="translate(25.2 -29.68) rotate(45)" fill="#fff" stroke-width="0"/>
+	<path d="M18.29,31.53h18.57c4.9,0,8.88,3.98,8.88,8.88v.9H9.41v-.9c0-4.9,3.98-8.88,8.88-8.88Z"
+		  transform="translate(33.83 -8.83) rotate(45)" fill="#fff" stroke-width="0"/>
+	<rect x="6.02" y="42.36" width="23.36" height="7.88" transform="translate(62.95 66.52) rotate(135)" fill="#fff"
+		  stroke-width="0"/>
+	<polygon points="1.58 62.42 12.27 57.29 6.71 51.73 1.58 62.42" fill="#fff" stroke-width="0"/>
+</svg>

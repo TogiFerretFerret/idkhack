@@ -1,4 +1,4 @@
-# idkhack - Porting TODO
+# idk - Porting TODO
 
 ## Disabled Modules (need 1.21.11 port)
 
@@ -11,7 +11,7 @@ These modules are stubbed out and need to be rewritten for MC 1.21.11 API change
 - ~~**AutoCrystal**~~ - done
 - ~~**KillAura**~~ - done
 - **SelfFill** - burrow (fixed)
-- **Surround** - feet protection
+- **Surround** - feet protection (fixed)
 
 ### Movement
 - **EntitySpeed** - speed on rideable entities (fixed)
@@ -20,7 +20,7 @@ These modules are stubbed out and need to be rewritten for MC 1.21.11 API change
 - **LongJump** - (fixed)
 - **AutoWalk** - (fixed)
 - **NoSlow** - (fixed)
-- **PacketFly** - (fixed)
+- **PacketFly** - (fixed - stole better record handling logic)
 
 ### Render
 - **LogoutSpots** - show where players logged out (fixed)
@@ -28,6 +28,8 @@ These modules are stubbed out and need to be rewritten for MC 1.21.11 API change
 - **PopChams** - totem pop visualization (fixed)
 - **Tooltips** - shulker tooltips (fixed)
 - **Waypoints** - render saved waypoints (fixed)
+- **StashFinder** - (fixed)
+- **SignSearch** - (fixed)
 - **Shaders** - post-processing effects
 - **Skeleton** - (partially working)
 
@@ -46,11 +48,12 @@ These modules are stubbed out and need to be rewritten for MC 1.21.11 API change
 - `Framebuffer` is now abstract
 
 ## New Features Planned
-- MapDownloader
-- StashFinder
-- EntityLogger
+- MapDownloader (done)
+- StashFinder (done)
+- EntityLogger (done)
 - AccountSwitcher (done)
-- SignSearch
+- SignSearch (done)
 - ShulkerViewer (enhanced)
-- SignBot / BookBot
-- ViaFabricPlus integration
+- SignBot (done)
+- BookBot (done)
+- ViaFabricPlus integration (done)

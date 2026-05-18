@@ -54,12 +54,12 @@ String hash = getHash()
 String watermarkVersion = project.versionWatermark
 
 loom {
-    accessWidenerPath = file("src/main/resources/idkhack.accesswidener")
+    accessWidenerPath = file("src/main/resources/idk.accesswidener")
 }
 
 compileJava {
     String contents = ""
-    File update = file 'src/main/java/sh/idktheflag/idkhack/impl/IdkHackMod.java'
+    File update = file 'src/main/java/sh/idktheflag/idk/impl/IdkHackMod.java'
     contents = update.getText( 'UTF-8' )
     contents = contents.replaceAll( 'HASH = "(.*?)"', 'HASH = "' + hash + '"' )
     contents = contents.replaceAll( 'VERSION = "(.*?)"', 'VERSION = "' + watermarkVersion + '"' )

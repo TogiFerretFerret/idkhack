@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  - Copyright (c) 2023 Rusher Development LLC. All Rights Reserved.
+  -
+  - Unauthorized copying of this file, via any medium is strictly prohibited, proprietary, and confidential.
+  -->
+
+<svg id="a" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+     viewBox="0 0 64 64">
+    <rect x="2.57" y="5.45" width="45.8" height="41.18" fill="#fff" stroke="#282828" stroke-miterlimit="10"
+          stroke-width="1.72"/>
+    <rect x="1.97" y="5.45" width="45.8" height="3.62" fill="#282828" stroke-width="0"/>
+    <rect x="9.4" y="12.27" width="45.8" height="41.18" fill="#fff" stroke="#282828" stroke-miterlimit="10"
+          stroke-width="1.72"/>
+    <rect x="8.8" y="12.27" width="45.8" height="3.62" fill="#282828" stroke-width="0"/>
+    <rect x="16.23" y="19.1" width="45.8" height="41.18" fill="#fff" stroke="#282828" stroke-miterlimit="10"
+          stroke-width="1.72"/>
+    <rect x="15.63" y="19.1" width="45.8" height="3.62" fill="#282828" stroke-width="0"/>
+</svg>
