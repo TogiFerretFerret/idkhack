@@ -24,7 +24,7 @@ public class IdkHackMod implements ModInitializer
     /**
      * Git hash of the client
      */
-    public static final String HASH = "342a83a495710953";
+    public static final String HASH = "b99df2a790a42acc";
 
     /**
      * The snowflake text ⚑

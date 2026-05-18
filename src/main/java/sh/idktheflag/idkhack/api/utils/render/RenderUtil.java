@@ -116,9 +116,14 @@ public class RenderUtil {
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder builder = tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
         renderGradient(matrices.peek().getPositionMatrix(), builder, startX, startY, endX, endY, z, colorStart, colorEnd, horizontal);
-        // TODO: port to 1.21.11 - BufferRenderer.drawWithGlobalProgram() removed, need new draw path
         BuiltBuffer built = builder.endNullable();
-        if (built != null) built.close();
+        if (built != null) {
+            try {
+                net.minecraft.client.render.RenderLayer.of("idkhack_gradient",
+                    net.minecraft.client.render.RenderSetup.builder(net.minecraft.client.gl.RenderPipelines.DEBUG_QUADS).build()
+                ).draw(built);
+            } catch (Exception e) { try { built.close(); } catch (Exception ignored) {} }
+        }
         // RenderSystem.disableBlend(); // TODO: port to 1.21.11
     }
 
@@ -187,10 +192,14 @@ public class RenderUtil {
         buffer.vertex(matrix4f, (float) x2, (float) y2, (float) z).color(g, h, j, f);
         buffer.vertex(matrix4f, (float) x2, (float) y1, (float) z).color(g, h, j, f);
 
-        // TODO: port to 1.21.11 - BufferRenderer.drawWithGlobalProgram() removed
         BuiltBuffer built = buffer.endNullable();
-        if (built != null) built.close();
-        // RenderSystem.disableBlend(); // TODO: port to 1.21.11
+        if (built != null) {
+            try {
+                net.minecraft.client.render.RenderLayer.of("idkhack_draw",
+                    net.minecraft.client.render.RenderSetup.builder(net.minecraft.client.gl.RenderPipelines.DEBUG_QUADS).build()
+                ).draw(built);
+            } catch (Exception e) { try { built.close(); } catch (Exception ignored) {} }
+        }
     }
 
 
@@ -261,10 +270,14 @@ public class RenderUtil {
 
         buffer.vertex(matrix4f, (float) x2, (float) y1, (float) z).color(g, h, j, f);
         buffer.vertex(matrix4f, (float) x1, (float) y1, (float) z).color(g, h, j, f);
-        // TODO: port to 1.21.11 - BufferRenderer.drawWithGlobalProgram() removed
         BuiltBuffer built = buffer.endNullable();
-        if (built != null) built.close();
-        // RenderSystem.disableBlend(); // TODO: port to 1.21.11
+        if (built != null) {
+            try {
+                net.minecraft.client.render.RenderLayer.of("idkhack_draw",
+                    net.minecraft.client.render.RenderSetup.builder(net.minecraft.client.gl.RenderPipelines.DEBUG_QUADS).build()
+                ).draw(built);
+            } catch (Exception e) { try { built.close(); } catch (Exception ignored) {} }
+        }
     }
 
 

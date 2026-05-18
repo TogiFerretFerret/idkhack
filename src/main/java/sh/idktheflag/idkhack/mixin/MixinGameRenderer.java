@@ -1,5 +1,6 @@
 package sh.idktheflag.idkhack.mixin;
 
+import sh.idktheflag.idkhack.api.event.events.render.RenderWorldEvent;
 import sh.idktheflag.idkhack.api.utils.ducks.IVec3d;
 import sh.idktheflag.idkhack.api.wrapper.IMinecraft;
 import sh.idktheflag.idkhack.impl.features.modules.misc.NoEntityTrace;
@@ -28,6 +29,12 @@ public abstract class MixinGameRenderer implements IMinecraft
 {
     @Shadow
     public abstract void updateCrosshairTarget(float tickDelta);
+
+    @Inject(method = "renderWorld", at = @At("TAIL"))
+    public void hookRenderWorld(RenderTickCounter tickCounter, CallbackInfo ci)
+    {
+        new RenderWorldEvent(new net.minecraft.client.util.math.MatrixStack(), tickCounter.getTickProgress(false)).post();
+    }
 
     @Inject(method = "tiltViewWhenHurt", at = @At(value = "HEAD"), cancellable = true)
     private void hookTiltViewWhenHurt(MatrixStack matrices, float tickDelta, CallbackInfo ci)
