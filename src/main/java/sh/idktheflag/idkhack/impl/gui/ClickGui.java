@@ -1,6 +1,6 @@
 package sh.idktheflag.idkhack.impl.gui;
 
-import sh.idktheflag.idkhack.impl.features.modules.client.gui.Sn0wGui;
+import sh.idktheflag.idkhack.impl.features.modules.client.gui.IdkGui;
 import sh.idktheflag.idkhack.impl.gui.components.CategoryFrame;
 import sh.idktheflag.idkhack.impl.gui.renderer.Renderer;
 import sh.idktheflag.idkhack.api.feature.Feature;
@@ -12,7 +12,7 @@ import net.minecraft.client.gui.DrawContext;
 
 public class ClickGui extends GUI {
 
-    public static Context CONTEXT = new Context(null, Sn0wGui.INSTANCE, Sn0wGui.INSTANCE, new Renderer(), null);
+    public static Context CONTEXT = new Context(null, IdkGui.INSTANCE, IdkGui.INSTANCE, new Renderer(), null);
 
     public static ClickGui INSTANCE;
     public ClickGui() {

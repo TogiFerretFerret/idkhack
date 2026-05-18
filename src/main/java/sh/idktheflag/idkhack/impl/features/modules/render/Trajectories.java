@@ -6,7 +6,7 @@ import sh.idktheflag.idkhack.api.event.events.render.RenderWorldEvent;
 import sh.idktheflag.idkhack.api.feature.module.Module;
 import sh.idktheflag.idkhack.api.utils.NullUtils;
 import sh.idktheflag.idkhack.api.utils.color.ColorUtil;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.utils.math.MathUtil;
 import sh.idktheflag.idkhack.api.utils.players.PlayerUtils;
 import sh.idktheflag.idkhack.api.utils.players.rotation.RotationUtils;
@@ -39,13 +39,13 @@ public class Trajectories extends Module
             .withRange(0.1, 5)
             .register(this);
 
-    Value<Sn0wColor> startColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> startColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Start Color")
-            .withValue(new Sn0wColor(255, 255, 255))
+            .withValue(new IdkColor(255, 255, 255))
             .register(this);
-    Value<Sn0wColor> endColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> endColor = new ValueBuilder<IdkColor>()
             .withDescriptor("End Color")
-            .withValue(new Sn0wColor(0, 255, 72))
+            .withValue(new IdkColor(0, 255, 72))
             .register(this);
     Value<Boolean> pearls = new ValueBuilder<Boolean>()
             .withDescriptor("Pearls")

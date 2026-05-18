@@ -1,7 +1,7 @@
 package sh.idktheflag.idkhack.impl.features.modules.render;
 
 import sh.idktheflag.idkhack.api.feature.module.Module;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.value.Value;
 import sh.idktheflag.idkhack.api.value.builder.ValueBuilder;
 
@@ -23,9 +23,9 @@ public class Chams extends Module {
             .withValue(true)
             .register(this);
 
-    public Value<Sn0wColor> color = new ValueBuilder<Sn0wColor>()
+    public Value<IdkColor> color = new ValueBuilder<IdkColor>()
             .withDescriptor("Color")
-            .withValue(new Sn0wColor(255, 255, 255, 100))
+            .withValue(new IdkColor(255, 255, 255, 100))
             .register(this);
 
     public Value<Boolean> throughWalls = new ValueBuilder<Boolean>()

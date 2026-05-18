@@ -16,7 +16,7 @@ import java.util.Map;
 public class SearchManager {
     private final List<Block> SEARCH_BLOCKS;
     public static SearchManager INSTANCE;
-    public static final File SEARCH_FILE = new File(System.getProperty("user.dir") + File.separator + "Sn0w" + File.separator + "misc" + File.separator + "search.yml");
+    public static final File SEARCH_FILE = new File(System.getProperty("user.dir") + File.separator + "idkhack" + File.separator + "misc" + File.separator + "search.yml");
 
 
     public SearchManager()

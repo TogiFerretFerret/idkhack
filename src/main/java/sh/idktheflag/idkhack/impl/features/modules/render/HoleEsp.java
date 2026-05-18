@@ -5,7 +5,7 @@ import sh.idktheflag.idkhack.api.event.events.TickEvent;
 import sh.idktheflag.idkhack.api.event.events.render.RenderWorldEvent;
 import sh.idktheflag.idkhack.api.utils.NullUtils;
 import sh.idktheflag.idkhack.api.utils.color.ColorUtil;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.utils.players.rotation.RotationUtils;
 import sh.idktheflag.idkhack.api.utils.render.world.RenderType;
 import sh.idktheflag.idkhack.api.utils.world.BlockUtils;
@@ -53,63 +53,63 @@ public class HoleEsp extends Module {
             .withDescriptor("Doubles")
             .withValue(true)
             .register(this);
-    Value<Sn0wColor> bedrockFill = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> bedrockFill = new ValueBuilder<IdkColor>()
             .withDescriptor("Bedrock Fill")
-            .withValue(new Sn0wColor(0, 255, 0, 100))
+            .withValue(new IdkColor(0, 255, 0, 100))
             .register(this);
-    Value<Sn0wColor> bedrockLine = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> bedrockLine = new ValueBuilder<IdkColor>()
             .withDescriptor("Bedrock Line")
-            .withValue(new Sn0wColor(255, 255, 255, 255))
+            .withValue(new IdkColor(255, 255, 255, 255))
             .register(this);
-    Value<Sn0wColor> obbyFill = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> obbyFill = new ValueBuilder<IdkColor>()
             .withDescriptor("Obby Fill")
-            .withValue(new Sn0wColor(0, 255, 218, 100))
+            .withValue(new IdkColor(0, 255, 218, 100))
             .register(this);
-    Value<Sn0wColor> obbyLine = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> obbyLine = new ValueBuilder<IdkColor>()
             .withDescriptor("Obby Line")
-            .withValue(new Sn0wColor(255, 255, 255, 255))
+            .withValue(new IdkColor(255, 255, 255, 255))
             .register(this);
-    Value<Sn0wColor> doubleFill = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> doubleFill = new ValueBuilder<IdkColor>()
             .withDescriptor("Double Fill")
-            .withValue(new Sn0wColor(255, 0, 11, 100))
+            .withValue(new IdkColor(255, 0, 11, 100))
             .register(this);
-    Value<Sn0wColor> doubleLine = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> doubleLine = new ValueBuilder<IdkColor>()
             .withDescriptor("Double Line")
-            .withValue(new Sn0wColor(255, 255, 255, 255))
+            .withValue(new IdkColor(255, 255, 255, 255))
             .register(this);
-    Value<Sn0wColor> bedrockFill2 = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> bedrockFill2 = new ValueBuilder<IdkColor>()
             .withDescriptor("Bedrock Fill2")
-            .withValue(new Sn0wColor(0, 255, 0, 0))
+            .withValue(new IdkColor(0, 255, 0, 0))
             .withPage("Fade")
             .withPageParent(glowMode)
             .register(this);
-    Value<Sn0wColor> bedrockLine2 = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> bedrockLine2 = new ValueBuilder<IdkColor>()
             .withDescriptor("Bedrock Line2")
-            .withValue(new Sn0wColor(255, 255, 255, 0))
+            .withValue(new IdkColor(255, 255, 255, 0))
             .withPage("Fade")
             .withPageParent(glowMode)
             .register(this);
-    Value<Sn0wColor> obbyFill2 = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> obbyFill2 = new ValueBuilder<IdkColor>()
             .withDescriptor("Obby Fill2")
-            .withValue(new Sn0wColor(0, 255, 218, 0))
+            .withValue(new IdkColor(0, 255, 218, 0))
             .withPage("Fade")
             .withPageParent(glowMode)
             .register(this);
-    Value<Sn0wColor> obbyLine2 = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> obbyLine2 = new ValueBuilder<IdkColor>()
             .withDescriptor("Obby Line2")
-            .withValue(new Sn0wColor(255, 255, 255, 0))
+            .withValue(new IdkColor(255, 255, 255, 0))
             .withPage("Fade")
             .withPageParent(glowMode)
             .register(this);
-    Value<Sn0wColor> doubleFill2 = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> doubleFill2 = new ValueBuilder<IdkColor>()
             .withDescriptor("Double Fill2")
-            .withValue(new Sn0wColor(255, 0, 11, 0))
+            .withValue(new IdkColor(255, 0, 11, 0))
             .withPage("Fade")
             .withPageParent(glowMode)
             .register(this);
-    Value<Sn0wColor> doubleLine2 = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> doubleLine2 = new ValueBuilder<IdkColor>()
             .withDescriptor("Double Line2")
-            .withValue(new Sn0wColor(255, 255, 255, 0))
+            .withValue(new IdkColor(255, 255, 255, 0))
             .withPage("Fade")
             .withPageParent(glowMode)
             .register(this);
@@ -117,21 +117,21 @@ public class HoleEsp extends Module {
             .withDescriptor("Void Holes")
             .withValue(false)
             .register(this);
-    Value<Sn0wColor> voidSafeFill = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> voidSafeFill = new ValueBuilder<IdkColor>()
             .withDescriptor("Void Safe Fill")
-            .withValue(new Sn0wColor(170, 0, 255, 25))
+            .withValue(new IdkColor(170, 0, 255, 25))
             .register(this);
-    Value<Sn0wColor> voidSafeLine = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> voidSafeLine = new ValueBuilder<IdkColor>()
             .withDescriptor("Void Safe Line")
-            .withValue(new Sn0wColor(170, 0, 255, 255))
+            .withValue(new IdkColor(170, 0, 255, 255))
             .register(this);
-    Value<Sn0wColor> voidFill = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> voidFill = new ValueBuilder<IdkColor>()
             .withDescriptor("Void Fill")
-            .withValue(new Sn0wColor(255, 1, 242, 25))
+            .withValue(new IdkColor(255, 1, 242, 25))
             .register(this);
-    Value<Sn0wColor> voidLine = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> voidLine = new ValueBuilder<IdkColor>()
             .withDescriptor("Void Line")
-            .withValue(new Sn0wColor(255, 0, 251, 255))
+            .withValue(new IdkColor(255, 0, 251, 255))
             .register(this);
     Value<Number> voidHeight = new ValueBuilder<Number>()
             .withDescriptor("Void Height")

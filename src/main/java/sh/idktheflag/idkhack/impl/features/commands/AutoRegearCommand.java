@@ -18,7 +18,7 @@ public class AutoRegearCommand extends Command {
         super("AutoRegear", "lets u save kits", new String[]{"autoregear"});
     }
 
-    public static final File pathSave = new File(System.getProperty("user.dir") + File.separator + "Sn0w" + File.separator + "misc" + File.separator + "kits.yml");
+    public static final File pathSave = new File(System.getProperty("user.dir") + File.separator + "idkhack" + File.separator + "misc" + File.separator + "kits.yml");
 
     @Override
     public void run(String[] args) {

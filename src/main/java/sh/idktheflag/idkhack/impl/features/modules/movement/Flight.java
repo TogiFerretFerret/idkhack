@@ -244,6 +244,6 @@ public class Flight extends Module
     @Override
     public String getDescription()
     {
-        return "Flight: I just flew 100 blocks thanks to sn0wgod.cc! (or now catogod.cc)";
+        return "Flight: I just flew 100 blocks thanks to idkhackgod.cc! (or now catogod.cc)";
     }
 }

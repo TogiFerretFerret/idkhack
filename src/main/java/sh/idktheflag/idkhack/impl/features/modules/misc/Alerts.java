@@ -5,7 +5,7 @@ import sh.idktheflag.idkhack.api.event.events.TickEvent;
 import sh.idktheflag.idkhack.api.event.events.player.PopEvent;
 import sh.idktheflag.idkhack.api.event.events.world.EntityEvent;
 import sh.idktheflag.idkhack.api.management.FriendManager;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.utils.math.MathUtil;
 import sh.idktheflag.idkhack.impl.features.modules.client.Manager;
 import net.minecraft.entity.Entity;
@@ -44,25 +44,25 @@ public class Alerts extends Module
             .withParentEnabled(true)
             .register(this);
 
-    Value<Sn0wColor> nameColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> nameColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Name", "nameColor")
-            .withValue(new Sn0wColor(255, 0, 0))
+            .withValue(new IdkColor(255, 0, 0))
             .withPage("Custom")
             .withPageParent(mode)
             .withParent(pops)
             .withParentEnabled(true)
             .register(this);
-    Value<Sn0wColor> accent = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> accent = new ValueBuilder<IdkColor>()
             .withDescriptor("Accent")
-            .withValue(new Sn0wColor(0, 255, 0))
+            .withValue(new IdkColor(0, 255, 0))
             .withPage("Custom")
             .withPageParent(mode)
             .withParent(pops)
             .withParentEnabled(true)
             .register(this);
-    Value<Sn0wColor> popColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> popColor = new ValueBuilder<IdkColor>()
             .withDescriptor("PopColor")
-            .withValue(new Sn0wColor(0, 0, 255))
+            .withValue(new IdkColor(0, 0, 255))
             .withPage("Custom")
             .withPageParent(mode)
             .withParent(pops)
@@ -123,7 +123,7 @@ public class Alerts extends Module
             switch (mode.getValue())
             {
                 case "Sync":
-                    if (Manager.INSTANCE.chatNotifyMode.getValue().equals("Sn0w3"))
+                    if (Manager.INSTANCE.chatNotifyMode.getValue().equals("idkhack3"))
                     {
                         ChatUtils.sendMessage(new ChatMessage((Manager.INSTANCE.chatNotifyMode.getValue().equals("DotGod") ? Formatting.DARK_AQUA + "" : Manager.INSTANCE.getMainColor()) + (boldName.getValue() ? Formatting.BOLD : "") + (isSelf ? "You" : name) + Formatting.RESET + Manager.INSTANCE.getAccent() + (isSelf ? " have" : " has") + " popped" + (pops == 0 ? "." : (isSelf ? " your " : " their ") + Manager.INSTANCE.getMainColor() + pops + MathUtil.getOrdinal(pops) + Manager.INSTANCE.getAccent() + " totem"), true, -entity.getId()));
                     } else
@@ -164,7 +164,7 @@ public class Alerts extends Module
             switch (mode.getValue())
             {
                 case "Sync":
-                    if (Manager.INSTANCE.chatNotifyMode.getValue().equals("Sn0w3"))
+                    if (Manager.INSTANCE.chatNotifyMode.getValue().equals("idkhack3"))
                     {
                         ChatUtils.sendMessage(new ChatMessage(Manager.INSTANCE.getMainColor() + (boldName.getValue() ? Formatting.BOLD : "") + player.getName().getString() + Formatting.RESET + Manager.INSTANCE.getAccent() + " died after popping" + (pops == 0 ? "." : " their " + Manager.INSTANCE.getMainColor() + pops + MathUtil.getOrdinal(pops) + Manager.INSTANCE.getAccent() + " totem"), true, -player.getId()));
                     } else

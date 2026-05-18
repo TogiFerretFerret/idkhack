@@ -1,11 +1,11 @@
 package sh.idktheflag.idkhack.api.utils.players;
 
-public class Sn0wUser {
+public class idkhackUser {
     private final String name;
     private final String uuid;
     private String selectedCape;
 
-    public Sn0wUser(String name, String uuid, String selectedCape) {
+    public idkhackUser(String name, String uuid, String selectedCape) {
         this.name = name;
         this.uuid = uuid;
         this.selectedCape = selectedCape;

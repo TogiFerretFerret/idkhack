@@ -2,7 +2,7 @@ package sh.idktheflag.idkhack.impl.features.modules.client;
 
 import sh.idktheflag.idkhack.api.utils.math.MathUtil;
 import sh.idktheflag.idkhack.api.utils.color.RainbowUtil;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.feature.module.Module;
 import sh.idktheflag.idkhack.api.utils.color.ColorUtil;
 import sh.idktheflag.idkhack.api.value.Value;
@@ -52,17 +52,17 @@ public class HudColors extends Module {
             .withRange(1, 10)
             .withPlaces(1)
             .register(this);
-    Value<Sn0wColor> mainColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> mainColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Main Color")
-            .withValue(new Sn0wColor(0, 150, 255, true))
+            .withValue(new IdkColor(0, 150, 255, true))
             .register(this);
-    Value<Sn0wColor> stepColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> stepColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Step Color")
-            .withValue(new Sn0wColor(0, 150, 255, true))
+            .withValue(new IdkColor(0, 150, 255, true))
             .register(this);
-    Value<Sn0wColor> endColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> endColor = new ValueBuilder<IdkColor>()
             .withDescriptor("End Color")
-            .withValue(new Sn0wColor(0, 150, 255, true))
+            .withValue(new IdkColor(0, 150, 255, true))
             .register(this);
 
     public static HudColors INSTANCE;

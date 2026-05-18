@@ -47,8 +47,8 @@ public class HudEditorModule extends Module implements IColorScheme, IMetrics, I
                         context.getScaledResolution().getScaledWidth(),
                         context.getScaledResolution().getScaledHeight()
                 ),
-                Sn0wGui.INSTANCE.gradientTop.getValue().getColor(),
-                Sn0wGui.INSTANCE.gradentBottom.getValue().getColor(),
+                IdkGui.INSTANCE.gradientTop.getValue().getColor(),
+                IdkGui.INSTANCE.gradentBottom.getValue().getColor(),
                 RectMode.Fill,
                 context
         );
@@ -58,74 +58,74 @@ public class HudEditorModule extends Module implements IColorScheme, IMetrics, I
     @Override
     public void renderLast(Context context)
     {
-        Sn0wGui.INSTANCE.renderLast(context);
+        IdkGui.INSTANCE.renderLast(context);
     }
 
     @Override
     public void renderFrameTitle(Context context, Rect rect, MouseHelper mouse, String title, boolean open)
     {
-        Sn0wGui.INSTANCE.renderFrameTitle(context, rect, mouse, title, open);
+        IdkGui.INSTANCE.renderFrameTitle(context, rect, mouse, title, open);
     }
 
     @Override
     public void renderFrameOutline(Context context, Rect rect, MouseHelper mouse)
     {
-        Sn0wGui.INSTANCE.renderFrameOutline(context, rect, mouse);
+        IdkGui.INSTANCE.renderFrameOutline(context, rect, mouse);
     }
 
     @Override
     public void renderFrame(Context context, Rect rect, MouseHelper mouse)
     {
-        Sn0wGui.INSTANCE.renderFrame(context, rect, mouse);
+        IdkGui.INSTANCE.renderFrame(context, rect, mouse);
     }
 
     @Override
     public void renderBooleanWidget(BooleanWidget widget, Context context, Rect rect, MouseHelper mouse)
     {
-        Sn0wGui.INSTANCE.renderBooleanWidget(widget, context, rect, mouse);
+        IdkGui.INSTANCE.renderBooleanWidget(widget, context, rect, mouse);
     }
 
     @Override
     public void renderBindWidget(BindWidget widget, Context context, Rect rect, MouseHelper mouse)
     {
-        Sn0wGui.INSTANCE.renderBindWidget(widget, context, rect, mouse);
+        IdkGui.INSTANCE.renderBindWidget(widget, context, rect, mouse);
     }
 
 
     @Override
     public void renderFeatureButton(FeatureButton widget, Context context, Rect rect, MouseHelper mouse)
     {
-        Sn0wGui.INSTANCE.renderFeatureButton(widget, context, rect, mouse);
+        IdkGui.INSTANCE.renderFeatureButton(widget, context, rect, mouse);
     }
 
     @Override
     public void renderComboBox(ComboBoxWidget widget, Context context, Rect rect, MouseHelper mouseHelper)
     {
-        Sn0wGui.INSTANCE.renderComboBox(widget, context, rect, mouseHelper);
+        IdkGui.INSTANCE.renderComboBox(widget, context, rect, mouseHelper);
     }
 
     @Override
     public void renderSliderWidget(SliderWidget widget, Context context, Rect rect, Rect sliderRect, MouseHelper mouse)
     {
-        Sn0wGui.INSTANCE.renderSliderWidget(widget, context, rect, sliderRect, mouse);
+        IdkGui.INSTANCE.renderSliderWidget(widget, context, rect, sliderRect, mouse);
     }
 
     @Override
     public float getTextWidthFloat(String text)
     {
-        return Sn0wGui.INSTANCE.getTextWidthFloat(text);
+        return IdkGui.INSTANCE.getTextWidthFloat(text);
     }
 
     @Override
     public void renderColorWidget(ColorWidget widget, Context context, boolean open, Rect headerRect, Rect dims, Rect container, Rect alphaSlider, Rect hueSlider, Rect colorSquare)
     {
-        Sn0wGui.INSTANCE.renderColorWidget(widget, context, open, headerRect, dims, container, alphaSlider, hueSlider, colorSquare);
+        IdkGui.INSTANCE.renderColorWidget(widget, context, open, headerRect, dims, container, alphaSlider, hueSlider, colorSquare);
     }
 
     @Override
     public void renderStringWidget(TextEntryWidget widget, Context context, Rect rect, MouseHelper mouse)
     {
-        Sn0wGui.INSTANCE.renderStringWidget(widget, context, rect, mouse);
+        IdkGui.INSTANCE.renderStringWidget(widget, context, rect, mouse);
     }
 
     @Override
@@ -143,116 +143,116 @@ public class HudEditorModule extends Module implements IColorScheme, IMetrics, I
     @Override
     public void renderText(DrawContext context, String text, float x, float y, Color color, boolean shadow)
     {
-        Sn0wGui.INSTANCE.renderText(context, text, x, y, color, shadow);
+        IdkGui.INSTANCE.renderText(context, text, x, y, color, shadow);
     }
 
     @Override
     public void renderRect(Rect rect, Color inputTop, Color inputBottom, RectMode mode, Context context)
     {
-        Sn0wGui.INSTANCE.renderRect(rect, inputTop, inputBottom, mode, context);
+        IdkGui.INSTANCE.renderRect(rect, inputTop, inputBottom, mode, context);
     }
 
 
     @Override
     public void scissorRect(Rect dims)
     {
-        Sn0wGui.INSTANCE.scissorRect(dims);
+        IdkGui.INSTANCE.scissorRect(dims);
     }
 
     @Override
     public Color getMainColor(int pos)
     {
-        return Sn0wGui.INSTANCE.getMainColor(pos);
+        return IdkGui.INSTANCE.getMainColor(pos);
     }
 
     @Override
     public Color getOutlineColor()
     {
-        return Sn0wGui.INSTANCE.getOutlineColor();
+        return IdkGui.INSTANCE.getOutlineColor();
     }
 
     @Override
     public Color getButtonColor()
     {
-        return Sn0wGui.INSTANCE.getButtonColor();
+        return IdkGui.INSTANCE.getButtonColor();
     }
 
     @Override
     public Color getBackgroundColor()
     {
-        return Sn0wGui.INSTANCE.getBackgroundColor();
+        return IdkGui.INSTANCE.getBackgroundColor();
     }
 
     @Override
     public Color getSecondaryBackgroundColor()
     {
-        return Sn0wGui.INSTANCE.getSecondaryBackgroundColor();
+        return IdkGui.INSTANCE.getSecondaryBackgroundColor();
     }
 
     @Override
     public Color getTertiaryBackgroundColor()
     {
-        return Sn0wGui.INSTANCE.getTertiaryBackgroundColor();
+        return IdkGui.INSTANCE.getTertiaryBackgroundColor();
     }
 
     @Override
     public Color getTextColor()
     {
-        return Sn0wGui.INSTANCE.getTextColor();
+        return IdkGui.INSTANCE.getTextColor();
     }
 
     @Override
     public Color getTextColorHighlight()
     {
-        return Sn0wGui.INSTANCE.getTextColorHighlight();
+        return IdkGui.INSTANCE.getTextColorHighlight();
     }
 
     @Override
     public Color getTextColorActive()
     {
-        return Sn0wGui.INSTANCE.getTextColorActive();
+        return IdkGui.INSTANCE.getTextColorActive();
     }
 
     @Override
     public boolean doesTextShadow()
     {
-        return Sn0wGui.INSTANCE.doesTextShadow();
+        return IdkGui.INSTANCE.doesTextShadow();
     }
 
     @Override
     public int getSpacing()
     {
-        return Sn0wGui.INSTANCE.getSpacing();
+        return IdkGui.INSTANCE.getSpacing();
     }
 
     @Override
     public int getBetweenSpacing()
     {
-        return Sn0wGui.INSTANCE.getBetweenSpacing();
+        return IdkGui.INSTANCE.getBetweenSpacing();
     }
 
     @Override
     public int getSettingSpacing()
     {
-        return Sn0wGui.INSTANCE.getSettingSpacing();
+        return IdkGui.INSTANCE.getSettingSpacing();
     }
 
     @Override
     public int getFrameWidth()
     {
-        return Sn0wGui.INSTANCE.getFrameWidth();
+        return IdkGui.INSTANCE.getFrameWidth();
     }
 
     @Override
     public int getButtonHeight()
     {
-        return Sn0wGui.INSTANCE.getButtonHeight();
+        return IdkGui.INSTANCE.getButtonHeight();
     }
 
     @Override
     public int getFrameHeight()
     {
-        return Sn0wGui.INSTANCE.getFrameHeight();
+        return IdkGui.INSTANCE.getFrameHeight();
     }
 
 

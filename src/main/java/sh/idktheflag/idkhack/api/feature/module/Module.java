@@ -69,21 +69,21 @@ public class Module extends Feature implements IBindable, IMinecraft
         {
             switch (Manager.INSTANCE.chatNotifyMode.getValue())
             {
-                case "Sn0w":
+                case "idkhack":
                     ChatUtils.sendMessage(new ChatMessage(
                             (Manager.INSTANCE.bold.getValue() ? Formatting.BOLD : "") + getDisplayName() + Formatting.RESET + Formatting.WHITE + " was " + Manager.INSTANCE.getMainColor() + "enabled" + Formatting.WHITE + ".",
                             true,
                             69420
                     ));
                     break;
-                case "Sn0w2":
+                case "idkhack2":
                     ChatUtils.sendMessage(new ChatMessage(
                             (Manager.INSTANCE.bold.getValue() ? Formatting.BOLD : "") + getDisplayName() + Formatting.RESET + Formatting.WHITE + " was " + Formatting.GREEN + "enabled" + Formatting.WHITE + ".",
                             true,
                             69420
                     ));
                     break;
-                case "Sn0w3":
+                case "idkhack3":
                     ChatUtils.sendMessage(new ChatMessage(
                             Manager.INSTANCE.getMainColor() + "" + (Manager.INSTANCE.bold.getValue() ? Formatting.BOLD : "") + getDisplayName() + Formatting.RESET + Manager.INSTANCE.getAccent() + " was " + Formatting.GREEN + "enabled" + Manager.INSTANCE.getAccent() + ".",
                             true,
@@ -140,21 +140,21 @@ public class Module extends Feature implements IBindable, IMinecraft
         {
             switch (Manager.INSTANCE.chatNotifyMode.getValue())
             {
-                case "Sn0w":
+                case "idkhack":
                     ChatUtils.sendMessage(new ChatMessage(
                             (Manager.INSTANCE.bold.getValue() ? Formatting.BOLD : "") + getDisplayName() + Formatting.RESET + Formatting.WHITE + " was " + Manager.INSTANCE.getAccent() + "disabled" + Formatting.WHITE + ".",
                             true,
                             69420
                     ));
                     break;
-                case "Sn0w2":
+                case "idkhack2":
                     ChatUtils.sendMessage(new ChatMessage(
                             (Manager.INSTANCE.bold.getValue() ? Formatting.BOLD : "") + getDisplayName() + Formatting.RESET + Formatting.WHITE + " was " + Formatting.RED + "disabled" + Formatting.WHITE + ".",
                             true,
                             69420
                     ));
                     break;
-                case "Sn0w3":
+                case "idkhack3":
                     ChatUtils.sendMessage(new ChatMessage(
                             Manager.INSTANCE.getMainColor() + "" + (Manager.INSTANCE.bold.getValue() ? Formatting.BOLD : "") + getDisplayName() + Formatting.RESET + Manager.INSTANCE.getAccent() + " was " + Formatting.RED + "disabled" + Manager.INSTANCE.getAccent() + ".",
                             true,

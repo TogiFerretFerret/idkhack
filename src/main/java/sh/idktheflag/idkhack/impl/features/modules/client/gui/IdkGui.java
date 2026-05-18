@@ -8,7 +8,7 @@ import sh.idktheflag.idkhack.api.gui.widget.impl.*;
 import sh.idktheflag.idkhack.api.management.FeatureManager;
 import sh.idktheflag.idkhack.api.management.SoundManager;
 import sh.idktheflag.idkhack.api.utils.StringUtils;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.utils.render.RenderUtil;
 import sh.idktheflag.idkhack.api.utils.render.ScaledResolution;
 import sh.idktheflag.idkhack.api.utils.render.animation.Animation;
@@ -46,37 +46,37 @@ import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 
-public class Sn0wGui extends Module implements IColorScheme, IMetrics, IRenderer
+public class IdkGui extends Module implements IColorScheme, IMetrics, IRenderer
 {
 
-    public static Sn0wGui INSTANCE;
-    Value<Sn0wColor> mainColor = new ValueBuilder<Sn0wColor>()
+    public static IdkGui INSTANCE;
+    Value<IdkColor> mainColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Color")
-            .withValue(new Sn0wColor(255, 100, 100))
+            .withValue(new IdkColor(255, 100, 100))
             .register(this);
-    Value<Sn0wColor> buttonColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> buttonColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Button")
-            .withValue(new Sn0wColor(255, 100, 100, 0))
+            .withValue(new IdkColor(255, 100, 100, 0))
             .register(this);
-    Value<Sn0wColor> textColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> textColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Text Color")
-            .withValue(new Sn0wColor(255, 255, 255))
+            .withValue(new IdkColor(255, 255, 255))
             .register(this);
-    Value<Sn0wColor> disabledText = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> disabledText = new ValueBuilder<IdkColor>()
             .withDescriptor("Disabled Text")
-            .withValue(new Sn0wColor(192, 192, 192))
+            .withValue(new IdkColor(192, 192, 192))
             .register(this);
-    Value<Sn0wColor> background = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> background = new ValueBuilder<IdkColor>()
             .withDescriptor("Background")
-            .withValue(new Sn0wColor(28, 28, 28, 255))
+            .withValue(new IdkColor(28, 28, 28, 255))
             .register(this);
-    Value<Sn0wColor> outlineColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> outlineColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Outline")
-            .withValue(new Sn0wColor(0, 0, 0, 255))
+            .withValue(new IdkColor(0, 0, 0, 255))
             .register(this);
-    Value<Sn0wColor> frameOutline = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> frameOutline = new ValueBuilder<IdkColor>()
             .withDescriptor("Frame Outline")
-            .withValue(new Sn0wColor(0, 0, 0, 0))
+            .withValue(new IdkColor(0, 0, 0, 0))
             .register(this);
     public Value<String> frameEnding = new ValueBuilder<String>()
             .withDescriptor("Icon")
@@ -94,13 +94,13 @@ public class Sn0wGui extends Module implements IColorScheme, IMetrics, IRenderer
             .withValue(100)
             .withRange(60, 200)
             .register(this);
-    Value<Sn0wColor> gradientTop = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> gradientTop = new ValueBuilder<IdkColor>()
             .withDescriptor("Gradient Top")
-            .withValue(new Sn0wColor(255, 100, 100, 30))
+            .withValue(new IdkColor(255, 100, 100, 30))
             .register(this);
-    Value<Sn0wColor> gradentBottom = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> gradentBottom = new ValueBuilder<IdkColor>()
             .withDescriptor("Gradient Bottom")
-            .withValue(new Sn0wColor(0, 155, 155, 100))
+            .withValue(new IdkColor(0, 155, 155, 100))
             .register(this);
 
     Value<Boolean> drawParticles = new ValueBuilder<Boolean>()
@@ -129,9 +129,9 @@ public class Sn0wGui extends Module implements IColorScheme, IMetrics, IRenderer
 
     Animation fadeAnimation = new Animation(Easing.CUBIC_IN_OUT, 300L);
 
-    public Sn0wGui()
+    public IdkGui()
     {
-        super("Sn0wGui", Category.Client);
+        super("IdkGui", Category.Client);
         getBind().setKey(GLFW.GLFW_KEY_BACKSLASH);
         INSTANCE = this;
     }
@@ -725,6 +725,6 @@ public class Sn0wGui extends Module implements IColorScheme, IMetrics, IRenderer
     @Override
     public String getDescription()
     {
-        return "Sn0wGui: Main sn0w gui";
+        return "IdkGui: Main idkhack gui";
     }
 }

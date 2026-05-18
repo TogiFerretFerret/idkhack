@@ -70,10 +70,10 @@ public class Announcer extends Module {
             .withValue(true)
             .register(this);
 
-    public static String[] breakMessages = {"I just mined {amount} {name} thanks to Sn0w!", "\u042F \u0442\u043E\u043B\u044C\u043A\u043E \u0447\u0442\u043E \u0434\u043E\u0431\u044B\u043B {amount} {name} \u0431\u043B\u043E\u043A\u0430 \u0431\u043B\u0430\u0433\u043E\u0434\u0430\u0440\u044F Sn0w!"};
-    public static String[] placeMessages = {"I just built a castle made out of {amount} {name} thanks to Sn0w!", "\u042F \u0442\u043E\u043B\u044C\u043A\u043E \u0447\u0442\u043E \u043F\u043E\u0441\u0442\u0440\u043E\u0438\u043B \u0437\u0430\u043C\u043E\u043A \u0438\u0437 {amount} {name} \u0431\u043B\u0430\u0433\u043E\u0434\u0430\u0440\u044F Sn0w!"};
-    public static String[] eatMessages = {"I just ate {amount} {name} thanks to Sn0w!", "\u042F \u0442\u043E\u043B\u044C\u043A\u043E \u0447\u0442\u043E \u0441\u044A\u0435\u043B {amount} {name} \u0431\u043B\u0430\u0433\u043E\u0434\u0430\u0440\u044F Sn0w!"};
-    public static String[] walkMessages = {"I just magically teleported {blocks} blocks thanks to Sn0w!", "\u042F \u043F\u0440\u043E\u0441\u0442\u043E \u0432\u043E\u043B\u0448\u0435\u0431\u043D\u044B\u043C \u043E\u0431\u0440\u0430\u0437\u043E\u043C \u0442\u0435\u043B\u0435\u043F\u043E\u0440\u0442\u0438\u0440\u043E\u0432\u0430\u043B {blocks} \u0431\u043B\u043E\u043A\u043E\u0432 \u0431\u043B\u0430\u0433\u043E\u0434\u0430\u0440\u044F Sn0w!"};
+    public static String[] breakMessages = {"I just mined {amount} {name} thanks to idkhack!", "\u042F \u0442\u043E\u043B\u044C\u043A\u043E \u0447\u0442\u043E \u0434\u043E\u0431\u044B\u043B {amount} {name} \u0431\u043B\u043E\u043A\u0430 \u0431\u043B\u0430\u0433\u043E\u0434\u0430\u0440\u044F idkhack!"};
+    public static String[] placeMessages = {"I just built a castle made out of {amount} {name} thanks to idkhack!", "\u042F \u0442\u043E\u043B\u044C\u043A\u043E \u0447\u0442\u043E \u043F\u043E\u0441\u0442\u0440\u043E\u0438\u043B \u0437\u0430\u043C\u043E\u043A \u0438\u0437 {amount} {name} \u0431\u043B\u0430\u0433\u043E\u0434\u0430\u0440\u044F idkhack!"};
+    public static String[] eatMessages = {"I just ate {amount} {name} thanks to idkhack!", "\u042F \u0442\u043E\u043B\u044C\u043A\u043E \u0447\u0442\u043E \u0441\u044A\u0435\u043B {amount} {name} \u0431\u043B\u0430\u0433\u043E\u0434\u0430\u0440\u044F idkhack!"};
+    public static String[] walkMessages = {"I just magically teleported {blocks} blocks thanks to idkhack!", "\u042F \u043F\u0440\u043E\u0441\u0442\u043E \u0432\u043E\u043B\u0448\u0435\u0431\u043D\u044B\u043C \u043E\u0431\u0440\u0430\u0437\u043E\u043C \u0442\u0435\u043B\u0435\u043F\u043E\u0440\u0442\u0438\u0440\u043E\u0432\u0430\u043B {blocks} \u0431\u043B\u043E\u043A\u043E\u0432 \u0431\u043B\u0430\u0433\u043E\u0434\u0430\u0440\u044F idkhack!"};
     public static String[] joinMessages = {"Welcome to %serverip% %name%!", "Welcome to hell, %name%.", "Welcome %name% everyone!", "Hey, %name%", "AbdulaSalaha blesses you, %name%", "Greetings, %name%"};
     public static String[] leaveMessages = {"Goodbye %name%!", "Cya %name%", "Good to see you, %name%", "Catch ya later, %name%", "Farewell, %name%"};
 
@@ -362,7 +362,7 @@ public class Announcer extends Module {
     {
         if (IdkHackMod.NAME != IdkHackMod.NAME_UNICODE)
         {
-            message = message.replace("Sn0w", IdkHackMod.NAME);
+            message = message.replace("idkhack", IdkHackMod.NAME);
         }
         String ip = (mc.isInSingleplayer() || mc.getNetworkHandler() == null) ? "Singleplayer" : mc.getNetworkHandler().getConnection().getAddress().toString().toLowerCase();
 
@@ -379,6 +379,6 @@ public class Announcer extends Module {
     @Override
     public String getDescription()
     {
-        return "Announcer: Flex on sn0wless dogs with this module";
+        return "Announcer: Flex on idkhackless dogs with this module";
     }
 }

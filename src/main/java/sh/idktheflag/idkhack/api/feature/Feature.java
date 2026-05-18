@@ -3,7 +3,7 @@ package sh.idktheflag.idkhack.api.feature;
 import sh.idktheflag.idkhack.api.gui.font.Fonts;
 import sh.idktheflag.idkhack.api.management.SavableManager;
 import sh.idktheflag.idkhack.api.utils.chat.ChatUtils;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.utils.render.animation.Easing;
 import sh.idktheflag.idkhack.api.utils.render.animation.type.ConsistentDynamicAnimation;
 import sh.idktheflag.idkhack.impl.IdkHackMod;
@@ -292,11 +292,11 @@ public class Feature implements ISavable
             {
                 try
                 {
-                    if (value.getValue() instanceof Sn0wColor)
+                    if (value.getValue() instanceof IdkColor)
                     {
                         Map<String, Object> map = ((Map<String, Object>) o);
-                        Sn0wColor sn0wColor = new Sn0wColor(new Color((int) map.get("red"), (int) map.get("green"), (int) map.get("blue"), (int) map.get("alpha")), (boolean) map.get("sync"));
-                        value.setValue(sn0wColor);
+                        IdkColor idkhackColor = new IdkColor(new Color((int) map.get("red"), (int) map.get("green"), (int) map.get("blue"), (int) map.get("alpha")), (boolean) map.get("sync"));
+                        value.setValue(idkhackColor);
                     } else
                     {
                         value.setValue(o);
@@ -323,11 +323,11 @@ public class Feature implements ISavable
             {
                 try
                 {
-                    if (value.getValue() instanceof Sn0wColor)
+                    if (value.getValue() instanceof IdkColor)
                     {
                         Map<String, Object> map = ((Map<String, Object>) o);
-                        Sn0wColor sn0wColor = new Sn0wColor(new Color((int) map.get("red"), (int) map.get("green"), (int) map.get("blue"), (int) map.get("alpha")), (boolean) map.get("sync"));
-                        value.setValue(sn0wColor);
+                        IdkColor idkhackColor = new IdkColor(new Color((int) map.get("red"), (int) map.get("green"), (int) map.get("blue"), (int) map.get("alpha")), (boolean) map.get("sync"));
+                        value.setValue(idkhackColor);
                     } else
                     {
                         value.setValue(o);
@@ -356,7 +356,7 @@ public class Feature implements ISavable
             {
                 try
                 {
-                    if (!(value.getValue() instanceof Sn0wColor))
+                    if (!(value.getValue() instanceof IdkColor))
                     {
                         value.setValue(o);
                     }
@@ -375,9 +375,9 @@ public class Feature implements ISavable
 
         for (Value<?> value : getValues())
         {
-            if (value.getValue() instanceof Sn0wColor)
+            if (value.getValue() instanceof IdkColor)
             {
-                Value<Sn0wColor> val = ((Value<Sn0wColor>) value);
+                Value<IdkColor> val = ((Value<IdkColor>) value);
                 Map<String, Object> color = new HashMap<>();
                 color.put("red", val.getValue().getColor().getRed());
                 color.put("green", val.getValue().getColor().getGreen());

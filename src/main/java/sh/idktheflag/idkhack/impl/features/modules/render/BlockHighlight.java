@@ -4,7 +4,7 @@ package sh.idktheflag.idkhack.impl.features.modules.render;
 import sh.idktheflag.idkhack.api.event.eventbus.SubscribeEvent;
 import sh.idktheflag.idkhack.api.event.events.render.RenderWorldEvent;
 import sh.idktheflag.idkhack.api.utils.NullUtils;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.utils.render.world.RenderType;
 import sh.idktheflag.idkhack.impl.features.hud.FeatureList;
 import net.minecraft.block.BlockState;
@@ -26,27 +26,27 @@ import java.text.DecimalFormat;
 public class BlockHighlight extends Module {
     public static BlockHighlight INSTANCE;
 
-    Value<Sn0wColor> fill = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> fill = new ValueBuilder<IdkColor>()
             .withDescriptor("Fill")
-            .withValue(new Sn0wColor(255, 62, 62, 25))
+            .withValue(new IdkColor(255, 62, 62, 25))
             .register(this);
-    Value<Sn0wColor> line = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> line = new ValueBuilder<IdkColor>()
             .withDescriptor("Line")
-            .withValue(new Sn0wColor(255, 62, 62, 255))
+            .withValue(new IdkColor(255, 62, 62, 255))
             .register(this);
     Value<Boolean> entity = new ValueBuilder<Boolean>()
             .withDescriptor("Entity")
             .withValue(false)
             .register(this);
-    Value<Sn0wColor> entityFill = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> entityFill = new ValueBuilder<IdkColor>()
             .withDescriptor("Entity Fill")
-            .withValue(new Sn0wColor(255, 62, 62, 25))
+            .withValue(new IdkColor(255, 62, 62, 25))
             .withParentEnabled(true)
             .withParent(entity)
             .register(this);
-    Value<Sn0wColor> entityLine = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> entityLine = new ValueBuilder<IdkColor>()
             .withDescriptor("Entity Line")
-            .withValue(new Sn0wColor(255, 62, 62, 255))
+            .withValue(new IdkColor(255, 62, 62, 255))
             .withParent(entity)
             .withParentEnabled(true)
 

@@ -2,7 +2,7 @@ package sh.idktheflag.idkhack.impl.features.hud;
 
 import sh.idktheflag.idkhack.api.event.eventbus.SubscribeEvent;
 import sh.idktheflag.idkhack.api.event.events.render.RenderGameOverlayEvent;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.utils.players.InventoryUtils;
 import sh.idktheflag.idkhack.api.utils.render.RenderUtil;
 import net.minecraft.client.gui.DrawContext;
@@ -56,17 +56,17 @@ public class InventoryViewer extends HudComponent
             .withParent(aboveItems)
             .withParentEnabled(true)
             .register(this);
-    public Value<Sn0wColor> borderColor = new ValueBuilder<Sn0wColor>()
+    public Value<IdkColor> borderColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Border Color")
-            .withValue(new Sn0wColor(255, 0, 0))
+            .withValue(new IdkColor(255, 0, 0))
             .register(this);
-    public Value<Sn0wColor> insideColor = new ValueBuilder<Sn0wColor>()
+    public Value<IdkColor> insideColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Inside Color")
-            .withValue(new Sn0wColor(20, 20, 20))
+            .withValue(new IdkColor(20, 20, 20))
             .register(this);
-    public Value<Sn0wColor> textColor = new ValueBuilder<Sn0wColor>()
+    public Value<IdkColor> textColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Text Color")
-            .withValue(new Sn0wColor(255, 255, 255))
+            .withValue(new IdkColor(255, 255, 255))
             .register(this);
     public Value<Boolean> snap = new ValueBuilder<Boolean>()
             .withDescriptor("Snap")
@@ -93,6 +93,7 @@ public class InventoryViewer extends HudComponent
         {
             final List<ItemStack> items = mc.player.getInventory().getMainStacks();
 
+            context.getMatrices().pushMatrix();
             context.fill(xPos.getValue().intValue(), yPos.getValue().intValue(), xPos.getValue().intValue() + (17 * 9) + 10, yPos.getValue().intValue() + (17 * 3) + 3, insideColor.getValue().getColor().getRGB());
             renderItems(context, items, xPos.getValue().intValue(), yPos.getValue().intValue() + 18);
             List<Item> ItemsList = new ArrayList<>();
@@ -122,11 +123,11 @@ public class InventoryViewer extends HudComponent
 
                 }
             }
+            context.getMatrices().popMatrix();
         } catch (Exception e)
         {
             e.printStackTrace();
         }
-        context.getMatrices().popMatrix();
     }
 
     private void renderBox(MatrixStack matrices, final int x, final int y)
@@ -140,9 +141,9 @@ public class InventoryViewer extends HudComponent
         for (int size = items.size(), item = 9; item < size; ++item)
         {
             final int slotx = x + 1 + (item - 9) % 9 * 18;
-            context.drawItem(items.get(item), slotx, slotY);
-            context.drawStackOverlay(mc.textRenderer, items.get(item), slotx, slotY);
-            context.drawStackOverlay(mc.textRenderer, items.get(item), slotx, slotY);
+            final int sloty = y + (item - 9) / 9 * 18;
+            context.drawItem(items.get(item), slotx, sloty);
+            context.drawStackOverlay(mc.textRenderer, items.get(item), slotx, sloty);
         }
     }
 

@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 public class IdkHackMod implements ModInitializer
 {
-    public static Logger LOGGER = Logger.getLogger("sn0w");
+    public static Logger LOGGER = Logger.getLogger("idkhack");
 
     public static long START_TIME = System.currentTimeMillis();
 
@@ -24,7 +24,7 @@ public class IdkHackMod implements ModInitializer
     /**
      * Git hash of the client
      */
-    public static final String HASH = "9ed360515547525e";
+    public static final String HASH = "3209c1f8199136ba";
 
     /**
      * The snowflake text ⚑
@@ -43,7 +43,7 @@ public class IdkHackMod implements ModInitializer
     {
         BARITONE_AVAILABLE = exists("baritone.api.BaritoneAPI");
 
-        LOGGER.info(IdkHackMod.NAME_UNICODE + "Sn0w (" + VERSION + ")");
+        LOGGER.info(IdkHackMod.NAME_UNICODE + "idkhack (" + VERSION + ")");
         Register.INSTANCE = new Register();
         Register.INSTANCE.registerAll();
 

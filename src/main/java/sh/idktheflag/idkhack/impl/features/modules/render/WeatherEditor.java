@@ -5,7 +5,7 @@ import sh.idktheflag.idkhack.api.event.events.TickEvent;
 import sh.idktheflag.idkhack.api.event.events.network.PacketEvent;
 import sh.idktheflag.idkhack.api.feature.module.Module;
 import sh.idktheflag.idkhack.api.utils.NullUtils;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.value.Value;
 import sh.idktheflag.idkhack.api.value.builder.ValueBuilder;
 import net.minecraft.network.packet.s2c.play.GameStateChangeS2CPacket;
@@ -25,9 +25,9 @@ public class WeatherEditor extends Module {
             .withDescriptor("Colorize")
             .register(this);
 
-    public Value<Sn0wColor> lightningColor = new ValueBuilder<Sn0wColor>()
+    public Value<IdkColor> lightningColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Lightning")
-            .withValue(new Sn0wColor(0, 255, 255, 255))
+            .withValue(new IdkColor(0, 255, 255, 255))
             .withParentEnabled(true)
             .withParent(colorize)
             .register(this);

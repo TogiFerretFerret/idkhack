@@ -80,13 +80,13 @@ public class Watermark extends HudComponent
 
     public String getClientName()
     {
-        return (Objects.equals(IdkHackMod.NAME, IdkHackMod.NAME_UNICODE) ? "Sn0w" : IdkHackMod.NAME) + " " + (white.getValue() ? Formatting.WHITE : "") + "v" + IdkHackMod.VERSION + "." + StringUtils.truncate(IdkHackMod.HASH, 7) + "-fabric";
+        return (Objects.equals(IdkHackMod.NAME, IdkHackMod.NAME_UNICODE) ? "idkhack" : IdkHackMod.NAME) + " " + (white.getValue() ? Formatting.WHITE : "") + "v" + IdkHackMod.VERSION + "." + StringUtils.truncate(IdkHackMod.HASH, 7) + "-fabric";
     }
 
     @Override
     public String getDescription()
     {
-        return "Watermark: Display the fact ur sn0wfull so sn0wless know whos boss";
+        return "Watermark: Display the fact ur idkhackfull so idkhackless know whos boss";
     }
 
 }

@@ -4,7 +4,7 @@ import sh.idktheflag.idkhack.api.gui.GUI;
 import sh.idktheflag.idkhack.api.gui.font.Fonts;
 import sh.idktheflag.idkhack.api.gui.widget.impl.*;
 import sh.idktheflag.idkhack.api.utils.StringUtils;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.utils.render.RenderUtil;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.math.MathHelper;
@@ -34,29 +34,29 @@ public class OtherGui extends Module implements IColorScheme, IMetrics, IRendere
             .withDescriptor("Text Shadow")
             .withValue(true)
             .register(this);
-    Value<Sn0wColor> textColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> textColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Text Color")
-            .withValue(new Sn0wColor(255, 255, 255, 255))
+            .withValue(new IdkColor(255, 255, 255, 255))
             .register(this);
-    Value<Sn0wColor> color = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> color = new ValueBuilder<IdkColor>()
             .withDescriptor("Color")
-            .withValue(new Sn0wColor(0, 179, 42, 255))
+            .withValue(new IdkColor(0, 179, 42, 255))
             .register(this);
-    Value<Sn0wColor> backgroundColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> backgroundColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Back Color")
-            .withValue(new Sn0wColor(76, 76, 76, 150))
+            .withValue(new IdkColor(76, 76, 76, 150))
             .register(this);
-    Value<Sn0wColor> backgroundSecondary = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> backgroundSecondary = new ValueBuilder<IdkColor>()
             .withDescriptor("Secondary")
-            .withValue(new Sn0wColor(33, 33, 33, 150))
+            .withValue(new IdkColor(33, 33, 33, 150))
             .register(this);
-    Value<Sn0wColor> backgroundTertiary = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> backgroundTertiary = new ValueBuilder<IdkColor>()
             .withDescriptor("Tertiary Color")
-            .withValue(new Sn0wColor(3, 3, 3, 174))
+            .withValue(new IdkColor(3, 3, 3, 174))
             .register(this);
-    Value<Sn0wColor> outlineColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> outlineColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Outline Color")
-            .withValue(new Sn0wColor(0, 0, 0, 255))
+            .withValue(new IdkColor(0, 0, 0, 255))
             .register(this);
     Value<Number> width = new ValueBuilder<Number>()
             .withDescriptor("Width")
@@ -68,9 +68,9 @@ public class OtherGui extends Module implements IColorScheme, IMetrics, IRendere
             .withValue(100)
             .withRange(0, 600)
             .register(this);
-    Value<Sn0wColor> bgColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> bgColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Background")
-            .withValue(new Sn0wColor(0, 0, 0, 25))
+            .withValue(new IdkColor(0, 0, 0, 25))
             .register(this);
     public OtherGui() {
         super("OtherGui", Category.Client);

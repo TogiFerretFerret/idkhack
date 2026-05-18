@@ -23,6 +23,6 @@ public class IRC extends Module {
 
     @Override
     public String getDescription() {
-        return "IRC: Talk with other sn0w users";
+        return "IRC: Talk with other idkhack users";
     }
 }

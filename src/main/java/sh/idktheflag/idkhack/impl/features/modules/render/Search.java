@@ -9,7 +9,7 @@ import sh.idktheflag.idkhack.api.management.SearchManager;
 import sh.idktheflag.idkhack.api.utils.NullUtils;
 import sh.idktheflag.idkhack.api.utils.Pair;
 import sh.idktheflag.idkhack.api.utils.color.ColorUtil;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.utils.render.RenderUtil;
 import sh.idktheflag.idkhack.api.utils.render.world.RenderType;
 import sh.idktheflag.idkhack.api.value.Value;
@@ -30,9 +30,9 @@ public class Search extends Module {
     private ArrayList<Block> defaultBlocks;
 
 
-    Value<Sn0wColor> defaultColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> defaultColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Color")
-            .withValue(new Sn0wColor(255, 0, 251, 255))
+            .withValue(new IdkColor(255, 0, 251, 255))
             .register(this);
     Value<Boolean> tracers = new ValueBuilder<Boolean>()
             .withDescriptor("Tracers")

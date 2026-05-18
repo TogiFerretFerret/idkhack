@@ -21,7 +21,7 @@ import java.util.Map;
 public class SavableManager implements IMinecraft
 {
 
-    public static final File MAIN_FOLDER = new File(System.getProperty("user.dir") + File.separator + "Sn0w");
+    public static final File MAIN_FOLDER = new File(System.getProperty("user.dir") + File.separator + "idkhack");
 
     public static SavableManager INSTANCE;
     public boolean isLoading = false;
@@ -228,12 +228,12 @@ public class SavableManager implements IMinecraft
 
     public static File createFileIfNotExists(String name, String exstension) throws IOException
     {
-        File dir = new File(mc.runDirectory.getAbsolutePath(), File.separator + "Sn0w" + File.separator);
+        File dir = new File(mc.runDirectory.getAbsolutePath(), File.separator + "idkhack" + File.separator);
         if (!dir.exists())
         {
             dir.mkdir();
         }
-        File namedFile = new File(mc.runDirectory.getAbsolutePath(), File.separator + "Sn0w" + File.separator + name + "." + exstension);
+        File namedFile = new File(mc.runDirectory.getAbsolutePath(), File.separator + "idkhack" + File.separator + name + "." + exstension);
         if (!namedFile.exists())
         {
             namedFile.createNewFile();

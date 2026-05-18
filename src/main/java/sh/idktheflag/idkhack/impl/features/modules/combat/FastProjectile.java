@@ -104,7 +104,7 @@ public class FastProjectile extends Module {
                     //dk if this onie is suppost to be false i forgot,
                     movePacket(mc.player.getX(), mc.player.getY() + 0.00000000001f, mc.player.getZ(), false);
                     break;
-                //forgot tbh, just pasting this one over from sn0w cuz i think it bypassed some server cloudanarchy or something
+                //forgot tbh, just pasting this one over from idkhack cuz i think it bypassed some server cloudanarchy or something
                 case "Float":
                     movePacket(mc.player.getX(), mc.player.getY() - 1e-10, mc.player.getZ(), true);
                     //dk if this onie is suppost to be false i forgot,

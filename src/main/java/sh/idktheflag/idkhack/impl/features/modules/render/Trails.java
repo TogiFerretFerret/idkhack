@@ -5,7 +5,7 @@ import sh.idktheflag.idkhack.api.event.eventbus.SubscribeEvent;
 import sh.idktheflag.idkhack.api.event.events.TickEvent;
 import sh.idktheflag.idkhack.api.event.events.render.RenderWorldEvent;
 import sh.idktheflag.idkhack.api.utils.chat.ChatUtils;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.utils.math.MathUtil;
 import sh.idktheflag.idkhack.api.utils.render.world.buffers.RenderBuffers;
 import sh.idktheflag.idkhack.impl.features.modules.player.Scaffold;
@@ -62,13 +62,13 @@ public class Trails extends Module
             .withValue(false)
             .register(this);
 
-    Value<Sn0wColor> startColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> startColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Start Color")
-            .withValue(new Sn0wColor(255, 255, 255))
+            .withValue(new IdkColor(255, 255, 255))
             .register(this);
-    Value<Sn0wColor> endColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> endColor = new ValueBuilder<IdkColor>()
             .withDescriptor("End Color")
-            .withValue(new Sn0wColor(0, 255, 72))
+            .withValue(new IdkColor(0, 255, 72))
             .register(this);
     Value<Boolean> self = new ValueBuilder<Boolean>()
             .withDescriptor("Self")

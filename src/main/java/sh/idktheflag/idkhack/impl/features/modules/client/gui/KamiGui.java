@@ -3,7 +3,7 @@ package sh.idktheflag.idkhack.impl.features.modules.client.gui;
 import sh.idktheflag.idkhack.api.feature.module.Module;
 import sh.idktheflag.idkhack.api.gui.theme.IColorScheme;
 import sh.idktheflag.idkhack.api.gui.theme.IMetrics;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.value.Value;
 import sh.idktheflag.idkhack.api.value.builder.ValueBuilder;
 import sh.idktheflag.idkhack.impl.features.modules.client.FontModule;
@@ -16,13 +16,13 @@ public class KamiGui extends Module implements IColorScheme, IMetrics {
 
     public static KamiGui INSTANCE;
 
-    Value<Sn0wColor> color = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> color = new ValueBuilder<IdkColor>()
             .withDescriptor("Color")
-            .withValue(new Sn0wColor(32, 159, 220))
+            .withValue(new IdkColor(32, 159, 220))
             .register(this);
-    Value<Sn0wColor> outlineColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> outlineColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Outline Color")
-            .withValue(new Sn0wColor(32, 159, 220))
+            .withValue(new IdkColor(32, 159, 220))
             .register(this);
     Value<Number> frameText = new ValueBuilder<Number>()
             .withDescriptor("Frame Text")
@@ -34,17 +34,17 @@ public class KamiGui extends Module implements IColorScheme, IMetrics {
             .withValue(0)
             .withRange(0, 255)
             .register(this);
-    Value<Sn0wColor> frameColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> frameColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Frame Color")
-            .withValue(new Sn0wColor(255, 255, 255))
+            .withValue(new IdkColor(255, 255, 255))
             .register(this);
-    Value<Sn0wColor> secondaryColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> secondaryColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Secondary Color")
-            .withValue(new Sn0wColor(255, 255, 255))
+            .withValue(new IdkColor(255, 255, 255))
             .register(this);
-    Value<Sn0wColor> teritary = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> teritary = new ValueBuilder<IdkColor>()
             .withDescriptor("Teritary Color")
-            .withValue(new Sn0wColor(255, 255, 255))
+            .withValue(new IdkColor(255, 255, 255))
             .register(this);
     Value<Number> width = new ValueBuilder<Number>()
             .withDescriptor("Width")

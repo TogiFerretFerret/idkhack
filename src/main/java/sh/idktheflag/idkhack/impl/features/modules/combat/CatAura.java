@@ -18,7 +18,7 @@ import sh.idktheflag.idkhack.api.utils.Pair;
 import sh.idktheflag.idkhack.api.utils.Timer;
 import sh.idktheflag.idkhack.api.utils.chat.ChatUtils;
 import sh.idktheflag.idkhack.api.utils.color.ColorUtil;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.utils.players.InventoryUtils;
 import sh.idktheflag.idkhack.api.utils.players.PlayerUtils;
 import sh.idktheflag.idkhack.api.utils.players.rotation.RotationUtils;
@@ -250,13 +250,13 @@ public class CatAura extends Module {
             .withValue("None")
             .withModes("None", "Soft", "Strong")
             .register(this);
-    public Value<Sn0wColor> fillColorS = new ValueBuilder<Sn0wColor>()
+    public Value<IdkColor> fillColorS = new ValueBuilder<IdkColor>()
             .withDescriptor("Fill Color")
-            .withValue(new Sn0wColor(0, 0, 0, 100))
+            .withValue(new IdkColor(0, 0, 0, 100))
             .register(this);
-    public Value<Sn0wColor> lineColorS = new ValueBuilder<Sn0wColor>()
+    public Value<IdkColor> lineColorS = new ValueBuilder<IdkColor>()
             .withDescriptor("Outline Color")
-            .withValue(new Sn0wColor(255, 255, 255, 255))
+            .withValue(new IdkColor(255, 255, 255, 255))
             .register(this);
     public Value<Boolean> renderDamage = new ValueBuilder<Boolean>()
             .withDescriptor("Damage Text")

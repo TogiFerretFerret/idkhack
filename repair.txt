@@ -1,0 +1,40 @@
+    public static void drawBox(double x1, double y1,
+                               double z1, double x2, double y2, double z2, Color color)
+    {
+        MatrixStack stack = matrixFrom(x1, y1, z1);
+        stack.push();
+        drawBox(stack, 0, 0, 0, x2 - x1, y2 - y1, z2 - z1, color, color);
+        stack.pop();
+    }
+
+    public static MatrixStack matrixFrom(double x, double y, double z)
+    {
+        MatrixStack matrices = new MatrixStack();
+        matrices.translate((float) x, (float) y, (float) z);
+        return matrices;
+    }
+
+    public static void drawWorldLine(Vec3d a, Vec3d b, Color colorA, Color colorB)
+    {
+        MatrixStack matrices = matrixFrom(a.x, a.y, a.z);
+        MatrixStack.Entry peek = matrices.peek();
+        Matrix4f matrix4f = peek.getPositionMatrix();
+        float dx = (float)(b.x - a.x), dy = (float)(b.y - a.y), dz = (float)(b.z - a.z);
+        if (dx == 0 && dy == 0 && dz == 0) return;
+        
+        RenderBuffers.LINE.begin(matrix4f);
+        RenderBuffers.LINE.buffer.vertex(matrix4f, 0, 0, 0)
+                .color(colorA.getRed(), colorA.getGreen(), colorA.getBlue(), colorA.getAlpha())
+                .normal(peek, 0, 1, 0)
+                .lineWidth(1.0f);
+        RenderBuffers.LINE.buffer.vertex(matrix4f, dx, dy, dz)
+                .color(colorB.getRed(), colorB.getGreen(), colorB.getBlue(), colorB.getAlpha())
+                .normal(peek, 0, 1, 0)
+                .lineWidth(1.0f);
+        RenderBuffers.LINE.end();
+    }
+
+    public static void renderTracerLine(Vec3d from, Vec3d to, Color top, Color bottom, float lineWidth)
+    {
+        drawWorldLine(from, to, top, bottom);
+    }

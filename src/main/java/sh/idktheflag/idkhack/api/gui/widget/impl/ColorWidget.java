@@ -7,7 +7,7 @@ import sh.idktheflag.idkhack.api.gui.helpers.Rect;
 import sh.idktheflag.idkhack.api.utils.math.MathUtil;
 import sh.idktheflag.idkhack.api.utils.chat.ChatUtils;
 import sh.idktheflag.idkhack.api.utils.color.ColorUtil;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.utils.render.animation.Easing;
 import sh.idktheflag.idkhack.api.utils.render.animation.type.DynamicColorAnimation;
 import sh.idktheflag.idkhack.impl.features.modules.client.Manager;
@@ -23,7 +23,7 @@ import static sh.idktheflag.idkhack.api.wrapper.IMinecraft.mc;
 
 public abstract class ColorWidget implements IWidget<Color>, IComponent {
 
-    Sn0wColor value;
+    IdkColor value;
     String title;
     boolean open = false;
     Rect dims;
@@ -40,7 +40,7 @@ public abstract class ColorWidget implements IWidget<Color>, IComponent {
     boolean hovering;
     public DynamicColorAnimation animation;
 
-    public ColorWidget(String title, Sn0wColor value, Rect dims)
+    public ColorWidget(String title, IdkColor value, Rect dims)
     {
         this.title = title;
         this.value = value;

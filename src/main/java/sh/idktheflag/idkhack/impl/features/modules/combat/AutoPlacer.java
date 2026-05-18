@@ -11,7 +11,7 @@ import sh.idktheflag.idkhack.api.management.PriorityManager;
 import sh.idktheflag.idkhack.api.management.RotationManager;
 import sh.idktheflag.idkhack.api.utils.NullUtils;
 import sh.idktheflag.idkhack.api.utils.Timer;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.utils.math.MathUtil;
 import sh.idktheflag.idkhack.api.utils.players.InventoryUtils;
 import sh.idktheflag.idkhack.api.utils.players.PlayerUtils;
@@ -87,15 +87,15 @@ public class AutoPlacer extends Module {
             .withDescriptor("Render")
             .withValue(true)
             .register(this);
-    public Value<Sn0wColor> fill = new ValueBuilder<Sn0wColor>()
+    public Value<IdkColor> fill = new ValueBuilder<IdkColor>()
             .withDescriptor("Fill")
-            .withValue(new Sn0wColor(255, 0, 0, 25))
+            .withValue(new IdkColor(255, 0, 0, 25))
             .withParentEnabled(true)
             .withParent(render)
             .register(this);
-    public Value<Sn0wColor> line = new ValueBuilder<Sn0wColor>()
+    public Value<IdkColor> line = new ValueBuilder<IdkColor>()
             .withDescriptor("Line")
-            .withValue(new Sn0wColor(255, 0, 0, 255))
+            .withValue(new IdkColor(255, 0, 0, 255))
             .withParentEnabled(true)
             .withParent(render)
             .register(this);

@@ -13,7 +13,7 @@ import sh.idktheflag.idkhack.api.utils.NullUtils;
 import sh.idktheflag.idkhack.api.utils.Pair;
 import sh.idktheflag.idkhack.api.utils.Timer;
 import sh.idktheflag.idkhack.api.utils.color.ColorUtil;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.utils.math.MathUtil;
 import sh.idktheflag.idkhack.api.utils.players.InventoryUtils;
 import sh.idktheflag.idkhack.api.utils.players.PlayerUtils;
@@ -172,21 +172,21 @@ public class AutoBreak extends Module
     /**
      * Renders
      */
-    Value<Sn0wColor> fillColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> fillColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Fill Color")
-            .withValue(new Sn0wColor(255, 0, 0, 81))
+            .withValue(new IdkColor(255, 0, 0, 81))
             .register(this);
-    Value<Sn0wColor> lineColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> lineColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Outline Color")
-            .withValue(new Sn0wColor(255, 0, 0, 255))
+            .withValue(new IdkColor(255, 0, 0, 255))
             .register(this);
-    Value<Sn0wColor> fillColor2 = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> fillColor2 = new ValueBuilder<IdkColor>()
             .withDescriptor("Fill Color 2")
-            .withValue(new Sn0wColor(0, 255, 0, 81))
+            .withValue(new IdkColor(0, 255, 0, 81))
             .register(this);
-    Value<Sn0wColor> lineColor2 = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> lineColor2 = new ValueBuilder<IdkColor>()
             .withDescriptor("Outline Color 2")
-            .withValue(new Sn0wColor(0, 255, 0, 255))
+            .withValue(new IdkColor(0, 255, 0, 255))
             .register(this);
     private long lastBreak;
 

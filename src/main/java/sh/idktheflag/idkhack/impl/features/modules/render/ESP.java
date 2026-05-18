@@ -17,7 +17,7 @@ import sh.idktheflag.idkhack.api.management.breaks.data.BreakData;
 import sh.idktheflag.idkhack.api.utils.NullUtils;
 import sh.idktheflag.idkhack.api.utils.Pair;
 import sh.idktheflag.idkhack.api.utils.color.ColorUtil;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.utils.math.MathUtil;
 import sh.idktheflag.idkhack.api.utils.render.Interpolator;
 import sh.idktheflag.idkhack.api.utils.render.RenderUtil;
@@ -107,27 +107,27 @@ public class ESP extends Module
             .withPageParent(page)
             .withPage("Break")
             .register(this);
-    Value<Sn0wColor> breakFill = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> breakFill = new ValueBuilder<IdkColor>()
             .withDescriptor("Fill", "breakFillStart")
-            .withValue(new Sn0wColor(255, 0, 0, 81))
+            .withValue(new IdkColor(255, 0, 0, 81))
             .withPageParent(page)
             .withPage("Break")
             .register(this);
-    Value<Sn0wColor> breakLine = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> breakLine = new ValueBuilder<IdkColor>()
             .withDescriptor("Line", "breakLineStart")
-            .withValue(new Sn0wColor(255, 0, 0, 255))
+            .withValue(new IdkColor(255, 0, 0, 255))
             .withPageParent(page)
             .withPage("Break")
             .register(this);
-    Value<Sn0wColor> breakFill2 = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> breakFill2 = new ValueBuilder<IdkColor>()
             .withDescriptor("Ready Fill", "breakFillReady")
-            .withValue(new Sn0wColor(0, 255, 0, 81))
+            .withValue(new IdkColor(0, 255, 0, 81))
             .withPageParent(page)
             .withPage("Break")
             .register(this);
-    Value<Sn0wColor> breakLine2 = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> breakLine2 = new ValueBuilder<IdkColor>()
             .withDescriptor("Ready Line", "breakLineFinished")
-            .withValue(new Sn0wColor(0, 255, 0, 255))
+            .withValue(new IdkColor(0, 255, 0, 255))
             .withPageParent(page)
             .withPage("Break")
             .register(this);
@@ -144,15 +144,15 @@ public class ESP extends Module
             .withPageParent(page)
             .withPage("Items")
             .register(this);
-    Value<Sn0wColor> itemFill = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> itemFill = new ValueBuilder<IdkColor>()
             .withDescriptor("Fill", "itemFill")
-            .withValue(new Sn0wColor(0, 0, 255, 25))
+            .withValue(new IdkColor(0, 0, 255, 25))
             .withPageParent(page)
             .withPage("Items")
             .register(this);
-    Value<Sn0wColor> itemLine = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> itemLine = new ValueBuilder<IdkColor>()
             .withDescriptor("Line", "itemLine")
-            .withValue(new Sn0wColor(0, 0, 255, 255))
+            .withValue(new IdkColor(0, 0, 255, 255))
             .withPageParent(page)
             .withPage("Items")
             .register(this);
@@ -169,15 +169,15 @@ public class ESP extends Module
             .withPageParent(page)
             .withPage("Chorus")
             .register(this);
-    Value<Sn0wColor> chorusFill = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> chorusFill = new ValueBuilder<IdkColor>()
             .withDescriptor("Fill", "chorusFill")
-            .withValue(new Sn0wColor(255, 0, 255, 25))
+            .withValue(new IdkColor(255, 0, 255, 25))
             .withPageParent(page)
             .withPage("Chorus")
             .register(this);
-    Value<Sn0wColor> chorusLine = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> chorusLine = new ValueBuilder<IdkColor>()
             .withDescriptor("Line", "chorusLine")
-            .withValue(new Sn0wColor(255, 0, 255, 255))
+            .withValue(new IdkColor(255, 0, 255, 255))
             .withPageParent(page)
             .withPage("Chorus")
             .register(this);
@@ -201,15 +201,15 @@ public class ESP extends Module
             .withPageParent(page)
             .withPage("Crawl")
             .register(this);
-    Value<Sn0wColor> crawlFill = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> crawlFill = new ValueBuilder<IdkColor>()
             .withDescriptor("Fill", "crawlFill")
-            .withValue(new Sn0wColor(0, 0, 255, 25))
+            .withValue(new IdkColor(0, 0, 255, 25))
             .withPageParent(page)
             .withPage("Crawl")
             .register(this);
-    Value<Sn0wColor> crawlLine = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> crawlLine = new ValueBuilder<IdkColor>()
             .withDescriptor("Line", "crawlLine")
-            .withValue(new Sn0wColor(0, 0, 255, 255))
+            .withValue(new IdkColor(0, 0, 255, 255))
             .withPageParent(page)
             .withPage("Crawl")
             .register(this);
@@ -227,15 +227,15 @@ public class ESP extends Module
             .withPageParent(page)
             .withPage("Burrows")
             .register(this);
-    Value<Sn0wColor> burrowFill = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> burrowFill = new ValueBuilder<IdkColor>()
             .withDescriptor("Fill", "burrowFill")
-            .withValue(new Sn0wColor(255, 62, 62, 25))
+            .withValue(new IdkColor(255, 62, 62, 25))
             .withPageParent(page)
             .withPage("Burrows")
             .register(this);
-    Value<Sn0wColor> burrowLine = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> burrowLine = new ValueBuilder<IdkColor>()
             .withDescriptor("Line", "burrowLine")
-            .withValue(new Sn0wColor(255, 62, 62, 255))
+            .withValue(new IdkColor(255, 62, 62, 255))
             .withPageParent(page)
             .withPage("Burrows")
             .register(this);

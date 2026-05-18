@@ -1,24 +1,24 @@
 package sh.idktheflag.idkhack.impl.features.modules.render;
 
 import sh.idktheflag.idkhack.api.feature.module.Module;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.value.Value;
 import sh.idktheflag.idkhack.api.value.builder.ValueBuilder;
 
 public class Particles extends Module {
 
 
-    public Value<Sn0wColor> colorOne = new ValueBuilder<Sn0wColor>()
+    public Value<IdkColor> colorOne = new ValueBuilder<IdkColor>()
             .withDescriptor("Color")
-            .withValue(new Sn0wColor(255, 255, 255))
+            .withValue(new IdkColor(255, 255, 255))
             .register(this);
     public Value<Boolean> doubleColor = new ValueBuilder<Boolean>()
             .withDescriptor("Two Color")
             .withValue(false)
             .register(this);
-    public Value<Sn0wColor> colorTwo = new ValueBuilder<Sn0wColor>()
+    public Value<IdkColor> colorTwo = new ValueBuilder<IdkColor>()
             .withDescriptor("Second Color")
-            .withValue(new Sn0wColor(0, 255, 72))
+            .withValue(new IdkColor(0, 255, 72))
             .withParent(doubleColor)
             .withParentEnabled(true)
             .register(this);

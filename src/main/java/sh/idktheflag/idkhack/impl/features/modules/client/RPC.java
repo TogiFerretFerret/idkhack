@@ -15,7 +15,7 @@ public class RPC extends Module {
     public Value<String> image = new ValueBuilder<String>()
             .withDescriptor("Images")
             .withValue("Animals")
-            .withModes("Animals", "Sn0wIcon", "Grails")
+            .withModes("Animals", "idkhackIcon", "Grails")
             .register(this);
     public RPC() {
         super("RPC", Category.Client);
@@ -34,6 +34,6 @@ public class RPC extends Module {
 
     @Override
     public String getDescription() {
-        return "RPC: Rep Sn0w on discord";
+        return "RPC: Rep idkhack on discord";
     }
 }

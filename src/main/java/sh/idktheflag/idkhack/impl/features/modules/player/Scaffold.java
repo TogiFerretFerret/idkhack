@@ -12,7 +12,7 @@ import sh.idktheflag.idkhack.api.management.PriorityManager;
 import sh.idktheflag.idkhack.api.utils.NullUtils;
 import sh.idktheflag.idkhack.api.utils.Pair;
 import sh.idktheflag.idkhack.api.utils.Timer;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.utils.players.InventoryUtils;
 import sh.idktheflag.idkhack.api.utils.players.PlayerUtils;
 import sh.idktheflag.idkhack.api.utils.players.rotation.RotationUtils;
@@ -128,13 +128,13 @@ public class Scaffold extends Module
             .withRange(0.5f, 15)
             .withPlaces(1)
             .register(this);
-    Value<Sn0wColor> leftColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> leftColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Left Color")
-            .withValue(new Sn0wColor(255, 0, 255, 255))
+            .withValue(new IdkColor(255, 0, 255, 255))
             .register(this);
-    Value<Sn0wColor> rightColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> rightColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Right Color")
-            .withValue(new Sn0wColor(0, 255, 0))
+            .withValue(new IdkColor(0, 255, 0))
             .register(this);
     Value<Boolean> renderRays = new ValueBuilder<Boolean>()
             .withDescriptor("Visualize")
@@ -144,15 +144,15 @@ public class Scaffold extends Module
             .withDescriptor("Render")
             .withValue(true)
             .register(this);
-    public Value<Sn0wColor> fill = new ValueBuilder<Sn0wColor>()
+    public Value<IdkColor> fill = new ValueBuilder<IdkColor>()
             .withDescriptor("Fill")
-            .withValue(new Sn0wColor(255, 0, 0, 25))
+            .withValue(new IdkColor(255, 0, 0, 25))
             .withParentEnabled(true)
             .withParent(render)
             .register(this);
-    public Value<Sn0wColor> line = new ValueBuilder<Sn0wColor>()
+    public Value<IdkColor> line = new ValueBuilder<IdkColor>()
             .withDescriptor("Line")
-            .withValue(new Sn0wColor(255, 0, 0, 255))
+            .withValue(new IdkColor(255, 0, 0, 255))
             .withParentEnabled(true)
             .withParent(render)
             .register(this);

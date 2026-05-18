@@ -6,7 +6,7 @@ import sh.idktheflag.idkhack.api.event.events.render.RenderWorldEvent;
 import sh.idktheflag.idkhack.api.feature.module.Module;
 import sh.idktheflag.idkhack.api.management.PacketManager;
 import sh.idktheflag.idkhack.api.utils.NullUtils;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.utils.render.RenderUtil;
 import sh.idktheflag.idkhack.api.utils.render.world.RenderType;
 import sh.idktheflag.idkhack.api.utils.world.BlockUtils;
@@ -35,13 +35,13 @@ public class ExtraPlace extends Module {
             .withDescriptor("Grim")
             .withValue(true)
             .register(this);
-    Value<Sn0wColor> fill = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> fill = new ValueBuilder<IdkColor>()
             .withDescriptor("Fill")
-            .withValue(new Sn0wColor(255, 62, 62, 25))
+            .withValue(new IdkColor(255, 62, 62, 25))
             .register(this);
-    Value<Sn0wColor> line = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> line = new ValueBuilder<IdkColor>()
             .withDescriptor("Line")
-            .withValue(new Sn0wColor(255, 62, 62, 255))
+            .withValue(new IdkColor(255, 62, 62, 255))
             .register(this);
 
     public ExtraPlace()

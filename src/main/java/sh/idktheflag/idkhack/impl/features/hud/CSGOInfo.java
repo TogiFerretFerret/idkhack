@@ -9,7 +9,7 @@ import sh.idktheflag.idkhack.api.utils.math.MathUtil;
 import sh.idktheflag.idkhack.api.utils.NullUtils;
 import sh.idktheflag.idkhack.api.utils.color.ColorUtil;
 import sh.idktheflag.idkhack.api.utils.color.RainbowUtil;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.utils.players.InventoryUtils;
 import sh.idktheflag.idkhack.api.utils.targeting.TargetUtils;
 import sh.idktheflag.idkhack.api.utils.world.HoleUtils;
@@ -33,17 +33,17 @@ public class CSGOInfo extends HudComponent {
         super("PvpInfo");
     }
 
-    public Value<Sn0wColor> popColorA = new ValueBuilder<Sn0wColor>()
+    public Value<IdkColor> popColorA = new ValueBuilder<IdkColor>()
             .withDescriptor("Color A")
-            .withValue(new Sn0wColor(0, 255, 255, 255))
+            .withValue(new IdkColor(0, 255, 255, 255))
             .register(this);
-    public Value<Sn0wColor> popColorB = new ValueBuilder<Sn0wColor>()
+    public Value<IdkColor> popColorB = new ValueBuilder<IdkColor>()
             .withDescriptor("Color B")
-            .withValue(new Sn0wColor(0, 0, 255, 255))
+            .withValue(new IdkColor(0, 0, 255, 255))
             .register(this);
-    public Value<Sn0wColor> popColorC = new ValueBuilder<Sn0wColor>()
+    public Value<IdkColor> popColorC = new ValueBuilder<IdkColor>()
             .withDescriptor("Color C")
-            .withValue(new Sn0wColor(87, 8, 97))
+            .withValue(new IdkColor(87, 8, 97))
             .register(this);
 
     @SubscribeEvent

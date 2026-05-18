@@ -11,7 +11,7 @@ import java.io.IOException;
 public class FolderCommand extends Command {
     public FolderCommand()
     {
-        super("Folder", "opens Sn0w folder", new String[]{"folder"});
+        super("Folder", "opens idkhack folder", new String[]{"folder"});
     }
 
     @Override

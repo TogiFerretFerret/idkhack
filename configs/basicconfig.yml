@@ -979,7 +979,7 @@ Manager:
     bind: -1
     chatNotify: true
     hidden: false
-    clientName: SN0WUNICODE
+    clientName: IDKHACK
     mainChat: Custom
     name: Manager
     bold: true
@@ -2392,7 +2392,7 @@ Info:
     alignment: BottomRight
     items: false
     coloredTPS: true
-Sn0wGui:
+IdkGui:
     frameOutline:
         red: 246
         green: 162
@@ -2440,7 +2440,7 @@ Sn0wGui:
         blue: 0
         alpha: 52
         sync: false
-    name: Sn0wGui
+    name: IdkGui
     width: 103.83838383838383
     gradientBottom:
         red: 94

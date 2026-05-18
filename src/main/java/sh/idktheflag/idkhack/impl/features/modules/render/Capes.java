@@ -19,6 +19,6 @@ public class Capes extends Module {
     }
     @Override
     public String getDescription() {
-        return "Capes: Gives you cool capes that other sn0w users can see";
+        return "Capes: Gives you cool capes that other idkhack users can see";
     }
 }

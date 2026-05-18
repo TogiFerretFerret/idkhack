@@ -5,7 +5,7 @@ import sh.idktheflag.idkhack.api.event.events.render.RenderGameOverlayEvent;
 import sh.idktheflag.idkhack.api.gui.font.Fonts;
 import sh.idktheflag.idkhack.api.utils.math.MathUtil;
 import sh.idktheflag.idkhack.api.utils.color.ColorUtil;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.utils.render.ScaledResolution;
 import sh.idktheflag.idkhack.api.value.Value;
 import sh.idktheflag.idkhack.api.value.builder.ValueBuilder;
@@ -46,21 +46,21 @@ public class ArmorHud extends HudComponent
             .withDescriptor("Tri Color")
             .withValue(false)
             .register(this);
-    public Value<Sn0wColor> armorColorA = new ValueBuilder<Sn0wColor>()
+    public Value<IdkColor> armorColorA = new ValueBuilder<IdkColor>()
             .withDescriptor("High Color")
-            .withValue(new Sn0wColor(0, 255, 255, 255))
+            .withValue(new IdkColor(0, 255, 255, 255))
             .withParent(triColor)
             .withParentEnabled(true)
             .register(this);
-    public Value<Sn0wColor> armorColorB = new ValueBuilder<Sn0wColor>()
+    public Value<IdkColor> armorColorB = new ValueBuilder<IdkColor>()
             .withDescriptor("Middle Color")
-            .withValue(new Sn0wColor(0, 0, 255, 255))
+            .withValue(new IdkColor(0, 0, 255, 255))
             .withParent(triColor)
             .withParentEnabled(true)
             .register(this);
-    public Value<Sn0wColor> armorColorC = new ValueBuilder<Sn0wColor>()
+    public Value<IdkColor> armorColorC = new ValueBuilder<IdkColor>()
             .withDescriptor("Low Color")
-            .withValue(new Sn0wColor(87, 8, 97))
+            .withValue(new IdkColor(87, 8, 97))
             .withParent(triColor)
             .withParentEnabled(true)
             .register(this);

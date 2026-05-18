@@ -85,7 +85,7 @@ public class TextRadar extends HudComponent
         } else
         {
             List<String> fakePlayers = new ArrayList<>();
-            fakePlayers.add("SN0WFULLGUY");
+            fakePlayers.add("IDKFULLGUY");
             fakePlayers.add("catgirl");
             fakePlayers.add("Bait");
             renderFake(fakePlayers, event.getContext());
@@ -163,15 +163,15 @@ public class TextRadar extends HudComponent
 
         for (String name : players)
         {
-            String text = (Objects.equals(name, "SN0WFULLGUY") || Objects.equals(name, "catgirl") ? Formatting.BLUE : Formatting.GREEN) + "20 ";
-            if (name.contains("SN0WFULLGUY"))
+            String text = (Objects.equals(name, "IDKFULLGUY") || Objects.equals(name, "catgirl") ? Formatting.BLUE : Formatting.GREEN) + "20 ";
+            if (name.contains("IDKFULLGUY"))
             {
                 text += Formatting.AQUA + name + Formatting.BLUE + " " + ((int) MathUtil.round(20, 0));
             } else
             {
                 text += Formatting.RESET + name + " " + Formatting.DARK_GREEN + ((int) MathUtil.round(20, 0));
             }
-            if (name.contains("SN0WFULLGUY"))
+            if (name.contains("IDKFULLGUY"))
             {
                 text = Formatting.AQUA + (FontModule.INSTANCE.isEnabled() ? "*" : IdkHackMod.NAME_UNICODE) + " " + Formatting.RESET + text;
             }

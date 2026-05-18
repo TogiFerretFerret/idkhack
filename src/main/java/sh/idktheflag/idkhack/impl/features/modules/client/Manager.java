@@ -24,7 +24,7 @@ public class Manager extends Module {
     public static Manager INSTANCE;
     public Value<String> clientName = new ValueBuilder<String>()
             .withDescriptor("Client Name")
-            .withValue("SN0WUNICODE")
+            .withValue("IDKHACK")
             .register(this);
     public Value<Boolean> indicator = new ValueBuilder<Boolean>()
             .withDescriptor("Indicator")
@@ -36,8 +36,8 @@ public class Manager extends Module {
             .register(this);
     public Value<String> chatNotifyMode = new ValueBuilder<String>()
             .withDescriptor("Toggle Style")
-            .withValue("Sn0w")
-            .withModes("Sn0w", "Sn0w2", "Sn0w3", "DotGod", "NoPrefix", "ForgeHax", "ForgeHaxReal", "Aurora")
+            .withValue("idkhack")
+            .withModes("idkhack", "idkhack2", "idkhack3", "DotGod", "NoPrefix", "ForgeHax", "ForgeHaxReal", "Aurora")
             .register(this);
 
 
@@ -73,7 +73,7 @@ public class Manager extends Module {
     {
         if (NullUtils.nullCheck()) return;
 
-        if (clientName.getValue().equals("SN0WUNICODE")) {
+        if (clientName.getValue().equals("IDKHACK")) {
             IdkHackMod.NAME = IdkHackMod.NAME_UNICODE;
         } else {
             IdkHackMod.NAME = clientName.getValue();

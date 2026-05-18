@@ -16,7 +16,7 @@ public class ChatSuffix extends Module {
 
     Value<String> mode = new ValueBuilder<String>()
             .withDescriptor("Mode")
-            .withValue("SN0WUNICODE")
+            .withValue("IDKHACK")
             .register(this);
 
     public ChatSuffix()
@@ -45,7 +45,7 @@ public class ChatSuffix extends Module {
     public String getText(String message)
     {
 
-        if (mode.getValue().equals("SN0WUNICODE"))
+        if (mode.getValue().equals("IDKHACK"))
         {
             return message + " " + IdkHackMod.NAME_UNICODE;
         } else

@@ -276,7 +276,7 @@ public class DiscordPresence implements IMinecraft {
                     case 6 -> "moneycat3";
                     default -> "samoyed1";
                 };
-            case "Sn0wIcon":
+            case "idkhackIcon":
                 return "cop26logo_cropped_1_";
             case "Grails":
                 return switch (MathUtil.randomInt(1, 6)) {

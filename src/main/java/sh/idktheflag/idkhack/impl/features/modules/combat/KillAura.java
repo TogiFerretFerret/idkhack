@@ -10,7 +10,7 @@ import sh.idktheflag.idkhack.api.management.TPSManager;
 import sh.idktheflag.idkhack.api.utils.NullUtils;
 import sh.idktheflag.idkhack.api.utils.Timer;
 import sh.idktheflag.idkhack.api.utils.chat.ChatUtils;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.utils.players.InventoryUtils;
 import sh.idktheflag.idkhack.api.utils.players.PlayerUtils;
 import sh.idktheflag.idkhack.api.utils.players.rotation.RotationUtils;
@@ -138,15 +138,15 @@ public class KillAura extends Module
             .withDescriptor("ESP")
             .withValue(false)
             .register(this);
-    Value<Sn0wColor> fill = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> fill = new ValueBuilder<IdkColor>()
             .withDescriptor("Fill")
-            .withValue(new Sn0wColor(255, 62, 62, 25))
+            .withValue(new IdkColor(255, 62, 62, 25))
             .withParent(esp)
             .withParentEnabled(true)
             .register(this);
-    Value<Sn0wColor> line = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> line = new ValueBuilder<IdkColor>()
             .withDescriptor("Line")
-            .withValue(new Sn0wColor(255, 62, 62, 255))
+            .withValue(new IdkColor(255, 62, 62, 255))
             .withParent(esp)
             .withParentEnabled(true)
             .register(this);

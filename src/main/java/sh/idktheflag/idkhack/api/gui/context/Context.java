@@ -8,7 +8,7 @@ import sh.idktheflag.idkhack.api.gui.render.IRenderer;
 import sh.idktheflag.idkhack.api.gui.theme.IColorScheme;
 import sh.idktheflag.idkhack.api.gui.theme.IMetrics;
 import sh.idktheflag.idkhack.api.utils.render.ScaledResolution;
-import sh.idktheflag.idkhack.impl.features.modules.client.gui.Sn0wGui;
+import sh.idktheflag.idkhack.impl.features.modules.client.gui.IdkGui;
 import sh.idktheflag.idkhack.impl.gui.renderer.Renderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;

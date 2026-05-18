@@ -88,7 +88,7 @@ public class CommandUtils implements IMinecraft {
 
     public static String getClosestMatchingSpammerFile(String text)
     {
-        File spammerFolder = new File(MinecraftClient.getInstance().runDirectory.getAbsolutePath(), File.separator + "Sn0w" + File.separator + "spammer" + File.separator);
+        File spammerFolder = new File(MinecraftClient.getInstance().runDirectory.getAbsolutePath(), File.separator + "idkhack" + File.separator + "spammer" + File.separator);
         if (!spammerFolder.exists()) return "";
 
 
@@ -119,7 +119,7 @@ public class CommandUtils implements IMinecraft {
 
     public static String getClosestMatchingConfigFile(String text)
     {
-        File configFolder = new File(mc.runDirectory.getAbsolutePath(), File.separator + "Sn0w" + File.separator + "configs" + File.separator);
+        File configFolder = new File(mc.runDirectory.getAbsolutePath(), File.separator + "idkhack" + File.separator + "configs" + File.separator);
         if (!configFolder.exists()) return "";
 
 
@@ -149,7 +149,7 @@ public class CommandUtils implements IMinecraft {
 
     public static String getClosestMatchingCham(String text)
     {
-        File chams = new File(mc.runDirectory.getAbsolutePath(), File.separator + "Sn0w" + File.separator + "chams" + File.separator);
+        File chams = new File(mc.runDirectory.getAbsolutePath(), File.separator + "idkhack" + File.separator + "chams" + File.separator);
         if (!chams.exists()) return "";
 
 

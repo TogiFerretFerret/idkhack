@@ -25,8 +25,8 @@ public class AutoEZ extends Module {
     public final ConcurrentHashMap<AttackedPlayer, Long> attackedPlayers;
     public Value<String> Mode = new ValueBuilder<String>()
             .withDescriptor("Mode", "autoEzmMODE")
-            .withValue("Sn0w")
-            .withModes("Sn0w", "Guinness Platinum", "Future Beta", "1111DotFun", "HyperLethal")
+            .withValue("idkhack")
+            .withModes("idkhack", "Guinness Platinum", "Future Beta", "1111DotFun", "HyperLethal")
             .register(this);
     public static AutoEZ INSTANCE;
 

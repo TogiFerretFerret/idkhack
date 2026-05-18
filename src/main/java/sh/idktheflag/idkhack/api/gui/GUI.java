@@ -31,7 +31,7 @@ public class GUI extends Screen implements IMinecraft {
 
     public GUI(Context context)
     {
-        super(Text.of("Sn0w"));
+        super(Text.of("idkhack"));
         this.context = context;
         addComponents();
         searchBar = new SearchBar(new Rect(1, 1, 100, 12));
@@ -70,7 +70,7 @@ public class GUI extends Screen implements IMinecraft {
 
         //Watermark
 
-        Fonts.renderText(drawContext, "Sn0w " + IdkHackMod.VERSION + " by Skitttyy + (" + IdkHackMod.HASH + ")", 3, context.getScaledResolution().getScaledHeight() - 12, ColorUtil.newAlpha(Color.WHITE, 100), true);
+        Fonts.renderText(drawContext, "idkhack " + IdkHackMod.VERSION + " by Skitttyy + (" + IdkHackMod.HASH + ")", 3, context.getScaledResolution().getScaledHeight() - 12, ColorUtil.newAlpha(Color.WHITE, 100), true);
 
 
         for (IComponent component : context.getComponents())
@@ -78,11 +78,9 @@ public class GUI extends Screen implements IMinecraft {
             if (component.isActive()) component.draw(context, mouse);
 
 
-            // drawContext.draw(); // TODO: port to 1.21.11 - draw() removed
         }
         getContext().getRenderer().renderLast(getContext());
 
-        // drawContext.draw(); // TODO: port to 1.21.11 - draw() removed
         //render the searchbar
         searchBar.onRender(context, mouse);
     }

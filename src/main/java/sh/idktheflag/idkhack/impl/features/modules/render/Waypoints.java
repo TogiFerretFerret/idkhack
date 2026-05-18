@@ -5,7 +5,7 @@ import sh.idktheflag.idkhack.api.event.events.render.RenderWorldEvent;
 import sh.idktheflag.idkhack.api.feature.module.Module;
 import sh.idktheflag.idkhack.api.management.WaypointManager;
 import sh.idktheflag.idkhack.api.utils.NullUtils;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.utils.render.RenderUtil;
 import sh.idktheflag.idkhack.api.utils.render.world.RenderType;
 import sh.idktheflag.idkhack.api.value.Value;
@@ -22,9 +22,9 @@ public class Waypoints extends Module {
         INSTANCE = this;
     }
 
-    Value<Sn0wColor> color = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> color = new ValueBuilder<IdkColor>()
             .withDescriptor("Color")
-            .withValue(new Sn0wColor(255, 255, 255, 100))
+            .withValue(new IdkColor(255, 255, 255, 100))
             .register(this);
 
     @SubscribeEvent

@@ -61,7 +61,7 @@ public class SpammerCommand extends Command {
 
     private static void openDirectory()
     {
-        File spammerFile = new File(MinecraftClient.getInstance().runDirectory.getAbsolutePath(), File.separator + "Sn0w" + File.separator + "spammer" + File.separator);
+        File spammerFile = new File(MinecraftClient.getInstance().runDirectory.getAbsolutePath(), File.separator + "idkhack" + File.separator + "spammer" + File.separator);
 
         if (!spammerFile.exists()) spammerFile.mkdir();
 
@@ -70,7 +70,7 @@ public class SpammerCommand extends Command {
 
     private void handleSetFile(String[] args)
     {
-        File spammerFile = new File(MinecraftClient.getInstance().runDirectory.getAbsolutePath(), File.separator + "Sn0w" + File.separator + "spammer" + File.separator + args[2]);
+        File spammerFile = new File(MinecraftClient.getInstance().runDirectory.getAbsolutePath(), File.separator + "idkhack" + File.separator + "spammer" + File.separator + args[2]);
         if (!spammerFile.exists())
         {
             ChatUtils.sendMessage(Formatting.AQUA + "[Spammer]" + Formatting.BLUE + " File does not exist!");

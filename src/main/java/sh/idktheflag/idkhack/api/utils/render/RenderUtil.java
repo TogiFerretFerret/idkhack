@@ -8,7 +8,7 @@ import sh.idktheflag.idkhack.api.utils.color.TextSection;
 import sh.idktheflag.idkhack.api.utils.math.MathUtil;
 import sh.idktheflag.idkhack.api.utils.render.world.RenderType;
 import sh.idktheflag.idkhack.api.utils.render.world.buffers.RenderBuffers;
-import sh.idktheflag.idkhack.api.utils.render.world.layer.Sn0wLayers;
+import sh.idktheflag.idkhack.api.utils.render.world.layer.idkhackLayers;
 import sh.idktheflag.idkhack.impl.features.modules.client.FontModule;
 import sh.idktheflag.idkhack.impl.features.modules.client.Optimizer;
 import sh.idktheflag.idkhack.mixin.accessor.IWorldRenderer;
@@ -58,7 +58,7 @@ public class RenderUtil {
     {
         if (glint)
         {
-            return VertexConsumers.union(vertexConsumers.getBuffer(Sn0wLayers.ENCHANT), vertexConsumers.getBuffer(layer));
+            return VertexConsumers.union(vertexConsumers.getBuffer(idkhackLayers.ENCHANT), vertexConsumers.getBuffer(layer));
         }
         return vertexConsumers.getBuffer(layer);
     }
@@ -449,13 +449,8 @@ public class RenderUtil {
 
     public static void renderLine(Vec3d offset, double x1, double y1, double z1, double x2, double y2, double z2, Color top, Color bottom, float width)
     {
-        // TODO: port to 1.21.11 - RenderSystem.lineWidth() removed
-        MatrixStack matrices = matrixFrom(x1, y1, z1);
-        matrices.push();
-
-        drawLine(matrices, offset.x, offset.y, offset.z, (float) (x2 - x1), (float) (y2 - y1), (float) (z2 - z1), top, bottom);
-        matrices.pop();
-        // TODO: port to 1.21.11 - RenderSystem.lineWidth() removed
+        drawWorldLine(new Vec3d(x1, y1, z1).add(offset), new Vec3d(x2, y2, z2), top, bottom);
+    }
 
     }
 

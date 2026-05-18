@@ -8,7 +8,7 @@ import sh.idktheflag.idkhack.api.feature.hud.HudComponent;
 import sh.idktheflag.idkhack.api.gui.GUI;
 import sh.idktheflag.idkhack.api.gui.font.Fonts;
 import sh.idktheflag.idkhack.api.utils.NullUtils;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.utils.players.PlayerUtils;
 import sh.idktheflag.idkhack.api.utils.render.RenderUtil;
 import sh.idktheflag.idkhack.api.value.Value;
@@ -46,15 +46,15 @@ public class HealthBar extends HudComponent
             .withPageParent(mode)
             .withPage("Bar")
             .register(this);
-    Value<Sn0wColor> leftColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> leftColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Left Color")
-            .withValue(new Sn0wColor(255, 0, 255, 255))
+            .withValue(new IdkColor(255, 0, 255, 255))
             .withPageParent(mode)
             .withPage("Bar")
             .register(this);
-    Value<Sn0wColor> rightColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> rightColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Right Color")
-            .withValue(new Sn0wColor(0, 255, 0))
+            .withValue(new IdkColor(0, 255, 0))
             .withPageParent(mode)
             .withPage("Bar")
             .register(this);
@@ -148,17 +148,17 @@ public class HealthBar extends HudComponent
 
 
                     Fonts.doOneText(event.getContext(), text, x - (totalWidth / 2), y, healthColor, FontModule.INSTANCE.textShadow.getValue());
-                    // RenderSystem.enableBlend(); // TODO: port to 1.21.11
+                    RenderSystem.enableBlend(); // TODO: port to 1.21.11
                     event.getContext().drawGuiTexture(RenderPipelines.GUI_TEXTURED, InGameHud.HeartType.NORMAL.getTexture(false, false, false), (int) (x - (totalWidth / 2) + offset), (int) (y), 7, 7);
-                    // RenderSystem.disableBlend(); // TODO: port to 1.21.11
+                    RenderSystem.disableBlend(); // TODO: port to 1.21.11
                     offset += 7;
                     if (absorption)
                     {
                         Fonts.doOneText(event.getContext(), absorptionText, x - (totalWidth / 2) + offset, y, healthColor, FontModule.INSTANCE.textShadow.getValue());
                         offset += Fonts.getTextWidth(absorptionText);
-                        // RenderSystem.enableBlend(); // TODO: port to 1.21.11
+                        RenderSystem.enableBlend(); // TODO: port to 1.21.11
                         event.getContext().drawGuiTexture(RenderPipelines.GUI_TEXTURED, InGameHud.HeartType.ABSORBING.getTexture(false, false, false), (int) (x - (totalWidth / 2) + offset), (int) (y), 7, 7);
-                        // RenderSystem.disableBlend(); // TODO: port to 1.21.11
+                        RenderSystem.disableBlend(); // TODO: port to 1.21.11
                     }
                 }
 
@@ -196,17 +196,17 @@ public class HealthBar extends HudComponent
 
 
                     Fonts.doOneText(event.getContext(), text, x - (totalWidth / 2), y, healthColor, FontModule.INSTANCE.textShadow.getValue());
-                    // RenderSystem.enableBlend(); // TODO: port to 1.21.11
+                    RenderSystem.enableBlend(); // TODO: port to 1.21.11
                     event.getContext().drawGuiTexture(RenderPipelines.GUI_TEXTURED, InGameHud.HeartType.NORMAL.getTexture(false, false, false), (int) (x - (totalWidth / 2) + offset), (int) (y), 7, 7);
-                    // RenderSystem.disableBlend(); // TODO: port to 1.21.11
+                    RenderSystem.disableBlend(); // TODO: port to 1.21.11
                     offset += 7;
                     if (absorption)
                     {
                         Fonts.doOneText(event.getContext(), absorptionText, x - (totalWidth / 2) + offset, y, healthColor, FontModule.INSTANCE.textShadow.getValue());
                         offset += Fonts.getTextWidth(absorptionText);
-                        // RenderSystem.enableBlend(); // TODO: port to 1.21.11
+                        RenderSystem.enableBlend(); // TODO: port to 1.21.11
                         event.getContext().drawGuiTexture(RenderPipelines.GUI_TEXTURED, InGameHud.HeartType.ABSORBING.getTexture(false, false, false), (int) (x - (totalWidth / 2) + offset), (int) (y), 7, 7);
-                        // RenderSystem.disableBlend(); // TODO: port to 1.21.11
+                        RenderSystem.disableBlend(); // TODO: port to 1.21.11
                     }
                 }
                 break;
@@ -262,17 +262,17 @@ public class HealthBar extends HudComponent
 
 
                     Fonts.doOneText(event.getContext(), text, x - (totalWidth / 2), y + thickness + 4, healthColor, FontModule.INSTANCE.textShadow.getValue());
-                    // RenderSystem.enableBlend(); // TODO: port to 1.21.11
+                    RenderSystem.enableBlend(); // TODO: port to 1.21.11
                     event.getContext().drawGuiTexture(RenderPipelines.GUI_TEXTURED, InGameHud.HeartType.NORMAL.getTexture(false, false, false), (int) (x - (totalWidth / 2) + offset), (int) (y + thickness + 4), 7, 7);
-                    // RenderSystem.disableBlend(); // TODO: port to 1.21.11
+                    RenderSystem.disableBlend(); // TODO: port to 1.21.11
                     offset += 7;
                     if (absorption)
                     {
                         Fonts.doOneText(event.getContext(), absorptionText, x - (totalWidth / 2) + offset, y + thickness + 4, healthColor, FontModule.INSTANCE.textShadow.getValue());
                         offset += Fonts.getTextWidth(absorptionText);
-                        // RenderSystem.enableBlend(); // TODO: port to 1.21.11
+                        RenderSystem.enableBlend(); // TODO: port to 1.21.11
                         event.getContext().drawGuiTexture(RenderPipelines.GUI_TEXTURED, InGameHud.HeartType.ABSORBING.getTexture(false, false, false), (int) (x - (totalWidth / 2) + offset), (int) (y + thickness + 4), 7, 7);
-                        // RenderSystem.disableBlend(); // TODO: port to 1.21.11
+                        RenderSystem.disableBlend(); // TODO: port to 1.21.11
                     }
                 }
                 break;

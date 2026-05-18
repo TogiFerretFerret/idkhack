@@ -5,7 +5,7 @@ import sh.idktheflag.idkhack.api.event.events.render.RenderWorldEvent;
 import sh.idktheflag.idkhack.api.event.events.world.EntityEvent;
 import sh.idktheflag.idkhack.api.feature.module.Module;
 import sh.idktheflag.idkhack.api.utils.NullUtils;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.utils.render.RenderUtil;
 import sh.idktheflag.idkhack.api.utils.render.world.RenderType;
 import sh.idktheflag.idkhack.api.value.Value;
@@ -29,9 +29,9 @@ public class LogoutSpots extends Module {
 
     private final Map<UUID, LogoutPos> spots = new ConcurrentHashMap<>();
 
-    Value<Sn0wColor> color = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> color = new ValueBuilder<IdkColor>()
             .withDescriptor("Color")
-            .withValue(new Sn0wColor(255, 0, 0, 100))
+            .withValue(new IdkColor(255, 0, 0, 100))
             .register(this);
 
     @SubscribeEvent

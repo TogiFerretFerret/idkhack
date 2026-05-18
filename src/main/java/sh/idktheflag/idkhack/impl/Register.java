@@ -102,7 +102,7 @@ public class Register
         FeatureManager.INSTANCE.getFeatures().add(new Optimizer());
         FeatureManager.INSTANCE.getFeatures().add(new Safety());
 
-        FeatureManager.INSTANCE.getFeatures().add(new Sn0wGui());
+        FeatureManager.INSTANCE.getFeatures().add(new IdkGui());
         FeatureManager.INSTANCE.getFeatures().add(new AccountsModule());
 //        FeatureManager.INSTANCE.getFeatures().add(new KamiGui());
         FeatureManager.INSTANCE.getFeatures().add(new HudEditorModule());
@@ -318,7 +318,7 @@ public class Register
         HudEditorGUI.INSTANCE = new HudEditorGUI();
 
         //register the actual gui
-        Sn0wGui.INSTANCE.registerGUI();
+        IdkGui.INSTANCE.registerGUI();
 
         HudEditorModule.INSTANCE.registerGUI();
     }

@@ -4,7 +4,7 @@ import sh.idktheflag.idkhack.api.event.eventbus.SubscribeEvent;
 import sh.idktheflag.idkhack.api.event.events.render.RenderGameOverlayEvent;
 import sh.idktheflag.idkhack.api.feature.hud.HudComponent;
 import sh.idktheflag.idkhack.api.utils.NullUtils;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.utils.players.InventoryUtils;
 import sh.idktheflag.idkhack.api.utils.render.RenderUtil;
 import sh.idktheflag.idkhack.api.utils.render.ScaledResolution;
@@ -31,9 +31,9 @@ public class TotemCounter extends HudComponent {
                 yPos.setActive(!s.getValue());
             })
             .register(this);
-    public Value<Sn0wColor> textColor = new ValueBuilder<Sn0wColor>()
+    public Value<IdkColor> textColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Text Color")
-            .withValue(new Sn0wColor(255, 255, 255))
+            .withValue(new IdkColor(255, 255, 255))
             .register(this);
 
     @SubscribeEvent

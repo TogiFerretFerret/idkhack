@@ -6,7 +6,7 @@ import sh.idktheflag.idkhack.api.event.events.move.MoveEvent;
 import sh.idktheflag.idkhack.api.event.events.network.PacketEvent;
 import sh.idktheflag.idkhack.api.event.events.network.ServerEvent;
 import sh.idktheflag.idkhack.api.event.events.render.RenderWorldEvent;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.utils.players.PlayerUtils;
 import sh.idktheflag.idkhack.api.utils.render.RenderTimer;
 import sh.idktheflag.idkhack.api.utils.targeting.TargetUtils;
@@ -98,13 +98,13 @@ public class Holesnap extends Module {
             .withValue("Vanilla")
             .withModes("Vanilla", "NCP", "NONE")
             .register(this);
-    Value<Sn0wColor> leftColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> leftColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Left Color")
-            .withValue(new Sn0wColor(255, 0, 255, 255))
+            .withValue(new IdkColor(255, 0, 255, 255))
             .register(this);
-    Value<Sn0wColor> rightColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> rightColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Right Color")
-            .withValue(new Sn0wColor(0, 255, 0))
+            .withValue(new IdkColor(0, 255, 0))
             .register(this);
     float oldTickLength = 50;
     int boostTime = 0;

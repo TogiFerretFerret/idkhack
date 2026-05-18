@@ -2,10 +2,10 @@ package sh.idktheflag.idkhack.impl.gui.components.module;
 
 import sh.idktheflag.idkhack.api.gui.GUI;
 import sh.idktheflag.idkhack.api.utils.color.ColorUtil;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.utils.render.animation.Easing;
 import sh.idktheflag.idkhack.api.utils.render.animation.type.DynamicColorAnimation;
-import sh.idktheflag.idkhack.impl.features.modules.client.gui.Sn0wGui;
+import sh.idktheflag.idkhack.impl.features.modules.client.gui.IdkGui;
 import sh.idktheflag.idkhack.impl.gui.components.value.*;
 import sh.idktheflag.idkhack.api.feature.Feature;
 import sh.idktheflag.idkhack.api.feature.module.Module;
@@ -64,9 +64,9 @@ public class FeatureButton extends BooleanWidget {
                 {
                     flow.getComponents().add(new SliderComponent(((Value<Number>) value)));
                 }
-                if (value.getValue() instanceof Sn0wColor)
+                if (value.getValue() instanceof IdkColor)
                 {
-                    flow.getComponents().add(new ColorComponent(((Value<Sn0wColor>) value)));
+                    flow.getComponents().add(new ColorComponent(((Value<IdkColor>) value)));
                 }
             } else
             {

@@ -24,7 +24,7 @@ public class HudEditor extends Screen implements IMinecraft {
 
     public HudEditor(Context context)
     {
-        super(Text.of("Sn0w"));
+        super(Text.of("idkhack"));
         this.context = context;
         addComponents();
     }
@@ -69,7 +69,6 @@ public class HudEditor extends Screen implements IMinecraft {
         {
             if (component.isActive()) component.draw(context, mouse);
 
-            // context.getDrawContext().draw(); // TODO: port to 1.21.11 - draw() removed
         }
         getContext().getRenderer().renderLast(getContext());
 

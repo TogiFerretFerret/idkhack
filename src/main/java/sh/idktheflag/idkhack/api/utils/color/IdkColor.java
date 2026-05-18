@@ -6,41 +6,41 @@ import sh.idktheflag.idkhack.impl.features.modules.client.HudColors;
 import java.awt.*;
 
 @Setter
-public class Sn0wColor {
+public class IdkColor {
     Color color;
     boolean sync;
     boolean unsyncable;
-    public Sn0wColor(Color color, boolean sync)
+    public IdkColor(Color color, boolean sync)
     {
         this.sync = sync;
         this.color = color;
     }
 
-    public Sn0wColor(Color color)
+    public IdkColor(Color color)
     {
         this.sync = false;
         this.color = color;
     }
 
-    public Sn0wColor(int r, int g, int b)
+    public IdkColor(int r, int g, int b)
     {
         this.color = new Color(r, g, b);
         this.sync = false;
     }
 
 
-    public Sn0wColor(int r, int g, int b, int a)
+    public IdkColor(int r, int g, int b, int a)
     {
         this.color = new Color(r, g, b, a);
         this.sync = false;
     }
-    public Sn0wColor(int r, int g, int b, int a, boolean unsyncable)
+    public IdkColor(int r, int g, int b, int a, boolean unsyncable)
     {
         this.color = new Color(r, g, b, a);
         this.sync = false;
         this.unsyncable = unsyncable;
     }
-    public Sn0wColor(int r, int g, int b, boolean unsyncable)
+    public IdkColor(int r, int g, int b, boolean unsyncable)
     {
         this.color = new Color(r, g, b);
         this.sync = false;

@@ -4,7 +4,7 @@ import sh.idktheflag.idkhack.api.feature.Feature;
 import sh.idktheflag.idkhack.api.feature.hud.HudComponent;
 import sh.idktheflag.idkhack.api.management.FeatureManager;
 
-import sh.idktheflag.idkhack.impl.features.modules.client.gui.Sn0wGui;
+import sh.idktheflag.idkhack.impl.features.modules.client.gui.IdkGui;
 import sh.idktheflag.idkhack.impl.gui.components.CategoryFrame;
 import sh.idktheflag.idkhack.impl.gui.renderer.Renderer;
 import sh.idktheflag.idkhack.api.feature.module.Module;
@@ -14,7 +14,7 @@ import sh.idktheflag.idkhack.api.gui.helpers.Rect;
 
 public class HudEditorGUI extends HudEditor {
 
-    public static Context CONTEXT = new Context(null, Sn0wGui.INSTANCE, Sn0wGui.INSTANCE, new Renderer(), null);
+    public static Context CONTEXT = new Context(null, IdkGui.INSTANCE, IdkGui.INSTANCE, new Renderer(), null);
 
     public static HudEditorGUI INSTANCE;
 

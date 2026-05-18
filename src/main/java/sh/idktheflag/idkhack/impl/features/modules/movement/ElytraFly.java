@@ -544,6 +544,6 @@ public class ElytraFly extends Module
     @Override
     public String getDescription()
     {
-        return "ElytraFly: I just flew 300 blocks (like a butterfly this time) thanks to sn0wgod.cc";
+        return "ElytraFly: I just flew 300 blocks (like a butterfly this time) thanks to idkhackgod.cc";
     }
 }

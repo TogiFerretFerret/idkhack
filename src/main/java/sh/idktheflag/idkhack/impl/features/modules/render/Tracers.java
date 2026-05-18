@@ -6,7 +6,7 @@ import sh.idktheflag.idkhack.api.feature.module.Module;
 import sh.idktheflag.idkhack.api.management.FriendManager;
 import sh.idktheflag.idkhack.api.utils.NullUtils;
 import sh.idktheflag.idkhack.api.utils.color.ColorUtil;
-import sh.idktheflag.idkhack.api.utils.color.Sn0wColor;
+import sh.idktheflag.idkhack.api.utils.color.IdkColor;
 import sh.idktheflag.idkhack.api.utils.render.Interpolator;
 import sh.idktheflag.idkhack.api.utils.render.RenderUtil;
 import sh.idktheflag.idkhack.api.utils.world.EntityUtils;
@@ -53,24 +53,24 @@ public class Tracers extends Module {
             .withValue(true)
             .register(this);
 
-    Value<Sn0wColor> playerColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> playerColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Player Color")
-            .withValue(new Sn0wColor(255, 255, 255))
+            .withValue(new IdkColor(255, 255, 255))
             .register(this);
 
-    Value<Sn0wColor> mobColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> mobColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Mob Color")
-            .withValue(new Sn0wColor(255, 0, 0))
+            .withValue(new IdkColor(255, 0, 0))
             .register(this);
 
-    Value<Sn0wColor> animalColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> animalColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Animal Color")
-            .withValue(new Sn0wColor(0, 255, 0))
+            .withValue(new IdkColor(0, 255, 0))
             .register(this);
 
-    Value<Sn0wColor> itemColor = new ValueBuilder<Sn0wColor>()
+    Value<IdkColor> itemColor = new ValueBuilder<IdkColor>()
             .withDescriptor("Item Color")
-            .withValue(new Sn0wColor(0, 128, 255))
+            .withValue(new IdkColor(0, 128, 255))
             .register(this);
 
     public Tracers() {

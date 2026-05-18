@@ -3,7 +3,7 @@
   "minVersion": "0.8",
   "package": "sh.idktheflag.idkhack.mixin",
   "compatibilityLevel": "JAVA_17",
-  "refmap": "sn0w-refmap.json",
+  "refmap": "idk-refmap.json",
   "verbose": false,
   "client": [
     "BossBarHudMixin",
