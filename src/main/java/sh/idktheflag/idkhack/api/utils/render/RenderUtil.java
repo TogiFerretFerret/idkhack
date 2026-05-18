@@ -391,17 +391,13 @@ public class RenderUtil {
         float dx = (float)(b.x - a.x), dy = (float)(b.y - a.y), dz = (float)(b.z - a.z);
         float len = MathHelper.sqrt(dx * dx + dy * dy + dz * dz);
         if (len == 0) return;
-        float nx = dx / len, ny = dy / len, nz = dz / len;
-        LINE.begin(matrix4f);
-        LINE.buffer.vertex(matrix4f, 0, 0, 0)
-                .color(colorA.getRed(), colorA.getGreen(), colorA.getBlue(), colorA.getAlpha())
-                .normal(peek, nx, ny, nz)
-                .lineWidth(1.0f);
-        LINE.buffer.vertex(matrix4f, dx, dy, dz)
-                .color(colorB.getRed(), colorB.getGreen(), colorB.getBlue(), colorB.getAlpha())
-                .normal(peek, nx, ny, nz)
-                .lineWidth(1.0f);
-        LINE.end();
+        
+        RenderBuffers.LINES.begin(matrix4f);
+        RenderBuffers.LINES.buffer.vertex(matrix4f, 0, 0, 0)
+                .color(colorA.getRed(), colorA.getGreen(), colorA.getBlue(), colorA.getAlpha());
+        RenderBuffers.LINES.buffer.vertex(matrix4f, dx, dy, dz)
+                .color(colorB.getRed(), colorB.getGreen(), colorB.getBlue(), colorB.getAlpha());
+        RenderBuffers.LINES.end();
     }
 
     public static Vector3f getNormal(float x1, float y1, float z1, float x2, float y2, float z2)
