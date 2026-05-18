@@ -5,6 +5,7 @@ import sh.idktheflag.idkhack.api.event.eventbus.EventManager;
 import sh.idktheflag.idkhack.api.feature.Feature;
 import sh.idktheflag.idkhack.api.gui.hudeditor.HudEditorGUI;
 import sh.idktheflag.idkhack.api.management.*;
+import sh.idktheflag.idkhack.api.management.accounts.Accounts;
 import sh.idktheflag.idkhack.api.management.breaks.BreakManager;
 import sh.idktheflag.idkhack.api.management.notification.NotificationManager;
 import sh.idktheflag.idkhack.api.management.shaders.ShaderManager;
@@ -54,6 +55,9 @@ public class Register
 
 
         SavableManager.INSTANCE = new SavableManager();
+        Accounts.INSTANCE = new Accounts();
+        SavableManager.INSTANCE.getSavables().add(Accounts.INSTANCE);
+
         BindManager.INSTANCE = new BindManager();
         FeatureManager.INSTANCE = new FeatureManager();
         ShaderManager.INSTANCE = new ShaderManager();
@@ -99,6 +103,7 @@ public class Register
         FeatureManager.INSTANCE.getFeatures().add(new Safety());
 
         FeatureManager.INSTANCE.getFeatures().add(new Sn0wGui());
+        FeatureManager.INSTANCE.getFeatures().add(new AccountsModule());
 //        FeatureManager.INSTANCE.getFeatures().add(new KamiGui());
         FeatureManager.INSTANCE.getFeatures().add(new HudEditorModule());
 //        FeatureManager.INSTANCE.getFeatures().add(new OtherGui());

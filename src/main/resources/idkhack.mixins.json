@@ -41,6 +41,7 @@
     "MixinRenderedChunk",
     "MixinRenderTickCounter",
     "MixinToastManager",
+    "MixinTitleScreen",
     "MixinVec3d",
     "MixinWorldRenderer",
     "TotemParticleMixin",
