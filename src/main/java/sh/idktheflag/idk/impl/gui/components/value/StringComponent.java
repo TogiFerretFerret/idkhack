@@ -6,6 +6,7 @@ import sh.idktheflag.idk.api.value.Value;
 
 public class StringComponent extends TextEntryWidget {
     Value<String> stringValue;
+
     public StringComponent(Value<String> stringValue) {
         super(new Rect(0, 0, 0, 0), stringValue.getValue());
         this.stringValue = stringValue;
@@ -20,6 +21,11 @@ public class StringComponent extends TextEntryWidget {
     public void setValue(String value) {
         stringValue.setValue(value);
         super.setValue(value);
+    }
+
+    @Override
+    public String getTitle() {
+        return stringValue.getName();
     }
 
     @Override

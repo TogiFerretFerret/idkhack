@@ -277,10 +277,28 @@ public class Renderer implements IRenderer, IMinecraft {
 
     @Override
     public void renderStringWidget(TextEntryWidget widget, Context context, Rect rect, MouseHelper mouse) {
-        renderRect(rect, context.getColorScheme().getTertiaryBackgroundColor(), context.getColorScheme().getTertiaryBackgroundColor(), RectMode.Fill, context);
-        String renderText = widget.typing ? widget.getValue() + "|" : widget.getValue();
-        int centerY = (rect.getHeight() - getTextHeight(renderText)) / 2;
-        renderText(context.getDrawContext(), renderText, rect.getX() + 2, rect.getY() + centerY + 1, context.getColorScheme().getTextColor(), context.getColorScheme().doesTextShadow());
+        String title = widget.getTitle();
+        int labelWidth = title.isEmpty() ? 0 : getTextWidth(title + ": ") + 2;
+
+        // draw label
+        if (!title.isEmpty()) {
+            int centerY = (rect.getHeight() - getTextHeight(title)) / 2;
+            renderText(context.getDrawContext(), title + ":", rect.getX() + 2, rect.getY() + centerY + 1, context.getColorScheme().getTextColor(), context.getColorScheme().doesTextShadow());
+        }
+
+        // draw input box
+        Rect inputRect = new Rect(rect.getX() + labelWidth, rect.getY(), rect.getWidth() - labelWidth, rect.getHeight());
+        renderRect(inputRect, context.getColorScheme().getTertiaryBackgroundColor(), context.getColorScheme().getTertiaryBackgroundColor(), RectMode.Fill, context);
+
+        String value = widget.getValue();
+        int centerY = (inputRect.getHeight() - getTextHeight("A")) / 2;
+        if (widget.typing) {
+            renderText(context.getDrawContext(), value + "|", inputRect.getX() + 2, inputRect.getY() + centerY + 1, context.getColorScheme().getTextColor(), context.getColorScheme().doesTextShadow());
+        } else if (value.isEmpty()) {
+            renderText(context.getDrawContext(), "click to type...", inputRect.getX() + 2, inputRect.getY() + centerY + 1, new Color(120, 120, 120), false);
+        } else {
+            renderText(context.getDrawContext(), value, inputRect.getX() + 2, inputRect.getY() + centerY + 1, context.getColorScheme().getTextColor(), context.getColorScheme().doesTextShadow());
+        }
     }
 
 

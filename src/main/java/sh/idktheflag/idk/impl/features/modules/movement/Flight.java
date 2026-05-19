@@ -17,6 +17,7 @@ import sh.idktheflag.idk.api.value.builder.ValueBuilder;
 import sh.idktheflag.idk.impl.features.modules.player.MiddleClick;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
+import net.minecraft.network.packet.c2s.play.UpdatePlayerAbilitiesC2SPacket;
 
 public class Flight extends Module
 {
@@ -31,10 +32,22 @@ public class Flight extends Module
     @Override
     public void onDisable()
     {
-        if (mc.player != null)
+        if (mc.player == null) return;
+
+        if (mode.getValue().equals("Creative"))
         {
             mc.player.getAbilities().flying = false;
             mc.player.getAbilities().allowFlying = false;
+            mc.getNetworkHandler().sendPacket(new UpdatePlayerAbilitiesC2SPacket(mc.player.getAbilities()));
+            mc.player.setVelocity(mc.player.getVelocity().x, 0, mc.player.getVelocity().z);
+        }
+        else if (mode.getValue().equals("Grim"))
+        {
+            if (mc.player.isGliding())
+            {
+                PacketManager.INSTANCE.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.START_FALL_FLYING));
+                mc.player.stopGliding();
+            }
         }
     }
 

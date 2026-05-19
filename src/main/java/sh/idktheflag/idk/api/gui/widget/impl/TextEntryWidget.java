@@ -29,11 +29,6 @@ public class TextEntryWidget implements IWidget<String>, IComponent {
     @Override
     public void draw(Context context, MouseHelper mouse)
     {
-        if (!getDims().collideWithMouse(mouse))
-        {
-            typing = false;
-        }
-
         getDims().setHeight(context.getMetrics().getButtonHeight());
         context.getRenderer().renderStringWidget(this, context, getDims(), mouse);
     }
