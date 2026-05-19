@@ -376,7 +376,7 @@ public class PacketFly extends Module
         switch (bounds.getValue())
         {
             case "Up":
-                return in.y + (10);
+                return in.y + (3);
             case "Down":
                 return in.y + (-3);
             case "Preserve":
