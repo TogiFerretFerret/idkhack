@@ -376,9 +376,9 @@ public class PacketFly extends Module
         switch (bounds.getValue())
         {
             case "Up":
-                return in.y + (1337);
+                return in.y + (10);
             case "Down":
-                return in.y + (-1337);
+                return in.y + (-3);
             case "Preserve":
                 int n = rand.nextInt(29000000);
                 if (rand.nextBoolean())
@@ -394,7 +394,7 @@ public class PacketFly extends Module
             case "Snap":
                 return 0;
         }
-        return in.y + (-1337);
+        return in.y + (-3);
     }
 
     public void sendMovePackets(Vec3d vec)
