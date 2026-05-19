@@ -86,7 +86,7 @@ public class Trajectories extends Module
                     if (result != null)
                     {
 
-                        drawTrail(result);
+                        drawTrail(event.getMatrices(), result);
                         if (result.getHitResult() != null)
                         {
                             HitResult hitResult = result.getHitResult();
@@ -94,12 +94,12 @@ public class Trajectories extends Module
                             {
                                 if (hitResult instanceof BlockHitResult blockHitResult)
                                 {
-                                    RenderUtil.drawCircle(RenderBuffers.TRIANGLES, 0.3f, 130, blockHitResult.getPos(), blockHitResult.getSide(), ColorUtil.newAlpha(endColor.getValue().getColor(), 25));
-                                    RenderUtil.drawCircle(RenderBuffers.LINES, 0.3f, 130, blockHitResult.getPos(), blockHitResult.getSide(), endColor.getValue().getColor());
+                                    RenderUtil.drawCircle(event.getMatrices(), RenderBuffers.TRIANGLES, 0.3f, 130, blockHitResult.getPos(), blockHitResult.getSide(), ColorUtil.newAlpha(endColor.getValue().getColor(), 25));
+                                    RenderUtil.drawCircle(event.getMatrices(), RenderBuffers.LINES, 0.3f, 130, blockHitResult.getPos(), blockHitResult.getSide(), endColor.getValue().getColor());
 
                                 } else if (hitResult instanceof EntityHitResult entityHitResult)
                                 {
-                                    RenderUtil.renderBox(RenderType.FILL, entityHitResult.getEntity().getBoundingBox(), ColorUtil.newAlpha(endColor.getValue().getColor().brighter(), 100), ColorUtil.newAlpha(endColor.getValue().getColor().brighter(), 100));
+                                    RenderUtil.renderBox(event.getMatrices(), RenderType.FILL, entityHitResult.getEntity().getBoundingBox(), ColorUtil.newAlpha(endColor.getValue().getColor().brighter(), 100), ColorUtil.newAlpha(endColor.getValue().getColor().brighter(), 100));
                                 }
                             }
                         }
@@ -126,7 +126,7 @@ public class Trajectories extends Module
         if (result != null)
         {
 
-            drawTrail(result);
+            drawTrail(event.getMatrices(), result);
             if (result.getHitResult() != null)
             {
                 HitResult hitResult = result.getHitResult();
@@ -134,26 +134,26 @@ public class Trajectories extends Module
                 {
                     if (hitResult instanceof BlockHitResult blockHitResult)
                     {
-                        RenderUtil.drawCircle(RenderBuffers.TRIANGLES, 0.3f, 130, blockHitResult.getPos(), blockHitResult.getSide(), ColorUtil.newAlpha(endColor.getValue().getColor(), 25));
-                        RenderUtil.drawCircle(RenderBuffers.LINES, 0.3f, 130, blockHitResult.getPos(), blockHitResult.getSide(), endColor.getValue().getColor());
+                        RenderUtil.drawCircle(event.getMatrices(), RenderBuffers.TRIANGLES, 0.3f, 130, blockHitResult.getPos(), blockHitResult.getSide(), ColorUtil.newAlpha(endColor.getValue().getColor(), 25));
+                        RenderUtil.drawCircle(event.getMatrices(), RenderBuffers.LINES, 0.3f, 130, blockHitResult.getPos(), blockHitResult.getSide(), endColor.getValue().getColor());
 
                     } else if (hitResult instanceof EntityHitResult entityHitResult)
                     {
-                        RenderUtil.renderBox(RenderType.FILL, entityHitResult.getEntity().getBoundingBox(), ColorUtil.newAlpha(endColor.getValue().getColor().brighter(), 100), ColorUtil.newAlpha(endColor.getValue().getColor().brighter(), 100));
+                        RenderUtil.renderBox(event.getMatrices(), RenderType.FILL, entityHitResult.getEntity().getBoundingBox(), ColorUtil.newAlpha(endColor.getValue().getColor().brighter(), 100), ColorUtil.newAlpha(endColor.getValue().getColor().brighter(), 100));
                     }
                 }
             }
         }
     }
 
-    public void drawTrail(MathUtil.Result result)
+    public void drawTrail(MatrixStack matrices, MathUtil.Result result)
     {
         if (result.getPoints().isEmpty()) return;
 
-        renderTrail(result, endColor.getValue().getColor(), startColor.getValue().getColor(), result.getPoints().get(0));
+        renderTrail(matrices, result, endColor.getValue().getColor(), startColor.getValue().getColor(), result.getPoints().get(0));
     }
 
-    public void renderTrail(MathUtil.Result result, Color start, Color end, Vec3d first)
+    public void renderTrail(MatrixStack matrices, MathUtil.Result result, Color start, Color end, Vec3d first)
     {
         List<Vec3d> points = result.getPoints();
         Vec3d lastPos = first;
@@ -163,7 +163,7 @@ public class Trajectories extends Module
             if (p.equals(lastPos)) { lastPos = p; continue; }
             double value = normalize(i, 0, points.size());
             Color c = ColorUtil.interpolate((float) value, start, end);
-            RenderUtil.drawWorldLine(lastPos, p, c, c);
+            RenderUtil.drawWorldLine(matrices, lastPos, p, c, c);
             lastPos = p;
         }
     }

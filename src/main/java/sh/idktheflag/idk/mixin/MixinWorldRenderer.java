@@ -23,6 +23,7 @@ public class MixinWorldRenderer
 {
     @Inject(method = "render", at = @At("HEAD"))
     private void onRenderHead(ObjectAllocator objectAllocator, RenderTickCounter tickCounter, boolean renderBlockOutline, Camera camera, Matrix4f modelViewMatrix, Matrix4f projectionMatrix, Matrix4f projectionMatrix2, GpuBufferSlice gpuBufferSlice, Vector4f vector4f, boolean bl, CallbackInfo ci) {
+        RenderUtil.matrix4f.set(modelViewMatrix);
         RenderBuffers.preRender();
     }
 

@@ -82,7 +82,7 @@ public class Tracers extends Module {
         if (NullUtils.nullCheck()) return;
 
         float tickDelta = mc.getRenderTickCounter().getTickProgress(false);
-        Vec3d eye = mc.player.getEyePos();
+        Vec3d from = mc.gameRenderer.getCamera().getCameraPos();
 
         for (Entity entity : mc.world.getEntities()) {
             if (entity == mc.player || !entity.isAlive()) continue;
@@ -97,12 +97,12 @@ public class Tracers extends Module {
             Box bb = Interpolator.getInterpolatedEntityBox(entity);
             Vec3d target = bb.getCenter();
 
-            drawTracer(eye, target, color);
+            drawTracer(event.getMatrices(), from, target, color);
         }
     }
 
-    private void drawTracer(Vec3d from, Vec3d to, Color color) {
-        RenderUtil.renderTracerLine(from, to, ColorUtil.newAlpha(color, 255), ColorUtil.newAlpha(color, 180), 1.0f);
+    private void drawTracer(MatrixStack matrices, Vec3d from, Vec3d to, Color color) {
+        RenderUtil.drawWorldLine(matrices, from, to, ColorUtil.newAlpha(color, 255), ColorUtil.newAlpha(color, 180));
     }
 
     private Color getColor(Entity entity) {

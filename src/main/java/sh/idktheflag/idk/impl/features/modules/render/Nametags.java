@@ -43,6 +43,13 @@ public class Nametags extends Module {
             String text = player.getName().getString() + " " + PlayerUtils.getColoredHealth(player, true);
             
             RenderUtil.drawText(text, renderPos, scale.getValue().floatValue());
+
+            // TODO: fix armor rendering in 1.21.11
+            /*
+            if (armor.getValue()) {
+                renderArmor(player, renderPos, event.getTickDelta());
+            }
+            */
         }
     }
 

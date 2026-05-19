@@ -14,6 +14,7 @@ import sh.idktheflag.idk.impl.features.modules.client.Optimizer;
 import sh.idktheflag.idk.mixin.accessor.IWorldRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.*;
+import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -48,7 +49,7 @@ public class RenderUtil {
 
     public static void renderItem(ItemStack stack, ItemDisplayContext renderMode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, World world, int seed)
     {
-        // TODO: port to 1.21.11 - Item rendering API completely changed
+        // TODO: port to 1.21.11
     }
 
     public static VertexConsumer getItemGlintConsumer(VertexConsumerProvider vertexConsumers, RenderLayer layer, boolean glint)
@@ -299,30 +300,35 @@ public class RenderUtil {
     {
         MatrixStack matrices = new MatrixStack();
         matrices.peek().getPositionMatrix().set(matrix4f);
-        Vec3d pos = mc.gameRenderer.getCamera().getCameraPos();
-        matrices.translate((float) (x - pos.x), (float) (y - pos.y), (float) (z - pos.z));
+        matrices.translate((float) x, (float) y, (float) z);
         return matrices;
     }
 
-    public static void drawWorldLine(Vec3d a, Vec3d b, Color colorA, Color colorB)
+    public static void drawWorldLine(MatrixStack matrices, Vec3d a, Vec3d b, Color colorA, Color colorB)
     {
-        MatrixStack matrices = matrixFrom(a.x, a.y, a.z);
         MatrixStack.Entry peek = matrices.peek();
-        Matrix4f matrix4f = peek.getPositionMatrix();
+        Matrix4f posMatrix = peek.getPositionMatrix();
         float dx = (float)(b.x - a.x), dy = (float)(b.y - a.y), dz = (float)(b.z - a.z);
         if (dx == 0 && dy == 0 && dz == 0) return;
         float len = MathHelper.sqrt(dx*dx + dy*dy + dz*dz);
         
-        RenderBuffers.LINE.begin(matrix4f);
-        RenderBuffers.LINE.buffer.vertex(matrix4f, 0, 0, 0)
+        RenderBuffers.LINE.begin(posMatrix);
+        RenderBuffers.LINE.buffer.vertex(posMatrix, (float)a.x, (float)a.y, (float)a.z)
                 .color(colorA.getRed(), colorA.getGreen(), colorA.getBlue(), colorA.getAlpha())
                 .normal(peek, dx/len, dy/len, dz/len)
                 .lineWidth(1.0f);
-        RenderBuffers.LINE.buffer.vertex(matrix4f, dx, dy, dz)
+        RenderBuffers.LINE.buffer.vertex(posMatrix, (float)b.x, (float)b.y, (float)b.z)
                 .color(colorB.getRed(), colorB.getGreen(), colorB.getBlue(), colorB.getAlpha())
                 .normal(peek, dx/len, dy/len, dz/len)
                 .lineWidth(1.0f);
         RenderBuffers.LINE.end();
+    }
+
+    public static void drawWorldLine(Vec3d a, Vec3d b, Color colorA, Color colorB)
+    {
+        MatrixStack matrices = new MatrixStack();
+        matrices.peek().getPositionMatrix().set(matrix4f);
+        drawWorldLine(matrices, a, b, colorA, colorB);
     }
 
     public static void drawBox(MatrixStack matrices, double x1, double y1,
