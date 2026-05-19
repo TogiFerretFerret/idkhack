@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ChunkSkyLightProvider.class)
 public class MixinChunkSkylightProvider {
-    @Inject(method = "method_51531", at = @At(value = "HEAD"), cancellable = true)
+    @Inject(method = "propagateLightIncrease", at = @At(value = "HEAD"), cancellable = true)
     private void hookRecalculateLevel(long blockPos, long l, int lightLevel, CallbackInfo ci)
     {
         if (NoRender.INSTANCE.skyLight.getValue() && NoRender.INSTANCE.isEnabled())

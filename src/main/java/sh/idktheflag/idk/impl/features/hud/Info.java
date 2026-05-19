@@ -586,7 +586,7 @@ public class Info extends HudComponent
             float height = alignment.getValue().contains("Top") ? ClickGui.CONTEXT.getRenderer().getTextHeight(comp.text) : -ClickGui.CONTEXT.getRenderer().getTextHeight(comp.text);
 
 
-            // TODO: port to 1.21.11 - StatusEffectSpriteManager removed, potion icon rendering needs new sprite API
+
             // if (potionIcon.getValue() && comp.effect.shouldShowIcon()) { ... }
 
             off += height;

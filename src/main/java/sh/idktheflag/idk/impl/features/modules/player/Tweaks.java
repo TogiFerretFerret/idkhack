@@ -45,8 +45,8 @@ public class Tweaks extends Module {
         if (NullUtils.nullCheck()) return;
 
 
-// TODO 1.21.11:         if (fastJump.getValue() && ((ILivingEntity) mc.player).getLastJumpCooldown() > 0)
-// TODO 1.21.11:             ((ILivingEntity) mc.player).setLastJumpCooldown(0);
+        if (fastJump.getValue() && ((ILivingEntity) mc.player).getLastJumpCooldown() > 0)
+            ((ILivingEntity) mc.player).setLastJumpCooldown(0);
 
         if (noCrawl.getValue() && mc.player.getPose().equals(EntityPose.SWIMMING))
         {

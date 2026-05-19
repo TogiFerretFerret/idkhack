@@ -4,7 +4,7 @@ import sh.idktheflag.idk.api.wrapper.IMinecraft;
 import sh.idktheflag.idk.impl.features.modules.misc.SmallShield;
 import sh.idktheflag.idk.impl.features.modules.render.ViewModel;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.item.HeldItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
@@ -21,12 +21,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinHeldItemRenderer implements IMinecraft
 {
 
-
     @Shadow
-    protected abstract void renderFirstPersonItem(AbstractClientPlayerEntity player, float tickDelta, float pitch, Hand hand, float swingProgress, ItemStack item, float equipProgress, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light);
+    protected abstract void renderFirstPersonItem(AbstractClientPlayerEntity player, float tickDelta, float pitch, Hand hand, float swingProgress, ItemStack item, float equipProgress, MatrixStack matrices, OrderedRenderCommandQueue vertexConsumers, int light);
 
-    @Redirect(method = "Lnet/minecraft/client/render/item/HeldItemRenderer;renderItem(FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider$Immediate;Lnet/minecraft/client/network/ClientPlayerEntity;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/item/HeldItemRenderer;renderFirstPersonItem(Lnet/minecraft/client/network/AbstractClientPlayerEntity;FFLnet/minecraft/util/Hand;FLnet/minecraft/item/ItemStack;FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", ordinal = 1))
-    private void onRenderItemHook(HeldItemRenderer instance, AbstractClientPlayerEntity player, float tickDelta, float pitch, Hand hand, float swingProgress, ItemStack item, float equipProgress, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light)
+    @Redirect(method = "Lnet/minecraft/client/render/item/HeldItemRenderer;renderItem(FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;Lnet/minecraft/client/network/ClientPlayerEntity;I)V",
+            at = @At(value = "INVOKE",
+                    target = "Lnet/minecraft/client/render/item/HeldItemRenderer;renderFirstPersonItem(Lnet/minecraft/client/network/AbstractClientPlayerEntity;FFLnet/minecraft/util/Hand;FLnet/minecraft/item/ItemStack;FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;I)V",
+                    ordinal = 1))
+    private void onRenderItemHook(HeldItemRenderer instance, AbstractClientPlayerEntity player, float tickDelta, float pitch, Hand hand, float swingProgress, ItemStack item, float equipProgress, MatrixStack matrices, OrderedRenderCommandQueue vertexConsumers, int light)
     {
         if (SmallShield.INSTANCE.isEnabled())
         {
@@ -41,15 +43,14 @@ public abstract class MixinHeldItemRenderer implements IMinecraft
     @Inject(method = "renderFirstPersonItem", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/render/item/HeldItemRenderer;" +
                     "renderItem(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/" +
-                    "item/ItemStack;Lnet/minecraft/client/render/model/json/" +
-                    "ModelTransformationMode;ZLnet/minecraft/client/util/math/" +
-                    "MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V"))
+                    "item/ItemStack;Lnet/minecraft/item/ItemDisplayContext;" +
+                    "Lnet/minecraft/client/util/math/MatrixStack;" +
+                    "Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;I)V"))
     private void hookRenderFirstPersonItem(AbstractClientPlayerEntity player, float tickDelta,
                                            float pitch, Hand hand, float swingProgress,
                                            ItemStack item, float equipProgress, MatrixStack matrices,
-                                           VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci)
+                                           OrderedRenderCommandQueue vertexConsumers, int light, CallbackInfo ci)
     {
-
 
         if (ViewModel.INSTANCE.isEnabled() && ViewModel.INSTANCE.translate.getValue())
         {

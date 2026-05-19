@@ -47,9 +47,6 @@ public abstract class MixinClientPlayerInteractionManager implements IMinecraft 
         }
     }
 
-    // TODO: port to 1.21.11
-    // TypedActionResult is removed in 1.21.11 - ItemStack.use now returns ActionResult directly
-    // isCoolingDown now takes ItemStack instead of Item
     @Inject(method = "interactItem", at = @At(value = "HEAD"), cancellable = true)
     public void hookInteractItem(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir)
     {

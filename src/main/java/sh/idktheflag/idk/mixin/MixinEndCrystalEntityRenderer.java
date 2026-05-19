@@ -1,11 +1,12 @@
 package sh.idktheflag.idk.mixin;
 
 import sh.idktheflag.idk.api.event.events.render.RenderCrystalEvent;
-import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EndCrystalEntityRenderer;
+import net.minecraft.client.render.entity.model.EndCrystalEntityModel;
+import net.minecraft.client.render.entity.state.EndCrystalEntityRenderState;
+import net.minecraft.client.render.command.OrderedRenderCommandQueue;
+import net.minecraft.client.render.state.CameraRenderState;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.decoration.EndCrystalEntity;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -15,34 +16,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EndCrystalEntityRenderer.class)
 public class MixinEndCrystalEntityRenderer {
-    //
-    @Shadow
-    @Final
-    private ModelPart core;
-    //
-    @Shadow
-    @Final
-    private ModelPart frame;
 
-    /**
-     * @param endCrystalEntity
-     * @param f
-     * @param g
-     * @param matrixStack
-     * @param vertexConsumerProvider
-     * @param i
-     * @param ci
-     */
-    @Inject(method = "render(Lnet/minecraft/entity/decoration/EndCrystalEntity;" +
-            "FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/" +
-            "render/VertexConsumerProvider;I)V", at = @At(value = "HEAD"), cancellable = true)
-    private void hookRender(EndCrystalEntity endCrystalEntity, float f, float g,
-                            MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider,
-                            int i, CallbackInfo ci) {
-        RenderCrystalEvent event = new RenderCrystalEvent(endCrystalEntity,
-                f, g, matrixStack, i, core, frame);
+    @Shadow
+    @Final
+    private EndCrystalEntityModel model;
+
+    @Inject(method = "render(Lnet/minecraft/client/render/entity/state/EndCrystalEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;Lnet/minecraft/client/render/state/CameraRenderState;)V",
+            at = @At(value = "HEAD"), cancellable = true)
+    private void hookRender(EndCrystalEntityRenderState state, MatrixStack matrixStack,
+                            OrderedRenderCommandQueue vertexConsumers, CameraRenderState cameraRenderState,
+                            CallbackInfo ci) {
+        RenderCrystalEvent event = new RenderCrystalEvent(state, matrixStack, model);
         event.post();
-
         if (event.isCancelled()) {
             ci.cancel();
         }

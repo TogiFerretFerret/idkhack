@@ -49,16 +49,26 @@ public abstract class MixinPlayerEntity extends LivingEntity implements IMinecra
     public void updateHeadRotation(CallbackInfo ci) { ... }
     */
 
-    @Inject(method = "getBlockInteractionRange", at = @At(value = "HEAD"), cancellable = true)
+    @Inject(method = "getBlockInteractionRange", at = @At("RETURN"), cancellable = true)
     private void doReachDistance(CallbackInfoReturnable<Double> cir)
     {
-        // TODO: port to 1.21.11 - ReachEvent disabled
+        ReachEvent event = new ReachEvent((float)(double) cir.getReturnValue());
+        event.post();
+        if (event.isCancelled())
+        {
+            cir.setReturnValue((double) event.getReach());
+        }
     }
 
-    @Inject(method = "getEntityInteractionRange", at = @At(value = "HEAD"), cancellable = true)
+    @Inject(method = "getEntityInteractionRange", at = @At("RETURN"), cancellable = true)
     private void doEntityReachDistance(CallbackInfoReturnable<Double> cir)
     {
-        // TODO: port to 1.21.11 - ReachEvent disabled
+        ReachEvent event = new ReachEvent((float)(double) cir.getReturnValue());
+        event.post();
+        if (event.isCancelled())
+        {
+            cir.setReturnValue((double) event.getReach());
+        }
     }
 
     @Inject(method = "travel", at = @At(value = "HEAD"), cancellable = true)

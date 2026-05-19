@@ -14,24 +14,24 @@ import net.minecraft.client.render.RenderTickCounter;
 public class MixinRenderTimer {
 
     @Shadow
-    private float lastFrameDuration;
+    private float dynamicDeltaTicks;
     @Shadow
-    private float tickDelta;
-    @Shadow
-    private long prevTimeMillis;
+    private long lastTimeMillis;
     @Shadow
     private float tickTime;
     @Shadow
     private FloatUnaryOperator targetMillisPerTick;
 
-    @Inject(method = "beginRenderTick(J)I", at = @At("HEAD"), cancellable = true)
-    private void beginRenderTick(long timeMillis, CallbackInfoReturnable<Integer> ci)
+    @Inject(method = "beginRenderTick(JZ)I", at = @At("HEAD"), cancellable = true)
+    private void beginRenderTick(long timeMillis, boolean bl, CallbackInfoReturnable<Integer> ci)
     {
-        this.lastFrameDuration = (float) ((timeMillis - this.prevTimeMillis) / this.targetMillisPerTick.apply(this.tickTime)) * RenderTimer.getTickLength();
-        this.prevTimeMillis = timeMillis;
-        this.tickDelta += this.lastFrameDuration;
-        int i = (int) this.tickDelta;
-        this.tickDelta -= (float) i;
+        if (RenderTimer.getTickLength() == 1.0f) return;
+
+        float frameDuration = (float) ((timeMillis - this.lastTimeMillis) / this.targetMillisPerTick.apply(this.tickTime)) * RenderTimer.getTickLength();
+        this.lastTimeMillis = timeMillis;
+        this.dynamicDeltaTicks += frameDuration;
+        int i = (int) this.dynamicDeltaTicks;
+        this.dynamicDeltaTicks -= (float) i;
 
         ci.setReturnValue(i);
     }

@@ -173,7 +173,7 @@ public class FakePlayer extends Module
             fakePlayer.setYaw(p.getYaw());
             fakePlayer.setPitch(p.getPitch());
             fakePlayer.setHeadYaw(p.getHead());
-            fakePlayer.updateTrackedPositionAndAngles(new net.minecraft.util.math.Vec3d(p.getX(), p.getY(), p.getZ()), p.getYaw(), p.getPitch());
+            fakePlayer.setPosition(p.getX(), p.getY(), p.getZ());
             fakePlayer.setVelocity(p.getVelocity());
         }
     }

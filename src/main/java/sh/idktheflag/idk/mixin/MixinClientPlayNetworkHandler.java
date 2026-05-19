@@ -3,10 +3,18 @@ package sh.idktheflag.idk.mixin;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.s2c.play.ExplosionS2CPacket;
+import net.minecraft.util.math.Vec3d;
 import sh.idktheflag.idk.api.utils.ducks.IClientPlayNetworkHandler;
+import sh.idktheflag.idk.impl.features.modules.player.Velocity;
 import sh.idktheflag.idk.mixin.accessor.IClientConnection;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.Optional;
 
 @Mixin(ClientPlayNetworkHandler.class)
 public abstract class MixinClientPlayNetworkHandler implements IClientPlayNetworkHandler {
@@ -17,5 +25,37 @@ public abstract class MixinClientPlayNetworkHandler implements IClientPlayNetwor
     @Override
     public void sendQuietPacket(final Packet<?> packet) {
         ((IClientConnection) getConnection()).sendQuietPacket(packet, null, true);
+    }
+
+    @Inject(method = "onExplosion", at = @At("HEAD"), cancellable = true)
+    private void hookOnExplosion(ExplosionS2CPacket packet, CallbackInfo ci)
+    {
+        if (!Velocity.INSTANCE.isEnabled()) return;
+        if (!"Vanilla".equals(Velocity.INSTANCE.mode.getValue())) return;
+        if (packet.playerKnockback().isEmpty()) return;
+
+        float h = Velocity.INSTANCE.horizontal.getValue().floatValue() / 100.0f;
+        float v = Velocity.INSTANCE.vertical.getValue().floatValue() / 100.0f;
+
+        if (h == 0 && v == 0)
+        {
+            // Cancel knockback entirely by replacing with empty Optional
+            ((ClientPlayNetworkHandler) (Object) this).onExplosion(new ExplosionS2CPacket(
+                    packet.center(), packet.radius(), packet.blockCount(),
+                    Optional.empty(),
+                    packet.explosionParticle(), packet.explosionSound(), packet.blockParticles()
+            ));
+            ci.cancel();
+            return;
+        }
+
+        Vec3d knockback = packet.playerKnockback().get();
+        Vec3d scaled = new Vec3d(knockback.x * h, knockback.y * v, knockback.z * h);
+        ((ClientPlayNetworkHandler) (Object) this).onExplosion(new ExplosionS2CPacket(
+                packet.center(), packet.radius(), packet.blockCount(),
+                Optional.of(scaled),
+                packet.explosionParticle(), packet.explosionSound(), packet.blockParticles()
+        ));
+        ci.cancel();
     }
 }

@@ -113,21 +113,17 @@ public class AimAssist extends Module {
 
         Entity target = new EntityTargeter(mc.player, Sorting.FOV, range.getValue().floatValue(), toTarget, fov.getValue().doubleValue()).findTarget(mc.player.getEyePos());
 
-        // TODO: 1.21.11 - if (target != null)
+        if (target != null)
         {
             double change = PlayerUtils.fovFromEntity(target);
 
-
             if (change > 1.0D || change < -1.0D)
             {
-
                 double complimentSpeed = change * (ThreadLocalRandom.current().nextDouble(force.getValue().doubleValue() - 1.47328, force.getValue().doubleValue() + 2.48293) / 100);
                 float val = (float) (-(complimentSpeed + change / (101.0D - (float) ThreadLocalRandom.current().nextDouble(speed.getValue().doubleValue() - 4.723847, speed.getValue().doubleValue()))));
                 float[] newRots = {mc.player.getYaw() + val, 0};
 
-
                 mc.player.setYaw(roundRotation(newRots)[0]);
-
             }
         }
 

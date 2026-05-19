@@ -197,7 +197,7 @@ public class KillAura extends Module
             return;
         }
 
-        if (false) { // TODO: 1.21.11 - onlySword check
+        if (onlySword.getValue() && !InventoryUtils.isSword(mc.player.getMainHandStack().getItem()) && !(mc.player.getMainHandStack().getItem() instanceof AxeItem)) {
             target = null;
             return;
         } else {

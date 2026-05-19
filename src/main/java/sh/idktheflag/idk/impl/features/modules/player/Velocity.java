@@ -32,7 +32,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Velocity extends Module
 {
-    Value<String> mode = new ValueBuilder<String>()
+    public Value<String> mode = new ValueBuilder<String>()
             .withDescriptor("Velocity")
             .withValue("Vanilla")
             .withModes("Vanilla", "GrimV2", "Walls")
@@ -88,7 +88,7 @@ public class Velocity extends Module
         switch (mode.getValue())
         {
             case "Vanilla":
-                if (onlyInBlocks.getValue() && !false) return;
+                if (onlyInBlocks.getValue() && !mc.player.horizontalCollision) return;
 
 
 
@@ -121,26 +121,12 @@ public class Velocity extends Module
                             packet.getVelocity().z * (horizontal.getValue().floatValue() / 100.0f)
                     ));
                 }
-                if (event.getPacket() instanceof ExplosionS2CPacket packet)
-                {
-                    if (horizontal.getValue().intValue() == 0 && vertical.getValue().intValue() == 0)
-                    {
-                        event.setCancelled(true);
-                        return;
-                    }
-                    // Since ExplosionS2CPacket is a record, we can't modify it easily.
-                    // For now, if either is 0, we might just cancel it to avoid knockback,
-                    // but we lose the explosion visual.
-                    // A better way would be Mixin into ClientPlayNetworkHandler.onExplosion.
-                    if (horizontal.getValue().floatValue() == 0 && vertical.getValue().floatValue() == 0) {
-                        event.setCancelled(true);
-                    }
-                }
+                // ExplosionS2CPacket knockback is handled in MixinClientPlayNetworkHandler.hookOnExplosion
                 break;
             case "GrimV2":
                 if (event.isBundled()) return;
 
-                if (onlyInBlocks.getValue() && !false) return;
+                if (onlyInBlocks.getValue() && !mc.player.horizontalCollision) return;
 
                 if (event.getPacket() instanceof PlayerPositionLookS2CPacket)
                 {
@@ -171,7 +157,7 @@ public class Velocity extends Module
                 break;
             case "Walls":
 
-                if (onlyInBlocks.getValue() && !false) return;
+                if (onlyInBlocks.getValue() && !mc.player.horizontalCollision) return;
 
                 if (event.isBundled()) return;
 

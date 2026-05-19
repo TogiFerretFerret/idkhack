@@ -88,12 +88,6 @@ public class MiddleClick extends Module
                 if (startedTimer) return;
 
 
-                if (false)
-                {
-                    hasPressed = true;
-                    return;
-                }
-
                 if (friend.getValue())
                 {
                     if (pointed != null && pointed instanceof PlayerEntity)
@@ -271,13 +265,10 @@ public class MiddleClick extends Module
     @Override
     public String getHudInfo()
     {
-        // TODO 1.21.11: if (false)
-            return "XP";
+        if (mc.player != null && mc.player.isGliding() && fireworks.getValue())
+            return "Firework";
 
-        // TODO 1.21.11: if (mc.player.isGliding() && fireworks.getValue())
-// TODO 1.21.11:             return "Firework";
-
-// TODO 1.21.11:         return "Pearl";
+        return "Pearl";
     }
 
 

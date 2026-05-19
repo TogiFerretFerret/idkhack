@@ -148,8 +148,8 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
             boolean bl = isSneaking();
             if (bl != lastSneaking_removed)
             {
-// TODO 1.21.11: // TODO 1.21.11: // TODO 1.21.11: // TODO 1.21.11:                 ClientCommandC2SPacket.Mode mode = bl ? ClientCommandC2SPacket.Mode.PRESS_SHIFT_KEY : ClientCommandC2SPacket.Mode.RELEASE_SHIFT_KEY;
-// TODO 1.21.11:                 networkHandler.sendPacket(new ClientCommandC2SPacket(this, mode));
+                // Sneak state is no longer sent via ClientCommandC2SPacket in 1.21.11
+                // (PRESS_SHIFT_KEY/RELEASE_SHIFT_KEY modes removed)
                 lastSneaking_removed = bl;
             }
             if (isCamera())
