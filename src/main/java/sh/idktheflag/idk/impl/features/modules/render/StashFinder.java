@@ -68,6 +68,29 @@ public class StashFinder extends Module {
         }
     }
 
+    @Override
+    public void onEnable() {
+        if (NullUtils.nullCheck()) return;
+        stashes.clear();
+        int range = mc.options.getViewDistance().getValue();
+        for (int x = -range; x <= range; x++) {
+            for (int z = -range; z <= range; z++) {
+                var chunk = mc.world.getChunk(mc.player.getChunkPos().x + x, mc.player.getChunkPos().z + z);
+                if (chunk != null) {
+                    int count = 0;
+                    for (BlockEntity be : chunk.getBlockEntities().values()) {
+                        if (be instanceof ChestBlockEntity || be instanceof EnderChestBlockEntity || be instanceof ShulkerBoxBlockEntity || be instanceof BarrelBlockEntity) {
+                            count++;
+                        }
+                    }
+                    if (count >= minStorage.getValue().intValue()) {
+                        stashes.put(chunk.getPos(), count);
+                    }
+                }
+            }
+        }
+    }
+
     private void logStash(ChunkPos pos, int count) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(SavableManager.MAIN_FOLDER + "/stashes.txt", true))) {
             writer.println("Stash at " + pos.getCenterX() + ", " + pos.getCenterZ() + " (Count: " + count + ")");

@@ -14,6 +14,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.SignBlockEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.chunk.WorldChunk;
 
 import java.util.Map;
 import java.util.Set;
@@ -47,6 +48,27 @@ public class SignSearch extends Module {
             if (be instanceof SignBlockEntity sign) {
                 if (textToFind.getValue().isEmpty() || containsText(sign)) {
                     signs.add(be.getPos());
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onEnable() {
+        if (NullUtils.nullCheck()) return;
+        signs.clear();
+        int range = mc.options.getViewDistance().getValue();
+        for (int x = -range; x <= range; x++) {
+            for (int z = -range; z <= range; z++) {
+                WorldChunk chunk = mc.world.getChunk(mc.player.getChunkPos().x + x, mc.player.getChunkPos().z + z);
+                if (chunk != null) {
+                    for (BlockEntity be : chunk.getBlockEntities().values()) {
+                        if (be instanceof SignBlockEntity sign) {
+                            if (textToFind.getValue().isEmpty() || containsText(sign)) {
+                                signs.add(be.getPos());
+                            }
+                        }
+                    }
                 }
             }
         }

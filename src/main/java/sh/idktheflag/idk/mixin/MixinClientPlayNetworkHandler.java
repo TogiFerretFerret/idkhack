@@ -1,5 +1,8 @@
 package sh.idktheflag.idk.mixin;
 
+import net.minecraft.network.packet.s2c.play.ChunkDataS2CPacket;
+import net.minecraft.world.chunk.WorldChunk;
+import sh.idktheflag.idk.api.event.events.world.ChunkDataEvent;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.packet.Packet;
@@ -25,6 +28,16 @@ public abstract class MixinClientPlayNetworkHandler implements IClientPlayNetwor
     @Override
     public void sendQuietPacket(final Packet<?> packet) {
         ((IClientConnection) getConnection()).sendQuietPacket(packet, null, true);
+    }
+
+    @Inject(method = "onChunkData", at = @At("TAIL"))
+    private void hookOnChunkData(ChunkDataS2CPacket packet, CallbackInfo ci)
+    {
+        WorldChunk chunk = ((ClientPlayNetworkHandler) (Object) this).getWorld().getChunk(packet.getChunkX(), packet.getChunkZ());
+        if (chunk != null)
+        {
+            new ChunkDataEvent(chunk, false).post();
+        }
     }
 
     @Inject(method = "onExplosion", at = @At("HEAD"), cancellable = true)
