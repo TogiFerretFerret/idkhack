@@ -134,6 +134,13 @@ public class RenderBuffers {
             return this;
         }
 
+        public Buffer vertex(MatrixStack.Entry entry, float x, float y, float z)
+        {
+            if (currentColor == null) currentColor = Color.WHITE;
+            ColorUtil.color(buffer.vertex(entry, x, y, z), currentColor);
+            return this;
+        }
+
         public Buffer vertex(Matrix4f stack, float x, float y, float z)
         {
             if (currentColor == null) currentColor = Color.WHITE;

@@ -57,8 +57,8 @@ public class PopChams extends Module {
             float alpha = 1.0f - (float) age / duration.getValue().floatValue();
             Color c = ColorUtil.newAlpha(color.getValue().getColor(), (int) (color.getValue().getColor().getAlpha() * alpha));
 
-            RenderUtil.renderBox(RenderType.FILL, pop.bb, c, c);
-            RenderUtil.renderBox(RenderType.LINES, pop.bb, c, c);
+            RenderUtil.renderBox(event.getMatrices(), RenderType.FILL, pop.bb, c, c);
+            RenderUtil.renderBox(event.getMatrices(), RenderType.LINES, pop.bb, c, c);
         }
     }
 

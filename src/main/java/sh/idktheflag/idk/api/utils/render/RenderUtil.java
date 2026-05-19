@@ -241,26 +241,22 @@ public class RenderUtil {
 
     public static void renderBox(RenderType type, Box box, Color top, Color bottom)
     {
+        MatrixStack matrices = new MatrixStack();
+        matrices.peek().getPositionMatrix().set(matrix4f);
+        renderBox(matrices, type, box, top, bottom);
+    }
+
+    public static void renderBox(MatrixStack matrices, RenderType type, Box box, Color top, Color bottom)
+    {
         switch (type)
         {
             case FILL:
-                renderFillBox(box, top, bottom);
+                renderFillBox(matrices, box, top, bottom);
                 break;
             case LINES:
-                renderLinesBox(box, top, bottom);
+                renderLinesBox(matrices, box, top, bottom);
                 break;
         }
-    }
-
-    public static void renderLinesBox(Box box, Color top, Color bottom)
-    {
-        if (Optimizer.INSTANCE.isEnabled() && Optimizer.INSTANCE.frustrum.getValue() && !isFrustumVisible(box))
-            return;
-
-        MatrixStack stack = matrixFrom(box.minX, box.minY, box.minZ);
-        stack.push();
-        drawOutlineBox(stack, box.offset(new Vec3d(box.minX, box.minY, box.minZ).negate()), top, bottom);
-        stack.pop();
     }
 
     public static boolean isFrustumVisible(Box box)
@@ -269,17 +265,36 @@ public class RenderUtil {
     }
 
 
-    public static void renderFillBox(Box box, Color top, Color bottom)
+    public static void renderLinesBox(MatrixStack matrices, Box box, Color top, Color bottom)
+    {
+        if (Optimizer.INSTANCE.isEnabled() && Optimizer.INSTANCE.frustrum.getValue() && !isFrustumVisible(box))
+            return;
+
+        renderLinesBox(matrices, box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ, top, bottom);
+    }
+
+    public static void renderLinesBox(Box box, Color top, Color bottom)
+    {
+        MatrixStack matrices = new MatrixStack();
+        matrices.peek().getPositionMatrix().set(matrix4f);
+        renderLinesBox(matrices, box, top, bottom);
+    }
+
+    public static void renderFillBox(MatrixStack matrices, Box box, Color top, Color bottom)
     {
         if (Optimizer.INSTANCE.isEnabled() && Optimizer.INSTANCE.frustrum.getValue() && !isFrustumVisible(box))
         {
             return;
         }
 
-        MatrixStack stack = matrixFrom(box.minX, box.minY, box.minZ);
-        stack.push();
-        drawBox(stack, 0, 0, 0, box.maxX - box.minX, box.maxY - box.minY, box.maxZ - box.minZ, top, bottom);
-        stack.pop();
+        drawBox(matrices, box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ, top, bottom);
+    }
+
+    public static void renderFillBox(Box box, Color top, Color bottom)
+    {
+        MatrixStack matrices = new MatrixStack();
+        matrices.peek().getPositionMatrix().set(matrix4f);
+        renderFillBox(matrices, box, top, bottom);
     }
 
     public static void drawBox(MatrixStack matrices, Box box, Color top, Color bottom)
@@ -313,11 +328,11 @@ public class RenderUtil {
         float len = MathHelper.sqrt(dx*dx + dy*dy + dz*dz);
         
         RenderBuffers.LINE.begin(posMatrix);
-        RenderBuffers.LINE.buffer.vertex(posMatrix, (float)a.x, (float)a.y, (float)a.z)
+        RenderBuffers.LINE.buffer.vertex(peek, (float)a.x, (float)a.y, (float)a.z)
                 .color(colorA.getRed(), colorA.getGreen(), colorA.getBlue(), colorA.getAlpha())
                 .normal(peek, dx/len, dy/len, dz/len)
                 .lineWidth(1.0f);
-        RenderBuffers.LINE.buffer.vertex(posMatrix, (float)b.x, (float)b.y, (float)b.z)
+        RenderBuffers.LINE.buffer.vertex(peek, (float)b.x, (float)b.y, (float)b.z)
                 .color(colorB.getRed(), colorB.getGreen(), colorB.getBlue(), colorB.getAlpha())
                 .normal(peek, dx/len, dy/len, dz/len)
                 .lineWidth(1.0f);
@@ -334,31 +349,44 @@ public class RenderUtil {
     public static void drawBox(MatrixStack matrices, double x1, double y1,
                                double z1, double x2, double y2, double z2, Color top, Color bottom)
     {
-        Matrix4f matrix4f = matrices.peek().getPositionMatrix();
+        MatrixStack.Entry peek = matrices.peek();
+        Matrix4f matrix4f = peek.getPositionMatrix();
 
         RenderBuffers.QUADS.begin(matrix4f);
         RenderBuffers.QUADS.color(bottom);
-        RenderBuffers.QUADS.vertex(x1, y1, z1).vertex(x2, y1, z1).vertex(x2, y1, z2).vertex(x1, y1, z2);
+        RenderBuffers.QUADS.vertex(peek, (float)x1, (float)y1, (float)z1)
+                .vertex(peek, (float)x2, (float)y1, (float)z1)
+                .vertex(peek, (float)x2, (float)y1, (float)z2)
+                .vertex(peek, (float)x1, (float)y1, (float)z2);
         RenderBuffers.QUADS.color(top);
-        RenderBuffers.QUADS.vertex(x1, y2, z1).vertex(x1, y2, z2).vertex(x2, y2, z2).vertex(x2, y2, z1);
+        RenderBuffers.QUADS.vertex(peek, (float)x1, (float)y2, (float)z1)
+                .vertex(peek, (float)x1, (float)y2, (float)z2)
+                .vertex(peek, (float)x2, (float)y2, (float)z2)
+                .vertex(peek, (float)x2, (float)y2, (float)z1);
         RenderBuffers.QUADS.color(bottom);
-        RenderBuffers.QUADS.vertex(x1, y1, z1);
+        RenderBuffers.QUADS.vertex(peek, (float)x1, (float)y1, (float)z1);
         RenderBuffers.QUADS.color(top);
-        RenderBuffers.QUADS.vertex(x1, y2, z1).vertex(x2, y2, z1);
+        RenderBuffers.QUADS.vertex(peek, (float)x1, (float)y2, (float)z1)
+                .vertex(peek, (float)x2, (float)y2, (float)z1);
         RenderBuffers.QUADS.color(bottom);
-        RenderBuffers.QUADS.vertex(x2, y1, z1);
-        RenderBuffers.QUADS.vertex(x2, y1, z1);
+        RenderBuffers.QUADS.vertex(peek, (float)x2, (float)y1, (float)z1);
+        RenderBuffers.QUADS.vertex(peek, (float)x2, (float)y1, (float)z1);
         RenderBuffers.QUADS.color(top);
-        RenderBuffers.QUADS.vertex(x2, y2, z1).vertex(x2, y2, z2);
+        RenderBuffers.QUADS.vertex(peek, (float)x2, (float)y2, (float)z1)
+                .vertex(peek, (float)x2, (float)y2, (float)z2);
         RenderBuffers.QUADS.color(bottom);
-        RenderBuffers.QUADS.vertex(x2, y1, z2);
-        RenderBuffers.QUADS.vertex(x1, y1, z2).vertex(x2, y1, z2);
+        RenderBuffers.QUADS.vertex(peek, (float)x2, (float)y1, (float)z2);
+        RenderBuffers.QUADS.vertex(peek, (float)x1, (float)y1, (float)z2)
+                .vertex(peek, (float)x2, (float)y1, (float)z2);
         RenderBuffers.QUADS.color(top);
-        RenderBuffers.QUADS.vertex(x2, y2, z2).vertex(x1, y2, z2);
+        RenderBuffers.QUADS.vertex(peek, (float)x2, (float)y2, (float)z2)
+                .vertex(peek, (float)x1, (float)y2, (float)z2);
         RenderBuffers.QUADS.color(bottom);
-        RenderBuffers.QUADS.vertex(x1, y1, z1).vertex(x1, y1, z2);
+        RenderBuffers.QUADS.vertex(peek, (float)x1, (float)y1, (float)z1)
+                .vertex(peek, (float)x1, (float)y1, (float)z2);
         RenderBuffers.QUADS.color(top);
-        RenderBuffers.QUADS.vertex(x1, y2, z2).vertex(x1, y2, z1);
+        RenderBuffers.QUADS.vertex(peek, (float)x1, (float)y2, (float)z2)
+                .vertex(peek, (float)x1, (float)y2, (float)z1);
         RenderBuffers.QUADS.end();
     }
 
@@ -382,12 +410,10 @@ public class RenderUtil {
         renderLinesBox(matrices, box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ, top, bottom);
     }
 
-    public static void drawCircle(Buffer buffer, float radius, int slices, Vec3d pos, Direction direction, Color color)
+    public static void drawCircle(MatrixStack matrices, RenderBuffers.Buffer buffer, float radius, int slices, Vec3d pos, Direction direction, Color color)
     {
-        MatrixStack matrices = matrixFrom(pos.x, pos.y, pos.z);
-        matrices.push();
-        Matrix4f matrix = matrices.peek().getPositionMatrix();
-        buffer.begin(matrix);
+        MatrixStack.Entry peek = matrices.peek();
+        buffer.begin(peek.getPositionMatrix());
         buffer.color(color);
         for (int i = 0; i <= slices; i++)
         {
@@ -396,18 +422,24 @@ public class RenderUtil {
             switch (direction)
             {
                 case UP, DOWN:
-                    buffer.vertex((float) circleTwo, 0f, (float) circleOne);
+                    buffer.vertex(peek, (float) (pos.x + circleTwo), (float) pos.y, (float) (pos.z + circleOne));
                     break;
-                case EAST, WEST:
-                    buffer.vertex(0f, (float) circleTwo, (float) circleOne);
+                case NORTH, SOUTH:
+                    buffer.vertex(peek, (float) (pos.x + circleTwo), (float) (pos.y + circleOne), (float) pos.z);
                     break;
-                case SOUTH, NORTH:
-                    buffer.vertex((float) circleOne, (float) circleTwo, 0f);
+                case WEST, EAST:
+                    buffer.vertex(peek, (float) pos.x, (float) (pos.y + circleTwo), (float) (pos.z + circleOne));
                     break;
             }
         }
         buffer.end();
-        matrices.pop();
+    }
+
+    public static void drawCircle(RenderBuffers.Buffer buffer, float radius, int slices, Vec3d pos, Direction direction, Color color)
+    {
+        MatrixStack matrices = new MatrixStack();
+        matrices.peek().getPositionMatrix().set(matrix4f);
+        drawCircle(matrices, buffer, radius, slices, pos, direction, color);
     }
 
     public static void renderLinesBox(MatrixStack matrices, double x1, double y1,
