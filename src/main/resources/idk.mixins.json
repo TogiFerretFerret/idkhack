@@ -37,6 +37,7 @@
     "MixinParticleManager",
     "MixinPlayerEntity",
     "MixinPlayerEntityRenderer",
+    "MixinSkyRendering",
     "MixinPlayerListHud",
     "MixinRenderedChunk",
     "MixinRenderTickCounter",

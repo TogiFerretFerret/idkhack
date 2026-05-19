@@ -1,24 +1,13 @@
 package sh.idktheflag.idk.mixin;
 
-import sh.idktheflag.idk.api.event.events.render.RenderWorldEvent;
-import sh.idktheflag.idk.api.utils.ducks.IVec3d;
 import sh.idktheflag.idk.api.wrapper.IMinecraft;
-import sh.idktheflag.idk.impl.features.modules.misc.NoEntityTrace;
 import sh.idktheflag.idk.impl.features.modules.render.*;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.*;
-import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -29,12 +18,6 @@ public abstract class MixinGameRenderer implements IMinecraft
 {
     @Shadow
     public abstract void updateCrosshairTarget(float tickDelta);
-
-    @Inject(method = "renderWorld", at = @At("TAIL"))
-    public void hookRenderWorld(RenderTickCounter tickCounter, CallbackInfo ci)
-    {
-        new RenderWorldEvent(new net.minecraft.client.util.math.MatrixStack(), tickCounter.getTickProgress(false)).post();
-    }
 
     @Inject(method = "tiltViewWhenHurt", at = @At(value = "HEAD"), cancellable = true)
     private void hookTiltViewWhenHurt(MatrixStack matrices, float tickDelta, CallbackInfo ci)
@@ -67,9 +50,10 @@ public abstract class MixinGameRenderer implements IMinecraft
             float pitch = cameraE.getPitch();
             float prevYaw = cameraE.lastYaw;
             float prevPitch = cameraE.lastPitch;
-            ((IVec3d) new Vec3d(cameraE.getX(), cameraE.getY(), cameraE.getZ())).set(freecam.pos.x, freecam.pos.y - cameraE.getEyeHeight(cameraE.getPose()), freecam.pos.z);
+            double eyeOffset = cameraE.getEyeHeight(cameraE.getPose());
+            cameraE.setPosition(freecam.pos.x, freecam.pos.y - eyeOffset, freecam.pos.z);
             cameraE.lastX = freecam.prevPos.x;
-            cameraE.lastY = freecam.prevPos.y - cameraE.getEyeHeight(cameraE.getPose());
+            cameraE.lastY = freecam.prevPos.y - eyeOffset;
             cameraE.lastZ = freecam.prevPos.z;
             cameraE.setYaw(freecam.yaw);
             cameraE.setPitch(freecam.pitch);
@@ -78,7 +62,7 @@ public abstract class MixinGameRenderer implements IMinecraft
             updateCrosshairTarget(tickDelta);
             freecamSet = false;
 
-            ((IVec3d) new Vec3d(cameraE.getX(), cameraE.getY(), cameraE.getZ())).set(x, y, z);
+            cameraE.setPosition(x, y, z);
             cameraE.lastX = prevX;
             cameraE.lastY = prevY;
             cameraE.lastZ = prevZ;

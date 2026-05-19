@@ -68,17 +68,6 @@ public abstract class MixinEntity implements IMinecraft
             ci.cancel();
         }
     }
-//
-//    @Inject(method = "isGlowing", at = @At("HEAD"), cancellable = true)
-//    public void isGlowingHook(CallbackInfoReturnable<Boolean> cir)
-//    {
-//
-//        if (false)
-//        {
-// TODO: removed Shaders - &
-//        }
-//    }
-
     @Inject(method = "updateVelocity", at = @At(value = "HEAD"), cancellable = true)
     private void hookUpdateVelocity(float speed, Vec3d movementInput, CallbackInfo ci)
     {

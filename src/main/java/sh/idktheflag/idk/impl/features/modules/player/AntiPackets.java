@@ -12,7 +12,6 @@ import sh.idktheflag.idk.api.utils.chat.ChatUtils;
 import sh.idktheflag.idk.api.value.Value;
 import sh.idktheflag.idk.api.value.builder.ValueBuilder;
 import sh.idktheflag.idk.mixin.accessor.IPlayerMoveC2SPacket;
-import sh.idktheflag.idk.mixin.accessor.IPlayerPositionLookS2CPacket;
 import net.minecraft.network.packet.BrandCustomPayload;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.network.packet.c2s.common.CustomPayloadC2SPacket;

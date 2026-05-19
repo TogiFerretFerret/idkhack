@@ -36,7 +36,6 @@ public abstract class MixinClientWorld {
     }
 
 
-    // getSkyColor removed in 1.21.11 - sky color is now in SkyRenderState.skyColor (int)
-    // TODO: hook into SkyRendering.updateRenderState to implement CustomSky
+    // getSkyColor removed in 1.21.11 - CustomSky now hooks SkyRendering.updateRenderState via MixinSkyRendering
 
 }

@@ -2,13 +2,9 @@ package sh.idktheflag.idk.mixin;
 
 
 import sh.idktheflag.idk.api.event.events.LivingEvent;
-import sh.idktheflag.idk.api.event.events.move.FallFlyingEvent;
-import sh.idktheflag.idk.api.management.PacketManager;
 import sh.idktheflag.idk.api.management.RotationManager;
-import sh.idktheflag.idk.api.utils.NullUtils;
 import sh.idktheflag.idk.api.utils.ducks.ILivingEntity;
 import sh.idktheflag.idk.api.utils.players.rotation.Rotation;
-import sh.idktheflag.idk.impl.IdkHackMod;
 import sh.idktheflag.idk.impl.features.modules.client.AntiCheat;
 import sh.idktheflag.idk.impl.features.modules.movement.ElytraFly;
 import net.minecraft.client.MinecraftClient;
@@ -17,7 +13,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;

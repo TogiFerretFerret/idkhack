@@ -40,16 +40,6 @@ public abstract class MixinCamera {
             cir.setReturnValue(ViewClip.INSTANCE.distance.getValue().floatValue());
     }
 
-    @Inject(method = "update", at = @At("TAIL"))
-    private void updateHook(World area, Entity focusedEntity, boolean thirdPerson, boolean inverseView, float tickDelta, CallbackInfo ci)
-    {
-        if (Freecam.INSTANCE.isEnabled())
-        {
-            this.thirdPerson = true;
-        }
-    }
-
-
     @Inject(method = "update", at = @At("HEAD"))
     private void onUpdateHead(World area, Entity focusedEntity, boolean thirdPerson, boolean inverseView, float tickDelta, CallbackInfo info) {
         this.tickDelta = tickDelta;

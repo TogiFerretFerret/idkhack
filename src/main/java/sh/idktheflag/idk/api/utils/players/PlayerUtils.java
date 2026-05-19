@@ -775,8 +775,6 @@ public class PlayerUtils implements IMinecraft
 
         runningPhysics = true;
 
-        int lastSwing = 0; // TODO 1.21.11: getLastAttackedTicks removed
-
         int hurtTime = mc.player.hurtTime;
         float prevSwingProgress = mc.player.lastHandSwingProgress;
         float swingProgress = mc.player.handSwingProgress;
@@ -807,8 +805,6 @@ public class PlayerUtils implements IMinecraft
         float limbSwing = mc.player.limbAnimator.getSpeed();
 
         ((IClientPlayerEntity) mc.player).doTick();
-
-        // TODO 1.21.11: setLastAttackedTicks removed
 
         mc.player.hurtTime = hurtTime;
         mc.player.lastHandSwingProgress = prevSwingProgress;

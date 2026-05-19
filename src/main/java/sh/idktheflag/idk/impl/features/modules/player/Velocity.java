@@ -12,7 +12,6 @@ import sh.idktheflag.idk.api.utils.chat.ChatUtils;
 import sh.idktheflag.idk.api.value.Value;
 import sh.idktheflag.idk.api.value.builder.ValueBuilder;
 import sh.idktheflag.idk.mixin.accessor.IEntityVelocityUpdateS2CPacket;
-import sh.idktheflag.idk.mixin.accessor.IExplosionS2CPacket;
 import net.minecraft.client.network.ClientCommandSource;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
