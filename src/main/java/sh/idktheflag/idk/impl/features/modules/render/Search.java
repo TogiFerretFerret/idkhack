@@ -100,19 +100,21 @@ public class Search extends Module {
             BlockPos pos = pair.key();
             Box renderBB = new Box(pos);
             RenderUtil.renderBox(
+                    event.getMatrices(),
                     RenderType.FILL,
                     renderBB,
                     ColorUtil.newAlpha(blockColor, defaultColor.getValue().getColor().getAlpha()),
                     ColorUtil.newAlpha(blockColor, defaultColor.getValue().getColor().getAlpha())
             );
             RenderUtil.renderBox(
+                    event.getMatrices(),
                     RenderType.LINES,
                     renderBB,
                     ColorUtil.newAlpha(blockColor, 255),
                     ColorUtil.newAlpha(blockColor, 255)
             );
             if (tracers.getValue())
-                RenderUtil.renderTracerLine(mc.gameRenderer.getCamera().getCameraPos(), renderBB.getCenter(), ColorUtil.newAlpha(blockColor, 255), ColorUtil.newAlpha(blockColor, 255), lineWidth.getValue().floatValue());
+                RenderUtil.drawWorldLine(event.getMatrices(), mc.gameRenderer.getCamera().getCameraPos(), renderBB.getCenter(), ColorUtil.newAlpha(blockColor, 255), ColorUtil.newAlpha(blockColor, 255));
         }
 
     }

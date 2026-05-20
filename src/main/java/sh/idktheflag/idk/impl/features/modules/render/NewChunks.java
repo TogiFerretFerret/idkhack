@@ -75,6 +75,7 @@ public class NewChunks extends Module
                 if (pos != null && mc.getCameraEntity().getBlockPos().isWithinDistance(pos.getStartPos(), (mc.options.getViewDistance().getValue() * 3) * 16)) {
                     Box box = new Box(new Vec3d(pos.getStartPos().getX(), pos.getStartPos().getY() + 0.1, pos.getStartPos().getZ()), new Vec3d(pos.getStartPos().getX() + 16, pos.getStartPos().getY() + 0.1, pos.getStartPos().getZ() + 16));
                     RenderUtil.renderBox(
+                            event.getMatrices(),
                             RenderType.LINES,
                             box,
                             HudColors.getTextColor(0),

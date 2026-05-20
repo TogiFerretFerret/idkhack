@@ -49,7 +49,17 @@ public class RenderUtil {
 
     public static void renderItem(ItemStack stack, ItemDisplayContext renderMode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, World world, int seed)
     {
-        // TODO: port to 1.21.11
+        if (stack.isEmpty()) return;
+        
+        var queue = ((sh.idktheflag.idk.mixin.accessor.IWorldRenderer) mc.worldRenderer).getEntityRenderCommandQueue();
+        mc.getEntityRenderDispatcher().getHeldItemRenderer().renderItem(
+            null, // entity
+            stack,
+            renderMode,
+            matrices,
+            queue,
+            0xF000F0 // light
+        );
     }
 
     public static VertexConsumer getItemGlintConsumer(VertexConsumerProvider vertexConsumers, RenderLayer layer, boolean glint)
@@ -395,9 +405,14 @@ public class RenderUtil {
         drawWorldLine(from, to, top, bottom);
     }
 
+    public static void renderLineFromPosToPos(MatrixStack matrices, Vec3d from, Vec3d to, Color top, Color bottom, float lineWidth)
+    {
+        drawWorldLine(matrices, from, to, top, bottom);
+    }
+
     public static void renderLineFromPosToPos(Vec3d from, Vec3d to, Color top, Color bottom, float lineWidth)
     {
-        renderLine(new Vec3d(0, 0, 0), from.x, from.y, from.z, to.x, to.y, to.z, top, bottom, lineWidth);
+        drawWorldLine(from, to, top, bottom);
     }
 
     public static void renderLine(Vec3d offset, double x1, double y1, double z1, double x2, double y2, double z2, Color top, Color bottom, float width)

@@ -37,6 +37,7 @@
     "MixinParticleManager",
     "MixinPlayerEntity",
     "MixinPlayerEntityRenderer",
+    "MixinPostEffectProcessor",
     "MixinSkyRendering",
     "MixinPlayerListHud",
     "MixinRenderedChunk",

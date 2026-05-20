@@ -17,5 +17,8 @@ public interface IWorldRenderer {
     @Accessor("bufferBuilders")
     BufferBuilderStorage hookGetBufferBuilders();
 
+    @Accessor("entityRenderCommandQueue")
+    net.minecraft.client.render.command.OrderedRenderCommandQueue getEntityRenderCommandQueue();
+
     // TODO: 1.21.11 - noCullingBlockEntities removed from WorldRenderer
 }

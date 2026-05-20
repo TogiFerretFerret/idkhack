@@ -97,12 +97,12 @@ public class BlockHighlight extends Module {
         {
             if (result.getType() == HitResult.Type.ENTITY)
             {
-                RenderUtil.renderBox(RenderType.FILL, render, entityFill.getValue().getColor(), entityFill.getValue().getColor());
-                RenderUtil.renderBox(RenderType.LINES, render, entityLine.getValue().getColor(), entityLine.getValue().getColor());
+                RenderUtil.renderBox(event.getMatrices(), RenderType.FILL, render, entityFill.getValue().getColor(), entityFill.getValue().getColor());
+                RenderUtil.renderBox(event.getMatrices(), RenderType.LINES, render, entityLine.getValue().getColor(), entityLine.getValue().getColor());
             } else
             {
-                RenderUtil.renderBox(RenderType.FILL, render, fill.getValue().getColor(), fill.getValue().getColor());
-                RenderUtil.renderBox(RenderType.LINES, render, line.getValue().getColor(), line.getValue().getColor());
+                RenderUtil.renderBox(event.getMatrices(), RenderType.FILL, render, fill.getValue().getColor(), fill.getValue().getColor());
+                RenderUtil.renderBox(event.getMatrices(), RenderType.LINES, render, line.getValue().getColor(), line.getValue().getColor());
             }
         }
     }

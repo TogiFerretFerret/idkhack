@@ -143,6 +143,7 @@ public class HoleEsp extends Module {
 
     volatile List<HoleUtils.Hole> holes = new ArrayList<>();
     volatile List<BlockPos> voidPositions = new ArrayList<>();
+    private boolean scanning = false;
 
     public HoleEsp()
     {
@@ -153,13 +154,19 @@ public class HoleEsp extends Module {
     public void onTick(TickEvent.ClientTickEvent event)
     {
         if (NullUtils.nullCheck()) return;
+        if (scanning) return;
 
+        scanning = true;
         service.submit(() ->
         {
-            holes = HoleUtils.getHoles(range.getValue().floatValue(), mc.player.getBlockPos(), doubles.getValue());
-            if (voidHoles.getValue())
-            {
-                voidPositions = getVoidHoles();
+            try {
+                holes = HoleUtils.getHoles(range.getValue().floatValue(), mc.player.getBlockPos(), doubles.getValue());
+                if (voidHoles.getValue())
+                {
+                    voidPositions = getVoidHoles();
+                }
+            } finally {
+                scanning = false;
             }
         });
     }
@@ -202,7 +209,7 @@ public class HoleEsp extends Module {
                         break;
                     case "Height":
                         renderHeight = height.getValue().doubleValue() * rangeAnimation;
-                        if (renderHeight == 0) continue;
+                        if (renderHeight <= 0) continue;
 
                         break;
                 }
@@ -216,12 +223,14 @@ public class HoleEsp extends Module {
             {
                 case "None":
                     RenderUtil.renderBox(
+                            event.getMatrices(),
                             RenderType.FILL,
                             holeBB,
                             fillColor,
                             fillColor
                     );
                     RenderUtil.renderBox(
+                            event.getMatrices(),
                             RenderType.LINES,
                             holeBB,
                             outlineColor,
@@ -230,12 +239,14 @@ public class HoleEsp extends Module {
                     break;
                 case "Fade":
                     RenderUtil.renderBox(
+                            event.getMatrices(),
                             RenderType.LINES,
                             holeBB,
                             outlineColor,
                             outlineColor2
                     );
                     RenderUtil.renderBox(
+                            event.getMatrices(),
                             RenderType.FILL,
                             holeBB,
                             fillColor,
@@ -261,12 +272,14 @@ public class HoleEsp extends Module {
 
 
                 RenderUtil.renderBox(
+                        event.getMatrices(),
                         RenderType.FILL,
                         bb,
                         fill,
                         fill
                 );
                 RenderUtil.renderBox(
+                        event.getMatrices(),
                         RenderType.LINES,
                         bb,
                         line,

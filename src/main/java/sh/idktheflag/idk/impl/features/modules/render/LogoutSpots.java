@@ -57,8 +57,8 @@ public class LogoutSpots extends Module {
         if (NullUtils.nullCheck()) return;
 
         for (LogoutPos spot : spots.values()) {
-            RenderUtil.renderBox(RenderType.FILL, spot.bb, color.getValue().getColor(), color.getValue().getColor());
-            RenderUtil.renderBox(RenderType.LINES, spot.bb, color.getValue().getColor(), color.getValue().getColor());
+            RenderUtil.renderBox(event.getMatrices(), RenderType.FILL, spot.bb, color.getValue().getColor(), color.getValue().getColor());
+            RenderUtil.renderBox(event.getMatrices(), RenderType.LINES, spot.bb, color.getValue().getColor(), color.getValue().getColor());
             RenderUtil.drawText(spot.name + " (Logged Out)", spot.pos.add(0, spot.bb.getLengthY() + 0.5, 0), 1.5f);
         }
     }

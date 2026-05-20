@@ -24,14 +24,16 @@ These modules are stubbed out and need to be rewritten for MC 1.21.11 API change
 
 ### Render
 - **LogoutSpots** - show where players logged out (fixed)
-- **Nametags** - custom nametag rendering (partially done)
+- **Nametags** - custom nametag rendering (fixed)
 - **PopChams** - totem pop visualization (fixed)
 - **Tooltips** - shulker tooltips (fixed)
 - **Waypoints** - render saved waypoints (fixed)
 - **StashFinder** - (fixed)
 - **SignSearch** - (fixed)
+- **Tracers** - (fixed)
+- **Trajectories** - (fixed)
 - **Shaders** - post-processing effects
-- **Skeleton** - (partially working)
+- **Skeleton** - (fixed)
 
 ## Technical Debt / API Changes
 - `MatrixStack` is often replaced by `DrawContext` in GUI code

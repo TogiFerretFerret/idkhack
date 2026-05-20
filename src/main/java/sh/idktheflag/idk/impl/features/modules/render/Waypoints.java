@@ -35,8 +35,8 @@ public class Waypoints extends Module {
             if (wp.getDimension().equalsIgnoreCase(mc.world.getRegistryKey().getValue().getPath())) {
                 Box bb = new Box(wp.getX(), wp.getY(), wp.getZ(), wp.getX() + 1, wp.getY() + 1, wp.getZ() + 1);
                 
-                RenderUtil.renderBox(RenderType.FILL, bb, color.getValue().getColor(), color.getValue().getColor());
-                RenderUtil.renderBox(RenderType.LINES, bb, color.getValue().getColor(), color.getValue().getColor());
+                RenderUtil.renderBox(event.getMatrices(), RenderType.FILL, bb, color.getValue().getColor(), color.getValue().getColor());
+                RenderUtil.renderBox(event.getMatrices(), RenderType.LINES, bb, color.getValue().getColor(), color.getValue().getColor());
             }
         }
     }

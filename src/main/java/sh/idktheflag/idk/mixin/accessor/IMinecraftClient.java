@@ -65,6 +65,9 @@ public interface IMinecraftClient {
     @Accessor("bufferBuilders")
     net.minecraft.client.render.BufferBuilderStorage getBufferBuilders();
 
+    @Accessor("shaderLoader")
+    net.minecraft.client.gl.ShaderLoader getShaderLoader();
+
 
     @Invoker("doAttack")
     boolean leftClick();

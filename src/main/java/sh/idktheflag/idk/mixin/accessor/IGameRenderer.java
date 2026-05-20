@@ -9,4 +9,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 public interface IGameRenderer {
     @Invoker("renderHand")
     void doRenderHand(float tickDelta, boolean renderItem, Matrix4f matrix4f);
+
+    @Invoker("setPostProcessor")
+    void invokeSetPostProcessor(net.minecraft.util.Identifier id);
 }

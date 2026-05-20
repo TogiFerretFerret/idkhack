@@ -89,8 +89,8 @@ public class SignSearch extends Module {
         for (BlockPos pos : signs) {
             Box bb = new Box(pos);
             
-            RenderUtil.renderBox(RenderType.FILL, bb, color.getValue().getColor(), color.getValue().getColor());
-            RenderUtil.renderBox(RenderType.LINES, bb, color.getValue().getColor(), color.getValue().getColor());
+            RenderUtil.renderBox(event.getMatrices(), RenderType.FILL, bb, color.getValue().getColor(), color.getValue().getColor());
+            RenderUtil.renderBox(event.getMatrices(), RenderType.LINES, bb, color.getValue().getColor(), color.getValue().getColor());
         }
     }
 

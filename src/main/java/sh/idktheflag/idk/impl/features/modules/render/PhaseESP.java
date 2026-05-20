@@ -89,12 +89,14 @@ public class PhaseESP extends Module
 
             holeBB = new Box(holeBB.minX, holeBB.minY, holeBB.minZ, holeBB.maxX, holeBB.minY + height.getValue().doubleValue(), holeBB.maxZ);
             RenderUtil.renderBox(
+                    event.getMatrices(),
                     RenderType.FILL,
                     holeBB,
                     fill.getValue().getColor(),
                     fill.getValue().getColor()
             );
             RenderUtil.renderBox(
+                    event.getMatrices(),
                     RenderType.LINES,
                     holeBB,
                     line.getValue().getColor(),

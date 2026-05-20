@@ -719,13 +719,8 @@ public class CatAura extends Module {
                 boolean swapBack = false;
                 int curSlot = mc.player.getInventory().getSelectedSlot();
                 if (!antiWeakness.getValue().equals("None") && (weaknessEffect != null && (strengthEffect == null || strengthEffect.getAmplifier() <= weaknessEffect.getAmplifier()))) {
-                    /**
-                     * TODO: THIS
-                     * if (bestWeapon != -1 && RotationManager.INSTANCE.getServerSlot() != getBestWeapon())
-                     */
-
                     int bestWeapon = InventoryUtils.getSwordSlot();
-                    if (bestWeapon != -1 && mc.player.getInventory().getSelectedSlot() != bestWeapon) {
+                    if (bestWeapon != -1 && RotationManager.INSTANCE.serverSlot != bestWeapon) {
                         switch (antiWeakness.getValue()) {
                             case "Normal":
                                 InventoryUtils.switchToSlot(bestWeapon);

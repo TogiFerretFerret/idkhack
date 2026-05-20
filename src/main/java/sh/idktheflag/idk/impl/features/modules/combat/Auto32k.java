@@ -463,8 +463,7 @@ public class Auto32k extends Module {
                     disableSaying(Formatting.RED + "[!] " + Formatting.WHITE + "Failed to place dispenser, disabling");
                     return;
                 }
-                //TODO: this
-//                Anti32k.INSTANCE.visitedPositions.add(placePos);
+                Anti32k.INSTANCE.visitedPositions.add(placePos);
 
                 //place hopper in advance
                 placePos = placeTarget.pos.down().offset(placeTarget.direction);

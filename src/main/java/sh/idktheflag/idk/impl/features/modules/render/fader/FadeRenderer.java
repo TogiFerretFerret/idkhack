@@ -33,17 +33,17 @@ public class FadeRenderer {
     public void onRenderWorld(RenderWorldEvent event)
     {
 
-        doCrystalRender();
-        doAnchorRender();
+        doCrystalRender(event);
+        doAnchorRender(event);
 
-        doAutoFeetPlaceRender();
-        doSelfTrapRender();
-        doAutoPlaceRender();
+        doAutoFeetPlaceRender(event);
+        doSelfTrapRender(event);
+        doAutoPlaceRender(event);
 
-        doScaffoldRender();
+        doScaffoldRender(event);
     }
 
-    public void doCrystalRender()
+    public void doCrystalRender(RenderWorldEvent event)
     {
 
         if (!CatAura.INSTANCE.renderMode.getValue().equals("Fade")) return;
@@ -58,12 +58,14 @@ public class FadeRenderer {
         if (renderPos != null && CatAura.INSTANCE.canRender() && CatAura.INSTANCE.target != null)
         {
             RenderUtil.renderBox(
+                    event.getMatrices(),
                     RenderType.FILL,
                     new Box(renderPos),
                     fillColor,
                     fillColor
             );
             RenderUtil.renderBox(
+                    event.getMatrices(),
                     RenderType.LINES,
                     new Box(renderPos),
                     lineColor,
@@ -91,12 +93,14 @@ public class FadeRenderer {
                 Color outlineFade = ColorUtil.interpolate((float) normal, ColorUtil.newAlpha(lineColor, 0), lineColor);
 
                 RenderUtil.renderBox(
+                        event.getMatrices(),
                         RenderType.FILL,
                         new Box(pair.key()),
                         fillFade,
                         fillFade
                 );
                 RenderUtil.renderBox(
+                        event.getMatrices(),
                         RenderType.LINES,
                         new Box(pair.key()),
                         outlineFade,
@@ -106,7 +110,7 @@ public class FadeRenderer {
         }
     }
 
-    public void doAnchorRender()
+    public void doAnchorRender(RenderWorldEvent event)
     {
 
         if (!AutoAnchor.INSTANCE.renderMode.getValue().equals("Fade")) return;
@@ -121,12 +125,14 @@ public class FadeRenderer {
         if (renderPos != null && AutoAnchor.INSTANCE.target != null)
         {
             RenderUtil.renderBox(
+                    event.getMatrices(),
                     RenderType.FILL,
                     new Box(renderPos),
                     fillColor,
                     fillColor
             );
             RenderUtil.renderBox(
+                    event.getMatrices(),
                     RenderType.LINES,
                     new Box(renderPos),
                     lineColor,
@@ -154,12 +160,14 @@ public class FadeRenderer {
                 Color outlineFade = ColorUtil.interpolate((float) normal, ColorUtil.newAlpha(lineColor, 0), lineColor);
 
                 RenderUtil.renderBox(
+                        event.getMatrices(),
                         RenderType.FILL,
                         new Box(pair.key()),
                         fillFade,
                         fillFade
                 );
                 RenderUtil.renderBox(
+                        event.getMatrices(),
                         RenderType.LINES,
                         new Box(pair.key()),
                         outlineFade,
@@ -168,7 +176,7 @@ public class FadeRenderer {
             }
         }
     }
-    public void doAutoFeetPlaceRender()
+    public void doAutoFeetPlaceRender(RenderWorldEvent event)
     {
         if (!AutoFeetPlace.INSTANCE.render.getValue()) return;
 
@@ -192,8 +200,8 @@ public class FadeRenderer {
 
             Box bb = new Box(entry.getKey());
 
-            RenderUtil.renderBox(RenderType.FILL, bb, fillColor, fillColor);
-            RenderUtil.renderBox(RenderType.LINES, bb, lineColor, lineColor);
+            RenderUtil.renderBox(event.getMatrices(), RenderType.FILL, bb, fillColor, fillColor);
+            RenderUtil.renderBox(event.getMatrices(), RenderType.LINES, bb, lineColor, lineColor);
             if (fillAlpha == 0 && lineAlpha == 0)
             {
                 AutoFeetPlace.INSTANCE.renderPositions.remove(entry.getKey());
@@ -201,7 +209,7 @@ public class FadeRenderer {
         }
     }
 
-    public void doAutoPlaceRender()
+    public void doAutoPlaceRender(RenderWorldEvent event)
     {
         if (!AutoPlacer.INSTANCE.render.getValue()) return;
 
@@ -225,8 +233,8 @@ public class FadeRenderer {
 
             Box bb = new Box(entry.getKey());
 
-            RenderUtil.renderBox(RenderType.FILL, bb, fillColor, fillColor);
-            RenderUtil.renderBox(RenderType.LINES, bb, lineColor, lineColor);
+            RenderUtil.renderBox(event.getMatrices(), RenderType.FILL, bb, fillColor, fillColor);
+            RenderUtil.renderBox(event.getMatrices(), RenderType.LINES, bb, lineColor, lineColor);
             if (fillAlpha == 0 && lineAlpha == 0)
             {
                 AutoPlacer.INSTANCE.renderPositions.remove(entry.getKey());
@@ -235,7 +243,7 @@ public class FadeRenderer {
     }
 
     
-    public void doSelfTrapRender()
+    public void doSelfTrapRender(RenderWorldEvent event)
     {
         if (!SelfTrap.INSTANCE.render.getValue()) return;
 
@@ -259,8 +267,8 @@ public class FadeRenderer {
 
             Box bb = new Box(entry.getKey());
 
-            RenderUtil.renderBox(RenderType.FILL, bb, fillColor, fillColor);
-            RenderUtil.renderBox(RenderType.LINES, bb, lineColor, lineColor);
+            RenderUtil.renderBox(event.getMatrices(), RenderType.FILL, bb, fillColor, fillColor);
+            RenderUtil.renderBox(event.getMatrices(), RenderType.LINES, bb, lineColor, lineColor);
             if (fillAlpha == 0 && lineAlpha == 0)
             {
                 SelfTrap.INSTANCE.renderPositions.remove(entry.getKey());
@@ -269,7 +277,7 @@ public class FadeRenderer {
     }
 
 
-    public void doScaffoldRender()
+    public void doScaffoldRender(RenderWorldEvent event)
     {
         if (!Scaffold.INSTANCE.render.getValue()) return;
 
@@ -293,8 +301,8 @@ public class FadeRenderer {
 
             Box bb = new Box(entry.getKey());
 
-            RenderUtil.renderBox(RenderType.FILL, bb, fillColor, fillColor);
-            RenderUtil.renderBox(RenderType.LINES, bb, lineColor, lineColor);
+            RenderUtil.renderBox(event.getMatrices(), RenderType.FILL, bb, fillColor, fillColor);
+            RenderUtil.renderBox(event.getMatrices(), RenderType.LINES, bb, lineColor, lineColor);
             if (fillAlpha == 0 && lineAlpha == 0)
             {
                 Scaffold.INSTANCE.renderPositions.remove(entry.getKey());

@@ -103,6 +103,7 @@ public class BlockESP extends Module {
 
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     private volatile Map<BlockPos, Color> found = new ConcurrentHashMap<>();
+    private boolean scanning = false;
 
     public BlockESP() {
         super("BlockESP", Category.Render);
@@ -116,7 +117,16 @@ public class BlockESP extends Module {
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
         if (NullUtils.nullCheck()) return;
-        executor.submit(this::scan);
+        if (scanning) return;
+        
+        scanning = true;
+        executor.submit(() -> {
+            try {
+                scan();
+            } finally {
+                scanning = false;
+            }
+        });
     }
 
     private void scan() {
@@ -148,10 +158,10 @@ public class BlockESP extends Module {
             Box bb = new Box(pos);
 
             if (fill.getValue()) {
-                RenderUtil.renderBox(RenderType.FILL, bb, ColorUtil.newAlpha(color, 40), ColorUtil.newAlpha(color, 40));
+                RenderUtil.renderBox(event.getMatrices(), RenderType.FILL, bb, ColorUtil.newAlpha(color, 40), ColorUtil.newAlpha(color, 40));
             }
             if (outline.getValue()) {
-                RenderUtil.renderBox(RenderType.LINES, bb, color, color);
+                RenderUtil.renderBox(event.getMatrices(), RenderType.LINES, bb, color, color);
             }
         }
     }

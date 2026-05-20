@@ -40,9 +40,12 @@ public abstract class MixinClientPlayNetworkHandler implements IClientPlayNetwor
         }
     }
 
+    private boolean ignoreExplosion = false;
+
     @Inject(method = "onExplosion", at = @At("HEAD"), cancellable = true)
     private void hookOnExplosion(ExplosionS2CPacket packet, CallbackInfo ci)
     {
+        if (ignoreExplosion) return;
         if (!Velocity.INSTANCE.isEnabled()) return;
         if (!"Vanilla".equals(Velocity.INSTANCE.mode.getValue())) return;
         if (packet.playerKnockback().isEmpty()) return;
@@ -50,6 +53,7 @@ public abstract class MixinClientPlayNetworkHandler implements IClientPlayNetwor
         float h = Velocity.INSTANCE.horizontal.getValue().floatValue() / 100.0f;
         float v = Velocity.INSTANCE.vertical.getValue().floatValue() / 100.0f;
 
+        ignoreExplosion = true;
         if (h == 0 && v == 0)
         {
             // Cancel knockback entirely by replacing with empty Optional
@@ -58,6 +62,7 @@ public abstract class MixinClientPlayNetworkHandler implements IClientPlayNetwor
                     Optional.empty(),
                     packet.explosionParticle(), packet.explosionSound(), packet.blockParticles()
             ));
+            ignoreExplosion = false;
             ci.cancel();
             return;
         }
@@ -69,6 +74,7 @@ public abstract class MixinClientPlayNetworkHandler implements IClientPlayNetwor
                 Optional.of(scaled),
                 packet.explosionParticle(), packet.explosionSound(), packet.blockParticles()
         ));
+        ignoreExplosion = false;
         ci.cancel();
     }
 }

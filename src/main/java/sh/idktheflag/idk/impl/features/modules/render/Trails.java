@@ -184,11 +184,11 @@ public class Trails extends Module
                 }
             }
 
-            drawTrail(entry.getValue());
+            drawTrail(event.getMatrices(), entry.getValue());
         }
     }
 
-    public void drawTrail(ItemTrail trail)
+    public void drawTrail(MatrixStack matrices, ItemTrail trail)
     {
         if (trail.positions.isEmpty()) return;
 
@@ -208,17 +208,17 @@ public class Trails extends Module
         }
         Color start = ColorUtil.newAlpha(startColor.getValue().getColor(), startAlpha);
         Color end = ColorUtil.newAlpha(endColor.getValue().getColor(), endAlpha);
-        renderTrail(trail, start, end, trail.positions.get(0).pos);
+        renderTrail(matrices, trail, start, end, trail.positions.get(0).pos);
     }
 
 
-    public void renderTrail(ItemTrail trail, Color start, Color end, Vec3d first)
+    public void renderTrail(MatrixStack matrices, ItemTrail trail, Color start, Color end, Vec3d first)
     {
         Vec3d lastPos = first;
         for (Position p : trail.positions)
         {
             double value = normalize(trail.positions.indexOf(p), 0, trail.positions.size());
-            RenderUtil.renderLineFromPosToPos(lastPos, p.pos, ColorUtil.interpolate(((float) value), start, end), ColorUtil.interpolate(((float) value), start, end), lineWidth.getValue().floatValue());
+            RenderUtil.renderLineFromPosToPos(matrices, lastPos, p.pos, ColorUtil.interpolate(((float) value), start, end), ColorUtil.interpolate(((float) value), start, end), lineWidth.getValue().floatValue());
             lastPos = p.pos;
         }
     }

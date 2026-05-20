@@ -233,6 +233,8 @@ public class Register
         FeatureManager.INSTANCE.getFeatures().add(new Waypoints());
         FeatureManager.INSTANCE.getFeatures().add(new StashFinder());
         FeatureManager.INSTANCE.getFeatures().add(new SignSearch());
+        FeatureManager.INSTANCE.getFeatures().add(new Skeleton());
+        FeatureManager.INSTANCE.getFeatures().add(new Shaders());
 
         // Misc modules
         FeatureManager.INSTANCE.getFeatures().add(new FakePlayer());

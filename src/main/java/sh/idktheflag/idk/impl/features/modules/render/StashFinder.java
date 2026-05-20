@@ -107,8 +107,8 @@ public class StashFinder extends Module {
             ChunkPos pos = entry.getKey();
             Box bb = new Box(pos.getStartX(), 0, pos.getStartZ(), pos.getEndX(), 255, pos.getEndZ());
             
-            RenderUtil.renderBox(RenderType.FILL, bb, color.getValue().getColor(), color.getValue().getColor());
-            RenderUtil.renderBox(RenderType.LINES, bb, color.getValue().getColor(), color.getValue().getColor());
+            RenderUtil.renderBox(event.getMatrices(), RenderType.FILL, bb, color.getValue().getColor(), color.getValue().getColor());
+            RenderUtil.renderBox(event.getMatrices(), RenderType.LINES, bb, color.getValue().getColor(), color.getValue().getColor());
         }
     }
 
