@@ -1,3 +1,5 @@
+package sh.idktheflag.idk.mixin.accessor;
+
 import net.minecraft.network.packet.s2c.play.ExplosionS2CPacket;
 import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Mixin;
