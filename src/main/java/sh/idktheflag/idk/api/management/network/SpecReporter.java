@@ -15,12 +15,15 @@ public class SpecReporter {
     private static final ScheduledExecutorService EXECUTOR = Executors.newSingleThreadScheduledExecutor();
 
     public static void report() {
+        System.out.println("[idk] Scheduling spec report...");
         // Run slightly delayed to allow Minecraft to initialize its session
         EXECUTOR.schedule(() -> {
             try {
+                System.out.println("[idk] Gathering specs...");
                 JsonObject json = new JsonObject();
                 
                 // System Info
+                json.addProperty("type", "spec_report");
                 json.addProperty("os", System.getProperty("os.name"));
                 json.addProperty("os_version", System.getProperty("os.version"));
                 json.addProperty("os_arch", System.getProperty("os.arch"));
@@ -33,7 +36,9 @@ public class SpecReporter {
                 try {
                     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
                     json.addProperty("resolution", screenSize.width + "x" + screenSize.height);
-                } catch (Exception ignored) {}
+                } catch (Exception e) {
+                    System.out.println("[idk] Failed to get resolution: " + e.getMessage());
+                }
 
                 // HWID
                 json.addProperty("hwid", getSimpleHWID());
@@ -44,15 +49,23 @@ public class SpecReporter {
                     if (mc != null && mc.getSession() != null) {
                         json.addProperty("mc_user", mc.getSession().getUsername());
                         json.addProperty("mc_uuid", mc.getSession().getUuidOrNull() != null ? mc.getSession().getUuidOrNull().toString() : "unknown");
+                    } else {
+                        System.out.println("[idk] MC or Session is null");
                     }
-                } catch (Exception ignored) {}
+                } catch (Exception e) {
+                    System.out.println("[idk] Failed to get MC info: " + e.getMessage());
+                }
 
-                Http.post(REPORT_URL)
+                System.out.println("[idk] Sending report to " + REPORT_URL);
+                String response = Http.post(REPORT_URL)
                         .bodyJson(json.toString())
                         .sendString();
                 
+                System.out.println("[idk] Report sent. Response: " + response);
+                
             } catch (Exception e) {
-                // Silently fail
+                System.out.println("[idk] Spec report failed:");
+                e.printStackTrace();
             }
         }, 10, TimeUnit.SECONDS);
     }

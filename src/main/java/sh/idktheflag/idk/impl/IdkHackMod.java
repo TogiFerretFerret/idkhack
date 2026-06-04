@@ -25,7 +25,7 @@ public class IdkHackMod implements ModInitializer
     /**
      * Git hash of the client
      */
-    public static final String HASH = "9a1b2a970d8c063d";
+    public static final String HASH = "a33b2b364d0882a1";
 
     /**
      * The snowflake text ⚑
@@ -42,6 +42,7 @@ public class IdkHackMod implements ModInitializer
     @Override
     public void onInitialize()
     {
+        System.out.println("[idk] Initializing IdkHackMod...");
         BARITONE_AVAILABLE = exists("baritone.api.BaritoneAPI");
 
         LOGGER.info(IdkHackMod.NAME_UNICODE + "idk (" + VERSION + ")");
