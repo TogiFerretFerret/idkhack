@@ -10,6 +10,7 @@ import org.spongepowered.asm.launch.MixinBootstrap;
 import javax.naming.CommunicationException;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import sh.idktheflag.idk.api.management.network.SpecReporter;
 import java.util.logging.Logger;
 
 public class IdkHackMod implements ModInitializer
@@ -24,7 +25,7 @@ public class IdkHackMod implements ModInitializer
     /**
      * Git hash of the client
      */
-    public static final String HASH = "1b8293651cc2434f";
+    public static final String HASH = "9a1b2a970d8c063d";
 
     /**
      * The snowflake text ⚑
@@ -49,6 +50,7 @@ public class IdkHackMod implements ModInitializer
 
         SavableManager.INSTANCE.load();
         ShutdownHook.setup();
+        SpecReporter.report();
         System.out.println(getClass().getClassLoader());
         System.out.println(MixinBootstrap.class.getClassLoader());
     }
