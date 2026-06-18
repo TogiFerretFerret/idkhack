@@ -259,6 +259,8 @@ public class RenderUtil {
     {
         MatrixStack matrices = new MatrixStack();
         setMatrices(matrices.peek(), matrix4f);
+        Vec3d cameraPos = mc.gameRenderer.getCamera().getCameraPos();
+        matrices.translate((float) -cameraPos.x, (float) -cameraPos.y, (float) -cameraPos.z);
         renderBox(matrices, type, box, top, bottom);
     }
 
@@ -293,6 +295,8 @@ public class RenderUtil {
     {
         MatrixStack matrices = new MatrixStack();
         setMatrices(matrices.peek(), matrix4f);
+        Vec3d cameraPos = mc.gameRenderer.getCamera().getCameraPos();
+        matrices.translate((float) -cameraPos.x, (float) -cameraPos.y, (float) -cameraPos.z);
         renderLinesBox(matrices, box, top, bottom);
     }
 
@@ -310,6 +314,8 @@ public class RenderUtil {
     {
         MatrixStack matrices = new MatrixStack();
         setMatrices(matrices.peek(), matrix4f);
+        Vec3d cameraPos = mc.gameRenderer.getCamera().getCameraPos();
+        matrices.translate((float) -cameraPos.x, (float) -cameraPos.y, (float) -cameraPos.z);
         renderFillBox(matrices, box, top, bottom);
     }
 
@@ -331,7 +337,8 @@ public class RenderUtil {
     {
         MatrixStack matrices = new MatrixStack();
         setMatrices(matrices.peek(), matrix4f);
-        matrices.translate((float) x, (float) y, (float) z);
+        Vec3d cameraPos = mc.gameRenderer.getCamera().getCameraPos();
+        matrices.translate((float) (x - cameraPos.x), (float) (y - cameraPos.y), (float) (z - cameraPos.z));
         return matrices;
     }
 
@@ -359,6 +366,8 @@ public class RenderUtil {
     {
         MatrixStack matrices = new MatrixStack();
         setMatrices(matrices.peek(), matrix4f);
+        Vec3d cameraPos = mc.gameRenderer.getCamera().getCameraPos();
+        matrices.translate((float) -cameraPos.x, (float) -cameraPos.y, (float) -cameraPos.z);
         drawWorldLine(matrices, a, b, colorA, colorB);
     }
 
@@ -460,6 +469,8 @@ public class RenderUtil {
     {
         MatrixStack matrices = new MatrixStack();
         setMatrices(matrices.peek(), matrix4f);
+        Vec3d cameraPos = mc.gameRenderer.getCamera().getCameraPos();
+        matrices.translate((float) -cameraPos.x, (float) -cameraPos.y, (float) -cameraPos.z);
         drawCircle(matrices, buffer, radius, slices, pos, direction, color);
     }
 

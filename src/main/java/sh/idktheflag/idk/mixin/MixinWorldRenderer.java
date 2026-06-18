@@ -32,6 +32,8 @@ public class MixinWorldRenderer
         RenderUtil.matrix4f.set(modelViewMatrix);
         MatrixStack stack = new MatrixStack();
         RenderUtil.setMatrices(stack.peek(), modelViewMatrix);
+        Vec3d cameraPos = camera.getCameraPos();
+        stack.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
         new RenderWorldEvent(stack, tickCounter.getTickProgress(false)).post();
         RenderBuffers.process();
         RenderBuffers.postRender();
