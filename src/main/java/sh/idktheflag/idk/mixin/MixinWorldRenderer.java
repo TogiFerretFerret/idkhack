@@ -31,7 +31,7 @@ public class MixinWorldRenderer
     private void onRenderTail(ObjectAllocator objectAllocator, RenderTickCounter tickCounter, boolean renderBlockOutline, Camera camera, Matrix4f modelViewMatrix, Matrix4f projectionMatrix, Matrix4f projectionMatrix2, GpuBufferSlice gpuBufferSlice, Vector4f vector4f, boolean bl, CallbackInfo ci) {
         RenderUtil.matrix4f.set(modelViewMatrix);
         MatrixStack stack = new MatrixStack();
-        stack.peek().getPositionMatrix().set(modelViewMatrix);
+        RenderUtil.setMatrices(stack.peek(), modelViewMatrix);
         new RenderWorldEvent(stack, tickCounter.getTickProgress(false)).post();
         RenderBuffers.process();
         RenderBuffers.postRender();

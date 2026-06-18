@@ -37,6 +37,12 @@ public class RenderUtil {
     public static final Tessellator TESSELLATOR = Tessellator.getInstance();
     public static final Matrix4f matrix4f = new Matrix4f();
 
+    public static void setMatrices(MatrixStack.Entry entry, Matrix4f matrix) {
+        entry.getPositionMatrix().set(matrix);
+        entry.getNormalMatrix().set(new org.joml.Matrix3f(matrix));
+    }
+
+
     public static void renderRect(MatrixStack matrices, double x1, double y1, double x2, double y2, int color)
     {
         renderRect(matrices, x1, y1, x2, y2, 0.0, color);
@@ -252,7 +258,7 @@ public class RenderUtil {
     public static void renderBox(RenderType type, Box box, Color top, Color bottom)
     {
         MatrixStack matrices = new MatrixStack();
-        matrices.peek().getPositionMatrix().set(matrix4f);
+        setMatrices(matrices.peek(), matrix4f);
         renderBox(matrices, type, box, top, bottom);
     }
 
@@ -286,7 +292,7 @@ public class RenderUtil {
     public static void renderLinesBox(Box box, Color top, Color bottom)
     {
         MatrixStack matrices = new MatrixStack();
-        matrices.peek().getPositionMatrix().set(matrix4f);
+        setMatrices(matrices.peek(), matrix4f);
         renderLinesBox(matrices, box, top, bottom);
     }
 
@@ -303,7 +309,7 @@ public class RenderUtil {
     public static void renderFillBox(Box box, Color top, Color bottom)
     {
         MatrixStack matrices = new MatrixStack();
-        matrices.peek().getPositionMatrix().set(matrix4f);
+        setMatrices(matrices.peek(), matrix4f);
         renderFillBox(matrices, box, top, bottom);
     }
 
@@ -324,7 +330,7 @@ public class RenderUtil {
     public static MatrixStack matrixFrom(double x, double y, double z)
     {
         MatrixStack matrices = new MatrixStack();
-        matrices.peek().getPositionMatrix().set(matrix4f);
+        setMatrices(matrices.peek(), matrix4f);
         matrices.translate((float) x, (float) y, (float) z);
         return matrices;
     }
@@ -338,11 +344,11 @@ public class RenderUtil {
         float len = MathHelper.sqrt(dx*dx + dy*dy + dz*dz);
         
         RenderBuffers.LINE.begin(posMatrix);
-        RenderBuffers.LINE.buffer.vertex(peek, (float)a.x, (float)a.y, (float)a.z)
+        RenderBuffers.LINE.buffer.vertex(posMatrix, (float)a.x, (float)a.y, (float)a.z)
                 .color(colorA.getRed(), colorA.getGreen(), colorA.getBlue(), colorA.getAlpha())
                 .normal(peek, dx/len, dy/len, dz/len)
                 .lineWidth(1.0f);
-        RenderBuffers.LINE.buffer.vertex(peek, (float)b.x, (float)b.y, (float)b.z)
+        RenderBuffers.LINE.buffer.vertex(posMatrix, (float)b.x, (float)b.y, (float)b.z)
                 .color(colorB.getRed(), colorB.getGreen(), colorB.getBlue(), colorB.getAlpha())
                 .normal(peek, dx/len, dy/len, dz/len)
                 .lineWidth(1.0f);
@@ -352,7 +358,7 @@ public class RenderUtil {
     public static void drawWorldLine(Vec3d a, Vec3d b, Color colorA, Color colorB)
     {
         MatrixStack matrices = new MatrixStack();
-        matrices.peek().getPositionMatrix().set(matrix4f);
+        setMatrices(matrices.peek(), matrix4f);
         drawWorldLine(matrices, a, b, colorA, colorB);
     }
 
@@ -453,7 +459,7 @@ public class RenderUtil {
     public static void drawCircle(RenderBuffers.Buffer buffer, float radius, int slices, Vec3d pos, Direction direction, Color color)
     {
         MatrixStack matrices = new MatrixStack();
-        matrices.peek().getPositionMatrix().set(matrix4f);
+        setMatrices(matrices.peek(), matrix4f);
         drawCircle(matrices, buffer, radius, slices, pos, direction, color);
     }
 

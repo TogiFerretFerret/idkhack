@@ -199,7 +199,8 @@ public class Search extends Module {
 
         if (block instanceof ShulkerBoxBlock)
         {
-            return new Color(((ShulkerBoxBlock) block).getColor().getEntityColor());
+            net.minecraft.util.DyeColor dyeColor = ((ShulkerBoxBlock) block).getColor();
+            return dyeColor == null ? new Color(150, 105, 150) : new Color(dyeColor.getEntityColor());
         }
 
         return defaultColor.getValue().getColor();

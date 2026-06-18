@@ -192,8 +192,10 @@ public class BlockESP extends Module {
             return new Color(200, 140, 60);
         if (enderChest.getValue() && block == Blocks.ENDER_CHEST)
             return new Color(80, 0, 160);
-        if (shulker.getValue() && block instanceof ShulkerBoxBlock)
-            return new Color(((ShulkerBoxBlock) block).getColor().getEntityColor());
+        if (shulker.getValue() && block instanceof ShulkerBoxBlock) {
+            net.minecraft.util.DyeColor dyeColor = ((ShulkerBoxBlock) block).getColor();
+            return dyeColor == null ? new Color(150, 105, 150) : new Color(dyeColor.getEntityColor());
+        }
         if (barrel.getValue() && block == Blocks.BARREL)
             return new Color(160, 100, 40);
         if (furnace.getValue() && (block == Blocks.FURNACE || block == Blocks.BLAST_FURNACE || block == Blocks.SMOKER))
